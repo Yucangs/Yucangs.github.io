@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="之前就看过关于在内核以及用户空间实现线程的文章, 到现在还对于其中的一些点一知半解, 比如: 为什么实现在用户空间的线程比实现在内核空间的快?. 今天碰巧看到了这篇文章, 原文出自 &lt;modern operating system, fourth edition&gt; threads implementation in kernel and user space2.2.4 Implemen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;implementionThreadInUserAndKernelSpace">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/other/implementionThreadInUserAndKernelSpace/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="之前就看过关于在内核以及用户空间实现线程的文章, 到现在还对于其中的一些点一知半解, 比如: 为什么实现在用户空间的线程比实现在内核空间的快?. 今天碰巧看到了这篇文章, 原文出自 &lt;modern operating system, fourth edition&gt; threads implementation in kernel and user space2.2.4 Implemen">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/ljUry5a.png">
+<meta property="og:image" content="https://imgur.com/Bcc4Uzh.png">
+<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
+<meta property="article:modified_time" content="2020-01-09T09:13:31.346Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/ljUry5a.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/other/implementionThreadInUserAndKernelSpace/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/implementionThreadInUserAndKernelSpace | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/implementionThreadInUserAndKernelSpace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/implementionThreadInUserAndKernelSpace
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前就看过关于在内核以及用户空间实现线程的文章, 到现在还对于其中的一些点一知半解, 比如: 为什么实现在用户空间的线程比实现在内核空间的快?. 今天碰巧看到了这篇文章, 原文出自 &lt;modern operating system, fourth edition&gt;</p>
+<h2 id="threads-implementation-in-kernel-and-user-space"><a href="#threads-implementation-in-kernel-and-user-space" class="headerlink" title="threads implementation in kernel and user space"></a>threads implementation in kernel and user space</h2><h3 id="2-2-4-Implementing-Threads-in-User-Space"><a href="#2-2-4-Implementing-Threads-in-User-Space" class="headerlink" title="2.2.4 Implementing Threads in User Space"></a>2.2.4 Implementing Threads in User Space</h3><p>There are two main places to implement threads: user space and the kernel.<br>The choice is a bit controversial, and a hybrid implementation is also possible. We<br>will now describe these methods, along with their advantages and disadvantages.</p>
+<p>有两种主要的地方用于实现线程: 用户空间以及内核空间. 如何在哪里实现具有一定争议性, 同时, 一种混合的实现也是可能的. 我们将会概述这些方法, 以及他们的优点和缺点.</p>
+<p>The first method is to put the threads package entirely in user space. The kernel knows nothing about them. As far as the kernel is concerned, it is managing<br>ordinary, single-threaded processes. The first, and most obvious, advantage is that<br>a user-level threads package can be implemented on an operating system that does<br>not support threads. All operating systems used to fall into this category, and even<br>now some still do. With this approach, threads are implemented by a library.</p>
+<p>第一种方法是将整个线程包放到用户空间. 内核对此毫无所知. 就内核而言, 它依旧像对待单线程对象一样.</p>
+<p>首先, 最明显的优点是, 用户级别的线程可以实现在一个不支持多线程的操作系统上.所有的操作系统曾经都是这种类型, 直到现在还有部分保留, 在这种方式下, 线程通过一个库实现.</p>
+<p>All of these implementations have the same general structure, illustrated in<br>Fig. 2-16(a). The threads run on top of a run-time system, which is a collection of<br>procedures that manage threads. We have seen four of these already: pthread create, pthread exit, pthread join, and pthread yield, but usually there are more.</p>
+<p>所有的实现有同样通用的结构, 如图2-16(a). 线程运行于运行时系统上(一系列管理线程的程序). 我们已经见过四种这样的程序了: 线程创建, 退出, 加入, 放弃(这是本书前面部分的内容, 但为什么是 pthread 呢? 难道是基于 posix 标准的线程实现?)</p>
+<p><img src="https://imgur.com/ljUry5a.png" alt=""></p>
+<p>When threads are managed in user space, each process needs its own private<br>thread table to keep track of the threads in that process. This table is analogous to<br>the kernel’s process table, except that it keeps track only of the per-thread proper-<br>ties, such as each thread’s program counter, stack pointer, registers, state, and so<br>forth. The thread table is managed by the run-time system. When a thread is<br>moved to ready state or blocked state, the information needed to restart it is stored<br>in the thread table, exactly the same way as the kernel stores information about<br>processes in the process table.</p>
+<p>当线程管理于用户空间时, 每个进程需要拥有独有的线程表, 以用于持续跟踪进程中的线程. 这个表类似与内核的进程表, 不过它只跟踪每个线程的属性. 比如每个线程的程序计数器, 栈指针, 寄存器, 状态, 以及… </p>
+<p>线程表由运行时系统管理, 当线程转变为就绪/阻塞状态时, 用于重启的信息就存储在线程表中, 就和内核在进程表中存储关于进程的信息一样.</p>
+<p>When a thread does something that may cause it to become blocked locally, for<br>example, waiting for another thread in its process to complete some work, it calls a<br>run-time system procedure. This procedure checks to see if the thread must be put<br>into blocked state. If so, it stores the thread’s registers (i.e., its own) in the thread<br>table, looks in the table for a ready thread to run, and reloads the machine registers<br>with the new thread’s saved values. As soon as the stack pointer and program<br>counter have been switched, the new thread comes to life again automatically.</p>
+<p>如果线程做了某些操作导致它本地阻塞时, 比如: 等待进程中的其他线程完成某些工作. 它调用一个运行时作业调度. </p>
+<p>这个程序检查线程是否必须置于阻塞态, 如果是, 它在线程表中存储线程的寄存器(它自己的). 在表中查找一个就绪态线程运行, 重新加载新线程的寄存器. 同时栈指针和程序计数器也会切换, 新线程再次自动运行.</p>
+<p> If the machine happens to have an instruction to store all the registers and another<br>one to load them all, the entire thread switch can be done in just a handful of in-<br>structions. Doing thread switching like this is at least an order of magnitude—<br>maybe more—faster than trapping to the kernel and is a strong argument in favor<br>of user-level threads packages.</p>
+<p>如果机器开始有一个指令可以存储所有的寄存器, 同时另一个指令加载他们, 那么整个线程的切换就只需要少量的指令.</p>
+<p>要完成这样的线程切换比捕获内核至少快一个数量级, 或许更快. 这是一个对用户级线程拥护者强有力的论点.</p>
+<p>However, there is one key difference with processes. When a thread is finished<br>running for the moment, for example, when it calls thread yield, the code of<br>thread yield can save the thread’s information in the thread table itself. Fur-<br>thermore, it can then call the thread scheduler to pick another thread to run. The<br>procedure that saves the thread’s state and the scheduler are just local procedures,<br>so invoking them is much more efficient than making a kernel call. Among other<br>issues, no trap is needed, no context switch is needed, the memory cache need not<br>be flushed, and so on. This makes thread scheduling very fast.</p>
+<p>然而, 有一个关于进程的关键不同. 当线程暂停时, 比如: 调用 yield, 保存线程的信息到线程表中.</p>
+<p>更进步一, 调用线程调度, 选择另一个线程执行. 程序保存线程状态, 因为调度只是本地程序, 所以调用其会比内核调用更加高效. 其他方面, 没有捕获, 没有环境切换, 内存缓冲也不需要刷新, 等等. 这使得线程调度非常快.</p>
+<p>User-level threads also have other advantages. They allow each process to have<br>its own customized scheduling algorithm. For some applications, for example,<br>those with a garbage-collector thread, not having to worry about a thread being<br>stopped at an inconvenient moment is a plus. They also scale better, since kernel<br>threads invariably require some table space and stack space in the kernel, which<br>can be a problem if there are a very large number of threads.</p>
+<p>用户级线程还有其他优点. 它使每个进程都可以有自己的特定调度算法. 对于一些应用, 比如垃圾回收线程, 不用担心线程在不适当时候停下来, 这是一个优点. 他们拥有更好的伸缩性, 因为内核线程总是需要一些表空间和栈空间, 当线程逐渐增加时, 会造成麻烦.</p>
+<p>Despite their better performance, user-level threads packages have some major<br>problems. First among these is the problem of how blocking system calls are im-<br>plemented. Suppose that a thread reads from the keyboard before any keys hav e<br>been hit. Letting the thread actually make the system call is unacceptable, since<br>this will stop all the threads. One of the main goals of having threads in the first<br>place was to allow each one to use blocking calls, but to prevent one blocked<br>thread from affecting the others. With blocking system calls, it is hard to see how<br>this goal can be achieved readily.</p>
+<p>即使它们拥有更好的性能, 用户级线程包也有一些固有的问题. </p>
+<p>首先, 如何实现阻塞的系统调用. 假如线程等待来自键盘的输入, 让这个线程准确执行系统调用是不允许的, 因为这会阻塞所有线程, 线程的首要目的之一是允许每个线程使用阻塞调用, 但是保证一个阻塞线程不会影响其他线程. 可以看出这很难实现.</p>
+<p>The system calls could all be changed to be nonblocking (e.g., a read on the<br>keyboard would just return 0 bytes if no characters were already buffered), but re-<br>quiring changes to the operating system is unattractive. Besides, one argument for<br>user-level threads was precisely that they could run with existing operating sys-<br>tems. In addition, changing the semantics of read will require changes to many<br>user programs.</p>
+<p>系统调用必须都变为非阻塞的(比如, 读取键盘输入应该在没有任何字符被缓存时返回0), 但是这对于操作系统而已不太友好. 次外(我真不知道怎么翻译这句…). 另外, 改变读取的语义将会影响到大量用户程序.</p>
+<p>Another alternative is available in the event that it is possible to tell in advance<br>if a call will block. In most versions of UNIX, a system call, select , exists, which<br>allows the caller to tell whether a prospective read will block. When this call is<br>present, the library procedure read can be replaced with a new one that first does a<br>select call and then does the read call only if it is safe (i.e., will not block). If the<br>read call will block, the call is not made. Instead, another thread is run. The next<br>time the run-time system gets control, it can check again to see if the read is now<br>safe. This approach requires rewriting parts of the system call library, and is inef-<br>ficient and inelegant, but there is little choice. The code placed around the system<br>call to do the checking is called a jacket or wrapper.</p>
+<p>在这种情况下还有另一个方法: 提前告知一个调用将会被阻塞是可行的(??? 啥意思啊 = =).</p>
+<p>在多个 UNIX 版本中, 选择性地存在系统调用运行调用者判断未来的读操作将会阻塞. 当这样的调用存在时, 库程序读取替换成一个首先做判断, 然后当确定是安全的时候读取(比如, 非阻塞).不会执行会阻塞的读操作, 另一个线程将会运行. </p>
+<p>在下次运行时系统获得控制时, 会再次检查读操作是否是安全的. 这个方法需要重写部分系统调用库. 不那么高效和优雅. 不过这是一个选择, 放置在系统函数周围的代码去检查的这种方法被称为 jacket 或 wrapper.</p>
+<p>Somewhat analogous to the problem of blocking system calls is the problem of<br>page faults. We will study these in Chap. 3. For the moment, suffice it to say that<br>computers can be set up in such a way that not all of the program is in main memo-<br>ry at once. If the program calls or jumps to an instruction that is not in memory, a<br>page fault occurs and the operating system will go and get the missing instruction<br>(and its neighbors) from disk. This is called a page fault. The process is blocked<br>while the necessary instruction is being located and read in. If a thread causes a<br>page fault, the kernel, unaware of even the existence of threads, naturally blocks<br>the entire process until the disk I/O is complete, even though other threads might<br>be runnable.01</p>
+<p>(简单来说, 这段说的是页错误, 主存和磁盘间虚拟空间内容的交换.)</p>
+<p>Another problem with user-level thread packages is that if a thread starts run-<br>ning, no other thread in that process will ever run unless the first thread voluntarily<br>gives up the CPU. Within a single process, there are no clock interrupts, making it<br>impossible to schedule processes round-robin fashion (taking turns). Unless a<br>thread enters the run-time system of its own free will, the scheduler will never get a<br>chance.</p>
+<p>用户级线程将面临的另一个问题是: 当线程开始执行时, 除非自愿放弃, 不然其他线程无法执行. </p>
+<p>单线程程序, 不会产生时钟终端, 使用 round-robin 调度器管理进程是不可能的. 除非线程自愿进入运行时系统. 否则调度器将不会生效.</p>
+<p>One possible solution to the problem of threads running forever is to have the<br>run-time system request a clock signal (interrupt) once a second to give it control,<br>but this, too, is crude and messy to program. Periodic clock interrupts at a higher<br>frequency are not always possible, and even if they are, the total overhead may be<br>substantial. Furthermore, a thread might also need a clock interrupt, interfering<br>with the run-time system’s use of the clock.</p>
+<p>一个可能的方法是: 让运行时系统每秒请求一个时钟信号来控制它(总而言之这是一个馊主意).</p>
+<p>Another, and really the most devastating, argument against user-level threads is<br>that programmers generally want threads precisely in applications where the<br>threads block often, as, for example, in a multithreaded Web server. These threads<br>are constantly making system calls. Once a trap has occurred to the kernel to carry<br>out the system call, it is hardly any more work for the kernel to switch threads if<br>the old one has blocked, and having the kernel do this eliminates the need for con-<br>stantly making select system calls that check to see if read system calls are safe.<br>For applications that are essentially entirely CPU bound and rarely block, what is<br>the point of having threads at all? No one would seriously propose computing the<br>first n prime numbers or playing chess using threads because there is nothing to be<br>gained by doing it that way.</p>
+<p>另一个反对用户级线程的论证(也是最具破坏性的)是, 程序员通常希望线程在线程经常阻塞的应用中使用, 比如, 在一个多线程 web 服务器中. 线程不间断地使用系统调用, 一旦内核执行系统调用, 如果旧线程已被阻塞, 那么切换线程就几乎没有其他需要做的了. …(后面我翻不下去了, 大概意思是, 这样的话, 程序就没有必要使用多线程了)</p>
+<p>(总结归纳一下: 大概意思是, 用户级线程最大的优点是在于其切换起来很快, 但是我们通常希望在频繁发生线程阻塞的应用中使用线程, 而在这种情况下, 线程切换所需的操作就会变少(如果旧线程已经被阻塞了的话), 那么 用户级线程存在的意义就不大了)</p>
+<h3 id="2-2-5-Implementing-Threads-in-the-Kernel"><a href="#2-2-5-Implementing-Threads-in-the-Kernel" class="headerlink" title="2.2.5 Implementing Threads in the Kernel"></a>2.2.5 Implementing Threads in the Kernel</h3><p>Now let us consider having the kernel know about and manage the threads. No<br>run-time system is needed in each, as shown in Fig. 2-16(b). Also, there is no<br>thread table in each process. Instead, the kernel has a thread table that keeps track<br>of all the threads in the system. When a thread wants to create a new thread or<br>destroy an existing thread, it makes a kernel call, which then does the creation or<br>destruction by updating the kernel thread table.</p>
+<p>现在, 让我们考虑让内核知道如何管理线程. 如图 2-16(b) 所示, 在进程中没有运行时系统, 也没有线程表. 内核有张线程表, 用于跟踪系统中的所有线程. 当线程想要创建或删除一个线程时, 使用一个内核调用, 然后通过更新内核线程表来创建或删除.</p>
+<p>The kernel’s thread table holds each thread’s registers, state, and other infor-<br>mation. The information is the same as with user-level threads, but now kept in the<br>kernel instead of in user space (inside the run-time system). This information is a<br>subset of the information that traditional kernels maintain about their single-<br>threaded processes, that is, the process state. In addition, the kernel also maintains<br>the traditional process table to keep track of processes.</p>
+<p>内核的线程表保存每个线程的寄存器, 状态, 以及其他信息. 与用户级线程保存的信息一致, 只是保存在内核中. </p>
+<p>这些信息是传统内核管理的单线程进程信息的子集. 内核也同样管理传统的进程表, 以用于跟踪进程.</p>
+<p>All calls that might block a thread are implemented as system calls, at consid-<br>erably greater cost than a call to a run-time system procedure. When a thread<br>blocks, the kernel, at its option, can run either another thread from the same proc-<br>ess (if one is ready) or a thread from a different process. With user-level threads,<br>the run-time system keeps running threads from its own process until the kernel<br>takes the CPU away from it (or there are no ready threads left to run).</p>
+<p>所有可能阻塞线程的调用都被实现为系统调用, 相对运行时系统的调用, 明显有很大的额外消耗. 当线程阻塞时, 内核可以选择同进程下的线程运行, 也可以运行另一个进程的线程. 但用户级线程只会运行本进程的线程, 直到内核不让其使用 CPU 资源.</p>
+<p>Due to the relatively greater cost of creating and destroying threads in the ker-<br>nel, some systems take an environmentally correct approach and recycle their<br>threads. When a thread is destroyed, it is marked as not runnable, but its kernel<br>data structures are not otherwise affected. Later, when a new thread must be creat-<br>ed, an old thread is reactivated, saving some overhead. Thread recycling is also<br>possible for user-level threads, but since the thread-management overhead is much<br>smaller, there is less incentive to do this.</p>
+<p>因为在内核中创建和销毁线程操作相对更费力, 一些系统使用与环境相关的方法, 重利用它们的线程. </p>
+<p>当线程销毁时, 将其标记为不可运行, 但是其内核数据结构不受影响, 随后, 当新线程需要创建时, 重新利用这些资源.  用户级线程也可以使用这个方法, 不过因为线程管理的消耗较小, 并不是很有必要这么做</p>
+<p>Kernel threads do not require any new, nonblocking system calls. In addition,<br>if one thread in a process causes a page fault, the kernel can easily check to see if<br>the process has any other runnable threads, and if so, run one of them while wait-<br>ing for the required page to be brought in from the disk. Their main disadvantage is<br>that the cost of a system call is substantial, so if thread operations (creation, termi-<br>nation, etc.) a common, much more overhead will be incurred.</p>
+<p>内核线程不需要任何新的, 非阻塞系统调用. 另外, 如果线程导致了页错误, 内核可以轻松地检查进程是否有其他线程可运行, 如果有, 在等待所需的页加载入内存中时, 执行该线程. 它们潜在的问题是: 系统调用比较耗时, 所以如果线程操作比较常见, 则会有更多的负载.</p>
+<p>While kernel threads solve some problems, they do not solve all problems. For<br>example, what happens when a multithreaded process forks? Does the new proc-<br>ess have as many threads as the old one did, or does it have just one? In many<br>cases, the best choice depends on what the process is planning to do next. If it is<br>going to call exec to start a new program, probably one thread is the correct choice,<br>but if it continues to execute, reproducing all the threads is probably best.</p>
+<p>内核线程依旧有一些未能解决的问题, 比如, 当多线程进程执行 fork 的时候, 会发生什么? 新的进程是否会像旧进程一样拥有同样多的线程呢? 还是只拥有一个呢? 在大多数情况下, 取决于进程将要做什么, 如果它将会调用 exec 执行一个新的程序, 当然只有一个好, 但是如果是继续运行的话, 则保留所有的线程则是最好的.</p>
+<p>(PS: 在 linux posix 线程下, 默认是同样多的线程)</p>
+<p>Another issue is signals. Remember that signals are sent to processes, not to<br>threads, at least in the classical model. When a signal comes in, which thread<br>should handle it? Possibly threads could register their interest in certain signals, so<br>when a signal came in it would be given to the thread that said it wants it. But what<br>happens if two or more threads register for the same signal? These are only two of<br>the problems threads introduce, and there are more.</p>
+<p>另一个问题是信号. 信号是发给进程的, 而并非线程(至少在经典模型下). 当信号到达时, 那个线程来处理它呢? 可能线程会注册自己感兴趣的信号, 所以, 当信号到达, 会交由那个注册线程处理. 但是如果多个线程注册了同样的信号呢? 这仅仅是线程引入的其中两个问题.</p>
+<h3 id="2-2-6-Hybrid-Implementations"><a href="#2-2-6-Hybrid-Implementations" class="headerlink" title="2.2.6 Hybrid Implementations"></a>2.2.6 Hybrid Implementations</h3><p>Various ways have been investigated to try to combine the advantages of user-<br>level threads with kernel-level threads. One way is use kernel-level threads and<br>then multiplex user-level threads onto some or all of them, as shown in Fig. 2-17.<br>When this approach is used, the programmer can determine how many kernel<br>threads to use and how many user-level threads to multiplex on each one. This<br>model gives the ultimate in flexibility.</p>
+<p>已经有多种方法被研究出来, 用于融合用户级线程和内核级线程. 其中一种方法是使用内核级别线程, 然后每个内核线程使用多个用户级别线程. 如 2-17. </p>
+<p>程序能够知晓多少内核线程, 多少用户线程被使用. 这种模型给予了很大的灵活性.</p>
+<p><img src="https://imgur.com/Bcc4Uzh.png" alt=""></p>
+<p>With this approach, the kernel is aware of only the kernel-level threads and<br>schedules those. Some of those threads may have multiple user-level threads multi-<br>plexed on top of them. These user-level threads are created, destroyed, and sched-<br>uled just like user-level threads in a process that runs on an operating system with-<br>out multithreading capability. In this model, each kernel-level thread has some set<br>of user-level threads that take turns using it.</p>
+<p>在这种方法下, 内核只至少内核线程, 并调度它们. 其中一些内核线程上可能存在多个用户级线程. 这些用户线程将会在进程中管控. </p>
+<p>内核线程和用户线程各有其优势, 用户线程效率更高, 但是操作系统不知情的情况下, 会产生许多逻辑上是多线程, 但物理上依旧是单线程才会产生的错误. 比如 信号, 中断. 而内核线程虽然相对效率低, 并且占用内核空间, 但是操作系统知晓是多线程, 与操作系统间有更多协作的空间.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/install%20vim8/" rel="prev" title="other/install vim8">
+      <i class="fa fa-chevron-left"></i> other/install vim8
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/headFirstGoAssembly/" rel="next" title="other/headFirstGoAssembly">
+      other/headFirstGoAssembly <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#threads-implementation-in-kernel-and-user-space"><span class="nav-number">1.</span> <span class="nav-text">threads implementation in kernel and user space</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-Implementing-Threads-in-User-Space"><span class="nav-number">1.1.</span> <span class="nav-text">2.2.4 Implementing Threads in User Space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-5-Implementing-Threads-in-the-Kernel"><span class="nav-number">1.2.</span> <span class="nav-text">2.2.5 Implementing Threads in the Kernel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-6-Hybrid-Implementations"><span class="nav-number">1.3.</span> <span class="nav-text">2.2.6 Hybrid Implementations</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

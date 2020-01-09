@@ -47,11 +47,11 @@
 </script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="cas&#39;s website">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="cas&#39;s website">
 <meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/">
@@ -66,7 +66,7 @@
   };
 </script>
 
-  <title>Hexo</title>
+  <title>cas's website</title>
   
 
 
@@ -110,10 +110,11 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
+        <span class="site-title">cas's website</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
   </div>
 
   <div class="site-nav-toggle">
@@ -165,21 +166,21 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/gdb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="cas">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="cas's website">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/hello-world/" class="post-title-link" itemprop="url">hello-world</a>
+            <a href="/2020/01/09/other/gdb/" class="post-title-link" itemprop="url">other/gdb</a>
         </h1>
 
         <div class="post-meta">
@@ -188,9 +189,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-09 17:04:19 / Modified: 16:55:14" itemprop="dateCreated datePublished" datetime="2020-01-09T17:04:19+08:00">2020-01-09</time>
+              <time title="Created: 2020-01-09 17:44:16" itemprop="dateCreated datePublished" datetime="2020-01-09T17:44:16+08:00">2020-01-09</time>
             </span>
 
           
@@ -204,50 +204,1026 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="222-Count-Complete-Tree-Nodes"><a href="#222-Count-Complete-Tree-Nodes" class="headerlink" title="222. Count Complete Tree Nodes"></a>222. Count Complete Tree Nodes</h2><p><img src="https://imgur.com/7DA2TjB.png" alt=""></p>
-<p>统计 complete tree 节点数量</p>
-<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>首先说说我的做法, 我首先想到的是用栈来保存其数据结构, 跟踪路径, 从右至左, 直到找到一条能到达底层的路</p>
-<p>first.  my idea  is use stack to save the data structure, trace the route, from right to left, until find a way to bottom node</p>
-<p>(前些天被一个 13 说我 leetcode 从不写注释, 我怨念到了现在 = =)</p>
-<p>(I was told by a 13 the other day that i never write comments in leetcode. I remember it till now :(  )</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;pair&lt;TreeNode*, <span class="keyword">bool</span>&gt;&gt; nodes;</span><br><span class="line">        </span><br><span class="line">        TreeNode* <span class="built_in">cursor</span> = root;</span><br><span class="line">        <span class="keyword">int</span> ldeep = <span class="number">0</span>, rdeep = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">            <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;left;</span><br><span class="line">            ++ldeep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cursor</span> = root;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">            <span class="comment">// 1 means next is a right node</span></span><br><span class="line">            nodes.push(make_pair(<span class="built_in">cursor</span>, <span class="number">1</span>));</span><br><span class="line">            <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;right;</span><br><span class="line">            ++rdeep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ret = (<span class="number">1</span> &lt;&lt; ldeep) - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// is a full binary tree</span></span><br><span class="line">        <span class="keyword">if</span> (ldeep == rdeep) </span><br><span class="line">            <span class="keyword">return</span> ret;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!nodes.empty()) &#123;</span><br><span class="line">            <span class="built_in">cursor</span> = nodes.top().first;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">cursor</span>-&gt;right) --ret;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">cursor</span>-&gt;left) --ret;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cursor</span>-&gt;left || <span class="built_in">cursor</span>-&gt;right)</span><br><span class="line">                <span class="keyword">return</span> ret;</span><br><span class="line">            </span><br><span class="line">            nodes.pop();</span><br><span class="line">            --rdeep;</span><br><span class="line">            <span class="comment">// current node is right node, so next node is left node</span></span><br><span class="line">            <span class="keyword">if</span> (!nodes.empty() &amp;&amp; nodes.top().second) &#123;</span><br><span class="line">                nodes.top().second = <span class="number">0</span>;</span><br><span class="line">                nodes.push(make_pair(nodes.top().first-&gt;left, <span class="number">1</span>));</span><br><span class="line">                ++rdeep;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// find next node with next node is right node</span></span><br><span class="line">            <span class="keyword">while</span> (!nodes.empty() &amp;&amp; !nodes.top().second) &#123;</span><br><span class="line">                nodes.pop();</span><br><span class="line">                --rdeep;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// means some errors occur</span></span><br><span class="line">            <span class="keyword">if</span> (nodes.empty()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            nodes.top().second = <span class="number">0</span>;</span><br><span class="line">            <span class="built_in">cursor</span> = nodes.top().first-&gt;left;</span><br><span class="line">            <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">                nodes.push(make_pair(<span class="built_in">cursor</span>, <span class="number">1</span>));</span><br><span class="line">                <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;right;</span><br><span class="line">                ++rdeep;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// get the bottom element</span></span><br><span class="line">            <span class="keyword">if</span> (ldeep == rdeep) <span class="keyword">return</span> ret;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// means some errors occur</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>最不理想的情况下, 最左边只有一个节点, 会遍历掉所有节点 = =. stack 容量应该不会超过 31 个元素. </p>
-<p>代码不够整洁, 不够易懂. 勉强算个解法.</p>
-<p><img src="https://imgur.com/ST4TQfP.png" alt=""></p>
-<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">is_high</span> <span class="params">(TreeNode* root, <span class="keyword">int</span> path, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    high--;</span><br><span class="line">    <span class="keyword">while</span> (high &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">bool</span> flag = path &amp; (<span class="number">1</span> &lt;&lt; high);</span><br><span class="line">        <span class="keyword">if</span> (flag &amp;&amp; root-&gt;right) &#123;</span><br><span class="line">            root = root-&gt;right;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!flag &amp;&amp; root-&gt;left) &#123;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        high--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span> <span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> high = <span class="number">0</span>;</span><br><span class="line">        TreeNode* node = root-&gt;left;</span><br><span class="line">        <span class="keyword">while</span> (node) &#123;</span><br><span class="line">            high++;</span><br><span class="line">            node = node-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> first = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> last = <span class="number">1</span> &lt;&lt; high;</span><br><span class="line">        <span class="keyword">while</span> (first &lt; last) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (first + last) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (is_high(root, mid, high)) &#123;</span><br><span class="line">                first = mid + <span class="number">1</span>;        </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                last = mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (<span class="number">1</span> &lt;&lt; high) - <span class="number">1</span> + last;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>最后的 return 里面, 用 first 和 last 都可以, 我觉得 last 语义可能更好, 所以换成了 last.</p>
-<p>on the end of return, use both first and last. i think ‘last’ more make sence, so i use ‘last’</p>
-<p>他的计算是 full tree 节点数 + 底层节点数. 从这个算法中我学到了一些东西, 二进制和 binary tree, 真的有很大可操作空间.</p>
-<p>the algorithm is a number of full tree nodes plus bottom nodes. I study something from the algorithm. it’s a lot of skill can use between binary system and binary tree.</p>
-<p>在分析算法前, 我先总结一下我从这个算法中看到的规律. </p>
-<p>before profiling this algorithm, summarize  some rules of complete tree that I saw in this algorithm</p>
-<p>首先, 将树节点排序, root 为 1, 从左到右, 从上到下,  依次递进. 得到类似的图 : </p>
-<p>first, sort tree nodes. root is number 1, from left to right, up to down, get this map:</p>
-<pre><code>                            1
-            2                                3
-    4                5                6                7
-8(1)    9(2)    10(3)    11(4)    12(5)    13(6)    14(7)    15(8)</code></pre><p>假设一个数, 5, 其二进制为 101, 已知是 binary tree, 所以每个节点的 2 倍就是当前数字右移 1 位, 右尾置 0. 所以 0 代表向左下前进, 1 则代表向右下前进. 分为两种情况.</p>
-<p>assume a number, for example 5, it’s binary expression is 101.</p>
-<ol>
-<li><p>将首位看做无效位, 则 101 = 01, 代表从根向左-&gt;向右, 则得到了数字 5.</p>
-<p>treat the first digit as an invalid bit. 101 means left -&gt; right. get the number 5.</p>
-</li>
-<li><p>将首位看做有效位, 则 101 = 101, 代表从根向右-&gt;向左-&gt;向右, 得到数字 13, 而这个数字, 刚好是底部从左往右的第 5 个数字 + 1 = 第 6 个数字. </p>
-<p>treat the first digit as an valid bit. 101 means right -&gt; left -&gt; right. get the number 13. the number sorted by bottom level is the the original number plus one. </p>
-<p>(为什么呢? 为什么刚好是 + 1? 因为恒定的, 因为这是 complete tree, 每一层到下一层的相对应那个数的步数都是恒定的. 都是 (2 &lt;&lt; n) - 1, 而 + 1 就刚好是 2 &lt;&lt; n, 这和刚才将首位看做有效位对应上了, 其实将首位看做有效位也就是增加了 2 &lt;&lt; n 而已.)</p>
-</li>
-</ol>
-<p>将一些规律总结后, 就变简单了许多</p>
-<p>after summarize some rules, things more simple. </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (first &lt; last) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (first + last) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (is_high(root, mid, high)) &#123;</span><br><span class="line">        first = mid + <span class="number">1</span>;        </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        last = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h3 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h3><p>gdb是一个 c/c++ debug 工具</p>
+<p>没有一个教程和文档比 gdb 官方手册更加详细和准确</p>
+<p>这个文件只是简单地介绍其中一小部分频繁使用的功能, 具体需要结合 gdb<br>的官方文档使用</p>
+<p>(gdb非常强大, 其文档有400多页, 完全是一本参考书的规格)</p>
+<p>( 同时gdb也做到了透明, 大多数时候你使用它只需掌握极少的几条指令(基础功能中的指令) )</p>
+<h3 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h3><h4 id="n-next"><a href="#n-next" class="headerlink" title="n : next"></a>n : next</h4><p>用于跳转到下一条语句, 同时会先执行当前语句, 可配合 number 跳转多行</p>
+<h4 id="s-step"><a href="#s-step" class="headerlink" title="s : step"></a>s : step</h4><p>进入函数调用</p>
+<h4 id="b-break"><a href="#b-break" class="headerlink" title="b : break"></a>b : break</h4><p>断点</p>
+<h4 id="c-continue"><a href="#c-continue" class="headerlink" title="c : continue"></a>c : continue</h4><p>继续执行</p>
+<h4 id="p-print"><a href="#p-print" class="headerlink" title="p : print"></a>p : print</h4><p>打印变量信息, ptype 可以打印类型信息(用于类, 它会将类的所有成员都打印出来)</p>
+<h4 id="l-：list"><a href="#l-：list" class="headerlink" title="l ：list"></a>l ：list</h4><p>查看当前行附近的代码信息, 可以指定行号和函数, 可以用于跳转到指定文件</p>
+<h4 id="bt-backtrace"><a href="#bt-backtrace" class="headerlink" title="bt : backtrace"></a>bt : backtrace</h4><p>调用回溯, 查看当前调用栈</p>
+<h4 id="f-frame"><a href="#f-frame" class="headerlink" title="f : frame"></a>f : frame</h4><p>与 bt 的信息配合, 使用 number 指定跳转到某条函数调用之前</p>
+<h4 id="info"><a href="#info" class="headerlink" title="info"></a>info</h4><p>这条指令用于观察gdb指令的当前信息  </p>
+<p>例如: info breakpoints, info frame, info watchpoints, info record… </p>
+<h4 id="u-until"><a href="#u-until" class="headerlink" title="u : until"></a>u : until</h4><p>跳出当前循环, 或者配合 number 指定执行到何处</p>
+<h4 id="finish"><a href="#finish" class="headerlink" title="finish"></a>finish</h4><p>完成当前函数调用, 跳转到函数调用的最后一条语句</p>
+<h3 id="中级功能"><a href="#中级功能" class="headerlink" title="中级功能"></a>中级功能</h3><h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>观察点, 可以用来观察一个变量或者表达式的变化</p>
+<h4 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h4><p>检查点用来保存当前进度, 可以在执行若干语句之后回到当前检查点</p>
+<h4 id="record"><a href="#record" class="headerlink" title="record"></a>record</h4><p>记录命令的使用信息, 实用之处在于: 使用其中的 full 模式, 可以实现 reverse 操作</p>
+<p>比如 reverse-next, 这将会反向执行到上一个语句</p>
+<h4 id="forward-search-search"><a href="#forward-search-search" class="headerlink" title="forward-search/search"></a>forward-search/search</h4><p>前向搜索/搜索</p>
+<h4 id="inferior"><a href="#inferior" class="headerlink" title="inferior"></a>inferior</h4><p>gdb支持debug多个进程</p>
+<h4 id="thread"><a href="#thread" class="headerlink" title="thread"></a>thread</h4><p>gdb支持debug多线程程序</p>
+<h4 id="catch"><a href="#catch" class="headerlink" title="catch"></a>catch</h4><p>捕获一个事件</p>
+<h4 id="singal"><a href="#singal" class="headerlink" title="singal"></a>singal</h4><p>捕获一个信号</p>
+<h4 id="win-winheight"><a href="#win-winheight" class="headerlink" title="win  : winheight"></a>win  : winheight</h4><p>进入可视化模式, 简单来说就是代码界面拥有了窗口, 同时一系列信息也会显示在上面</p>
+<p>(不过这个模式实际上会出现会显示错误, 比如会显示删除符号, 显示tab键之类的问题, 我不知道这算不算bug…)</p>
+<p>(或许我使用方式不对? )</p>
+<h4 id="e-edit"><a href="#e-edit" class="headerlink" title="e : edit"></a>e : edit</h4><p>你可以在 gdb 中直接更改源文件, 不过这好像有点鸡肋…</p>
+<h4 id="disassemble"><a href="#disassemble" class="headerlink" title="disassemble"></a>disassemble</h4><p>反编译代码, 显示 machine code</p>
+<h4 id="diaplay"><a href="#diaplay" class="headerlink" title="diaplay"></a>diaplay</h4><p>自动显示变量</p>
+<h4 id="set-convenience-variable"><a href="#set-convenience-variable" class="headerlink" title="set (convenience variable)"></a>set (convenience variable)</h4><p>使用该指令可以保存变量, 之后你可以用在任何命令的表达式里面, 记得前面加美元($)前缀</p>
+<pre><code>(gdb) set {int}0x604010 = 4
+(gdb) p v[0]
+$16 = (__gnu_cxx::__alloc_traits&lt;std::allocator&lt;int&gt; &gt;::value_type &amp;) @0x604010: 4
+(gdb) set {int}0x604010 = 5
+(gdb) p v[0]
+$17 = (__gnu_cxx::__alloc_traits&lt;std::allocator&lt;int&gt; &gt;::value_type &amp;) @0x604010: 5</code></pre><p>它可以用于对内存赋值!!!</p>
+<pre><code>(gdb) p $rbx
+$18 = 1
+(gdb) set $rbx = 200
+(gdb) p $rbx
+$19 = 200</code></pre><p>也可以用于对寄存器赋值!!!</p>
+<h4 id="convenience-function-10-12"><a href="#convenience-function-10-12" class="headerlink" title="convenience function (10.12)"></a>convenience function (10.12)</h4><p>gdb提供了一系列的函数以供使用, 例如:</p>
+<pre><code>$_strlen(str)     $_streq(str1, str2)      $_regex(str, regex) </code></pre><p>前面依旧要加 ‘$’ 符号</p>
+<h4 id="register-这个我超喜欢的-10-13"><a href="#register-这个我超喜欢的-10-13" class="headerlink" title="register (这个我超喜欢的) (10.13)"></a>register (这个我超喜欢的) (10.13)</h4><p>这个指令支持你查看寄存器的内容, 使用方法是</p>
+<pre><code>p $register</code></pre><p>(这个或许应该放在 p 中, 不过我觉得这应该放在高级内容中)</p>
+<p>我依稀记得之前我曾经因为无法在运行时看内存内容而苦恼  </p>
+<p>现在这个问题随着gdb的深入学习而解决了, 以后我分析汇编的时候, 可以更加深入了</p>
+<p>并且支持使用 set 来改变内容!!</p>
+<h4 id="info-os-args"><a href="#info-os-args" class="headerlink" title="info os [args]"></a>info os [args]</h4><p>查看系统相关信息, 比如:</p>
+<pre><code>info os files</code></pre><p>将会查看系统使用文件描述符的信息</p>
+<h4 id="trace-13"><a href="#trace-13" class="headerlink" title="trace (13)"></a>trace (13)</h4><p>按照 gdb 官方文档的描述, 这个指令是用来调试那些对于实时性有要求的程序  </p>
+<p>但是我也没能理解这个指令是如何使用的, 同时有这么一句话</p>
+<pre><code>The tracepoint facility is currently available only for remote targets
+追溯点当前只对远程目标有效</code></pre><p>这个指令的内容占了整个 13 章节, 应该相当重要. 所以这里仅仅记录一下, 或许以后会用到</p>
+<pre><code>14 Debugging Programs That Use Overlays</code></pre><p>=========</p>
+<p>后续内容(从 13 章往后)是一些高级内容(以置于我不得不将这段主题的标题改成中级功能…)</p>
+<p>比如大型程序, 远程调试 … </p>
+<p>暂不研究</p>
+<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><p>源自<a href="http://www.waider.ie/music/lyrics/gdb.html" target="_blank" rel="noopener">http://www.waider.ie/music/lyrics/gdb.html</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">GDB!</span><br><span class="line">based on _Tragedy_ by Barry, Robin <span class="keyword">and</span> Maurice Gibb</span><br><span class="line"></span><br><span class="line">Here<span class="number">'</span>s vi</span><br><span class="line">In a lost <span class="keyword">and</span> lonely part of code</span><br><span class="line">Held in time</span><br><span class="line">In a world of bugs my head explodes</span><br><span class="line">Goin<span class="number">'</span> <span class="built_in">home</span></span><br><span class="line">I just can<span class="number">'</span>t make it all alone</span><br><span class="line">I really should be coding you, coding you</span><br><span class="line"><span class="built_in">running</span> you, <span class="built_in">running</span> you</span><br><span class="line"></span><br><span class="line">CHORUS:</span><br><span class="line">GDB when the program<span class="number">'</span>s wrong <span class="keyword">and</span> the debug<span class="number">'</span>s on</span><br><span class="line">It<span class="number">'</span>s GDB when the system dies <span class="keyword">and</span> you don<span class="number">'</span>t know why</span><br><span class="line">It<span class="number">'</span>s hard to bear</span><br><span class="line">With no one to help you</span><br><span class="line">You're going nowhere</span><br><span class="line">GDB when you <span class="built_in">press</span> control <span class="keyword">and</span> the box just rolls</span><br><span class="line">It<span class="number">'</span>s GDB when the system dies <span class="keyword">and</span> you don<span class="number">'</span>t know why</span><br><span class="line">It<span class="number">'</span>s hard to bear</span><br><span class="line">With no one beside you</span><br><span class="line">You're going nowhere</span><br><span class="line"></span><br><span class="line">Night <span class="keyword">and</span> Day</span><br><span class="line">There<span class="number">'</span>s a burning down inside of me</span><br><span class="line">Burning code</span><br><span class="line">And a kernel that won<span class="number">'</span>t let me be</span><br><span class="line">Down it goes</span><br><span class="line"><span class="keyword">and</span> I just can<span class="number">'</span>t take it all alone</span><br><span class="line">I really should be coding you, coding you</span><br><span class="line">Running you, <span class="built_in">running</span> you</span><br><span class="line"></span><br><span class="line">REPEAT CHORUS</span><br><span class="line"></span><br><span class="line"><span class="function">REPEAT <span class="title">CHORUS</span><span class="params">(fade)</span></span></span><br></pre></td></tr></table></figure>
+<p>源自<a href="https://www.gnu.org/music/gdb-song.html" target="_blank" rel="noopener">https://www.gnu.org/music/gdb-song.html</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Let<span class="number">'</span>s start at the very beginning, a very good place to start,</span><br><span class="line">When you're learning to sing, its Do, Re, Mi; </span><br><span class="line">When you're learning to code, its G, D, B. </span><br><span class="line">(<span class="built_in">background</span>) G, D, B.</span><br><span class="line"></span><br><span class="line">The first three letters just happen to be, G, D, B.</span><br><span class="line"></span><br><span class="line">(<span class="built_in">background</span>) G, D, B.</span><br><span class="line"></span><br><span class="line">(Chorus)</span><br><span class="line"></span><br><span class="line">G!,</span><br><span class="line">GNU!, it<span class="number">'</span>s Stallman<span class="number">'</span>s hope,</span><br><span class="line">D,</span><br><span class="line">a <span class="keyword">break</span> I <span class="built_in">set</span> myself.</span><br><span class="line">B,</span><br><span class="line">debug that rotten code,</span><br><span class="line">Run,</span><br><span class="line">a far, far way to go.</span><br><span class="line">Print,</span><br><span class="line">to see what you have done,</span><br><span class="line">Set,</span><br><span class="line">a patch that follows <span class="built_in">print</span>.</span><br><span class="line">Quit,</span><br><span class="line"><span class="keyword">and</span> recompile your code - - -</span><br><span class="line">That will bring it back to G,</span><br><span class="line">                              D,</span><br><span class="line">                                 B,</span><br><span class="line">                                    &lt;link&gt;</span><br><span class="line">(Resume from the Chorus)</span><br></pre></td></tr></table></figure>
+<p>感觉, 嗯, 很有气势</p>
 
-<p>这段代码就是在首位间不断逼近, 求得的最大的数字, 也就是最后一排. </p>
-<p>this code just get more close between ‘first’ and ‘last’. get biggest number, also is the result.</p>
-<p>is_high(root, mid, high) 实则是在判断, 最后一排有没有 mid + 1 这个数字, 如果有, 则 first = mid + 1, 意味着这个数字是存在的, 继续不断逼近. 直到最后 last == first, 因为 first = mid + 1, 而 mid = (first + last) / 2, 所以 first 最大不会超过 last. </p>
-<p>‘is_higt’ judge is there a number ‘mid + 1’. if is, then ‘first = mid + 1’. means this number is exist.</p>
-<p>所以这个解法是利用了 complete tree 的特性. 相当简洁, 也没有使用额外的空间, 时间复杂度是 O(logn), 很不错的解法.</p>
-<p>I’m tired… :(     </p>
-<p>thanks for browsing :)</p>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/48RotateImage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/48RotateImage/" class="post-title-link" itemprop="url">leetcode/48RotateImage</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:20:51 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:20:51+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Rotate-Image"><a href="#Rotate-Image" class="headerlink" title="Rotate Image"></a>Rotate Image</h1><p><img src="https://i.imgur.com/7hLPAwu.png" alt="">  </p>
+<blockquote>
+<p>顺时针90度旋转矩阵<br>要求就地更改(不能创建另外一个矩阵)</p>
+</blockquote>
+<h2 id="我的做法"><a href="#我的做法" class="headerlink" title="我的做法"></a>我的做法</h2><p>思路:  </p>
+<blockquote>
+<p>使用下标来获取元素更方便<br>从外层到内层, 一层层旋转, 每次旋转n个, 每层旋转4次<br>不可避免需要保存一组数值  </p>
+</blockquote>
+<p>具体代码:  </p>
+<pre><code>class Solution {
+public:
+    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        int n = matrix.size();
+
+        for (int i = 0; i &lt; n / 2; ++i){
+            // backup first stream
+            vector&lt;int&gt; backup ((matrix.begin() + i)-&gt;begin() + i + 1, 
+                (matrix.begin() + i)-&gt;end() - i);
+
+                for (int col = i + 1, row = n - i - 2; col &lt; n - i; ++col, --row)
+                    matrix[i][col] = matrix[row][i];
+
+                for (int row = i, col = i; row &lt; n - i - 1; ++row, ++col)
+                    matrix[row][i] = matrix[n - 1 - i][col];
+
+                for (int col = i, row = n - i - 1; col &lt; n - i - 1; ++col, --row)
+                    matrix[n - 1 - i][col] = matrix[row][n - i - 1];
+
+                for (int row = n - 1 - i, t = backup.size() - 1; t &gt;= 0; --row, --t)
+                    matrix[row][n - i - 1] = backup[t];
+        }
+    }
+};</code></pre><p>最后结果:  </p>
+<p><img src="https://i.imgur.com/IgjHagZ.png" alt="">  </p>
+<h2 id="dalao的做法"><a href="#dalao的做法" class="headerlink" title="dalao的做法"></a>dalao的做法</h2><pre><code>class Solution {
+public:
+    void swapLR(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        int n = matrix.size();
+        for (int i = 0; i &lt; n; i++) {
+            int l = 0;
+            int r = n-1;
+            while(l&lt;r) {
+                int temp = matrix[i][l];
+                matrix[i][l++] = matrix[i][r];
+                matrix[i][r--] = temp;
+            }
+        }
+    }
+
+    void swapdig(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        int n = matrix.size();
+        for (int i = 0; i &lt; n-1; i++) {
+            for (int j = 0; j &lt; n-1-i; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n-1-j][n-1-i];
+                matrix[n-1-j][n-1-i] = temp;
+            }
+        }
+    }
+
+    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        swapLR(matrix);
+        swapdig(matrix);
+    }
+};</code></pre><p>首先分析 swapLR 函数:  </p>
+<blockquote>
+<p>emmmm, 它好像将左右的数据对换了<br><img src="https://i.imgur.com/6uc80iU.png" alt=""><br>emmm, 还是看不懂有什么规律, </p>
+</blockquote>
+<p><img src="https://i.imgur.com/fjWYKBX.png" alt="">  </p>
+<p>6啊…, 更改后的行就是最终结果的列, 只要遍历倒叙一遍就可以了<br>这种思路是如何得出的? 需要哪方面的知识么?<br>思路这种东西好难弥补, 我自认为不出意外的话, 是无法想到这一点的</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/42TrappingRainWater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/42TrappingRainWater/" class="post-title-link" itemprop="url">leetcode/42TrappingRainWater</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:20:38 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:20:38+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Trapping-Rain-Water"><a href="#Trapping-Rain-Water" class="headerlink" title="Trapping Rain Water"></a>Trapping Rain Water</h2><p><a href="https://leetcode.com/problems/trapping-rain-water/description/" target="_blank" rel="noopener">原地址</a></p>
+<p><img src="https://i.imgur.com/o9Cwc3k.png" alt=""></p>
+<p>大致描述: 给出一个数组, 按如上所述, 求出蓝色方块的数量<br>(就像一个山脉一样, 看这样的山脉降雨后能留下多少水)</p>
+<h3 id="我的思路"><a href="#我的思路" class="headerlink" title="我的思路:"></a>我的思路:</h3><p>排错:  </p>
+<ol>
+<li>必须有3个以上的山脉才有可能有积水, 所以数组长度必定大于3  </li>
+<li>左右为平地的数组下标截断, 直到有山脉为止</li>
+</ol>
+<p>做法:  </p>
+<ol>
+<li>从左到右依次拿到符合条件的格子下标(比如第一次是(1, 3) )  </li>
+<li>计算改区域的雨水  </li>
+<li>重复第一步, 直到结束</li>
+</ol>
+<p>// 具体代码在42_.txt中  </p>
+<h3 id="dalao的思路"><a href="#dalao的思路" class="headerlink" title="dalao的思路"></a>dalao的思路</h3><p>// 具体代码在42_2.txt中</p>
+<p><img src="https://i.imgur.com/ZIGTZ9P.png" alt=""></p>
+<p><img src="https://i.imgur.com/psX9onj.png" alt="">  </p>
+<p>分析:<br>一个格子中能不能存水取决于左右格子的高度<br>算法从左到右一次, 从有到左一次.<br>每次假设该格子以左/右单方面最大能放多少水<br>将同一格的两次数据求最小, 这就是该下标实际能存多少水<br>最后减去本身的实体格子, 也就得到了空下的格子  </p>
+<p>算法复杂度为O(n)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/21MergeTwoSortedLists/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/21MergeTwoSortedLists/" class="post-title-link" itemprop="url">leetcode/21MergeTwoSortedLists</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:20:24 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:20:24+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://i.imgur.com/YPfIfKp.png" alt=""></p>
+<p>排序两个链表  </p>
+<p>思路:  </p>
+<p>每次对比两条链表的当前节点,  按适当顺序插入的同时需要注意一点</p>
+<p>如果小的节点的接下来的值依旧小于大的节点, 那么需要继续往下遍历, 知道遇到一个节点大于大的节点  </p>
+<p>这样的话一次循环中就可以排序多个节点, 循环的次数就可以变少  </p>
+<p>代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!l1 &amp;&amp; l2) <span class="keyword">return</span> l2;</span><br><span class="line">		<span class="keyword">if</span> (!l2 &amp;&amp; l1) <span class="keyword">return</span> l1;</span><br><span class="line"></span><br><span class="line">        ListNode *smaller = l1-&gt;val &gt; l2-&gt;val ?</span><br><span class="line">            l2 : l1;</span><br><span class="line">        ListNode *bigger = l1-&gt;val &gt; l2-&gt;val ?</span><br><span class="line">            l1 : l2;</span><br><span class="line">        ListNode *result = smaller;</span><br><span class="line">        <span class="keyword">while</span> (smaller &amp;&amp; bigger) &#123;</span><br><span class="line">            <span class="keyword">while</span> (smaller-&gt;next &amp;&amp; smaller-&gt;next-&gt;val &lt; bigger-&gt;val)</span><br><span class="line">                smaller = smaller-&gt;next;</span><br><span class="line"></span><br><span class="line">            ListNode *tmps = smaller-&gt;next;</span><br><span class="line">            smaller-&gt;next = bigger;</span><br><span class="line"></span><br><span class="line">            smaller = bigger;</span><br><span class="line">            bigger = tmps;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>采用了一次循环对比多个的算法, 每次循环之后不必再计算谁大谁小, 身份像开关一样会互换</p>
+<p>但是代码复杂度增加了</p>
+<p>结果:</p>
+<p><img src="https://i.imgur.com/dNx5MC7.png" alt=""></p>
+<p>emmmmm…, 预差有点大…  </p>
+<p>按理来说我觉得算法很好啊, 一次循环中排序了多个节点  </p>
+<p>每次循环后还不需要计算谁大谁小</p>
+<p>分析一下4ms的算法:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        ListNode* pre=<span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode* crt=pre;</span><br><span class="line">        <span class="keyword">while</span>(l1!=<span class="literal">NULL</span> &amp;&amp; l2!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(l1-&gt;val&lt;l2-&gt;val) &#123;</span><br><span class="line">                crt-&gt;next=l1;</span><br><span class="line">                l1=l1-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                crt-&gt;next=l2;</span><br><span class="line">                l2=l2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            crt=crt-&gt;next;   </span><br><span class="line">        &#125;</span><br><span class="line">        crt-&gt;next=(l1==<span class="literal">NULL</span>)?l2:l1;</span><br><span class="line">        <span class="keyword">return</span> pre-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>emmmm…  </p>
+<p>他的思路很简单, 每次对比两个节点, 筛选出一个最小的</p>
+<p>将筛选出节点的那条链接往下循环, 另外一条不变  </p>
+<p>但是时间比我少了很多, 我仔细思考了的算法反倒没有这种单纯的算法好  </p>
+<p>有点出乎意料和不服气…</p>
+<p>@exprience:</p>
+<p>我以后或许需要考虑 <strong>以循环次数换取减少循环复杂度</strong> 的做法了  </p>
+<p>这样的话我的每次循环尽量简单, 虽然次数变多了, 但是总体的效率可能还会有提升, 比如这次 = =</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/F15_3Sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/F15_3Sum/" class="post-title-link" itemprop="url">leetcode/F15_3Sum</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:19:39 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:19:39+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://i.imgur.com/LqfHaar.png" alt=""></p>
+<p>给一个数组, 求其中三数和为零的所有组合, 要求不能重复  </p>
+<p>思路:</p>
+<p>遍历数组, 找出所有三数集合, 再判断是否为零, 之后用一个map去重</p>
+<p>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; threeSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">bool</span>&gt; repetitive;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>() - <span class="number">2</span>; ++i)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; nums.<span class="built_in">size</span>() - <span class="number">1</span>; ++k)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> v = k + <span class="number">1</span>; v &lt; nums.<span class="built_in">size</span>(); ++v) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (nums[i] + nums[k] + nums[v] != <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">int</span> nmax = <span class="built_in">max</span>(nums[i], nums[k]);</span><br><span class="line">                        nmax = <span class="built_in">max</span>(nmax, nums[v]);</span><br><span class="line">                        <span class="keyword">int</span> nmin = <span class="built_in">min</span>(nums[i], nums[k]);</span><br><span class="line">                        nmin = <span class="built_in">min</span>(nmin, nums[v]);</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (!repetitive[(nmax &lt;&lt; <span class="number">4</span>) + nmin]) &#123;</span><br><span class="line">                            repetitive[(nmax &lt;&lt; <span class="number">4</span>) + nmin] = <span class="literal">true</span>;</span><br><span class="line">                            result.push_back(&#123; nmin, <span class="number">0</span> - nmin - nmax, nmax &#125;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>实际上map去重那里有漏洞, “精心准备”的数字有可能骗过它</p>
+<p>结果:</p>
+<p><img src="https://i.imgur.com/kRu2dZG.png" alt=""></p>
+<p>超时了, 看到那密密麻麻的红字, 感觉有点不妙  </p>
+<p><img src="https://i.imgur.com/l5lBEhM.png" alt=""></p>
+<p>实测算法在数组长度为200时已经有明显的停顿</p>
+<p>算法复杂度大概是 差不多O(n3) 的样子, 所以随着长度的增加, 时间复杂度的增加是很恐怖的  </p>
+<p>200有明显停顿的话. 3000大概能算个痛  </p>
+<p>那么得优化算法了, 怎么优化呢? 暂时想不到…  </p>
+<p>优化的想法:  </p>
+<p>现在的算法在第一次循环的时候会将下标[0, 1]和后续所有的下标组合</p>
+<p>第二次循环的时候会将下标[1, 2]和后续所有下标组合  </p>
+<p>这里明显有可以提升的空间, 因为两次里面1重叠了, 同理, 后续的组合都有重叠  </p>
+<p>在200长度的算法中, 大致会有 4000000 次循环, 而最后的结果只有 6 个组合</p>
+<p>想要优化的话应该从这里入手, 如何在逻辑上筛除掉一些可能但和又不为零的组合</p>
+<p>怎么删除? emmmm… 想不到  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/20ValidParentheses/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/20ValidParentheses/" class="post-title-link" itemprop="url">leetcode/20ValidParentheses</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:19:24 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:19:24+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://i.imgur.com/tKMKEzc.png" alt=""></p>
+<p>判断字符串是都按正确格式闭合</p>
+<p>思路:</p>
+<p>当一个字符被看到时, 预料与之对应的字符, 当该字符不是预料的字符, 有两种可能</p>
+<ol>
+<li>失败</li>
+<li>被包含, 例如 ({}), 当看到 ‘(‘ 时候, 我们想要的是 ‘)’. 但该语句是合法的</li>
+</ol>
+<p>如果是第二种, 那么 ‘(‘ 要被保存起来, 这种数据结构非常适合用栈来做  </p>
+<p>代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValid</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!s.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (s.<span class="built_in">size</span>() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">char</span>, <span class="keyword">char</span>&gt; lettermap&#123;</span><br><span class="line">            &#123;<span class="string">'('</span>, <span class="string">')'</span>&#125;,</span><br><span class="line">            &#123;<span class="string">'&#123;'</span>, <span class="string">'&#125;'</span>&#125;,</span><br><span class="line">            &#123;<span class="string">'['</span>, <span class="string">']'</span>&#125;,</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt; vch&#123; s[<span class="number">0</span>] &#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (lettermap[vch.back()] != s[i]) vch.push_back(s[i]);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                vch.pop_back();</span><br><span class="line">                <span class="keyword">if</span> (vch.<span class="built_in">size</span>()) &#123;&#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (++i &lt; s.<span class="built_in">size</span>())</span><br><span class="line">                    vch.push_back(s[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> !vch.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>该代码并未在循环中判断是否合法  </p>
+<p>实际情况中, 可能一个非常长的字符串一开始就错了, 比如; “){}{}{}{}…”  </p>
+<p>但是依旧会将整个字符串循环一次, 这样做有三点考虑:  </p>
+<ol>
+<li>代码更加简单, 简洁. 更容易理解</li>
+<li>如果代码的确需要很多判断才能确定结果, 那么多加条件语句反而是一种额外的消耗<br>并且是O(n)复杂度, 节省的效率并不会有多少, 同时额外的消耗并不一定会比加条件语句多</li>
+<li>懒</li>
+</ol>
+<p>PS: 如果能想到用栈结构来做这个题的话, 会方便很多.  如果没想到的话, 可能会越想越难. </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/UnderstandingGeneratedColumns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/UnderstandingGeneratedColumns/" class="post-title-link" itemprop="url">read/UnderstandingGeneratedColumns</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-05 20:47:52" itemprop="dateModified" datetime="2019-08-05T20:47:52+08:00">2019-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Understanding-Generated-Columns"><a href="#Understanding-Generated-Columns" class="headerlink" title="Understanding Generated Columns"></a>Understanding Generated Columns</h1><h2 id="The-Theory"><a href="#The-Theory" class="headerlink" title="The Theory"></a>The Theory</h2><p>Generated Columns is a feature <a href="https://dev.mysql.com/doc/refman/5.7/en/mysql-nutshell.html#mysql-nutshell-additions" target="_blank" rel="noopener">released</a> on MySQL 5.7. They can be used during <code>CREATE TABLE</code>or <code>ALTER TABLE</code> statements. It is a way of storing data without actually sending it through the <code>INSERT</code> or <code>UPDATE</code> clauses in SQL. The database resolves what the data will be.</p>
+<p>生成列是在 MySQL 5.7 之后发布的一个特性, 可以在 CREATE TABLE / ALTER TABLE 期间使用. 是一种存储数据而不通过 INSERT / UPDATE 子句的方法. 数据库解析数据是什么</p>
+<p>There are two types of Generated Columns: <strong>Virtual</strong> and <strong>Stored</strong>. They work with:</p>
+<ul>
+<li>mathematical expressions (<code>product_price</code> * <code>quantity</code>)</li>
+<li>built-in functions (<code>RIGHT()</code>, <code>CONCAT()</code>, <code>FROM_UNIXTIME()</code>, <code>JSON_EXTRACT()</code>)</li>
+<li>literals (“2”, “new”, 0)</li>
+</ul>
+<p>有两种生成列: virtual 和 stored, 它们工作于: </p>
+<ul>
+<li>数学表达式</li>
+<li>内建函数</li>
+<li>复合常量</li>
+</ul>
+<p>Besides that, they can be indexed but they <strong>don’t</strong> allow <strong>subqueries</strong> in it.<br>A Generated Column works within the table domain. If you need subqueries on a particular column, you may have to look at <a href="http://dev.mysql.com/doc/refman/5.7/en/view-syntax.html" target="_blank" rel="noopener">Views</a>.</p>
+<p>如上, 它们能够被索引, 但不允许子查询. </p>
+<p>生成列在表域中工作, 如果你需要在特殊的列上子查询, 你需要考虑 view </p>
+<h2 id="The-basic-example"><a href="#The-basic-example" class="headerlink" title="The basic example"></a>The basic example</h2><p>As an example I am going to use an e-commerce database as based on my past experience of what I have seen and worked. You will probably have at least these tables or something similar:</p>
+<ul>
+<li><code>users</code> – stores user info</li>
+<li><code>products</code> – stores product info like price and description</li>
+<li><code>orders</code> – stores the user_id, date of order</li>
+<li><code>orders_items</code> – stores product_id, order_id, quantity and price at the time of purchase</li>
+</ul>
+<p>This is the whole DB: <a href="https://gist.github.com/gabidavila/7abae0b77ff6cff8899c3a57ff32679d" target="_blank" rel="noopener">Gist</a>.</p>
+<p>Notice the <code>order_items</code> definition:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_items`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`order_id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`product_id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`product_price`</span> <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">'0.00'</span>,</span><br><span class="line">  <span class="string">`quantity`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">1</span>,</span><br><span class="line">  <span class="string">`created_at`</span> <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  <span class="string">`updated_at`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">1</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>The retrieval would bring:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  <span class="string">`id`</span>, <span class="string">`order_id`</span>, <span class="string">`product_id`</span>, <span class="string">`product_price`</span>, <span class="string">`quantity`</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="string">`orders_items`</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">order_id</th>
+<th align="left">product_id</th>
+<th align="left">product_price</th>
+<th align="left">quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">369</td>
+<td align="left">1304</td>
+<td align="left">202.18</td>
+<td align="left">7</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">4</td>
+<td align="left">1736</td>
+<td align="left">250.40</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">270</td>
+<td align="left">1404</td>
+<td align="left">29.89</td>
+<td align="left">5</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">256</td>
+<td align="left">179</td>
+<td align="left">190.40</td>
+<td align="left">10</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">107</td>
+<td align="left">1911</td>
+<td align="left">146.98</td>
+<td align="left">1</td>
+</tr>
+</tbody></table>
+<p>One example is to get the total of that order_item row, something like <code>total_item_price</code> that would store the value of <code>product_price</code> * <code>quantity</code> to show how much the summed amount of an item would be. Some databases have the <code>MONEY</code> type to store <code>price</code>, as with MySQL it is recommended to work with <code>DECIMAL</code>.</p>
+<p>上述例子获取 order_item 所有行, 应该有类似 total_item_price 的列存储 product * quantity, 显示总额.</p>
+<p>一些数据库有 MONEY 类型存储价格, MySQL 推荐使用 DECIMAL</p>
+<p>People solve this problem in different ways:</p>
+<ul>
+<li>store the calculated price on a new column to make it easier to retrieve;</li>
+<li>create a view;</li>
+<li>or they calculate in the application itself, which in this case might cause problems due to how the language handles floats. There are libraries to deal with money values in a lot of languages and frameworks, however, the overhead of converting each row into a money object could be costly depending on the amount of data being transferred.</li>
+</ul>
+<p>有几种不同的方式解决这个问题: </p>
+<ul>
+<li>在新的列存储计算好的值, 便于检索</li>
+<li>创建视图</li>
+<li>或者在应用层计算, 由于不同语言对于浮点数的管理可能造成问题. 大量的语言和框架提供了库处理这个问题.然而, 将每行转换为对象的消耗依赖于有多少数据被调入</li>
+</ul>
+<p>Another way I’ve seen is: people calculate in the query the total amount for the orders_items row as <code>product_price</code> * <code>quantity</code>:</p>
+<p>还有一种我见过的方法 : 在查询中计算总额</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  <span class="string">`id`</span>, </span><br><span class="line">  <span class="string">`order_id`</span>, </span><br><span class="line">  <span class="string">`product_id`</span>, </span><br><span class="line">  <span class="string">`product_price`</span>, </span><br><span class="line">  <span class="string">`quantity`</span>,</span><br><span class="line">  <span class="string">`product_price`</span> * <span class="string">`quantity`</span> <span class="keyword">AS</span> total_item_price</span><br><span class="line"><span class="keyword">FROM</span> <span class="string">`orders_items`</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">order_id</th>
+<th align="left">product_id</th>
+<th align="left">product_price</th>
+<th align="left">quantity</th>
+<th align="left">total_item_price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">369</td>
+<td align="left">1304</td>
+<td align="left">202.18</td>
+<td align="left">7</td>
+<td align="left">1415.26</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">4</td>
+<td align="left">1736</td>
+<td align="left">250.40</td>
+<td align="left">3</td>
+<td align="left">751.20</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">270</td>
+<td align="left">1404</td>
+<td align="left">29.89</td>
+<td align="left">5</td>
+<td align="left">149.45</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">256</td>
+<td align="left">179</td>
+<td align="left">190.40</td>
+<td align="left">10</td>
+<td align="left">1904.00</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">107</td>
+<td align="left">1911</td>
+<td align="left">146.98</td>
+<td align="left">1</td>
+<td align="left">146.98</td>
+</tr>
+</tbody></table>
+<h2 id="Virtual-Columns"><a href="#Virtual-Columns" class="headerlink" title="Virtual Columns"></a>Virtual Columns</h2><ul>
+<li>They take no disk space, except when using a Virtual Column as in a <a href="https://dev.mysql.com/doc/refman/5.7/en/create-table-secondary-indexes-virtual-columns.html" target="_blank" rel="noopener">Secondary Index</a>.</li>
+<li>They are an <code>INPLACE</code> operation: it means the table definition is changed without having to recopy all the data again. <a href="http://dev.mysql.com/doc/refman/5.7/en/innodb-create-index-overview.html" target="_blank" rel="noopener">More info</a>.</li>
+<li>The values are calculated on the fly during read operations and <code>BEFORE</code> triggers.</li>
+</ul>
+<p>Consider using virtual columns for data where changes happens in a significant number of times. The cost of a Virtual Column comes from reading a table constantly and the server has to compute every time what that column value will be.</p>
+<ul>
+<li>不占磁盘空间, 除非使用虚拟列作为次级索引</li>
+<li>是 INPLACE 操作 : 这意味着表定义更改不需要拷贝所有数据</li>
+<li>值在读取操作和 BEFORE 触发之间动态计算</li>
+</ul>
+<h2 id="Stored-Columns"><a href="#Stored-Columns" class="headerlink" title="Stored Columns"></a>Stored Columns</h2><ul>
+<li>They do use disk space.</li>
+<li>It has the same cost of adding a new column, so it is a <code>COPY</code> operation</li>
+<li>Values are updated in every <code>INSERT</code> and <code>UPDATE</code> statement.</li>
+</ul>
+<p>You should consider using Stored Columns for when the data doesn’t change significantly or at all after creation, like for instance, the example above with the <code>orders_items</code> table. Once a purchase is made, the price of the product is stored, not being changed, neither the quantity. Considering this information we could create <code>total_item_price</code> as a Stored Column.</p>
+<ul>
+<li>耗费磁盘空间</li>
+<li>和增加行有相等的消耗, 等价于 COPY 操作</li>
+<li>值在每次 INSERT 和 UPDATE 语句中更新</li>
+</ul>
+<p>你需要考虑使用存储列, 以便数据没有显著变化或在创建后没有显著变化, 例如上面带有 order_items 的表. 当购买操作后, 存储产品的价格, 不会再更改, 数量也不会. 考虑到这个信息, 我们应该创建 total_item_price 存储列</p>
+<h2 id="The-code"><a href="#The-code" class="headerlink" title="The code"></a>The code</h2><h3 id="Creating-a-table"><a href="#Creating-a-table" class="headerlink" title="Creating a table"></a>Creating a table</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- Virtual Column&#96; &#96;CREATE&#96; &#96;TABLE&#96; &#96;&#96;orders_items&#96; (&#96;&#96;&#96;id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;AUTO_INCREMENT,&#96;&#96;&#96;order_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;0.00&#39;&#96;&#96;,&#96;&#96;&#96;quantity&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;1,&#96;&#96;&#96;total_item_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) &#96;&#96;AS&#96; &#96;(&#96;quantity&#96; * &#96;product_price&#96;),&#96;&#96;&#96;created_at&#96; &#96;&#96;timestamp&#96; &#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;CURRENT_TIMESTAMP&#96;&#96;,&#96;&#96;&#96;updated_at&#96; &#96;&#96;varchar&#96;&#96;(45) &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP&#39;&#96;&#96;,&#96;&#96;PRIMARY&#96; &#96;KEY&#96; &#96;(&#96;id&#96;)&#96;&#96;) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;1 &#96;&#96;DEFAULT&#96; &#96;CHARSET&#x3D;utf8mb4;&#96; &#96;-- Stored Column&#96; &#96;CREATE&#96; &#96;TABLE&#96; &#96;&#96;orders_items&#96; (&#96;&#96;&#96;id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;AUTO_INCREMENT,&#96;&#96;&#96;order_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;0.00&#39;&#96;&#96;,&#96;&#96;&#96;quantity&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;1,&#96;&#96;&#96;total_item_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) &#96;&#96;AS&#96; &#96;(&#96;quantity&#96; * &#96;product_price&#96;) STORED,&#96;&#96;&#96;created_at&#96; &#96;&#96;timestamp&#96; &#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;CURRENT_TIMESTAMP&#96;&#96;,&#96;&#96;&#96;updated_at&#96; &#96;&#96;varchar&#96;&#96;(45) &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP&#39;&#96;&#96;,&#96;&#96;PRIMARY&#96; &#96;KEY&#96; &#96;(&#96;id&#96;)&#96;&#96;) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;1 &#96;&#96;DEFAULT&#96; &#96;CHARSET&#x3D;utf8mb4;&#96;</span><br></pre></td></tr></table></figure>
+
+<p>Notice how the definition changes on line 9 and 23: you have another keyword, <code>AS</code>, then an <em>expression</em> and specifically on line 23 you see a <code>STORED</code> keyword. In both lines they are generated columns, if nothing is specified will be a <code>VIRTUAL</code> column.</p>
+<p>注意在 9 行 和 23 行的更改, 有另一个关键字, AS, 随之表达式和 STORED 关键字. 如果没有指定, 将会是一个 VIRTUAL 列</p>
+<h3 id="Altering-a-table"><a href="#Altering-a-table" class="headerlink" title="Altering a table"></a>Altering a table</h3><p>It uses the same syntax as adding a column, just adding the “<strong>AS</strong> (<em>expression</em>)” after the data type:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- &#96;full_name&#96; as VIRTUAL COLUMN&#96;&#96;ALTER&#96; &#96;TABLE&#96; &#96;users&#96;&#96;ADD&#96; &#96;COLUMN&#96; &#96;&#96;full_name&#96; &#96;&#96;VARCHAR&#96;&#96;(500)&#96;&#96;AS&#96; &#96;(CONCAT_WS(&#96;&#96;&quot; &quot;&#96;&#96;, &#96;first_name&#96;, &#96;last_name&#96;));&#96; &#96;-- &#96;total_item_price&#96; as STORED COLUMN&#96;&#96;ALTER&#96; &#96;TABLE&#96; &#96;orders_items&#96;&#96;ADD&#96; &#96;COLUMN&#96; &#96;&#96;total_item_price&#96; &#96;&#96;DECIMAL&#96;&#96;(10, 2)&#96;&#96;AS&#96; &#96;(&#96;quantity&#96; * &#96;product_price&#96;) STORED;&#96;</span><br></pre></td></tr></table></figure>
+
+<h2 id="JSON-fields"><a href="#JSON-fields" class="headerlink" title="JSON fields"></a>JSON fields</h2><p>It is also possible to extract data from JSON fields using generated columns. As the functions for JSON are built-in, <code>JSON_EXTRACT</code> and <code>JSON_UNQUOTE</code> as well “<strong>-&gt;</strong>” and “<strong>-&gt;&gt;</strong>” work as <em>expressions</em>for a generated column:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- Stored Columns&#96;&#96;ALTER&#96; &#96;TABLE&#96; &#96;&#96;twitter_users&#96;&#96;&#96;ADD&#96; &#96;COLUMN&#96; &#96;&#96;location&#96; &#96;&#96;VARCHAR&#96;&#96;(255)&#96;&#96;AS&#96; &#96;(response-&gt;&gt;&#96;&#96;&quot;$.location&quot;&#96;&#96;) STORED;&#96;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Final-considerations"><a href="#Final-considerations" class="headerlink" title="Final considerations"></a>Final considerations</h2><p>When the type is <code>STORED</code>, it must be specified after the <em>expression</em> otherwise the default behaviour will be to be <code>VIRTUAL</code>.</p>
+<p>Generated columns can have indexes created as the following, no matter if stored, virtual or extracted from a JSON field:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;ALTER&#96; &#96;TABLE&#96; &#96;users&#96;&#96;ADD&#96; &#96;INDEX&#96; &#96;&#96;ix_full_name&#96; (&#96;full_name&#96;);&#96;</span><br></pre></td></tr></table></figure>
+
+<p>Which is the <strong>same</strong> syntax for normal columns.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/studyNoteOfGo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/studyNoteOfGo/" class="post-title-link" itemprop="url">read/studyNoteOfGo</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-05-16 14:04:41" itemprop="dateModified" datetime="2019-05-16T14:04:41+08:00">2019-05-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="brief"><a href="#brief" class="headerlink" title="brief"></a>brief</h2><h4 id="短变量声明"><a href="#短变量声明" class="headerlink" title="短变量声明"></a>短变量声明</h4><p>go可以使用形如 := 的方式定义变量, 这样的用法仅允许在函数内使用</p>
+<p>( 同时, 在一个 := 的使用中可以定义, 也可以赋值, 不过我不建议也不会使用这样歧义的用法)</p>
+<p>(同样的, := 支持变量的类型不同, 不过这也是比较歧义的用法, 不推荐)</p>
+<h4 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h4><p>go的指针并没有什么不同. 为了安全性, 它抛弃了一些灵活性</p>
+<p>它不支持指针运算, 相当于一个引用 ( 我不开心 :( )</p>
+<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i := <span class="number">0</span></span><br><span class="line">p := &amp;i</span><br><span class="line"></span><br><span class="line">p := <span class="built_in">new</span>(i)</span><br></pre></td></tr></table></figure>
+
+<p>new 在 go 中的作用很小, 它的作用就相当于少了一个名字被占用</p>
+<h4 id="多重赋值"><a href="#多重赋值" class="headerlink" title="多重赋值"></a>多重赋值</h4><p>go 会先对右边的表达式一次性求值</p>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>go 采用垃圾回收, 三色标记</p>
+<h4 id="slice"><a href="#slice" class="headerlink" title="slice"></a>slice</h4><p>slice 相当于 vector, 但他必须依赖于另一个容器, 比如数组</p>
+<p>可以挑战 slice 指向数组的那些区间, 同时可以动态增长</p>
+<p>增长的区间一旦超过原容器的容量, 会在不更改原容器的情况下 重新分配并拷贝元素</p>
+<h3 id="json-xml…"><a href="#json-xml…" class="headerlink" title="json, xml…"></a>json, xml…</h3><p>go 提供了这些格式的转换支持</p>
+<p>emmmm…, 感觉 go 使用起来很方便</p>
+<p>安全的指针, 方便的变量命名, 垃圾回收, 多重赋值, 多返回值, for衍生while …  </p>
+<h3 id="method"><a href="#method" class="headerlink" title="method"></a>method</h3><p>go 的方法声明和定义独立与对象本身  </p>
+<p>go 的方法就像一个指定了目标的函数</p>
+<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>go 以其不能随意命名为代价(这样的代价仅仅是不能随意首字母大小写)换来了简洁的封装规范</p>
+<p>首字母大写的, 即为 public 成员, 而首字母小写的, 即为 private 成员. 这相当容易判断</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/static_filed_in_Cpp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/static_filed_in_Cpp/" class="post-title-link" itemprop="url">read/static_filed_in_Cpp</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-27 11:49:13" itemprop="dateModified" datetime="2019-09-27T11:49:13+08:00">2019-09-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>@brief</p>
+<p>when I learning java by <thinking in java>, I see “The order of initialization is statics first…”. so… what about c++?</p>
+<p>当我通过 thinking in java 学 java 时, 我注意到书中的一句话 “The order of initialization is statics first”. 那么, c++ 中是怎样对待的呢?</p>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><p>think this code:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> i2 = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i;</span><br><span class="line">    A() &#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"hello"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> A::i = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; A::i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    A::i = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; A::i &lt;&lt; <span class="built_in">endl</span>;           </span><br><span class="line">    <span class="function">thread <span class="title">t1</span><span class="params">(f)</span></span>;</span><br><span class="line">    <span class="function">thread <span class="title">t2</span><span class="params">(f)</span></span>;</span><br><span class="line">    t1.join();</span><br><span class="line">    t2.join();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>class A has a static field i, it’s an integer with default value 10.</p>
+<p>how did these codes do?</p>
+<p>类 A 有一个静态字段 i, 这是一个具有默认值为10的整型字段</p>
+<p>assembly time</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">_ZN1A1iE:</span><br><span class="line">▹   .long▹  10</span><br><span class="line">▹   .text</span><br><span class="line">▹   .globl▹ _Z1fv</span><br><span class="line">▹   .type▹  _Z1fv, @function	</span><br><span class="line">_Z1fv:</span><br><span class="line">.LFB3324:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   subq▹   $16, %rsp</span><br><span class="line">▹   leaq▹   -4(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZN1AC1Ev</span><br><span class="line">▹   movl▹   _ZN1A1iE(%rip), %eax &#x2F;&#x2F; _ZN1A1iE</span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   leaq▹   _ZSt4cout(%rip), %rdi</span><br><span class="line">▹   call▹   _ZNSolsEi@PLT</span><br><span class="line">▹   movq▹   %rax, %rdx</span><br><span class="line">▹   movq▹   _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rax</span><br><span class="line">▹   movq▹   %rax, %rsi</span><br><span class="line">▹   movq▹   %rdx, %rdi</span><br><span class="line">▹   call▹   _ZNSolsEPFRSoS_E@PLT</span><br><span class="line">▹   movl▹   $100, _ZN1A1iE(%rip)</span><br><span class="line">▹   nop</span><br><span class="line">▹   leave                                                                                  </span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br><span class="line">...</span><br><span class="line">main:</span><br><span class="line">.LFB3325:                                                                                 </span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   .cfi_personality 0x9b,DW.ref.__gxx_personality_v0</span><br><span class="line">▹   .cfi_lsda 0x1b,.LLSDA3325</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   pushq▹  %rbx</span><br><span class="line">▹   subq▹   $40, %rsp</span><br><span class="line">▹   .cfi_offset 3, -24</span><br><span class="line">▹   leaq▹   -20(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">.LEHB0:</span><br><span class="line">▹   call▹   _ZN1AC1Ev</span><br><span class="line">▹   movl▹   _ZN1A1iE(%rip), %eax &#x2F;&#x2F; _ZN1A1iE</span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   leaq▹   _ZSt4cout(%rip), %rdi</span><br><span class="line">▹   call▹   _ZNSolsEi@PLT</span><br><span class="line">▹   movq▹   %rax, %rdx</span><br><span class="line">▹   movq▹   _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rax</span><br><span class="line">▹   movq▹   %rax, %rsi</span><br><span class="line">▹   movq▹   %rdx, %rdi</span><br><span class="line">▹   call▹   _ZNSolsEPFRSoS_E@PLT</span><br><span class="line">▹   leaq▹   -32(%rbp), %rax</span><br><span class="line">▹   leaq▹   _Z1fv(%rip), %rsi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt6threadC1IRFvvEJEEEOT_DpOT0_</span><br></pre></td></tr></table></figure>
+
+<p>so, static value initialize while process run then copy to register while class construct function executed</p>
+<p>所以, 静态变量随着程序运行而初始化, 随后在类构造函数完成后, 将其值拷贝到寄存器</p>
+<p>this can also be discovered in gdb </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">(gdb) b main</span><br><span class="line">Breakpoint 1 at 0x1908: file t.cpp, line 33.</span><br><span class="line">(gdb) c</span><br><span class="line">The program is not being run.</span><br><span class="line">(gdb) r</span><br><span class="line">Starting program: &#x2F;root&#x2F;cpp&#x2F;a.out </span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libthread_db.so.1&quot;.</span><br><span class="line"></span><br><span class="line">Breakpoint 1, main () at t.cpp:33</span><br><span class="line">33	    A a;</span><br><span class="line">(gdb) p A::i</span><br><span class="line">$2 &#x3D; 10</span><br><span class="line">(gdb) p &amp;A::i</span><br><span class="line">$3 &#x3D; (int *) 0x555555758100 &lt;A::i&gt;</span><br><span class="line">(gdb) p (int)0x555555758100</span><br><span class="line">$4 &#x3D; 1433764096</span><br><span class="line">(gdb) p &#123;int&#125;0x555555758100</span><br><span class="line">$5 &#x3D; 10</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="how-about-static-const"><a href="#how-about-static-const" class="headerlink" title="how about static const?"></a>how about static const?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;</span><br><span class="line">public:</span><br><span class="line">    int i2 &#x3D; 1;</span><br><span class="line">    static int const i &#x3D; 11;</span><br><span class="line">    A() &#123; cout &lt;&lt; &quot;hello&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br><span class="line">_Z1fv:</span><br><span class="line">.LFB3324:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp </span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   subq▹   $16, %rsp</span><br><span class="line">▹   leaq▹   -4(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZN1AC1Ev</span><br><span class="line">▹   movl▹   $11, %esi        &#x2F;&#x2F; *       </span><br><span class="line">▹   leaq▹   _ZSt4cout(%rip), %rdi</span><br><span class="line">...</span><br><span class="line">main:</span><br><span class="line">.LFB3325:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   .cfi_personality 0x9b,DW.ref.__gxx_personality_v0</span><br><span class="line">▹   .cfi_lsda 0x1b,.LLSDA3325</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   pushq▹  %rbx</span><br><span class="line">▹   subq▹   $40, %rsp</span><br><span class="line">▹   .cfi_offset 3, -24</span><br><span class="line">▹   leaq▹   -20(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">.LEHB0:</span><br><span class="line">▹   call▹   _ZN1AC1Ev</span><br><span class="line">▹   movl▹   $11, %esi             &#x2F;&#x2F; *                       </span><br><span class="line">▹   leaq▹   _ZSt4cout(%rip), %rdi</span><br></pre></td></tr></table></figure>
+
+<p>if you use static const, there no space to store value, just a compile-time const value</p>
+<p>如果使用static const, 则不会有空间存储值, 则是一个编译时常量</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/SortedIndexBuilds/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/SortedIndexBuilds/" class="post-title-link" itemprop="url">read/SortedIndexBuilds</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-06 17:23:10" itemprop="dateModified" datetime="2019-08-06T17:23:10+08:00">2019-08-06</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="15-6-2-3-Sorted-Index-Builds"><a href="#15-6-2-3-Sorted-Index-Builds" class="headerlink" title="15.6.2.3 Sorted Index Builds"></a>15.6.2.3 Sorted Index Builds</h4><p>There are three phases to an index build. In the first phase, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_clustered_index" target="_blank" rel="noopener">clustered index</a> is scanned, and index entries are generated and added to the sort buffer. When the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_sort_buffer" target="_blank" rel="noopener">sort buffer</a> becomes full, entries are sorted and written out to a temporary intermediate file. This process is also known as a “run”. In the second phase, with one or more runs written to the temporary intermediate file, a merge sort is performed on all entries in the file. In the third and final phase, the sorted entries are inserted into the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_b_tree" target="_blank" rel="noopener">B-tree</a>.</p>
+<p>索引构建有三个阶段, 第一阶段, 扫描聚簇索引, 生成索引条目, 添加到排序缓存中. 当排序缓存被填满时, 条目数据排序并存储到临时的中间文件. 这个过程也被成为 ‘run’, 第二阶段, 随着 ‘runs’ 写入到临时中间文件, 对所有文件中的条目数据执行合并排序, 第三阶段, 排序好的条目数据插入到 B-tree 中.</p>
+<p>Prior to the introduction of sorted index builds, index entries were inserted into the B-tree one record at a time using insert APIs. This method involved opening a B-tree<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_cursor" target="_blank" rel="noopener">cursor</a> to find the insert position and then inserting entries into a B-tree page using an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimistic" target="_blank" rel="noopener">optimistic</a> insert. If an insert failed due to a page being full, a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_pessimistic" target="_blank" rel="noopener">pessimistic</a> insert would be performed, which involves opening a B-tree cursor and splitting and merging B-tree nodes as necessary to find space for the entry. The drawbacks of this “top-down”method of building an index are the cost of searching for an insert position and the constant splitting and merging of B-tree nodes.</p>
+<p>在引进有序索引构建之前, 使用插入 APIs 一次一条, 将索引条目插入到 B-tree 中. 这个方法包括打开 B-tree 光标, 查找插入位置, 然后使用 optimistic 插入数据到 B-tree 页中.</p>
+<p>如果因为页面已满而插入失败, 执行 pessimistic 插入, 包括打开 B-tree 光标, 并根据需要分裂合并 B-tree 节点, 以便为条目找到空间. </p>
+<p>Sorted index builds use a “bottom-up” approach to building an index. With this approach, a reference to the right-most leaf page is held at all levels of the B-tree. The right-most leaf page at the necessary B-tree depth is allocated and entries are inserted according to their sorted order. Once a leaf page is full, a node pointer is appended to the parent page and a sibling leaf page is allocated for the next insert. This process continues until all entries are inserted, which may result in inserts up to the root level. When a sibling page is allocated, the reference to the previously pinned leaf page is released, and the newly allocated leaf page becomes the right-most leaf page and new default insert location.</p>
+<p>有序索引使用自底向上方法构建索引, 使用这种方法, 所有 B-tree 层级都有一个指向最右叶子页的引用. 最右叶子页在必要的 B-tree 深度分配, 条目根据他们有序顺序插入. 当叶子节点满了, 父节点增加一个节点指针, 为下一次插入分配一个 sibling 叶子页. 这个过程持续到所有的条目插入为止, 可能导致插入到根层级.</p>
+<p>当 sibling 页分配后, 指向之前固定的叶子页的引用被释放, 新分配的叶子页成为最右叶子页和新的插入位置</p>
+<p>(PS. 和自平衡二叉树类似, 插入节点到尾端节点, 不断上溢到适当的位置)</p>
+<h5 id="Reserving-B-tree-Page-Space-for-Future-Index-Growth"><a href="#Reserving-B-tree-Page-Space-for-Future-Index-Growth" class="headerlink" title="Reserving B-tree Page Space for Future Index Growth"></a>Reserving B-tree Page Space for Future Index Growth</h5><p>To set aside space for future index growth, you can use the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> configuration option to reserve a percentage of B-tree page space. For example, setting <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> to 80 reserves 20 percent of the space in B-tree pages during a sorted index build. This setting applies to both B-tree leaf and non-leaf pages. It does not apply to external pages used for <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> entries. The amount of space that is reserved may not be exactly as configured, as the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> value is interpreted as a hint rather than a hard limit.</p>
+<p>为了设置空间为以后的索引增长做准备, 可以使用 innodb_fill_factor 设置存储百分比 B-tree 页空间, 比如, 设置 innodb_fill_factor 为 80, 存储 20% 的空间. 这个设置引用于所有 B-tree 叶和非叶页, 不适用于 TEXT / BLOB 条目的页. </p>
+<p>存储的页面大小不一定精准, innodb_fill_factor 是一个提示, 而并不是硬限制</p>
+<h5 id="Sorted-Index-Builds-and-Full-Text-Index-Support"><a href="#Sorted-Index-Builds-and-Full-Text-Index-Support" class="headerlink" title="Sorted Index Builds and Full-Text Index Support"></a>Sorted Index Builds and Full-Text Index Support</h5><p>Sorted index builds are supported for <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_fulltext_index" target="_blank" rel="noopener">fulltext indexes</a>. Previously, SQL was used to insert entries into a fulltext index.</p>
+<p>有序索引构建支持 fulltext index.</p>
+<h5 id="Sorted-Index-Builds-and-Compressed-Tables"><a href="#Sorted-Index-Builds-and-Compressed-Tables" class="headerlink" title="Sorted Index Builds and Compressed Tables"></a>Sorted Index Builds and Compressed Tables</h5><p>For <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_compression" target="_blank" rel="noopener">compressed tables</a>, the previous index creation method appended entries to both compressed and uncompressed pages. When the modification log (representing free space on the compressed page) became full, the compressed page would be recompressed. If compression failed due to a lack of space, the page would be split. With sorted index builds, entries are only appended to uncompressed pages. When an uncompressed page becomes full, it is compressed. Adaptive padding is used to ensure that compression succeeds in most cases, but if compression fails, the page is split and compression is attempted again. This process continues until compression is successful. For more information about compression of B-Tree pages, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-compression-internals.html" target="_blank" rel="noopener">Section 15.9.1.5, “How Compression Works for InnoDB Tables”</a>.</p>
+<p>对压缩表, 之前创建索引的方法将条目添加到压缩/未压缩页面, 当更改日志逐渐增多, 压缩页需要重压缩. 如果因为空间不足而压缩失败, 也需要被分割, 在有序构建中, 条目仅仅添加到未压缩页. 当未压缩页逐渐填满, 压缩该页.</p>
+<p>在大多数情况下适应的填充用作确保压缩成功, 如果压缩失败, 页被分隔, 然后再次尝试压缩. 这个过程直到压缩成功为止.</p>
+<h5 id="Sorted-Index-Builds-and-Redo-Logging"><a href="#Sorted-Index-Builds-and-Redo-Logging" class="headerlink" title="Sorted Index Builds and Redo Logging"></a>Sorted Index Builds and Redo Logging</h5><p><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_redo_log" target="_blank" rel="noopener">Redo logging</a> is disabled during a sorted index build. Instead, there is a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_checkpoint" target="_blank" rel="noopener">checkpoint</a> to ensure that the index build can withstand a crash or failure. The checkpoint forces a write of all dirty pages to disk. During a sorted index build, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_cleaner" target="_blank" rel="noopener">page cleaner</a> thread is signaled periodically to flush <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_dirty_page" target="_blank" rel="noopener">dirty pages</a> to ensure that the checkpoint operation can be processed quickly. Normally, the page cleaner thread flushes dirty pages when the number of clean pages falls below a set threshold. For sorted index builds, dirty pages are flushed promptly to reduce checkpoint overhead and to parallelize I/O and CPU activity.</p>
+<p>在有序索引构建期间, redo logging 不可用. 代替其的是 checkpoint, 它确保索引构建禁得住错误和崩溃. checkpoint 强制脏页写回缓存. </p>
+<h5 id="Sorted-Index-Builds-and-Optimizer-Statistics"><a href="#Sorted-Index-Builds-and-Optimizer-Statistics" class="headerlink" title="Sorted Index Builds and Optimizer Statistics"></a>Sorted Index Builds and Optimizer Statistics</h5><p>Sorted index builds may result in <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimizer" target="_blank" rel="noopener">optimizer</a> statistics that differ from those generated by the previous method of index creation. The difference in statistics, which is not expected to affect workload performance, is due to the different algorithm used to populate the index.</p>
 
       
     </div>
@@ -266,6 +1242,9 @@
   </div>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -322,7 +1301,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
+  <p class="site-author-name" itemprop="name">cas</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -330,7 +1309,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -360,7 +1339,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>

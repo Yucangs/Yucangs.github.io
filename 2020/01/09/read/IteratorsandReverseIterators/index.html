@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Iterators and Reverse IteratorsYou can convert normal iterators into reverse iterators. Naturally, the iterators must be bidirectionaliterators, but note that the logical position of an iterator is mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;IteratorsandReverseIterators">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/read/IteratorsandReverseIterators/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Iterators and Reverse IteratorsYou can convert normal iterators into reverse iterators. Naturally, the iterators must be bidirectionaliterators, but note that the logical position of an iterator is mo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/Xe1ifka.png">
+<meta property="og:image" content="https://imgur.com/1rPZHcM.png">
+<meta property="article:published_time" content="2020-01-09T09:17:39.889Z">
+<meta property="article:modified_time" content="2019-08-26T07:20:44.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/Xe1ifka.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/read/IteratorsandReverseIterators/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/IteratorsandReverseIterators | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/IteratorsandReverseIterators/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/IteratorsandReverseIterators
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:39" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:39+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-26 15:20:44" itemprop="dateModified" datetime="2019-08-26T15:20:44+08:00">2019-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Iterators-and-Reverse-Iterators"><a href="#Iterators-and-Reverse-Iterators" class="headerlink" title="Iterators and Reverse Iterators"></a>Iterators and Reverse Iterators</h2><p>You can convert normal iterators into reverse iterators. Naturally, the iterators must be bidirectional<br>iterators, but note that the logical position of an iterator is moved during the conversion. Consider<br>the following program:</p>
+<p>可以将普通的迭代器转换为反向迭代去(当然, 这个迭代器必须是双向的)</p>
+<p>请记住, 转换后迭代器的逻辑位置会发生改变, 参考以下程序 : </p>
+<pre><code>// iter/reviter2.cpp
+#include &lt;iterator&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+int main()
+{
+    // create list with elements from 1 to 9
+    vector&lt;int&gt; coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+    // find position of element with value 5
+    vector&lt;int&gt;::const_iterator pos;
+    pos = find (coll.cbegin(), coll.cend(),
+    5);
+
+    // print value to which iterator pos refers
+    cout &lt;&lt; &quot;pos: &quot; &lt;&lt; *pos &lt;&lt; endl;
+
+    // convert iterator to reverse iterator rpos
+    vector&lt;int&gt;::const_reverse_iterator rpos(pos);
+
+    // print value to which reverse iterator rpos refers
+    cout &lt;&lt; &quot;rpos: &quot; &lt;&lt; *rpos &lt;&lt; endl;
+}</code></pre><p>This program has the following output:<br>    pos: 5<br>    rpos: 4<br>Thus, if you print the value of an iterator and convert the iterator into a reverse iterator, the value has<br>changed. This is not a bug; it’s a feature! This behavior is a consequence of the fact that ranges are<br>half open. To specify all elements of a container, you must use the position after the last argument.<br>However, for a reverse iterator, this is the position before the first element. Unfortunately, such a<br>position may not exist. Containers are not required to guarantee that the position before their first<br>element is valid. Consider that ordinary strings and arrays might also be containers, and the language<br>does not guarantee that arrays don’t start at address zero.</p>
+<p>因此, 更改后迭代器的值发生了变化. 这不是一个 bug, 而是一个特性. 这是一个因半开区间而产生的结果.</p>
+<p>要指定容器的所有元素, 需要使用最后一个元素后的位置. 然而, 对于反向迭代器而言, 就是一个在第一个元素之前的位置, 不幸的是, 这样的位置是不存在的. 容器不保证他们第一个位置之前的元素是有效的.</p>
+<p>参考原始字符串和数组可能也会是容器, 语言不保证数组不从地址0开始</p>
+<p>As a result, the designers of reverse iterators use a trick: They “physically” reverse the “half-open<br>principle.” Physically, in a range defined by reverse iterators, the beginning is not included, whereas<br>the end is. However, logically, they behave as usual. Thus, there is a distinction between the physical<br>position that defines the element to which the iterator refers and the logical position that defines the<br>value to which the iterator refers (Figure 9.3). The question is, what happens on a conversion from<br>an iterator to a reverse iterator? Does the iterator keep its logical position (the value) or its physical<br>position (the element)? As the previous example shows, the latter is the case. Thus, the value is<br>moved to the previous element (Figure 9.4) </p>
+<p>结论是, 反向迭代器设计用了一个方法 : 它们物理性地反向半开区间. 物理性地, 在反向迭代器的定义中, 开始的元素不包含在内, 而尾端被包含. 然而, 逻辑上, 它们的行为和普通的迭代器一样. 因此, 定义迭代器引用的元素的物理位置和定义迭代器引用的值的逻辑位置是有区别的. </p>
+<p>问题是, 当普通迭代器转换为反向迭代器的时候, 会发生什么? 迭代器会保持它的逻辑位置, 还是物理位置? 在上面的案例显示中, 属于后者. 因此, 值移动到了之前的元素位置.</p>
+<p><img src="https://imgur.com/Xe1ifka.png" alt=""></p>
+<p><img src="https://imgur.com/1rPZHcM.png" alt=""></p>
+<h2 id="内部如何处理的"><a href="#内部如何处理的" class="headerlink" title="内部如何处理的"></a>内部如何处理的</h2><p>以上, 就是这篇笔记的原因, 我想看看反向迭代器它的内部是如何工作的</p>
+<p>这次的目标是解决如下疑问</p>
+<ol>
+<li>普通迭代器转换成反向迭代器会做什么?</li>
+<li>反向迭代器如何迭代的? </li>
+<li>反向迭代器如何保证不会越界? </li>
+</ol>
+<p>首先, 参考一下 C++ 代码 : </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">array</span>&lt;<span class="keyword">int</span>, 9&gt; v&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line">	<span class="keyword">auto</span> it = v.<span class="built_in">begin</span>();</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; *it &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">array</span>&lt;<span class="keyword">int</span>,9&gt;::<span class="function">const_reverse_iterator <span class="title">rit</span><span class="params">(it)</span></span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; *rit &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>然后是汇编代码 : </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB4368:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   subq▹   $64, %rsp</span><br><span class="line">▹   movl▹   $1, -64(%rbp)</span><br><span class="line">▹   movl▹   $2, -60(%rbp)</span><br><span class="line">▹   movl▹   $3, -56(%rbp)</span><br><span class="line">▹   movl▹   $4, -52(%rbp)</span><br><span class="line">▹   movl▹   $5, -48(%rbp)</span><br><span class="line">▹   movl▹   $6, -44(%rbp)</span><br><span class="line">▹   movl▹   $7, -40(%rbp)</span><br><span class="line">▹   movl▹   $8, -36(%rbp)</span><br><span class="line">▹   movl▹   $9, -32(%rbp)</span><br><span class="line">▹   leaq▹   -64(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt5arrayIiLm9EE5beginEv	&#x2F;&#x2F; 上述是 array 的初始化代码</span><br><span class="line">▹   movq▹   %rax, -8(%rbp)	&#x2F;&#x2F; 构造的返回值即是 begin</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movl▹   (%rax), %eax	&#x2F;&#x2F; *it</span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   movl▹   $_ZSt4cout, %edi</span><br><span class="line">▹   call▹   _ZNSolsEi</span><br><span class="line">▹   movl▹   $_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSolsEPFRSoS_E</span><br><span class="line">▹   movq▹   -8(%rbp), %rdx	&#x2F;&#x2F; -8(%rbp) 即 it</span><br><span class="line">▹   leaq▹   -16(%rbp), %rax	&#x2F;&#x2F; 这是一块未使用的内存</span><br><span class="line">▹   movq▹   %rdx, %rsi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt16reverse_iteratorIPKiEC1ES1_	&#x2F;&#x2F; 这应当就是 reverse_iterator 的 construct</span><br><span class="line">▹   leaq▹   -16(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNKSt16reverse_iteratorIPKiEdeEv	&#x2F;&#x2F; 在解引用之前, 会调用这个函数</span><br><span class="line">▹   movl▹   (%rax), %eax	&#x2F;&#x2F; 返回值解引用, 即 *rit</span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   movl▹   $_ZSt4cout, %edi</span><br><span class="line">▹   call▹   _ZNSolsEi</span><br><span class="line">▹   movl▹   $_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSolsEPFRSoS_E</span><br><span class="line">▹   movl▹   $0, %eax</span><br><span class="line">▹   leave</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br></pre></td></tr></table></figure>
+
+<p>可以看出, 关键点在于 “<em>ZNSt16reverse_iteratorIPKiEC1ES1</em>“ 和 “_ZNKSt16reverse_iteratorIPKiEdeEv” 将是关键</p>
+<p>其中, ZNSt16reverse_iteratorIPKiEC1ES1 的代码如下所示 (没有错, 就是这个)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">_ZNSt16reverse_iteratorIPKiEC2ES1_:</span><br><span class="line">.LFB4445:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   subq▹   $16, %rsp</span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)</span><br><span class="line">▹   movq▹   %rsi, -16(%rbp)</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movq▹   -16(%rbp), %rdx</span><br><span class="line">▹   movq▹   %rdx, (%rax)</span><br><span class="line">▹   leave</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br></pre></td></tr></table></figure>
+
+<p>代码除 _ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev 外, 就是简单地将 %rsi(-8(%rbp) 即 it) 的地址放入 %rdi(-16(%rbp) 我提到过的那块未使用的内存)</p>
+<p>_ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev 代码如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">_ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev:</span><br><span class="line">.LFB4443:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)</span><br><span class="line">▹   popq▹   %rbp</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br><span class="line">▹   .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>好像… 什么也没做 = = , 这个函数没有栈帧开辟, movq▹   %rdi, -8(%rbp) 也大概率是个无用的语句</p>
+<p>那么, 可以暂时得出结论, 反向迭代器是一个二级指针, 它保存了普通迭代器的地址</p>
+<p>那么, 来看另外一个函数 _ZNKSt16reverse_iteratorIPKiEdeEv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">_ZNKSt16reverse_iteratorIPKiEdeEv:</span><br><span class="line">.LFB4447:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   movq▹   %rdi, -24(%rbp)</span><br><span class="line">▹   movq▹   -24(%rbp), %rax</span><br><span class="line">▹   movq▹   (%rax), %rax</span><br><span class="line">▹   movq▹   %rax, -8(%rbp)</span><br><span class="line">▹   subq▹   $4, -8(%rbp)</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   popq▹   %rbp</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br><span class="line">▹   .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>一句话概括: 二级指针解引用 -4. 那么就和文档所说的吻合了, 反向迭代器会往前移动一个位置</p>
+<p>这个函数发生在反向迭代器解引用时, 大概可以猜出它的行为</p>
+<h2 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h2><p>疑问 1 和 疑问 2 解决了, 但是疑问 3 还未解决</p>
+<p>我原来想通过更改内存值来看的, 但是貌似有什么防范操作 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Breakpoint 1, main () at t.cpp:13</span><br><span class="line">13	    array&lt;int, 9&gt; v&#123;1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</span><br><span class="line">(gdb) n</span><br><span class="line">14	    auto it &#x3D; v.begin();</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe480	&#x2F;&#x2F; 这里就是 it</span><br><span class="line">$16 &#x3D; 1</span><br><span class="line">(gdb) set &#123;int&#125;0x7fffffffe480 &#x3D; 100	&#x2F;&#x2F; 更改 it 中的值</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe480	&#x2F;&#x2F; 成功更改</span><br><span class="line">$17 &#x3D; 100</span><br><span class="line">(gdb) n</span><br><span class="line">15	    cout &lt;&lt; *it &lt;&lt; endl;</span><br><span class="line">(gdb) n	&#x2F;&#x2F; 本来该打印 1 的, 更改后打印了 100 </span><br><span class="line">100</span><br><span class="line">16	    array&lt;int,9&gt;::const_reverse_iterator rit(it);</span><br><span class="line">(gdb) p v	&#x2F;&#x2F; 再次验证更改是有效的</span><br><span class="line">$18 &#x3D; &#123;_M_elems &#x3D; &#123;100, 2, 3, 4, 5, 6, 7, 8, 9&#125;&#125;</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe47b	&#x2F;&#x2F; 根据推算, 这个就是 rend 的地址</span><br><span class="line">$19 &#x3D; 0</span><br><span class="line">(gdb) set &#123;int&#125;0x7fffffffe47b &#x3D; 200	&#x2F;&#x2F; 更改 rend ( 在程序崩溃的边缘疯狂试探 :) )</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe47b</span><br><span class="line">$20 &#x3D; 200</span><br><span class="line">(gdb) n</span><br><span class="line">17	    cout &lt;&lt; *rit &lt;&lt; endl;</span><br><span class="line">(gdb) n	&#x2F;&#x2F; 结果让人很失望</span><br><span class="line">0</span><br><span class="line">18	&#125;</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe47b &#x2F;&#x2F; 谁让你改回去的!?</span><br><span class="line">$21 &#x3D; 0</span><br></pre></td></tr></table></figure>
+
+<p>我之后在 end 上做了同样的测试, 发现 end 也有防范操作</p>
+<p>但我不知道具体是哪里防范了我这个操作, 应该是在解引用时, 但是里面代码不会更改到. </p>
+<p>我还看了 objdump 的汇编代码, 依旧没有发现什么特别之处, 和编译器生成的汇编代码是一样的… </p>
+<p>算了, 也算有所收获吧… </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/InnoDBRowFormat/" rel="prev" title="read/InnoDBRowFormat">
+      <i class="fa fa-chevron-left"></i> read/InnoDBRowFormat
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/JVM-Memory-model/" rel="next" title="read/JVM-Memory-model">
+      read/JVM-Memory-model <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterators-and-Reverse-Iterators"><span class="nav-number">1.</span> <span class="nav-text">Iterators and Reverse Iterators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部如何处理的"><span class="nav-number">2.</span> <span class="nav-text">内部如何处理的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更进一步"><span class="nav-number">3.</span> <span class="nav-text">更进一步</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

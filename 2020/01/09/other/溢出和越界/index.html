@@ -46,15 +46,19 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="cas&#39;s website">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="##对于溢出和越界的理解(overflow&#x2F;outside range) x86汇编flag寄存器有两个表示位, 分别位OF&#x2F;CF, 溢出标志位&#x2F;进位标志位其中OF只对有符号数有效, 例如:当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)A + B &#x3D; 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;溢出和越界">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/other/%E6%BA%A2%E5%87%BA%E5%92%8C%E8%B6%8A%E7%95%8C/index.html">
 <meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="##对于溢出和越界的理解(overflow&#x2F;outside range) x86汇编flag寄存器有两个表示位, 分别位OF&#x2F;CF, 溢出标志位&#x2F;进位标志位其中OF只对有符号数有效, 例如:当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)A + B &#x3D; 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
+<meta property="article:modified_time" content="2020-01-09T09:12:35.306Z">
 <meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/">
+<link rel="canonical" href="http://yoursite.com/2020/01/09/other/%E6%BA%A2%E5%87%BA%E5%92%8C%E8%B6%8A%E7%95%8C/">
 
 
 <script id="page-configurations">
@@ -62,11 +66,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>Archive | cas's website</title>
+  <title>other/溢出和越界 | cas's website</title>
   
 
 
@@ -161,233 +165,95 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">Good! 85 posts in total. Keep on posting.</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/%E6%BA%A2%E5%87%BA%E5%92%8C%E8%B6%8A%E7%95%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/溢出和越界
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:35" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
+        <p>##对于溢出和越界的理解(overflow/outside range)</p>
+<p>x86汇编flag寄存器有两个表示位, 分别位OF/CF, 溢出标志位/进位标志位<br>其中OF只对有符号数有效, 例如:<br>当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)<br>A + B = 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结果是错误的<br>这里错误的原因是计算结果<strong>占用了一个不该它占有的有效位</strong><br>不该它占有: 它占有了符号位, 这个位错误地被计算结果改变<br>有效: 这个符号位是被合理分配的, 并不是未定义的</p>
+<p>CF只对无符号数有效, 例如:<br>当两个1字节大小的数字相加时, A: 1111 1111 (255), B: 0000 0001 (1)<br>A + B = 256, 对应二进制位是 1 0000 0000, 1字节大小存不下9bit, 计算结果无法保存, 产生错误<br>错误原因是: 计算结果<strong>超出了合理的范围, 这个位未被定义</strong><br>同样不该它占有, 但是同时这是个<strong>未被定义的空间</strong>  </p>
+<p>那么就可以简单看出, 从寄存器角度, 溢出/越界的区分了, <strong>那个位是否有效</strong><br>(但是也不一定…)</p>
+<pre><code>vector&lt;int&gt; veci{1, 2, 3};
+vector&lt;int&gt;::iterator it1 = veci.begin();
+vector&lt;int&gt;::iterator it2 = veci.begin() + 1; 
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:44:16+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/other/gdb/" itemprop="url">
-            <span itemprop="name">other/gdb</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:51+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/48RotateImage/" itemprop="url">
-            <span itemprop="name">leetcode/48RotateImage</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:38+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/42TrappingRainWater/" itemprop="url">
-            <span itemprop="name">leetcode/42TrappingRainWater</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:24+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/21MergeTwoSortedLists/" itemprop="url">
-            <span itemprop="name">leetcode/21MergeTwoSortedLists</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:19:39+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/F15_3Sum/" itemprop="url">
-            <span itemprop="name">leetcode/F15_3Sum</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:19:24+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/20ValidParentheses/" itemprop="url">
-            <span itemprop="name">leetcode/20ValidParentheses</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/UnderstandingGeneratedColumns/" itemprop="url">
-            <span itemprop="name">read/UnderstandingGeneratedColumns</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/studyNoteOfGo/" itemprop="url">
-            <span itemprop="name">read/studyNoteOfGo</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/static_filed_in_Cpp/" itemprop="url">
-            <span itemprop="name">read/static_filed_in_Cpp</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/SortedIndexBuilds/" itemprop="url">
-            <span itemprop="name">read/SortedIndexBuilds</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+veci.erase(it1);
+// @note 这里的erase会报错, 因为在上一句代码中, begin迭代器所指向的数据被删除了, 
+//     删除之后, begin迭代器之后的元素重新排序(往前移), 此时的it2已经不指向它原先希望指向的位置了  
+//     可能它指向了新的begin迭代器之后的位置, 也可能指向begin了, 直接的结果是: 它失效了  
+veci.erase(it2);</code></pre><p>在上段代码中, it2实际可能还是指向一个元素的, (实际VS debug中, it2指向了第三个元素, 也就是3)<br>it2并未失效, 它依旧指向一块内存,(至少在VS debug中这样) 但是这是块<strong>不该它占有的内存</strong><br>按照上述我们对溢出/越界的定义, 这种问题属于溢出  </p>
+<p>但是很可惜, 报错信息是:<br>“vector erase iterator outside range”<br>emmmmmmmmmm, 也就是说, 它认为这是越界…<br>所以我的理解可能是错的, 但是我还是认为这样子理解没有什么问题(大概… :) )</p>
+<p>或许这样说更好, 有符号数, 只有7位数值, 两个7位数值无论如何计算也不会超过8位<br>而无符号数, 8位数值, 计算是可能超过8位的</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/apache/" rel="prev" title="other/apache">
+      <i class="fa fa-chevron-left"></i> other/apache
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/%E5%AE%89%E8%A3%85CentOS7/" rel="next" title="other/安装CentOS7">
+      other/安装CentOS7 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
-
 
 
           </div>

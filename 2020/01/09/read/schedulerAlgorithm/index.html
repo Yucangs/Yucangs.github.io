@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="@brief ​    早上地铁充值时有位大妈有东西掉了, 和工作人员沟通了几分钟, 本来就睡晚了, 最后差点导致上班迟到 &#x3D; &#x3D; ​    然后突然想到这就是单线程啊… 于是就有了这篇关于 scheduler algorithm 的笔记 ​    原文 what is schedulerSchedulers are special system software which handle pro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;schedulerAlgorithm">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/read/schedulerAlgorithm/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="@brief ​    早上地铁充值时有位大妈有东西掉了, 和工作人员沟通了几分钟, 本来就睡晚了, 最后差点导致上班迟到 &#x3D; &#x3D; ​    然后突然想到这就是单线程啊… 于是就有了这篇关于 scheduler algorithm 的笔记 ​    原文 what is schedulerSchedulers are special system software which handle pro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://media.geeksforgeeks.org/wp-content/uploads/22_.png">
+<meta property="article:published_time" content="2020-01-09T09:17:40.741Z">
+<meta property="article:modified_time" content="2019-09-10T08:12:34.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://media.geeksforgeeks.org/wp-content/uploads/22_.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/read/schedulerAlgorithm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/schedulerAlgorithm | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/schedulerAlgorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/schedulerAlgorithm
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-10 16:12:34" itemprop="dateModified" datetime="2019-09-10T16:12:34+08:00">2019-09-10</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>@brief</p>
+<p>​    早上地铁充值时有位大妈有东西掉了, 和工作人员沟通了几分钟, 本来就睡晚了, 最后差点导致上班迟到 = =</p>
+<p>​    然后突然想到这就是单线程啊… 于是就有了这篇关于 scheduler algorithm 的笔记</p>
+<p>​    <a href="https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/" target="_blank" rel="noopener">原文</a></p>
+<h3 id="what-is-scheduler"><a href="#what-is-scheduler" class="headerlink" title="what is scheduler"></a>what is scheduler</h3><p><strong>Schedulers</strong> are special system software which handle process scheduling in various ways. Their main task is to select the jobs to be submitted into the system and to decide which process to run. There are <a href="https://www.geeksforgeeks.org/gate-notes-operating-system-scheduler/" target="_blank" rel="noopener">three types of Scheduler</a>:</p>
+<p>schedulers 是特殊的系统软件, 通过多种方式控制进程调度. 它们主要的任务是选择任务并提交到系统, 决定哪个进程执行, 这里有三种类型的 scheduler</p>
+<ol>
+<li><p><strong>Long term (job) scheduler –</strong> Due to the smaller size of main memory initially all program are stored in secondary memory. When they are stored or loaded in the main memory they are called process. This is the decision of long term scheduler that how many processes will stay in the ready queue. Hence, in simple words, long term scheduler decides the degree of multi-programming of system.</p>
+<p>因为主存空间较小, 最初, 所有的程序都存储在次级内存, 当它们排序或加载到主存时, 称其为进程. 这取决于 long term scheduler , 它决定有多少进程保留在你准备队列中, 因此, 简单来说, long term scheduler 决定了系统的多程序程度</p>
+<p>(PS: 这里指的应该是内存和硬盘, 关于 secondary memory, 可以参考 <a href="https://chortle.ccsu.edu/Java5/Notes/chap01/ch01_7.html" target="_blank" rel="noopener">secondary memory</a>)</p>
+</li>
+<li><p><strong>Medium term scheduler –</strong> Most often, a running process needs I/O operation which doesn’t requires CPU. Hence during the execution of a process when a I/O operation is required then the operating system sends that process from running queue to blocked queue. When a process completes its I/O operation then it should again be shifted to ready queue. ALL these decisions are taken by the medium-term scheduler. Medium-term scheduling is a part of <strong>swapping</strong>.</p>
+<p>运行中的进程经常需要 I/O 操作而并非 CPU. 因此在进程执行期间, 当需要 I/O 操作时, 操作系统将当前进程从运行中队列发送到阻塞队列. 当进程完成它的 I/O 操作时, 应该再次将它移回准备队列. 所有这些操作都由 medium-term scheduler 决定, medium-term scheduling 是 swapping 的一部分</p>
+</li>
+<li><p><strong>Short term (CPU) scheduler –</strong> When there are lots of processes in main memory initially all are present in the ready queue. Among all of the process, a single process is to be selected for execution. This decision is handled by short term scheduler.Let’s have a look at the figure given below. It may make a more clear view for you.</p>
+<p>当由大量的进程在准备队列时, 在所有的进程中, 只有一个进程被选择执行. 这由 short term scheduler 决定. </p>
+</li>
+</ol>
+<p><img src="https://media.geeksforgeeks.org/wp-content/uploads/22_.png" alt=""></p>
+<p>(PS: 关于 CPU burst time, <a href="https://cs.stackexchange.com/questions/50438/how-does-the-os-determine-the-cpu-burst-time-of-a-process" target="_blank" rel="noopener">determine burst time</a>)</p>
+<h3 id="difference-scheduling-algorithms"><a href="#difference-scheduling-algorithms" class="headerlink" title="difference scheduling algorithms"></a>difference scheduling algorithms</h3><p><strong><em>First Come First Serve (FCFS):</em></strong> Simplest scheduling algorithm that schedules according to arrival times of processes. First come first serve scheduling algorithm states that the process that requests the CPU first is allocated the CPU first. It is implemented by using the FIFO queue. When a process enters the ready queue, its PCB is linked onto the tail of the queue. When the CPU is free, it is allocated to the process at the head of the queue. The running process is then removed from the queue. FCFS is a non-preemptive scheduling algorithm.</p>
+<p>最简单的调度算法根据时间进程的时间顺序调度. 先到先得调度算法声明最先请求 CPU 的进程最先被处理. 其使用 FIFO 队列实现. 当进程进入准备队列时, PCB 链接到队列的尾部(??? 啥东西???) 当 CPU 空闲时, CPU 资源被分配给队列头部的进程. 运行中进程从队列中移除, FCFS 是一个非抢先式的调度算法</p>
+<p><strong>Note:</strong>First come first serve suffers from <a href="https://www.geeksforgeeks.org/convoy-effect-operating-systems/" target="_blank" rel="noopener">convoy effect</a>.</p>
+<p>FCFS 受 convoy effect 影响</p>
+<p><strong><em>Shortest Job First (SJF):</em></strong> Process which have the shortest burst time are scheduled first.If two processes have the same bust time then FCFS is used to break the tie. It is a non-preemptive scheduling algorithm.</p>
+<p>拥有最短突发时间的进程优先调度. 当两个进程拥有同样的突发时间时, FCFS 用于解决这种情况. 它同样是一个非抢占调度算法</p>
+<p><strong><em>Longest Job First (LJF):</em></strong> It is similar to SJF scheduling algorithm. But, in this scheduling algorithm, we give priority to the process having the longest burst time. This is non-preemptive in nature i.e., when any process starts executing, can’t be interrupted before complete execution.</p>
+<p>类似 SJF 调度算法, 但是, 在这个调度算法中, 给予最长突发时间优先权限. 这同样也是非抢占式的. 当进程开始执行时, 不能在完成执行前被打断</p>
+<p><strong><em>Shortest Remaining Time First (SRTF):</em></strong> It is preemptive mode of SJF algorithm in which jobs are schedule according to shortest remaining time.</p>
+<p>是 SJF 调度算法的抢占版本, 根据最少剩余时间调度</p>
+<p><strong><em>Longest Remaining Time First (LRTF):</em></strong> It is preemptive mode of LJF algorithm in which we give priority to the process having largest burst time remaining.</p>
+<p>LJF 算法的抢占模式, 给予最大突发时间剩余进程优先权限</p>
+<p><strong><em>Round Robin Scheduling:</em></strong> Each process is assigned a fixed time(Time Quantum/Time Slice) in cyclic way.It is designed especially for the time-sharing system. The ready queue is treated as a circular queue. The CPU scheduler goes around the ready queue, allocating the CPU to each process for a time interval of up to 1-time quantum. To implement Round Robin scheduling, we keep the ready queue as a FIFO queue of processes. New processes are added to the tail of the ready queue. The CPU scheduler picks the first process from the ready queue, sets a timer to interrupt after 1-time quantum, and dispatches the process. One of two things will then happen. The process may have a CPU burst of less than 1-time quantum. In this case, the process itself will release the CPU voluntarily. The scheduler will then proceed to the next process in the ready queue. Otherwise, if the CPU burst of the currently running process is longer than 1-time quantum, the timer will go off and will cause an interrupt to the operating system. A context switch will be executed, and the process will be put at the tail of the ready queue. The CPU scheduler will then select the next process in the ready queue.</p>
+<p>每个进程每个周期被分配一个固定的时间(时间量子/时间片), 这特别为时间共享系统所设计. 准备队列被视作一个循环的队列. CPU 调度循环准备队列. 分配 CPU 资源给每个进程最多一个的时间量. </p>
+<p>为了实现 round robin scheduling 将准备队列依旧保持为 FIFO 队列, 新的进程在队列的尾端加入, CPU 从队列的头部选取一个进程, 设置在一个时间量后中断的定时器, 派发这个进程. 这个进程的 CPU 突发可能少于1个时间量, 在这种情况下, 进程会自动释放 CPU 资源, 调度器继续处理准备队列的下一个进程, 其他情况下, 如果当前进程 CPU burst 超过1个时间片, 将会触发定时器, 向操作系统发出一个中断. 将会执行内容切换, 进程将会重新放入准备队列的尾端. CPU 调度将会选择准备队列的下一个进程, 以此循环.</p>
+<p><strong><em>Priority Based scheduling (Non-Preemptive):</em></strong> In this scheduling, processes are scheduled according to their priorities, i.e., highest priority process is scheduled first. If priorities of two processes match, then schedule according to arrival time. Here starvation of process is possible.</p>
+<p>在这个调度下, 进程根据他们的优先级调度, 比如, 高优先级的进程会有限调度. 如果两个进程的优先级相等. 则根据他们的先后顺序调度, 有可能出现饥饿线程</p>
+<p><strong><em>Highest Response Ratio Next (HRRN):</em></strong> In this scheduling, processes with highest response ratio is scheduled. This algorithm avoids starvation.</p>
+<pre><code>Response Ratio = (Waiting Time + Burst time) / Burst time</code></pre><p>在这种调度下, 拥有高响应比的进程有限调度, 这个算法避免饥饿</p>
+<p><strong><em>Multilevel Queue Scheduling:</em></strong> According to the priority of process, processes are placed in the different queues. Generally high priority process are placed in the top level queue. Only after completion of processes from top level queue, lower level queued processes are scheduled. It can suffer from starvation.</p>
+<p>根据进程的优先级, 进程被放置在不同的队列. 通常, 高优先级的进程被放置在上层队列. 只有在完成上层队列中的进程后, 低层队列中的进程才会被调度, 它有可能挨饿</p>
+<p><strong><em>Multi level Feedback Queue Scheduling:</em></strong> It allows the process to move in between queues. The idea is to separate processes according to the characteristics of their CPU bursts. If a process uses too much CPU time, it is moved to a lower-priority queue.</p>
+<p>允许进程在队列中移动, 这个想法根据它们的 CPU 突发特性区分进程, 如果进程使用过多的 CPU 时间, 它将会被移动到低优先级的队列</p>
+<p><strong>Some useful facts about Scheduling Algorithms:</strong></p>
+<ol>
+<li><p>FCFS can cause long waiting times, especially when the first job takes too much CPU time.</p>
+<p>FCFS 可能导致长时间等待, 特别是当第一个任务执行太久时</p>
+</li>
+<li><p>Both SJF and Shortest Remaining time first algorithms may cause starvation. Consider a situation when the long process is there in the ready queue and shorter processes keep coming.</p>
+<p>SJF 和 shortest remaining time first 算法可能导致饥饿, 考虑当长的进程在准备队列中, 但一直有短进程不断加入的情景</p>
+</li>
+<li><p>If time quantum for Round Robin scheduling is very large, then it behaves same as FCFS scheduling.</p>
+<p>如果 round robin 调度的时间量太长时, 情况类似于 FCFS 调度</p>
+</li>
+<li><p>SJF is optimal in terms of average waiting time for a given set of processes,i.e., average waiting time is minimum with this scheduling, but problems are, how to know/predict the time of next job.</p>
+<p>就给定一组进程的平均等待时间而言, SJF 是最优的, 但是问题在于, 如何预测下一个任务的执行时间</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/RedisMemoryOptimization/" rel="prev" title="read/RedisMemoryOptimization">
+      <i class="fa fa-chevron-left"></i> read/RedisMemoryOptimization
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/sort/" rel="next" title="read/sort">
+      read/sort <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-scheduler"><span class="nav-number">1.</span> <span class="nav-text">what is scheduler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#difference-scheduling-algorithms"><span class="nav-number">2.</span> <span class="nav-text">difference scheduling algorithms</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

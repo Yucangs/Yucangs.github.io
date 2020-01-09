@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="反转二进制 my solution我选的方法是直接调用 bits.Reverse 函数来解决, 如果自己写的话, 应该会循环获取每一位, 重新构造一个数字 123func reverseBits(num uint32) uint32 &amp;#123;	return bits.Reverse32(num)&amp;#125;    best solution这也是为什么一道 easy 的题会单独做笔记的原因,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode&#x2F;190EReverseBits">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/leetcode/190EReverseBits/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="反转二进制 my solution我选的方法是直接调用 bits.Reverse 函数来解决, 如果自己写的话, 应该会循环获取每一位, 重新构造一个数字 123func reverseBits(num uint32) uint32 &amp;#123;	return bits.Reverse32(num)&amp;#125;    best solution这也是为什么一道 easy 的题会单独做笔记的原因,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/194AzQQ.png">
+<meta property="article:published_time" content="2020-01-09T09:08:55.643Z">
+<meta property="article:modified_time" content="2020-01-09T09:07:59.567Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/194AzQQ.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/leetcode/190EReverseBits/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>leetcode/190EReverseBits | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/190EReverseBits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode/190EReverseBits
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://imgur.com/194AzQQ.png" alt=""></p>
+<p>反转二进制</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>我选的方法是直接调用 bits.Reverse 函数来解决, 如果自己写的话, 应该会循环获取每一位, 重新构造一个数字</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> bits.Reverse32(num)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><p>这也是为什么一道 easy 的题会单独做笔记的原因, 因为这道题的解法很有意思</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">    constNums := []<span class="keyword">uint32</span>&#123;<span class="number">0xAAAAAAAA</span>, <span class="number">0x55555555</span>, <span class="number">0xCCCCCCCC</span>, <span class="number">0x33333333</span>, <span class="number">0xF0F0F0F0</span>, <span class="number">0x0F0F0F0F</span>, <span class="number">0xFF00FF00</span>, <span class="number">0x00FF00FF</span>, <span class="number">0xFFFF0000</span>, <span class="number">0x0000FFFF</span>&#125;</span><br><span class="line">    <span class="keyword">var</span> index, power <span class="keyword">uint32</span></span><br><span class="line">    <span class="keyword">for</span> index, power = <span class="number">0</span>, <span class="number">0</span>; index &lt;= <span class="number">8</span>; index, power = index+<span class="number">2</span>, power+<span class="number">1</span> &#123;</span><br><span class="line">        num = ((num &amp; constNums[index]) &gt;&gt; (<span class="number">1</span> &lt;&lt; power)) | ((num &amp; constNums[index+<span class="number">1</span>]) &lt;&lt; (<span class="number">1</span> &lt;&lt; power))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> num</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乍看之下理解不了, 特别是循环中的那句代码, 先给个例子来展示一下 :</p>
+<pre><code>原二进制:       00000010100101000001111010011100
+第一次循环后:       00000001011010000010110101101100
+第二次循环后:       00000100100100101000011110010011
+第三次循环后:       01000000001010010111100000111001
+第四次循环后:       00101001010000000011100101111000
+第五次循环后:       00111001011110000010100101000000</code></pre><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((num &amp; constNums[index]) &gt;&gt; (<span class="number">1</span> &lt;&lt; power)) | ((num &amp; constNums[index+<span class="number">1</span>]) &lt;&lt; (<span class="number">1</span> &lt;&lt; power))</span><br></pre></td></tr></table></figure>
+
+<p>代码的含义是这样的(诶… 我想想怎么解释一下 = =)</p>
+<p>emmm, 先看一个最简单的例子, 那么就能理解了, 首先, 取二进制 01, 只执行一次循环, 看看效果</p>
+<p>num &amp; constNums[index]  = 0, (num &amp; constNums[index+1]) = 1, power = 0, 所以结果是 10, 我们得到了反转字符串</p>
+<p>那么再来难点的例子, 1101, 这样需要执行两次循环</p>
+<p>num &amp; constNums[index]  = 1000,  (num &amp; constNums[index+1]) = 0101, power = 0, 所以第一次循环的结果是 0100 | 1010 = 1110</p>
+<p>num &amp; constNums[index]  = 1100, (num &amp; constNums[index+1]) = 0010, power = 1, 所以结果是 0011 | 1000 = 1011</p>
+<p>这样大概就能了解了吧, 第一次循环是两位为一组交换位置, 第二次循环是四位为一组交换位置, 所以第一次的二进制是 0xAAAAAAAA, 0x55555555 类似与 101010… 010101… 这样的, 他们的二进制位是相反的, 同理直到达到足够的位数为止, 这道题的复杂度是 O(logn) 级别的, 其中 s = 数字的位数, s = 2 的 n 次方</p>
+<p>真是个不错的算法 :)</p>
+<p>这个算法能见到 二分 和 递归 的影子, 理解了就会非常简单</p>
+<p>看了 go 对于该算法的实现, 也是这样的</p>
+<p>顺便, 看了 go 的源码, 其实句子可以更简单 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">constNums[index] &amp; num &gt;&gt; (<span class="number">1</span> &lt;&lt; power) | constNums[index+<span class="number">1</span>] &amp; num &lt;&lt; (<span class="number">1</span> &lt;&lt; power)</span><br></pre></td></tr></table></figure>
+
+<p>整个代码也可以重构</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(n <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> m0 <span class="keyword">uint32</span> = <span class="number">0x55555555</span></span><br><span class="line">    <span class="keyword">var</span> m1 <span class="keyword">uint32</span> = <span class="number">0x33333333</span></span><br><span class="line">    <span class="keyword">var</span> m2 <span class="keyword">uint32</span> = <span class="number">0x0F0F0F0F</span></span><br><span class="line">    <span class="keyword">var</span> m3 <span class="keyword">uint32</span> = <span class="number">0x00FF00FF</span></span><br><span class="line"></span><br><span class="line">    n = n &gt;&gt; <span class="number">1</span> &amp; m0 | n &amp; m0 &lt;&lt; <span class="number">1</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">2</span> &amp; m1 | n &amp; m1 &lt;&lt; <span class="number">2</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">4</span> &amp; m2 | n &amp; m2 &lt;&lt; <span class="number">4</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">8</span> &amp; m3 | n &amp; m3 &lt;&lt; <span class="number">8</span></span><br><span class="line">    <span class="keyword">return</span> n &gt;&gt; <span class="number">16</span> | n &lt;&lt; <span class="number">16</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这基本与 go 的 reverse32 源码一致, 不愧是源码啊…  </p>
+<p>这个版本的代码进一步减少了变量和常量, 其中那 index 所代表的一对本就可以用移位来代替</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/leetcode/209MininumSizeSubarraySum/" rel="prev" title="leetcode/209MininumSizeSubarraySum">
+      <i class="fa fa-chevron-left"></i> leetcode/209MininumSizeSubarraySum
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/leetcode/17ZLetter_Combinations_of_a_phone_Number/" rel="next" title="leetcode/17ZLetter_Combinations_of_a_phone_Number">
+      leetcode/17ZLetter_Combinations_of_a_phone_Number <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#my-solution"><span class="nav-number">1.</span> <span class="nav-text">my solution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#best-solution"><span class="nav-number">2.</span> <span class="nav-text">best solution</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="15.6.1.6 Limits on InnoDB TablesLimits on InnoDB tables are described under the following topics in this section:  Maximums and Minimums Restrictions on InnoDB Tables Locking and Transactions  InnoDB表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;LimitsonInnoDBTables">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/read/LimitsonInnoDBTables/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="15.6.1.6 Limits on InnoDB TablesLimits on InnoDB tables are described under the following topics in this section:  Maximums and Minimums Restrictions on InnoDB Tables Locking and Transactions  InnoDB表">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:17:40.217Z">
+<meta property="article:modified_time" content="2019-08-05T12:49:37.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/read/LimitsonInnoDBTables/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/LimitsonInnoDBTables | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/LimitsonInnoDBTables/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/LimitsonInnoDBTables
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-05 20:49:37" itemprop="dateModified" datetime="2019-08-05T20:49:37+08:00">2019-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="15-6-1-6-Limits-on-InnoDB-Tables"><a href="#15-6-1-6-Limits-on-InnoDB-Tables" class="headerlink" title="15.6.1.6 Limits on InnoDB Tables"></a>15.6.1.6 Limits on InnoDB Tables</h4><p>Limits on <code>InnoDB</code> tables are described under the following topics in this section:</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-maximums-minimums" target="_blank" rel="noopener">Maximums and Minimums</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-table-restrictions" target="_blank" rel="noopener">Restrictions on InnoDB Tables</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-locking-transactions" target="_blank" rel="noopener">Locking and Transactions</a></li>
+</ul>
+<p>InnoDB表的限制在以下几个话题中讨论 : 最大和最小, InnoDB表的限制, 锁和事务</p>
+<h5 id="Maximums-and-Minimums"><a href="#Maximums-and-Minimums" class="headerlink" title="Maximums and Minimums"></a>Maximums and Minimums</h5><ul>
+<li><p>A table can contain a maximum of 1017 columns. Virtual generated columns are included in this limit.</p>
+<p>表最多可以包含 1017 列, 虚拟创建的列也包含在其中</p>
+</li>
+<li><p>A table can contain a maximum of 64 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_secondary_index" target="_blank" rel="noopener">secondary indexes</a>.</p>
+<p>表最多能有 64 个次级索引</p>
+</li>
+<li><p>The index key prefix length limit is 3072 bytes for <code>InnoDB</code> tables that use <code>DYNAMIC</code> or <code>COMPRESSED</code> row format.</p>
+<p>使用 DYNAMIC 或 COMPRESSED 行存储的 InnoDB 表索引键的前缀宽度被限制在 3072 字节内 (&lt;=)</p>
+<p>The index key prefix length limit is 767 bytes for <code>InnoDB</code> tables that use <code>REDUNDANT</code> or <code>COMPACT</code> row format. For example, you might hit this limit with a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_column_prefix" target="_blank" rel="noopener">column prefix</a>index of more than 191 characters on a <code>TEXT</code> or <code>VARCHAR</code> column, assuming a <code>utf8mb4</code> character set and the maximum of 4 bytes for each character.</p>
+<p>使用 REDUNDANT 或 COMPACT  行存储的 InnoDB 表索引间的前缀宽度被限制在 767 字节内 (&lt;=)</p>
+<p>Attempting to use an index key prefix length that exceeds the limit returns an error.</p>
+<p>尝试使用超过限制的字节前缀宽度会返回错误</p>
+<p>The limits that apply to index key prefixes also apply to full-column index keys.</p>
+<p>适用于索引键前缀的限制也适用于全列索引键</p>
+</li>
+<li><p>If you reduce the <code>InnoDB</code> <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_size" target="_blank" rel="noopener">page size</a> to 8KB or 4KB by specifying the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> option when creating the MySQL instance, the maximum length of the index key is lowered proportionally, based on the limit of 3072 bytes for a 16KB page size. That is, the maximum index key length is 1536 bytes when the page size is 8KB, and 768 bytes when the page size is 4KB.</p>
+<p>如果在创建 MySQL 实例时显式指定 innodb_page_size 减少 InnoDB 的页面大小(8kb -&gt; 4kb)索引键的最大长度也会成比例减少</p>
+<p>16kb 页大小限制在 3072 字节, 8kb 页大小限制在 1536 字节, 而 4kb 页面大小限制在 768 字节</p>
+</li>
+<li><p>A maximum of 16 columns is permitted for multicolumn indexes. Exceeding the limit returns an error.</p>
+<p>多列索引子列数不能超过 16 个</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1070 (42000): Too many key parts specified; max 16 parts allowed</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>The maximum row length, except for variable-length columns (<a href="https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html" target="_blank" rel="noopener"><code>VARBINARY</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a>), is slightly less than half of a page for 4KB, 8KB, 16KB, and 32KB page sizes. For example, the maximum row length for the default <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> of 16KB is about 8000 bytes. However, for an <code>InnoDB</code> page size of 64KB, the maximum row length is approximately 16000 bytes. <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>LONGBLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>LONGTEXT</code></a> columns must be less than 4GB, and the total row length, including <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a>columns, must be less than 4GB.</p>
+<p>除变长列(VARBINARY, VATCHAR, BLOB, TEXT)外, 列的长度都稍少于一半页的大小. 比如, 页面大小为 16kb 的行长度最大 8000 字节左右, 然而 InnoDB 64kb 的页最大在 16000 字节左右. LONGBLOB 和 LONGTEXT 列必须少于 4GB, 整个行的长度, 包括 BLOB 和 TEXT 列, 也必须少于 4GB.</p>
+<p>If a row is less than half a page long, all of it is stored locally within the page. If it exceeds half a page, variable-length columns are chosen for external off-page storage until the row fits within half a page, as described in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-file-space.html" target="_blank" rel="noopener">Section 15.11.2, “File Space Management”</a>.</p>
+<p>如果行小于页的一般, 数据则全部保存在页中, 如果超过, 变长列被选择页外存储直到列的大小符合为止</p>
+</li>
+<li><p>Although <code>InnoDB</code> supports row sizes larger than 65,535 bytes internally, MySQL itself imposes a row-size limit of 65,535 for the combined size of all columns:</p>
+<p>尽管 InnoDB 支持超过 65535 字节的行, MySQL 自身约束列的组合大小不能超过 65535</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t (a VARCHAR(8000), b VARCHAR(10000),</span><br><span class="line">    -&gt; c VARCHAR(10000), d VARCHAR(10000), e VARCHAR(10000),</span><br><span class="line">    -&gt; f VARCHAR(10000), g VARCHAR(10000)) ENGINE=InnoDB;</span><br><span class="line">ERROR 1118 (42000): Row size too large. The maximum row size for the</span><br><span class="line">used table type, not counting BLOBs, is 65535. You have to <span class="keyword">change</span> <span class="keyword">some</span></span><br><span class="line"><span class="keyword">columns</span> <span class="keyword">to</span> <span class="built_in">TEXT</span> <span class="keyword">or</span> BLOBs</span><br></pre></td></tr></table></figure>
+
+<p>See <a href="https://dev.mysql.com/doc/refman/8.0/en/column-count-limit.html" target="_blank" rel="noopener">Section C.10.4, “Limits on Table Column Count and Row Size”</a>.</p>
+</li>
+<li><p>On some older operating systems, files must be less than 2GB. This is not a limitation of <code>InnoDB</code> itself, but if you require a large tablespace, configure it using several smaller data files rather than one large data file.</p>
+<p>在一些较老的操作系统上, 文件必须小于 2GB. 这不是 InnoDB 的限制, 但是如果你需要一个大的表空间, 可以配置成使用些许较小的数据文件, 而不是一个大的数据文件</p>
+</li>
+<li><p>The combined size of the <code>InnoDB</code> log files can be up to 512GB.</p>
+<p>InnoDB 日志文件的组合大小最大 512GB</p>
+</li>
+<li><p>The minimum tablespace size is slightly larger than 10MB. The maximum tablespace size depends on the <code>InnoDB</code> page size.</p>
+<p>表的最小容量稍大于 10mb, 最大的表大小取决于 InnoDB 页大小</p>
+<p><strong>Table 15.3 InnoDB Maximum Tablespace Size</strong></p>
+<table>
+<thead>
+<tr>
+<th>InnoDB Page Size</th>
+<th>Maximum Tablespace Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4KB</td>
+<td>16TB</td>
+</tr>
+<tr>
+<td>8KB</td>
+<td>32TB</td>
+</tr>
+<tr>
+<td>16KB</td>
+<td>64TB</td>
+</tr>
+<tr>
+<td>32KB</td>
+<td>128TB</td>
+</tr>
+<tr>
+<td>64KB</td>
+<td>256TB</td>
+</tr>
+</tbody></table>
+<p>The maximum tablespace size is also the maximum size for a table.</p>
+<p>最大表空间大小也是最大表大小</p>
+</li>
+<li><p>The path of a tablespace file, including the file name, cannot exceed the <code>MAX_PATH</code> limit on Windows. Prior to Windows 10, the <code>MAX_PATH</code> limit is 260 characters. As of Windows 10, version 1607, <code>MAX_PATH</code> limitations are removed from common Win32 file and directory functions, but you must enable the new behavior.</p>
+<p>表空间文件的路径, 包括表名, 在 windows 上不能超过 MAX_PATH 限制, 在 win10 以前 MAX_PATH 限制为 260 字符. win10 1607 版本后移除了该限制</p>
+</li>
+<li><p>The default page size in <code>InnoDB</code> is 16KB. You can increase or decrease the page size by configuring the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> option when creating the MySQL instance.</p>
+<p>InnoDB 默认页大小为 16kb, 创建 MySQL 实例时可以通过设置 innodb_page_size 更改(PS. 页大小在创建后是属于表的局部常量么?)</p>
+<p>32KB and 64KB page sizes are supported, but <code>ROW_FORMAT=COMPRESSED</code> is unsupported for page sizes greater than 16KB. For both 32KB and 64KB page sizes, the maximum record size is 16KB. For <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size=32KB</code></a>, extent size is 2MB. For <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size=64KB</code></a>, extent size is 4MB.</p>
+<p>A MySQL instance using a particular <code>InnoDB</code> page size cannot use data files or log files from an instance that uses a different page size.</p>
+<p>32kb 和 64kb 的页也是支持的, 但是行存储为 COMPRESSED 不支持超过 16kb 大小的页. 对于 32kb 和 64kb 大小的也, 最大记录的大小其实是 16kb. </p>
+<p>MySQL 实例不能使用底层页面不一致的数据文件和日志文件</p>
+</li>
+</ul>
+<h5 id="Restrictions-on-InnoDB-Tables"><a href="#Restrictions-on-InnoDB-Tables" class="headerlink" title="Restrictions on InnoDB Tables"></a>Restrictions on InnoDB Tables</h5><ul>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> determines index cardinality (as displayed in the <code>Cardinality</code> column of <a href="https://dev.mysql.com/doc/refman/8.0/en/show-index.html" target="_blank" rel="noopener"><code>SHOW INDEX</code></a> output) by performing <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_random_dive" target="_blank" rel="noopener">random dives</a> on each of the index trees and updating index cardinality estimates accordingly. Because these are only estimates, repeated runs of <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> could produce different numbers. This makes<a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> fast on <code>InnoDB</code> tables but not 100% accurate because it does not take all rows into account.</p>
+<p>ANALYZE TABLE 语句每个索引树执行随机潜水(PS. ???)更新预估索引的基数(在 SHOW INDEX 的输出中 Cardinality 列显示)</p>
+<p>因为只是估计, 重复执行 ANALYZE TABLE 将会产生不同的值, 这使得 ANALYZE TABLE 在 InnoDB 上运行地很快, 但并不是 100% 正确, 因为并不会估计所有的行</p>
+<p>(PS. ANALYZE TABLE 将会分析表, 其中部分分析结果可以在 SHOW INDEX 中查看. 这里以列的基数为例)</p>
+<p>You can make the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_statistics" target="_blank" rel="noopener">statistics</a> collected by <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> more precise and more stable by turning on the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_persistent" target="_blank" rel="noopener"><code>innodb_stats_persistent</code></a> configuration option, as explained in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-persistent-stats.html" target="_blank" rel="noopener">Section 15.8.10.1, “Configuring Persistent Optimizer Statistics Parameters”</a>. When that setting is enabled, it is important to run <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> after major changes to indexed column data, because the statistics are not recalculated periodically (such as after a server restart).</p>
+<p>通过启用 innodb_stats_persistent 使 ANALYZE TABLE 的数据统计更加精确, 当启用这个选项后, 需要在对索引列数据进行主要更改后再使用 ANALYZE TABLE, 因为统计信息不是定期重新计算的</p>
+<p>If the persistent statistics setting is enabled, you can change the number of random dives by modifying the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_persistent_sample_pages" target="_blank" rel="noopener"><code>innodb_stats_persistent_sample_pages</code></a> system variable. If the persistent statistics setting is disabled, modify the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_transient_sample_pages" target="_blank" rel="noopener"><code>innodb_stats_transient_sample_pages</code></a> system variable instead.</p>
+<p>如果启用了持续性统计, 可以更改 innodb_stats_persistent_sample_pages 系统变量, 如果持久性统计设置取消, 则可以通过 innodb_stats_transient_sampke_pages 更改</p>
+<p>MySQL uses index cardinality estimates in join optimization. If a join is not optimized in the right way, try using <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a>. In the few cases that <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a>does not produce values good enough for your particular tables, you can use <code>FORCE INDEX</code> with your queries to force the use of a particular index, or set the<a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_seeks_for_key" target="_blank" rel="noopener"><code>max_seeks_for_key</code></a> system variable to ensure that MySQL prefers index lookups over table scans. See <a href="https://dev.mysql.com/doc/refman/8.0/en/optimizer-issues.html" target="_blank" rel="noopener">Section B.4.5, “Optimizer-Related Issues”</a>.</p>
+<p>MySQL 在 Join 优化中使用索引基数估计, 如果 Join 不能正确优化, 尝试使用 ANALYZE_TABLE. 在少数情况下 ANALYZE_TABLE 不能为指定的表产生足够好的值, 可以使用 FORCE INDEX 配合查询, 强制使用指定的索引或者设置 max_seeks_for_key 系统变量确保 MySQL 更偏向于索引查找而不是表扫描</p>
+</li>
+<li><p>If statements or transactions are running on a table, and <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> is run on the same table followed by a second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> operation, the second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> operation is blocked until the statements or transactions are completed. This behavior occurs because <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> marks the currently loaded table definition as obsolete when <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> is finished running. New statements or transactions (including a second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> statement) must load the new table definition into the table cache, which cannot occur until currently running statements or transactions are completed and the old table definition is purged. Loading multiple concurrent table definitions is not supported.</p>
+<p>如果语句和事务正在运行于表上, ANALYZE TABLE 同样运行于这张表上, 之后继续执行 ANALYZE_TABLE 操作, 第二个 ANALYZE TABLE 操作将会阻塞直到之前的事务/语句执行完成. 会发生这样的情况是因为 ANALYZE_TABLE 在执行完成时会将当前加载的表标记为已过时, 新的语句/事务(包括第二个 ANALYZE_TABLE 语句)必须加载新的表到表缓存中, 改操作在当前语句/事务已经完成, 并且旧表的定义已经被清理后才能发生, 不支持加载多个并发表</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> does not give accurate statistics on <code>InnoDB</code> tables except for the physical size reserved by the table. The row count is only a rough estimate used in SQL optimization.</p>
+<p>SHOW TABLE STATUS 不提供 InnoDB 表除表存储的物理大小外, 其他统计信息的精确性, 行数量只是一个 SQL 优化中粗略的估计</p>
+</li>
+<li><p><code>InnoDB</code> does not keep an internal count of rows in a table because concurrent transactions might “see” different numbers of rows at the same time. Consequently, <code>SELECT COUNT(*)</code> statements only count rows visible to the current transaction.</p>
+<p>InnoDB 不保存表中行的内部计数, 因为并发事务可能在同样的时间见到不同的值. </p>
+<p>因此, SELECT COUNT(*) 语句只计数对当前事务可见的行</p>
+<p>For information about how <code>InnoDB</code> processes <code>SELECT COUNT(*)</code> statements, refer to the <a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html#function_count" target="_blank" rel="noopener"><code>COUNT()</code></a> description in <a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html" target="_blank" rel="noopener">Section 12.20.1, “Aggregate (GROUP BY) Function Descriptions”</a>.</p>
+</li>
+<li><p>On Windows, <code>InnoDB</code> always stores database and table names internally in lowercase. To move databases in a binary format from Unix to Windows or from Windows to Unix, create all databases and tables using lowercase names.</p>
+<p>在 Windows 上, InnoDB 总是以小写存储数据库和表的名字(大小写不敏感 = =)</p>
+</li>
+<li><p>An <code>AUTO_INCREMENT</code> column <em>ai_col</em> must be defined as part of an index such that it is possible to perform the equivalent of an indexed <code>SELECT MAX(*ai_col*)</code> lookup on the table to obtain the maximum column value. Typically, this is achieved by making the column the first column of some table index.</p>
+<p>AUTO_INCREMENT 列 ai_col 必须被定义成索引的一部分, 这样就可以执行已被索引的 SELECT MAX(ai_col) 相等性判断, 获取最大的列值. 通常都是公国将列成为列的首列来获得的</p>
+</li>
+<li><p><code>InnoDB</code> sets an exclusive lock on the end of the index associated with the <code>AUTO_INCREMENT</code> column while initializing a previously specified <code>AUTO_INCREMENT</code> column on a table.</p>
+<p>InnoDB 在和 AUTO_INCREMENT 列相关的索引末尾设置互斥锁</p>
+<p>With <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=0</code></a>, <code>InnoDB</code> uses a special <code>AUTO-INC</code> table lock mode where the lock is obtained and held to the end of the current SQL statement while accessing the auto-increment counter. Other clients cannot insert into the table while the <code>AUTO-INC</code> table lock is held. The same behavior occurs for “bulk inserts”with <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=1</code></a>. Table-level <code>AUTO-INC</code> locks are not used with <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=2</code></a>. For more information, See <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-auto-increment-handling.html" target="_blank" rel="noopener">Section 15.6.1.4, “AUTO_INCREMENT Handling in InnoDB”</a>.</p>
+<p>innodb_automic_lock_mod 设置为 0 时, InnoDB 使用特殊的 AUTO_INC 表锁模式. 在访问自增计数器时锁被持有直到当前 SQL 语句结束</p>
+</li>
+<li><p>When an <code>AUTO_INCREMENT</code> integer column runs out of values, a subsequent <code>INSERT</code> operation returns a duplicate-key error. This is general MySQL behavior.</p>
+<p>当 AUTO_INCREMENT 越界, 插入操作会返回 重复的键 错误, 这是通常 MySQL 的行为</p>
+</li>
+<li><p><code>DELETE FROM *tbl_name*</code> does not regenerate the table but instead deletes all rows, one by one.</p>
+<p>DELETE FROM tbl_name 不再生表, 而是依次删除所有行 </p>
+</li>
+<li><p>Cascaded foreign key actions do not activate triggers.</p>
+<p>级联外键操作不激活触发器</p>
+</li>
+<li><p>You cannot create a table with a column name that matches the name of an internal <code>InnoDB</code> column (including <code>DB_ROW_ID</code>, <code>DB_TRX_ID</code>, <code>DB_ROLL_PTR</code>, and <code>DB_MIX_ID</code>). This restriction applies to use of the names in any letter case.</p>
+<p>你不能创建和内部 InnoDB 列重名的列, 包括(DB_ROW_ID, DB_TRX_ID, DB_ROLL_PTR, DB_MIX_ID)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (c1 INT, db_row_id INT) ENGINE=INNODB;</span><br><span class="line">ERROR 1166 (42000): Incorrect column name 'db_row_id'</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h5 id="Locking-and-Transactions"><a href="#Locking-and-Transactions" class="headerlink" title="Locking and Transactions"></a>Locking and Transactions</h5><ul>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> acquires two locks on each table if <code>innodb_table_locks=1</code> (the default). In addition to a table lock on the MySQL layer, it also acquires an <code>InnoDB</code> table lock. Versions of MySQL before 4.1.2 did not acquire <code>InnoDB</code> table locks; the old behavior can be selected by setting <code>innodb_table_locks=0</code>. If no <code>InnoDB</code> table lock is acquired, <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> completes even if some records of the tables are being locked by other transactions.</p>
+<p>如果 innodb_table_locks = 1 则 LOCK TABLES 在每个表上获取两个锁, 除了在 MySQL 层上的锁, 还获取 InnoDB 表锁, 如果没有获取 InnoDB 表锁, 即使一些记录被其他事务锁定, LOCK TABLES 也会完成</p>
+<p>In MySQL 8.0, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_table_locks" target="_blank" rel="noopener"><code>innodb_table_locks=0</code></a> has no effect for tables locked explicitly with <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... WRITE</code></a>. It does have an effect for tables locked for read or write by <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... WRITE</code></a> implicitly (for example, through triggers) or by <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... READ</code></a>.</p>
+</li>
+<li><p>All <code>InnoDB</code> locks held by a transaction are released when the transaction is committed or aborted. Thus, it does not make much sense to invoke <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> on<code>InnoDB</code> tables in <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_autocommit" target="_blank" rel="noopener"><code>autocommit=1</code></a> mode because the acquired <code>InnoDB</code> table locks would be released immediately.</p>
+<p>通过事务获取的所有 InnoDB 锁在事务提交或退出时释放, 因此, 在 autocommit = 1 模式下没有那么必要在 InnoDB 表上显式调用 LOCK TABLES 语句, 因为获取的 InnoDB 表锁会立即释放</p>
+</li>
+<li><p>You cannot lock additional tables in the middle of a transaction because <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> performs an implicit <a href="https://dev.mysql.com/doc/refman/8.0/en/commit.html" target="_blank" rel="noopener"><code>COMMIT</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>UNLOCK TABLES</code></a>.</p>
+<p>你不能在事务中锁额外的表, 因为 LOCK TABLES 执行隐式的 COMMIT 和 UNLOCK TABLES</p>
+</li>
+<li><p>For limits associated with concurrent read-write transactions, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html" target="_blank" rel="noopener">Section 15.6.6, “Undo Logs”</a>.</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/JVM-Memory-model/" rel="prev" title="read/JVM-Memory-model">
+      <i class="fa fa-chevron-left"></i> read/JVM-Memory-model
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/LocksSetbyDifferentSQLStatementsinInnoDB/" rel="next" title="read/LocksSetbyDifferentSQLStatementsinInnoDB">
+      read/LocksSetbyDifferentSQLStatementsinInnoDB <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-6-Limits-on-InnoDB-Tables"><span class="nav-number">1.</span> <span class="nav-text">15.6.1.6 Limits on InnoDB Tables</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Maximums-and-Minimums"><span class="nav-number">1.1.</span> <span class="nav-text">Maximums and Minimums</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Restrictions-on-InnoDB-Tables"><span class="nav-number">1.2.</span> <span class="nav-text">Restrictions on InnoDB Tables</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Locking-and-Transactions"><span class="nav-number">1.3.</span> <span class="nav-text">Locking and Transactions</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

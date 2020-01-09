@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="需求描述设计一个定时关机的工具   该工具使用lua语言, 通过PLINK链接服务器   接收用户输入, 使用crontab&#x2F;at设置定时器 详细代码timer table12345678910111213package.path &#x3D; package.path .. &quot;;..&#x2F;..&#x2F;script&#x2F;?.lua&quot;-- inc是工具类local inc &#x3D; require(&quot;inc&quot;)-- config">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;crontab">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/other/crontab/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="需求描述设计一个定时关机的工具   该工具使用lua语言, 通过PLINK链接服务器   接收用户输入, 使用crontab&#x2F;at设置定时器 详细代码timer table12345678910111213package.path &#x3D; package.path .. &quot;;..&#x2F;..&#x2F;script&#x2F;?.lua&quot;-- inc是工具类local inc &#x3D; require(&quot;inc&quot;)-- config">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
+<meta property="article:modified_time" content="2020-01-09T09:13:54.758Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/other/crontab/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/crontab | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/crontab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/crontab
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h3><p>设计一个定时关机的工具  </p>
+<p>该工具使用lua语言, 通过PLINK链接服务器  </p>
+<p>接收用户输入, 使用crontab/at设置定时器</p>
+<h3 id="详细代码"><a href="#详细代码" class="headerlink" title="详细代码"></a>详细代码</h3><h4 id="timer-table"><a href="#timer-table" class="headerlink" title="timer table"></a>timer table</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">package</span>.<span class="built_in">path</span> = <span class="built_in">package</span>.<span class="built_in">path</span> .. <span class="string">";../../script/?.lua"</span></span><br><span class="line"><span class="comment">-- inc是工具类</span></span><br><span class="line"><span class="keyword">local</span> inc = <span class="built_in">require</span>(<span class="string">"inc"</span>)</span><br><span class="line"><span class="comment">-- config记录了服务器的配置信息</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">config</span> = <span class="built_in">require</span>(<span class="string">"config"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- timer用于处理整个定时任务</span></span><br><span class="line"><span class="keyword">local</span> timer = &#123;&#125;</span><br><span class="line">timer.file = <span class="string">"crontabtask.sh"</span>			<span class="comment">-- 文件名, 因为使用 crontab [file]形式添加任务</span></span><br><span class="line">timer.<span class="built_in">path</span> = <span class="string">"/tmp/"</span>					<span class="comment">-- 文件位于服务器那个路径下</span></span><br><span class="line">timer.fullName = timer.<span class="built_in">path</span>..timer.file	<span class="comment">-- 路径+文件名, 当前为: /tmp/crontabtask.sh</span></span><br><span class="line">timer.filenamemask = <span class="string">"CRONTAB_TASK_"</span>	<span class="comment">-- 掩码, 用于区分任务</span></span><br><span class="line">timer.servername = <span class="literal">nil</span>					<span class="comment">-- 服务器名称, 这里仅仅占位, 会在之后设置</span></span><br></pre></td></tr></table></figure>
+
+<p>timer是任务处理表(类), 因为bash下, 没有办法直接使用vim编辑(或者说我不知道有什么办法能这么做)  </p>
+<p>所以 crontab -e 的方式被舍弃了, 使用 crontab [filename] 的形式来添加任务 </p>
+<p>(这样的好处是统一使用某一文件作为任务文件,  后续可以使用某种手段(比如修改配置), 来重新定义crontab -e)</p>
+<p>(坏处就是动到了系统的东西, 这并不一定是好事)</p>
+<h4 id="lobby"><a href="#lobby" class="headerlink" title="lobby"></a>lobby</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 大厅</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.lobby</span><span class="params">()</span></span></span><br><span class="line">    inc.p(<span class="string">"请输入要操作的服务器ID"</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> serverID = <span class="built_in">tonumber</span>(<span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>())</span><br><span class="line">    <span class="keyword">local</span> scfg, servercfg = inc.getserverinfo(serverID)</span><br><span class="line"></span><br><span class="line">    inc.confirm_oper_server(scfg, &#123;servercfg&#125;, <span class="string">"即将操作该服务器"</span>)</span><br><span class="line">    <span class="comment">-- 检查文件是否存在</span></span><br><span class="line">    timer.checkFileExists(scfg, servercfg)</span><br><span class="line">    <span class="keyword">local</span> sFolder = <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">"%s%d.p%d"</span>, </span><br><span class="line">        <span class="built_in">config</span>.gamename, servercfg.id, servercfg.port)</span><br><span class="line">    timer.servername = sFolder</span><br><span class="line">    <span class="comment">-- 根据用户的选项, 我们重新设置了文件掩码, 加上了当前服务器名</span></span><br><span class="line">    <span class="comment">-- 这样更加安全, 也可以筛选统一主机下, 不同服务器任务了</span></span><br><span class="line">    timer.filenamemask = timer.filenamemask..timer.servername</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        inc.p(<span class="string">"\n选择操作类型[1: 增加, 2: 删除, 4:查询]"</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="keyword">local</span> operatetype = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">        <span class="keyword">if</span> operatetype == <span class="string">'1'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 增加定时器</span></span><br><span class="line">            timer.addTimerTask(scfg, servercfg)</span><br><span class="line">            <span class="comment">-- 判断是否增加成功</span></span><br><span class="line">            timer.isAddSuccess(scfg, servercfg)</span><br><span class="line">            <span class="comment">-- 自动刷新定时器列表</span></span><br><span class="line">            timer.searchTimerTask(scfg, servercfg)</span><br><span class="line">        <span class="keyword">elseif</span> operatetype == <span class="string">'2'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 删除定时器</span></span><br><span class="line">            timer.deleteTimerTask(scfg, servercfg)</span><br><span class="line">            <span class="comment">-- 自动刷新定时器列表</span></span><br><span class="line">            timer.searchTimerTask(scfg, servercfg)</span><br><span class="line">        <span class="keyword">elseif</span> operatetype == <span class="string">'3'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 预留</span></span><br><span class="line">        <span class="keyword">elseif</span> operatetype == <span class="string">'4'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 刷新定时器列表</span></span><br><span class="line">            timer.searchTimerTask(scfg, servercfg)</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            inc.p(<span class="string">"操作码异常"</span>, <span class="number">14</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>大厅界面, 先让用户选择一个操作的服务器, 设置相应的参数, 然后让用户一直操作该服务器</p>
+<h4 id="checkFileExists"><a href="#checkFileExists" class="headerlink" title="checkFileExists"></a>checkFileExists</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查文件是否存在</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.checkFileExists</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="comment">-- 看一下目录下是否存配置文件</span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cd "</span>..timer.<span class="built_in">path</span>)</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"ls crontab*"</span>);</span><br><span class="line">    <span class="keyword">local</span> filename;</span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        <span class="comment">-- 因为某些原因, 不用在意这行代码. 它的作用是获取文件名</span></span><br><span class="line">        filename = res[<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">string</span>.<span class="built_in">find</span>(filename, <span class="string">"crontab"</span>) == <span class="literal">nil</span>) <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 没找到配置文件, 就新建一个</span></span><br><span class="line">        inc.p(<span class="string">"未找到文件, 即将创建空文件: "</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">        <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"touch "</span>..timer.fullName)</span><br><span class="line">        inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">        inc.p(<span class="string">"创建成功: "</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        <span class="comment">-- 如果配置文件已经存在了, 那么就直接使用当前文件</span></span><br><span class="line">        inc.p(<span class="string">"已找到文件: "</span>..filename, <span class="number">10</span>)</span><br><span class="line">        timer.file = filename</span><br><span class="line">        timer.fullName = timer.<span class="built_in">path</span>..timer.file</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>检查配置文件是否已存在, 存在则世界使用它, 不存在, 则创建一个</p>
+<h4 id="addTimerTask"><a href="#addTimerTask" class="headerlink" title="addTimerTask"></a>addTimerTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 增加定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.addTimerTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="comment">-- 设置时间</span></span><br><span class="line">    <span class="keyword">local</span> timetab = &#123;&#125;</span><br><span class="line">    inc.p(<span class="string">"请输入任务名"</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> taskname = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    <span class="keyword">local</span> ttaskname = taskname..timer.filenamemask</span><br><span class="line">    <span class="comment">-- 检测任务名是否存在, 任务名用于删, 查任务</span></span><br><span class="line">    <span class="keyword">while</span> (timer.checkTaskName(scfg, servercfg, ttaskname) == <span class="literal">true</span>) <span class="keyword">do</span></span><br><span class="line">        inc.p(<span class="string">"任务重名, 请重新输入"</span>, <span class="number">14</span>)</span><br><span class="line">        taskname = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">        ttaskname = taskname..timer.filenamemask</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 设置定时器触发时间</span></span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(月)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.month = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(日)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.day = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(时)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.hour = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(分)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.minute = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"服务器将计划于 "</span>..timetab.month..<span class="string">"月"</span>..timetab.day..<span class="string">"日"</span>..</span><br><span class="line">        timetab.hour..<span class="string">"时"</span>..timetab.minute..<span class="string">"分 关闭, 确定? [输入y继续]"</span>, <span class="number">12</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>() ~= <span class="string">'y'</span> <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 这里构造了一条命令, 这条命令实现了添加一个定时器</span></span><br><span class="line">    <span class="comment">-- 这个定时器会到指定的服务器下, 调用 kill.net 来关闭服务器</span></span><br><span class="line">    <span class="comment">-- 关闭之后, 再使用 sed 命令, 将定时器删除, 然后重置定时器</span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;;</span><br><span class="line">    <span class="keyword">local</span> dir = timer.getFullPath(servercfg)</span><br><span class="line">    <span class="keyword">local</span> timestamp = timetab.minute..<span class="string">' '</span>..timetab.hour..<span class="string">' '</span>..timetab.day..<span class="string">' '</span>..</span><br><span class="line">        timetab.month..<span class="string">' '</span>..<span class="string">'*'</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"echo \""</span>..timestamp..<span class="string">" echo \""</span>..ttaskname..<span class="string">"\""</span></span><br><span class="line">        ..<span class="string">';cd '</span>..dir..<span class="string">';./kill.net'</span>..</span><br><span class="line">        <span class="string">";sed -i \"/"</span>..ttaskname..<span class="string">"/d\" "</span>..timer.fullName..</span><br><span class="line">        <span class="string">";crontab "</span>..timer.fullName..<span class="string">"\" &gt;&gt; "</span>..timer.fullName)</span><br><span class="line">    <span class="built_in">print</span> (cmds[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">-- 这是一个外部工具类中的函数, 主要是使用PLINK携带用户信息和验证, 链接服务器</span></span><br><span class="line">    <span class="comment">-- 然后执行 cmds 中保存的命令</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">    <span class="comment">-- 保存当前任务名, 用于判断任务是否成功</span></span><br><span class="line">    timer.lastTask = ttaskname;</span><br><span class="line">    timer.syncTask(scfg, servercfg)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="checkTaskName"><a href="#checkTaskName" class="headerlink" title="checkTaskName"></a>checkTaskName</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查文件名</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.checkTaskName</span><span class="params">(scfg, servercfg, ttaskname)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab -l"</span>)</span><br><span class="line">    <span class="keyword">local</span> dupname = <span class="literal">false</span></span><br><span class="line">    <span class="comment">-- 第三个参数是回调函数, res中存储了执行 cmds 后, 服务器的输出</span></span><br><span class="line">    <span class="comment">-- 使用 crontab -l 查看了当前已有的任务, 如果找到了任务名, 则说明任务名重复</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">pairs</span>(res) <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">string</span>.<span class="built_in">find</span>(v, ttaskname)) <span class="keyword">then</span></span><br><span class="line">                dupname = <span class="literal">true</span></span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dupname</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="syncTask"><a href="#syncTask" class="headerlink" title="syncTask"></a>syncTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 同步任务</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.syncTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cd "</span>..timer.<span class="built_in">path</span>)</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab "</span>..<span class="string">'./'</span>..timer.file);</span><br><span class="line">    <span class="comment">-- 其实就是执行 crontab [filename], 这里可以合为一句的</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="isAddSuccess"><a href="#isAddSuccess" class="headerlink" title="isAddSuccess"></a>isAddSuccess</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 是否增加成功</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.isAddSuccess</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cat "</span>..timer.fullName);</span><br><span class="line">    <span class="keyword">local</span> size1 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">-- 获取文件中的行数</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        size1 = #res</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab -l"</span>);</span><br><span class="line">    <span class="keyword">local</span> size2 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">-- 获取实际 crontab 任务的行数</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        size2 = #res</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 如果行数不一致, 那么就说明加入失败</span></span><br><span class="line">    <span class="comment">-- 加入失败一般只有一种原因: 时间格式错误</span></span><br><span class="line">    <span class="comment">-- 我们也可以编写代码在执行加入前就判断, 但是判断时间的话, 涉及到平年和润年, 还涉及大小月</span></span><br><span class="line">    <span class="comment">-- 并且是服务器的时间, 所以也不能直接在windows上调用函数处理</span></span><br><span class="line">    <span class="comment">-- 考虑到这些原因, 就让linux帮我们做了这件事(反正行数不一致, 肯定是失败了)</span></span><br><span class="line">    <span class="keyword">if</span> size1 ~= size2 <span class="keyword">then</span> </span><br><span class="line">        <span class="comment">-- 添加失败就回滚一次任务</span></span><br><span class="line">        timer.rollBack(scfg, servercfg)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        inc.p(<span class="string">"添加定时任务成功"</span>, <span class="number">14</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="rollBack"><a href="#rollBack" class="headerlink" title="rollBack"></a>rollBack</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 回滚一次任务</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.rollBack</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="comment">-- 这里使用了 sed 来处理, 其中用到了我们之前记录的 lastTask</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"sed -i "</span>..<span class="string">'/'</span>..timer.lastTask..<span class="string">"/d"</span>..</span><br><span class="line">        <span class="string">' '</span>..timer.fullName);</span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">    inc.p(<span class="string">"时间格式错误, 已回滚"</span>, <span class="number">12</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="searchTimerTask"><a href="#searchTimerTask" class="headerlink" title="searchTimerTask"></a>searchTimerTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.searchTimerTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab -l"</span>)</span><br><span class="line">    inc.p(<span class="string">"\n当前已有任务: "</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> orisrc = &#123;&#125;</span><br><span class="line">    <span class="comment">-- 查看当前已有的任务</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        orisrc = res</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">-- 这里是为了将数据格式化成方便看懂的格式</span></span><br><span class="line">    timer.regex(orisrc, servercfg)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="regex"><a href="#regex" class="headerlink" title="regex"></a>regex</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检测记录, 筛选信息</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.regex</span><span class="params">(orisrc, servercfg)</span></span></span><br><span class="line">    <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">pairs</span>(orisrc) <span class="keyword">do</span></span><br><span class="line">        <span class="comment">-- 获取任务时间戳</span></span><br><span class="line">        <span class="keyword">local</span> taskstamp;</span><br><span class="line">        <span class="keyword">for</span> v2 <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(v, <span class="string">"%d+%s%d+%s%d+%s%d+"</span>) <span class="keyword">do</span> </span><br><span class="line">            taskstamp = v2</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 获取任务名</span></span><br><span class="line">        <span class="keyword">local</span> taskname;</span><br><span class="line">        <span class="keyword">for</span> v3 <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(v, <span class="string">"echo.*"</span>..timer.filenamemask..<span class="string">';'</span>) <span class="keyword">do</span> </span><br><span class="line">            v3 = <span class="built_in">string</span>.<span class="built_in">sub</span>(v3, <span class="number">6</span>, #v3 - #timer.filenamemask - <span class="number">1</span>)</span><br><span class="line">            taskname = v3 </span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 获取服务器名</span></span><br><span class="line">        <span class="keyword">local</span> hostname;</span><br><span class="line">        <span class="keyword">for</span> v4 <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(v, <span class="string">"CRONTAB_TASK.*;cd%s/data/server/"</span>) <span class="keyword">do</span> </span><br><span class="line">            v4 = <span class="built_in">string</span>.<span class="built_in">sub</span>(v4, <span class="number">14</span>, #v4 - <span class="number">17</span>)</span><br><span class="line">            hostname = v4 </span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 如果这条信息是任务信息, 格式化打印出来</span></span><br><span class="line">        <span class="keyword">if</span> (taskstamp ~= <span class="literal">nil</span> <span class="keyword">and</span> taskname ~= <span class="literal">nil</span> <span class="keyword">and</span> hostname == timer.servername) <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">local</span> timetab = &#123;&#125;</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(taskstamp, <span class="string">"%d+"</span>) <span class="keyword">do</span></span><br><span class="line">                <span class="built_in">table</span>.<span class="built_in">insert</span>(timetab, i);</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">            inc.p(<span class="string">"服务器: "</span>..hostname..<span class="string">"  ========  任务名: "</span>..taskname..</span><br><span class="line">                <span class="string">"  ========  时间: "</span>..</span><br><span class="line">                timetab[<span class="number">4</span>]..<span class="string">"月"</span>..timetab[<span class="number">3</span>]..<span class="string">"日"</span>..</span><br><span class="line">                timetab[<span class="number">2</span>]..<span class="string">"时"</span>..timetab[<span class="number">1</span>]..<span class="string">"分"</span>, <span class="number">14</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="deleteTimerTask"><a href="#deleteTimerTask" class="headerlink" title="deleteTimerTask"></a>deleteTimerTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.deleteTimerTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    inc.p(<span class="string">"请输入任务名(暂不支持中文)"</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> taskname = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    <span class="keyword">local</span> dir = timer.getFullPath(servercfg)</span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cd "</span>..dir)</span><br><span class="line">    <span class="keyword">local</span> ttaskname = taskname..timer.filenamemask</span><br><span class="line">    <span class="comment">-- 执行一条 sed 命令, 删除一个任务</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"sed -i "</span>..<span class="string">'/'</span>..ttaskname..<span class="string">"/d"</span>..</span><br><span class="line">        <span class="string">' '</span>..timer.fullName);</span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">    <span class="comment">-- 同步一次</span></span><br><span class="line">    timer.syncTask(scfg, servercfg)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p>那么代码就这些了, 其中主要就是使用lua编写程序, 通过PLINK传递命令行信息</p>
+<p>以此达到远程控制服务器定时器的效果</p>
+<p>其中最主要的技术是: </p>
+<p>lua语言基础, lua正则表达式  </p>
+<p>{ crontab, sed } 命令行, 数据流重定向  </p>
+<p>(emmmmmm… 看起来好像没什么厉害的…)</p>
+<p>以及从&lt;重构&gt;中学到的代码技术  </p>
+<p>(一开始看重构这本书的时候, 本来对里面一些降低效率的做法不太满意)</p>
+<p>(但是真的使用了之后, 发现代码的确好多了, 无论是易读, 编写, 调试, 增加/删除方面, 都有明显提升)</p>
+<p>(不过可惜没有运用到&lt;设计模式&gt;中的东西(或许我用到了, 只是没注意到?) )</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/debug%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="prev" title="other/debug的小技巧">
+      <i class="fa fa-chevron-left"></i> other/debug的小技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/README/" rel="next" title="other/README">
+      other/README <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求描述"><span class="nav-number">1.</span> <span class="nav-text">需求描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细代码"><span class="nav-number">2.</span> <span class="nav-text">详细代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#timer-table"><span class="nav-number">2.1.</span> <span class="nav-text">timer table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lobby"><span class="nav-number">2.2.</span> <span class="nav-text">lobby</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkFileExists"><span class="nav-number">2.3.</span> <span class="nav-text">checkFileExists</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addTimerTask"><span class="nav-number">2.4.</span> <span class="nav-text">addTimerTask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkTaskName"><span class="nav-number">2.5.</span> <span class="nav-text">checkTaskName</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#syncTask"><span class="nav-number">2.6.</span> <span class="nav-text">syncTask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#isAddSuccess"><span class="nav-number">2.7.</span> <span class="nav-text">isAddSuccess</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rollBack"><span class="nav-number">2.8.</span> <span class="nav-text">rollBack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#searchTimerTask"><span class="nav-number">2.9.</span> <span class="nav-text">searchTimerTask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#regex"><span class="nav-number">2.10.</span> <span class="nav-text">regex</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deleteTimerTask"><span class="nav-number">2.11.</span> <span class="nav-text">deleteTimerTask</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#summary"><span class="nav-number">3.</span> <span class="nav-text">summary</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

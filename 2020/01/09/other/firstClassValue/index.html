@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="第一级值长久以来一直不太明白之前在 lua 一本书中提到的 “第一类值”    直到今天在一本书上看到类似的解释: 一般而言, 程序设计语言总会对计算元素的可能使用方式强加上某些限制   带有最少限制的元素具有&quot;第一级&quot;的状态, 第一级元素的某些特权包括: * 可以用变量命名 * 可以提供给过程作为参数 * 可以由过程作为结果返回 * 可以包含在数据结构中上述说的是第一级值,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;firstClassValue">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/other/firstClassValue/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="第一级值长久以来一直不太明白之前在 lua 一本书中提到的 “第一类值”    直到今天在一本书上看到类似的解释: 一般而言, 程序设计语言总会对计算元素的可能使用方式强加上某些限制   带有最少限制的元素具有&quot;第一级&quot;的状态, 第一级元素的某些特权包括: * 可以用变量命名 * 可以提供给过程作为参数 * 可以由过程作为结果返回 * 可以包含在数据结构中上述说的是第一级值,">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
+<meta property="article:modified_time" content="2020-01-09T09:12:51.830Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/other/firstClassValue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/firstClassValue | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/firstClassValue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/firstClassValue
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="第一级值"><a href="#第一级值" class="headerlink" title="第一级值"></a>第一级值</h4><p>长久以来一直不太明白之前在 lua 一本书中提到的 “第一类值”   </p>
+<p>直到今天在一本书上看到类似的解释:</p>
+<pre><code>一般而言, 程序设计语言总会对计算元素的可能使用方式强加上某些限制  
+带有最少限制的元素具有&quot;第一级&quot;的状态, 第一级元素的某些特权包括:
+* 可以用变量命名
+* 可以提供给过程作为参数
+* 可以由过程作为结果返回
+* 可以包含在数据结构中</code></pre><p>上述说的是第一级值, 猜想应该是第一类值拥有第一级特权</p>
+<h4 id="第一类函数"><a href="#第一类函数" class="headerlink" title="第一类函数"></a>第一类函数</h4><p>以下摘自 wiki 对第一类函数(first-class function)的解释</p>
+<pre><code>In computer science, a programming language is said to have first-    class functions if it treats functions as first-class citizens. This means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures
+在计算机科学中, 一个编程语言如果对他函数就像第一类公民(??)一样, 那么就说他有第一类函数
+这意味着语言支持将函数作为参数传递给其他函数
+从其他函数中将其作为值返回
+将其复制给变量, 或者保存到数据结构中</code></pre><h4 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h4><p>顺便 wiki 说了一下什么是高阶函数</p>
+<pre><code>First-class functions are a necessity for the functional programming style, in which the use of higher-order functions is a standard practice. A simple example of a higher-ordered function is the map function, which takes, as its arguments, a function and a list, and returns the list formed by applying the function to each member of the list. For a language to support map, it must support passing a function as an argument.
+第一类函数对于函数化编程是必要的
+其中使用高阶函数就是一个标准的实践
+一个高阶函数的简单案例就是map函数
+(...能意会, 但没法翻译...)
+它必须支持传递函数作为参数</code></pre><h4 id="lambda-是如何工作的"><a href="#lambda-是如何工作的" class="headerlink" title="lambda 是如何工作的"></a>lambda 是如何工作的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int main() &#123;                                    </span><br><span class="line">    auto f &#x3D; [](int x, int y) &#123; return x + y; &#125;;</span><br><span class="line">    printf(&quot;%d\n&quot;,  f(1, 2) );                                                        </span><br><span class="line">    return 0;                                   </span><br><span class="line">&#125;                                               </span><br><span class="line">...</span><br><span class="line">_ZZ4mainENKUliiE_clEii:         </span><br><span class="line">.LFB3999:                       </span><br><span class="line">▹   .cfi_startproc              </span><br><span class="line">▹   pushq▹  %rbp                </span><br><span class="line">▹   .cfi_def_cfa_offset 16      </span><br><span class="line">▹   .cfi_offset 6, -16          </span><br><span class="line">▹   movq▹   %rsp, %rbp          </span><br><span class="line">▹   .cfi_def_cfa_register 6     </span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)      &#x2F;&#x2F; 唯一的区别在于, 多传了一个&quot;this&quot;</span><br><span class="line">▹   movl▹   %esi, -12(%rbp)     </span><br><span class="line">▹   movl▹   %edx, -16(%rbp)     </span><br><span class="line">▹   movl▹   -16(%rbp), %eax     </span><br><span class="line">▹   movl▹   -12(%rbp), %edx     </span><br><span class="line">▹   addl▹   %edx, %eax          </span><br><span class="line">▹   popq▹   %rbp                </span><br><span class="line">▹   .cfi_def_cfa 7, 8           </span><br><span class="line">▹   ret                         </span><br><span class="line">...</span><br><span class="line">▹   subq▹   $16, %rsp</span><br><span class="line">▹   leaq▹   -1(%rbp), %rax	&#x2F;&#x2F; 这个 this 指向了当前栈帧, 但是这里为什么要 -1 ?</span><br><span class="line">▹   movl▹   $2, %edx</span><br><span class="line">▹   movl▹   $1, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi            </span><br><span class="line">▹   call▹   _ZZ4mainENKUliiE_clEii</span><br></pre></td></tr></table></figure>
+
+<p>在上面基础上, 让 lambda 捕获局部变量和全局变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">int gi &#x3D; 11;</span><br><span class="line">int main() &#123;</span><br><span class="line">    int i &#x3D; 10;</span><br><span class="line">    auto f &#x3D; [i, gi](int x, int y) &#123; return i + gi + x + y; &#125;;</span><br><span class="line">    printf(&quot;%d\n&quot;,  f(1, 2) );</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">_ZZ4mainENKUliiE_clEii:     </span><br><span class="line">.LFB3999:                   </span><br><span class="line">▹   .cfi_startproc          </span><br><span class="line">▹   pushq▹  %rbp            </span><br><span class="line">▹   .cfi_def_cfa_offset 16  </span><br><span class="line">▹   .cfi_offset 6, -16      </span><br><span class="line">▹   movq▹   %rsp, %rbp      </span><br><span class="line">▹   .cfi_def_cfa_register 6 </span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)  </span><br><span class="line">▹   movl▹   %esi, -12(%rbp) </span><br><span class="line">▹   movl▹   %edx, -16(%rbp) </span><br><span class="line">▹   movq▹   -8(%rbp), %rax  </span><br><span class="line">▹   movl▹   (%rax), %edx    </span><br><span class="line">▹   movl▹   gi(%rip), %eax  	&#x2F;&#x2F; @warning 即使是按值捕获, 全局变量也并未产生复制</span><br><span class="line">▹   addl▹   %eax, %edx      </span><br><span class="line">▹   movl▹   -12(%rbp), %eax </span><br><span class="line">▹   addl▹   %eax, %edx      </span><br><span class="line">▹   movl▹   -16(%rbp), %eax </span><br><span class="line">▹   addl▹   %edx, %eax      </span><br><span class="line">▹   popq▹   %rbp            </span><br><span class="line">▹   .cfi_def_cfa 7, 8       </span><br><span class="line">▹   ret                    </span><br><span class="line">...</span><br><span class="line">▹   subq▹   $16, %rsp             </span><br><span class="line">▹   movl▹   $10, -4(%rbp)         </span><br><span class="line">▹   movl▹   -4(%rbp), %eax        </span><br><span class="line">▹   movl▹   %eax, -16(%rbp)       &#x2F;&#x2F; 复制了一份 i</span><br><span class="line">▹   leaq▹   -16(%rbp), %rax       </span><br><span class="line">▹   movl▹   $2, %edx              </span><br><span class="line">▹   movl▹   $1, %esi              </span><br><span class="line">▹   movq▹   %rax, %rdi            </span><br><span class="line">▹   call▹   _ZZ4mainENKUliiE_clEii</span><br></pre></td></tr></table></figure>
+
+<p>其中关键之处在于对待全局变量的方式, 这有可能产生错误, 事实也的确错了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  f(<span class="number">1</span>, <span class="number">2</span>) );</span><br><span class="line">gi = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  f(<span class="number">1</span>, <span class="number">2</span>) );</span><br><span class="line">...</span><br><span class="line"><span class="number">24</span></span><br><span class="line"><span class="number">113</span> <span class="comment">// gi 的值改变后, 输出结果也随之改变, 这不应该是按值捕获的结果</span></span><br></pre></td></tr></table></figure>
+
+<p>那么如果我加上 mutable 去更改这个 gi 呢?</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> f = [i, gi](<span class="keyword">int</span> x, <span class="keyword">int</span> y) <span class="keyword">mutable</span> &#123; gi = <span class="number">110</span>; <span class="keyword">return</span> i + gi + x + y; &#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  gi);      </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  f(<span class="number">1</span>, <span class="number">2</span>) );</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  gi);</span><br><span class="line">...</span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">123</span></span><br><span class="line"><span class="number">110</span>	<span class="comment">// 改变了! 这可是很重要的细节</span></span><br></pre></td></tr></table></figure>
+
+<p>上述结果, 编译器(gcc 4.8.5)只有一个警告</p>
+<p>但是如果不注意这个细节, 去捕获全局变量, 可能会有很严重的错误</p>
+<p>接下来专注一下类类型变量, 他会如何捕获 (这里的代码就有点头疼了)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">int main() &#123;                                   </span><br><span class="line">    vector&lt;int&gt; v &#123;1, 2, 3, 4&#125;;                </span><br><span class="line">    int i &#x3D; 10;                                </span><br><span class="line">    auto f &#x3D; [i, gi, v](int x, int y) mutable &#123;</span><br><span class="line">        v[2] &#x3D; 10; gi &#x3D; 110;·                  </span><br><span class="line">        return i + gi + x + y; &#125;;              </span><br><span class="line">    printf(&quot;%d\n&quot;,  gi);                       </span><br><span class="line">    printf(&quot;%d\n&quot;,  f(1, 2) );                 </span><br><span class="line">    printf(&quot;%d\n&quot;,  v[2]);                     </span><br><span class="line"></span><br><span class="line">    return 0;                                  </span><br><span class="line">&#125;                                           </span><br><span class="line">...</span><br><span class="line">main:                                                          </span><br><span class="line">.LFB3998:          </span><br><span class="line">▹   pushq▹  %rbp                                                                       </span><br><span class="line">▹   movq▹   %rsp, %rbp                                         </span><br><span class="line">▹   pushq▹  %r13                                               </span><br><span class="line">▹   pushq▹  %r12                                               </span><br><span class="line">▹   pushq▹  %rbx                                               </span><br><span class="line">▹   subq▹   $72, %rsp                                          </span><br><span class="line">▹   leaq▹   -37(%rbp), %rax                                    </span><br><span class="line">▹   movq▹   %rax, %rdi                                         </span><br><span class="line">▹   call▹   _ZNSaIiEC1Ev                                       </span><br><span class="line">▹   movl▹   $._91, %r12d                                       </span><br><span class="line">▹   movl▹   $4, %r13d           &#x2F;&#x2F; 这里的 4 是告诉 vector, 有 4 个元素 (猜的)</span><br><span class="line">▹   leaq▹   -37(%rbp), %rdi                                    </span><br><span class="line">▹   movq▹   %r12, %rcx                                         </span><br><span class="line">▹   movq▹   %r13, %rbx                                         </span><br><span class="line">▹   movq▹   %r12, %rax                                         </span><br><span class="line">▹   movq▹   %r13, %rdx                                         </span><br><span class="line">▹   movq▹   %rcx, %rsi                                         </span><br><span class="line">▹   leaq▹   -64(%rbp), %rax     &#x2F;&#x2F; 按照上下文理解, 这应该就是 vector 的 this 指针   </span><br><span class="line">▹   movq▹   %rdi, %rcx                                         </span><br><span class="line">▹   movq▹   %rax, %rdi                                         </span><br><span class="line">.LEHB0:                                                        </span><br><span class="line">▹   call▹   _ZNSt6vectorIiSaIiEEC1ESt16initializer_listIiERKS0_ &#x2F;&#x2F; 真是个丑陋的小东西 &#x3D; &#x3D; </span><br><span class="line">.LEHE0:                                                        </span><br><span class="line">▹   leaq▹   -37(%rbp), %rax                                    </span><br><span class="line">▹   movq▹   %rax, %rdi                                         </span><br><span class="line">▹   call▹   _ZNSaIiED1Ev                                       </span><br><span class="line">▹   movl▹   $10, -36(%rbp)                                     </span><br><span class="line">▹   movl▹   -36(%rbp), %eax                                    </span><br><span class="line">▹   movl▹   %eax, -96(%rbp)       &#x2F;&#x2F; 上面的 10 是路标, 这个应该就是 lambda 的 this 指针</span><br><span class="line">▹   leaq▹   -64(%rbp), %rax       </span><br><span class="line">▹   leaq▹   -96(%rbp), %rdx</span><br><span class="line">▹   addq▹   $8, %rdx                                           </span><br><span class="line">▹   movq▹   %rax, %rsi                                         </span><br><span class="line">▹   movq▹   %rdx, %rdi                                         </span><br><span class="line">.LEHB1:                                                        </span><br><span class="line">▹   call▹   _ZNSt6vectorIiSaIiEEC1ERKS1_      &#x2F;&#x2F; 上面那句最长的应该是列表初始化, 而这一句                 								&#x2F;&#x2F; 可能是拷贝或者构造? </span><br><span class="line">.LEHE1:                               </span><br><span class="line">▹   movl▹   gi(%rip), %eax       </span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   movl▹   $.LC0, %edi</span><br><span class="line">▹   movl▹   $0, %eax</span><br><span class="line">.LEHB2:</span><br><span class="line">▹   call▹   printf</span><br><span class="line">▹   leaq▹   -96(%rbp), %rax</span><br><span class="line">▹   movl▹   $2, %edx</span><br><span class="line">▹   movl▹   $1, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZZ4mainENUliiE_clEii</span><br><span class="line">...</span><br><span class="line">_ZZ4mainENUliiE_clEii:              </span><br><span class="line">.LFB4000:                           </span><br><span class="line">▹   .cfi_startproc                  </span><br><span class="line">▹   pushq▹  %rbp                    </span><br><span class="line">▹   .cfi_def_cfa_offset 16          </span><br><span class="line">▹   .cfi_offset 6, -16              </span><br><span class="line">▹   movq▹   %rsp, %rbp              </span><br><span class="line">▹   .cfi_def_cfa_register 6         </span><br><span class="line">▹   subq▹   $16, %rsp               </span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)        &#x2F;&#x2F; this 指针  </span><br><span class="line">▹   movl▹   %esi, -12(%rbp)         </span><br><span class="line">▹   movl▹   %edx, -16(%rbp)         </span><br><span class="line">▹   movq▹   -8(%rbp), %rax          </span><br><span class="line">▹   addq▹   $8, %rax                </span><br><span class="line">▹   movl▹   $2, %esi                </span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt6vectorIiSaIiEEixEm</span><br><span class="line">▹   movl▹   $10, (%rax)             &#x2F;&#x2F; 赋值</span><br><span class="line">▹   movl▹   $110, gi(%rip)</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movl▹   (%rax), %edx</span><br><span class="line">▹   movl▹   gi(%rip), %eax</span><br><span class="line">▹   addl▹   %eax, %edx</span><br><span class="line">▹   movl▹   -12(%rbp), %eax</span><br><span class="line">▹   addl▹   %eax, %edx</span><br><span class="line">▹   movl▹   -16(%rbp), %eax</span><br><span class="line">▹   addl▹   %edx, %eax</span><br><span class="line">▹   leave</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br></pre></td></tr></table></figure>
+<p>值拷贝类的时候, 会将整个类拷贝一次, 并没有什么特殊的</p>
+<p><strong>匿名函数与其说是函数, 不如说是类</strong> 他就像一个重载了调用运算符的类一样</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/float/" rel="prev" title="other/float">
+      <i class="fa fa-chevron-left"></i> other/float
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/debug%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="next" title="other/debug的小技巧">
+      other/debug的小技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一级值"><span class="nav-number">1.</span> <span class="nav-text">第一级值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一类函数"><span class="nav-number">2.</span> <span class="nav-text">第一类函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高阶函数"><span class="nav-number">3.</span> <span class="nav-text">高阶函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lambda-是如何工作的"><span class="nav-number">4.</span> <span class="nav-text">lambda 是如何工作的</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

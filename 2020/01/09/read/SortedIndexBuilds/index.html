@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="15.6.2.3 Sorted Index BuildsThere are three phases to an index build. In the first phase, the clustered index is scanned, and index entries are generated and added to the sort buffer. When the sort bu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;SortedIndexBuilds">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/read/SortedIndexBuilds/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="15.6.2.3 Sorted Index BuildsThere are three phases to an index build. In the first phase, the clustered index is scanned, and index entries are generated and added to the sort buffer. When the sort bu">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:17:41.085Z">
+<meta property="article:modified_time" content="2019-08-06T09:23:10.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/read/SortedIndexBuilds/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/SortedIndexBuilds | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/SortedIndexBuilds/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/SortedIndexBuilds
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-06 17:23:10" itemprop="dateModified" datetime="2019-08-06T17:23:10+08:00">2019-08-06</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="15-6-2-3-Sorted-Index-Builds"><a href="#15-6-2-3-Sorted-Index-Builds" class="headerlink" title="15.6.2.3 Sorted Index Builds"></a>15.6.2.3 Sorted Index Builds</h4><p>There are three phases to an index build. In the first phase, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_clustered_index" target="_blank" rel="noopener">clustered index</a> is scanned, and index entries are generated and added to the sort buffer. When the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_sort_buffer" target="_blank" rel="noopener">sort buffer</a> becomes full, entries are sorted and written out to a temporary intermediate file. This process is also known as a “run”. In the second phase, with one or more runs written to the temporary intermediate file, a merge sort is performed on all entries in the file. In the third and final phase, the sorted entries are inserted into the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_b_tree" target="_blank" rel="noopener">B-tree</a>.</p>
+<p>索引构建有三个阶段, 第一阶段, 扫描聚簇索引, 生成索引条目, 添加到排序缓存中. 当排序缓存被填满时, 条目数据排序并存储到临时的中间文件. 这个过程也被成为 ‘run’, 第二阶段, 随着 ‘runs’ 写入到临时中间文件, 对所有文件中的条目数据执行合并排序, 第三阶段, 排序好的条目数据插入到 B-tree 中.</p>
+<p>Prior to the introduction of sorted index builds, index entries were inserted into the B-tree one record at a time using insert APIs. This method involved opening a B-tree<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_cursor" target="_blank" rel="noopener">cursor</a> to find the insert position and then inserting entries into a B-tree page using an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimistic" target="_blank" rel="noopener">optimistic</a> insert. If an insert failed due to a page being full, a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_pessimistic" target="_blank" rel="noopener">pessimistic</a> insert would be performed, which involves opening a B-tree cursor and splitting and merging B-tree nodes as necessary to find space for the entry. The drawbacks of this “top-down”method of building an index are the cost of searching for an insert position and the constant splitting and merging of B-tree nodes.</p>
+<p>在引进有序索引构建之前, 使用插入 APIs 一次一条, 将索引条目插入到 B-tree 中. 这个方法包括打开 B-tree 光标, 查找插入位置, 然后使用 optimistic 插入数据到 B-tree 页中.</p>
+<p>如果因为页面已满而插入失败, 执行 pessimistic 插入, 包括打开 B-tree 光标, 并根据需要分裂合并 B-tree 节点, 以便为条目找到空间. </p>
+<p>Sorted index builds use a “bottom-up” approach to building an index. With this approach, a reference to the right-most leaf page is held at all levels of the B-tree. The right-most leaf page at the necessary B-tree depth is allocated and entries are inserted according to their sorted order. Once a leaf page is full, a node pointer is appended to the parent page and a sibling leaf page is allocated for the next insert. This process continues until all entries are inserted, which may result in inserts up to the root level. When a sibling page is allocated, the reference to the previously pinned leaf page is released, and the newly allocated leaf page becomes the right-most leaf page and new default insert location.</p>
+<p>有序索引使用自底向上方法构建索引, 使用这种方法, 所有 B-tree 层级都有一个指向最右叶子页的引用. 最右叶子页在必要的 B-tree 深度分配, 条目根据他们有序顺序插入. 当叶子节点满了, 父节点增加一个节点指针, 为下一次插入分配一个 sibling 叶子页. 这个过程持续到所有的条目插入为止, 可能导致插入到根层级.</p>
+<p>当 sibling 页分配后, 指向之前固定的叶子页的引用被释放, 新分配的叶子页成为最右叶子页和新的插入位置</p>
+<p>(PS. 和自平衡二叉树类似, 插入节点到尾端节点, 不断上溢到适当的位置)</p>
+<h5 id="Reserving-B-tree-Page-Space-for-Future-Index-Growth"><a href="#Reserving-B-tree-Page-Space-for-Future-Index-Growth" class="headerlink" title="Reserving B-tree Page Space for Future Index Growth"></a>Reserving B-tree Page Space for Future Index Growth</h5><p>To set aside space for future index growth, you can use the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> configuration option to reserve a percentage of B-tree page space. For example, setting <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> to 80 reserves 20 percent of the space in B-tree pages during a sorted index build. This setting applies to both B-tree leaf and non-leaf pages. It does not apply to external pages used for <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> entries. The amount of space that is reserved may not be exactly as configured, as the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> value is interpreted as a hint rather than a hard limit.</p>
+<p>为了设置空间为以后的索引增长做准备, 可以使用 innodb_fill_factor 设置存储百分比 B-tree 页空间, 比如, 设置 innodb_fill_factor 为 80, 存储 20% 的空间. 这个设置引用于所有 B-tree 叶和非叶页, 不适用于 TEXT / BLOB 条目的页. </p>
+<p>存储的页面大小不一定精准, innodb_fill_factor 是一个提示, 而并不是硬限制</p>
+<h5 id="Sorted-Index-Builds-and-Full-Text-Index-Support"><a href="#Sorted-Index-Builds-and-Full-Text-Index-Support" class="headerlink" title="Sorted Index Builds and Full-Text Index Support"></a>Sorted Index Builds and Full-Text Index Support</h5><p>Sorted index builds are supported for <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_fulltext_index" target="_blank" rel="noopener">fulltext indexes</a>. Previously, SQL was used to insert entries into a fulltext index.</p>
+<p>有序索引构建支持 fulltext index.</p>
+<h5 id="Sorted-Index-Builds-and-Compressed-Tables"><a href="#Sorted-Index-Builds-and-Compressed-Tables" class="headerlink" title="Sorted Index Builds and Compressed Tables"></a>Sorted Index Builds and Compressed Tables</h5><p>For <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_compression" target="_blank" rel="noopener">compressed tables</a>, the previous index creation method appended entries to both compressed and uncompressed pages. When the modification log (representing free space on the compressed page) became full, the compressed page would be recompressed. If compression failed due to a lack of space, the page would be split. With sorted index builds, entries are only appended to uncompressed pages. When an uncompressed page becomes full, it is compressed. Adaptive padding is used to ensure that compression succeeds in most cases, but if compression fails, the page is split and compression is attempted again. This process continues until compression is successful. For more information about compression of B-Tree pages, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-compression-internals.html" target="_blank" rel="noopener">Section 15.9.1.5, “How Compression Works for InnoDB Tables”</a>.</p>
+<p>对压缩表, 之前创建索引的方法将条目添加到压缩/未压缩页面, 当更改日志逐渐增多, 压缩页需要重压缩. 如果因为空间不足而压缩失败, 也需要被分割, 在有序构建中, 条目仅仅添加到未压缩页. 当未压缩页逐渐填满, 压缩该页.</p>
+<p>在大多数情况下适应的填充用作确保压缩成功, 如果压缩失败, 页被分隔, 然后再次尝试压缩. 这个过程直到压缩成功为止.</p>
+<h5 id="Sorted-Index-Builds-and-Redo-Logging"><a href="#Sorted-Index-Builds-and-Redo-Logging" class="headerlink" title="Sorted Index Builds and Redo Logging"></a>Sorted Index Builds and Redo Logging</h5><p><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_redo_log" target="_blank" rel="noopener">Redo logging</a> is disabled during a sorted index build. Instead, there is a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_checkpoint" target="_blank" rel="noopener">checkpoint</a> to ensure that the index build can withstand a crash or failure. The checkpoint forces a write of all dirty pages to disk. During a sorted index build, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_cleaner" target="_blank" rel="noopener">page cleaner</a> thread is signaled periodically to flush <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_dirty_page" target="_blank" rel="noopener">dirty pages</a> to ensure that the checkpoint operation can be processed quickly. Normally, the page cleaner thread flushes dirty pages when the number of clean pages falls below a set threshold. For sorted index builds, dirty pages are flushed promptly to reduce checkpoint overhead and to parallelize I/O and CPU activity.</p>
+<p>在有序索引构建期间, redo logging 不可用. 代替其的是 checkpoint, 它确保索引构建禁得住错误和崩溃. checkpoint 强制脏页写回缓存. </p>
+<h5 id="Sorted-Index-Builds-and-Optimizer-Statistics"><a href="#Sorted-Index-Builds-and-Optimizer-Statistics" class="headerlink" title="Sorted Index Builds and Optimizer Statistics"></a>Sorted Index Builds and Optimizer Statistics</h5><p>Sorted index builds may result in <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimizer" target="_blank" rel="noopener">optimizer</a> statistics that differ from those generated by the previous method of index creation. The difference in statistics, which is not expected to affect workload performance, is due to the different algorithm used to populate the index.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/sort2/" rel="prev" title="read/sort2">
+      <i class="fa fa-chevron-left"></i> read/sort2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/read/static_filed_in_Cpp/" rel="next" title="read/static_filed_in_Cpp">
+      read/static_filed_in_Cpp <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-2-3-Sorted-Index-Builds"><span class="nav-number">1.</span> <span class="nav-text">15.6.2.3 Sorted Index Builds</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Reserving-B-tree-Page-Space-for-Future-Index-Growth"><span class="nav-number">1.1.</span> <span class="nav-text">Reserving B-tree Page Space for Future Index Growth</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sorted-Index-Builds-and-Full-Text-Index-Support"><span class="nav-number">1.2.</span> <span class="nav-text">Sorted Index Builds and Full-Text Index Support</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sorted-Index-Builds-and-Compressed-Tables"><span class="nav-number">1.3.</span> <span class="nav-text">Sorted Index Builds and Compressed Tables</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sorted-Index-Builds-and-Redo-Logging"><span class="nav-number">1.4.</span> <span class="nav-text">Sorted Index Builds and Redo Logging</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sorted-Index-Builds-and-Optimizer-Statistics"><span class="nav-number">1.5.</span> <span class="nav-text">Sorted Index Builds and Optimizer Statistics</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

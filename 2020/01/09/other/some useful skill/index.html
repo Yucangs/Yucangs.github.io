@@ -46,15 +46,19 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="cas&#39;s website">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="保留条件表达式的第一个值&#x2F;&#x2F; CE: condition expression, RETAIN: 保持 #define CE_RETAIN1(a, b) ((a) ? (a) : (b))考虑一个情况, 当一个值有效时, 使用它, 否则使用另外一个数如果直接写的话, 不太容易理解   (exp) ? (exp) : -1;当exp非常长的时候(或许可以保存成变量, 但是某些情况下, 不知道该用什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;some useful skill">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/other/some%20useful%20skill/index.html">
 <meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="保留条件表达式的第一个值&#x2F;&#x2F; CE: condition expression, RETAIN: 保持 #define CE_RETAIN1(a, b) ((a) ? (a) : (b))考虑一个情况, 当一个值有效时, 使用它, 否则使用另外一个数如果直接写的话, 不太容易理解   (exp) ? (exp) : -1;当exp非常长的时候(或许可以保存成变量, 但是某些情况下, 不知道该用什么">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
+<meta property="article:modified_time" content="2020-01-09T09:13:31.350Z">
 <meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/">
+<link rel="canonical" href="http://yoursite.com/2020/01/09/other/some%20useful%20skill/">
 
 
 <script id="page-configurations">
@@ -62,11 +66,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>Archive | cas's website</title>
+  <title>other/some useful skill | cas's website</title>
   
 
 
@@ -161,233 +165,104 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">Good! 85 posts in total. Keep on posting.</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/some%20useful%20skill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/some useful skill
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
+        <h2 id="保留条件表达式的第一个值"><a href="#保留条件表达式的第一个值" class="headerlink" title="保留条件表达式的第一个值"></a>保留条件表达式的第一个值</h2><pre><code>// CE: condition expression, RETAIN: 保持
+#define CE_RETAIN1(a, b) ((a) ? (a) : (b))</code></pre><p>考虑一个情况, 当一个值有效时, 使用它, 否则使用另外一个数<br>如果直接写的话, 不太容易理解  </p>
+<pre><code>(exp) ? (exp) : -1;</code></pre><p>当exp非常长的时候(或许可以保存成变量, 但是某些情况下, 不知道该用什么名字<br>而自己比较常用变量名差不多用光了, 或者这只是个只用一次的值), 如  </p>
+<pre><code>val = func(a) * i + 10 ? func(a) * i + 10 : -1;</code></pre><p>而如果用宏定义的话就比较清晰了</p>
+<pre><code>val = CE_RETAIN1(func(a) * i + 10, -1);</code></pre><p>PS: 但是如果的确出现表达式过长的情况, 可能考虑优化代码是最好的解决方案</p>
+<h2 id="直接面向结果的函数"><a href="#直接面向结果的函数" class="headerlink" title="直接面向结果的函数"></a>直接面向结果的函数</h2><pre><code>void show() { setvisible(true); }    
+void hide() { setvisible(false); }</code></pre><p>使用show(), hide()的情况下, 一目了然, 而通过参数的话, 理解会稍麻烦一些</p>
+<h2 id="getInstance"><a href="#getInstance" class="headerlink" title="getInstance"></a>getInstance</h2><p>getInstance多数情况下作为一个类的公有接口, 用于获得一个实例<br>普通的书写方案如下        </p>
+<pre><code>class A{
+    int i; // 不仅仅是数据, 也可能是一个类
+public:
+    int&amp; getInstance() { return i; }
+};</code></pre><p>使用这种方式的情况会存在两个问题  </p>
+<ol>
+<li>即使我从不使用i, 也从未掉用过getInstance这个函数, 但依旧给i分配了空间  </li>
+<li>i依旧能在其他接口中被访问  </li>
+</ol>
+<p>上述两种情况并不一定会造成影响, 但可以考虑排除这种隐藏问题  </p>
+<pre><code>int&amp; getInstance() {
+    static int i;
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:44:16+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/other/gdb/" itemprop="url">
-            <span itemprop="name">other/gdb</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:51+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/48RotateImage/" itemprop="url">
-            <span itemprop="name">leetcode/48RotateImage</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:38+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/42TrappingRainWater/" itemprop="url">
-            <span itemprop="name">leetcode/42TrappingRainWater</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:24+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/21MergeTwoSortedLists/" itemprop="url">
-            <span itemprop="name">leetcode/21MergeTwoSortedLists</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:19:39+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/F15_3Sum/" itemprop="url">
-            <span itemprop="name">leetcode/F15_3Sum</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:19:24+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/20ValidParentheses/" itemprop="url">
-            <span itemprop="name">leetcode/20ValidParentheses</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/UnderstandingGeneratedColumns/" itemprop="url">
-            <span itemprop="name">read/UnderstandingGeneratedColumns</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/studyNoteOfGo/" itemprop="url">
-            <span itemprop="name">read/studyNoteOfGo</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/static_filed_in_Cpp/" itemprop="url">
-            <span itemprop="name">read/static_filed_in_Cpp</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/SortedIndexBuilds/" itemprop="url">
-            <span itemprop="name">read/SortedIndexBuilds</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+    return i;
+}</code></pre><p>静态变量在未被访问过的情况下, 不会分配空间<br>并且只存在于当前作用域, 有良好的安全性</p>
+<h2 id="保存变量"><a href="#保存变量" class="headerlink" title="保存变量"></a>保存变量</h2><p>局部变量速度优于函数调用, 类似如果频繁用到数组的长度, 可以使用变量保存.size()的值</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/sort/" rel="prev" title="other/sort">
+      <i class="fa fa-chevron-left"></i> other/sort
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/some%20useful%20define/" rel="next" title="other/some useful define">
+      other/some useful define <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
-
 
 
           </div>
@@ -438,6 +313,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#保留条件表达式的第一个值"><span class="nav-number">1.</span> <span class="nav-text">保留条件表达式的第一个值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接面向结果的函数"><span class="nav-number">2.</span> <span class="nav-text">直接面向结果的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getInstance"><span class="nav-number">3.</span> <span class="nav-text">getInstance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存变量"><span class="nav-number">4.</span> <span class="nav-text">保存变量</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

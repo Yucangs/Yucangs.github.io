@@ -46,15 +46,24 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="cas&#39;s website">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="Rotate Image    顺时针90度旋转矩阵要求就地更改(不能创建另外一个矩阵)  我的做法思路:    使用下标来获取元素更方便从外层到内层, 一层层旋转, 每次旋转n个, 每层旋转4次不可避免需要保存一组数值    具体代码:   class Solution { public:     void rotate(vector&lt;vector&lt;int&gt;&gt;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode&#x2F;48RotateImage">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/leetcode/48RotateImage/index.html">
 <meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Rotate Image    顺时针90度旋转矩阵要求就地更改(不能创建另外一个矩阵)  我的做法思路:    使用下标来获取元素更方便从外层到内层, 一层层旋转, 每次旋转n个, 每层旋转4次不可避免需要保存一组数值    具体代码:   class Solution { public:     void rotate(vector&lt;vector&lt;int&gt;&gt;&amp;">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/7hLPAwu.png">
+<meta property="og:image" content="https://i.imgur.com/IgjHagZ.png">
+<meta property="og:image" content="https://i.imgur.com/6uc80iU.png">
+<meta property="og:image" content="https://i.imgur.com/fjWYKBX.png">
+<meta property="article:published_time" content="2020-01-09T09:20:51.024Z">
+<meta property="article:modified_time" content="2020-01-09T09:07:59.591Z">
 <meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/7hLPAwu.png">
 
-<link rel="canonical" href="http://yoursite.com/archives/">
+<link rel="canonical" href="http://yoursite.com/2020/01/09/leetcode/48RotateImage/">
 
 
 <script id="page-configurations">
@@ -62,11 +71,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>Archive | cas's website</title>
+  <title>leetcode/48RotateImage | cas's website</title>
   
 
 
@@ -161,233 +170,150 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">Good! 85 posts in total. Keep on posting.</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/48RotateImage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode/48RotateImage
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:20:51 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:20:51+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
+        <h1 id="Rotate-Image"><a href="#Rotate-Image" class="headerlink" title="Rotate Image"></a>Rotate Image</h1><p><img src="https://i.imgur.com/7hLPAwu.png" alt="">  </p>
+<blockquote>
+<p>顺时针90度旋转矩阵<br>要求就地更改(不能创建另外一个矩阵)</p>
+</blockquote>
+<h2 id="我的做法"><a href="#我的做法" class="headerlink" title="我的做法"></a>我的做法</h2><p>思路:  </p>
+<blockquote>
+<p>使用下标来获取元素更方便<br>从外层到内层, 一层层旋转, 每次旋转n个, 每层旋转4次<br>不可避免需要保存一组数值  </p>
+</blockquote>
+<p>具体代码:  </p>
+<pre><code>class Solution {
+public:
+    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        int n = matrix.size();
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+        for (int i = 0; i &lt; n / 2; ++i){
+            // backup first stream
+            vector&lt;int&gt; backup ((matrix.begin() + i)-&gt;begin() + i + 1, 
+                (matrix.begin() + i)-&gt;end() - i);
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:44:16+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
+                for (int col = i + 1, row = n - i - 2; col &lt; n - i; ++col, --row)
+                    matrix[i][col] = matrix[row][i];
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/other/gdb/" itemprop="url">
-            <span itemprop="name">other/gdb</span>
-          </a>
-      </h2>
+                for (int row = i, col = i; row &lt; n - i - 1; ++row, ++col)
+                    matrix[row][i] = matrix[n - 1 - i][col];
 
-    </header>
-  </article>
+                for (int col = i, row = n - i - 1; col &lt; n - i - 1; ++col, --row)
+                    matrix[n - 1 - i][col] = matrix[row][n - i - 1];
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+                for (int row = n - 1 - i, t = backup.size() - 1; t &gt;= 0; --row, --t)
+                    matrix[row][n - i - 1] = backup[t];
+        }
+    }
+};</code></pre><p>最后结果:  </p>
+<p><img src="https://i.imgur.com/IgjHagZ.png" alt="">  </p>
+<h2 id="dalao的做法"><a href="#dalao的做法" class="headerlink" title="dalao的做法"></a>dalao的做法</h2><pre><code>class Solution {
+public:
+    void swapLR(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        int n = matrix.size();
+        for (int i = 0; i &lt; n; i++) {
+            int l = 0;
+            int r = n-1;
+            while(l&lt;r) {
+                int temp = matrix[i][l];
+                matrix[i][l++] = matrix[i][r];
+                matrix[i][r--] = temp;
+            }
+        }
+    }
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:51+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
+    void swapdig(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        int n = matrix.size();
+        for (int i = 0; i &lt; n-1; i++) {
+            for (int j = 0; j &lt; n-1-i; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n-1-j][n-1-i];
+                matrix[n-1-j][n-1-i] = temp;
+            }
+        }
+    }
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/48RotateImage/" itemprop="url">
-            <span itemprop="name">leetcode/48RotateImage</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:38+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/42TrappingRainWater/" itemprop="url">
-            <span itemprop="name">leetcode/42TrappingRainWater</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:20:24+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/21MergeTwoSortedLists/" itemprop="url">
-            <span itemprop="name">leetcode/21MergeTwoSortedLists</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:19:39+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/F15_3Sum/" itemprop="url">
-            <span itemprop="name">leetcode/F15_3Sum</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:19:24+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/leetcode/20ValidParentheses/" itemprop="url">
-            <span itemprop="name">leetcode/20ValidParentheses</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/UnderstandingGeneratedColumns/" itemprop="url">
-            <span itemprop="name">read/UnderstandingGeneratedColumns</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/studyNoteOfGo/" itemprop="url">
-            <span itemprop="name">read/studyNoteOfGo</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/static_filed_in_Cpp/" itemprop="url">
-            <span itemprop="name">read/static_filed_in_Cpp</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-09T17:17:41+08:00"
-              content="2020-01-09">
-          01-09
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/09/read/SortedIndexBuilds/" itemprop="url">
-            <span itemprop="name">read/SortedIndexBuilds</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
+        swapLR(matrix);
+        swapdig(matrix);
+    }
+};</code></pre><p>首先分析 swapLR 函数:  </p>
+<blockquote>
+<p>emmmm, 它好像将左右的数据对换了<br><img src="https://i.imgur.com/6uc80iU.png" alt=""><br>emmm, 还是看不懂有什么规律, </p>
+</blockquote>
+<p><img src="https://i.imgur.com/fjWYKBX.png" alt="">  </p>
+<p>6啊…, 更改后的行就是最终结果的列, 只要遍历倒叙一遍就可以了<br>这种思路是如何得出的? 需要哪方面的知识么?<br>思路这种东西好难弥补, 我自认为不出意外的话, 是无法想到这一点的</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/leetcode/42TrappingRainWater/" rel="prev" title="leetcode/42TrappingRainWater">
+      <i class="fa fa-chevron-left"></i> leetcode/42TrappingRainWater
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/other/gdb/" rel="next" title="other/gdb">
+      other/gdb <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
-
 
 
           </div>
@@ -438,6 +364,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Rotate-Image"><span class="nav-number">1.</span> <span class="nav-text">Rotate Image</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#我的做法"><span class="nav-number">1.1.</span> <span class="nav-text">我的做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dalao的做法"><span class="nav-number">1.2.</span> <span class="nav-text">dalao的做法</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

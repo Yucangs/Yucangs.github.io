@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="gdbgdb是一个 c&#x2F;c++ debug 工具 没有一个教程和文档比 gdb 官方手册更加详细和准确 这个文件只是简单地介绍其中一小部分频繁使用的功能, 具体需要结合 gdb的官方文档使用 (gdb非常强大, 其文档有400多页, 完全是一本参考书的规格) ( 同时gdb也做到了透明, 大多数时候你使用它只需掌握极少的几条指令(基础功能中的指令) ) 基础功能n : next用于跳转到下一条语句">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;gdb">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/other/gdb/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="gdbgdb是一个 c&#x2F;c++ debug 工具 没有一个教程和文档比 gdb 官方手册更加详细和准确 这个文件只是简单地介绍其中一小部分频繁使用的功能, 具体需要结合 gdb的官方文档使用 (gdb非常强大, 其文档有400多页, 完全是一本参考书的规格) ( 同时gdb也做到了透明, 大多数时候你使用它只需掌握极少的几条指令(基础功能中的指令) ) 基础功能n : next用于跳转到下一条语句">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-09T09:44:16.076Z">
+<meta property="article:modified_time" content="2020-01-09T09:44:16.068Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/09/other/gdb/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/gdb | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/gdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/gdb
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:44:16" itemprop="dateCreated datePublished" datetime="2020-01-09T17:44:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h3><p>gdb是一个 c/c++ debug 工具</p>
+<p>没有一个教程和文档比 gdb 官方手册更加详细和准确</p>
+<p>这个文件只是简单地介绍其中一小部分频繁使用的功能, 具体需要结合 gdb<br>的官方文档使用</p>
+<p>(gdb非常强大, 其文档有400多页, 完全是一本参考书的规格)</p>
+<p>( 同时gdb也做到了透明, 大多数时候你使用它只需掌握极少的几条指令(基础功能中的指令) )</p>
+<h3 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h3><h4 id="n-next"><a href="#n-next" class="headerlink" title="n : next"></a>n : next</h4><p>用于跳转到下一条语句, 同时会先执行当前语句, 可配合 number 跳转多行</p>
+<h4 id="s-step"><a href="#s-step" class="headerlink" title="s : step"></a>s : step</h4><p>进入函数调用</p>
+<h4 id="b-break"><a href="#b-break" class="headerlink" title="b : break"></a>b : break</h4><p>断点</p>
+<h4 id="c-continue"><a href="#c-continue" class="headerlink" title="c : continue"></a>c : continue</h4><p>继续执行</p>
+<h4 id="p-print"><a href="#p-print" class="headerlink" title="p : print"></a>p : print</h4><p>打印变量信息, ptype 可以打印类型信息(用于类, 它会将类的所有成员都打印出来)</p>
+<h4 id="l-：list"><a href="#l-：list" class="headerlink" title="l ：list"></a>l ：list</h4><p>查看当前行附近的代码信息, 可以指定行号和函数, 可以用于跳转到指定文件</p>
+<h4 id="bt-backtrace"><a href="#bt-backtrace" class="headerlink" title="bt : backtrace"></a>bt : backtrace</h4><p>调用回溯, 查看当前调用栈</p>
+<h4 id="f-frame"><a href="#f-frame" class="headerlink" title="f : frame"></a>f : frame</h4><p>与 bt 的信息配合, 使用 number 指定跳转到某条函数调用之前</p>
+<h4 id="info"><a href="#info" class="headerlink" title="info"></a>info</h4><p>这条指令用于观察gdb指令的当前信息  </p>
+<p>例如: info breakpoints, info frame, info watchpoints, info record… </p>
+<h4 id="u-until"><a href="#u-until" class="headerlink" title="u : until"></a>u : until</h4><p>跳出当前循环, 或者配合 number 指定执行到何处</p>
+<h4 id="finish"><a href="#finish" class="headerlink" title="finish"></a>finish</h4><p>完成当前函数调用, 跳转到函数调用的最后一条语句</p>
+<h3 id="中级功能"><a href="#中级功能" class="headerlink" title="中级功能"></a>中级功能</h3><h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>观察点, 可以用来观察一个变量或者表达式的变化</p>
+<h4 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h4><p>检查点用来保存当前进度, 可以在执行若干语句之后回到当前检查点</p>
+<h4 id="record"><a href="#record" class="headerlink" title="record"></a>record</h4><p>记录命令的使用信息, 实用之处在于: 使用其中的 full 模式, 可以实现 reverse 操作</p>
+<p>比如 reverse-next, 这将会反向执行到上一个语句</p>
+<h4 id="forward-search-search"><a href="#forward-search-search" class="headerlink" title="forward-search/search"></a>forward-search/search</h4><p>前向搜索/搜索</p>
+<h4 id="inferior"><a href="#inferior" class="headerlink" title="inferior"></a>inferior</h4><p>gdb支持debug多个进程</p>
+<h4 id="thread"><a href="#thread" class="headerlink" title="thread"></a>thread</h4><p>gdb支持debug多线程程序</p>
+<h4 id="catch"><a href="#catch" class="headerlink" title="catch"></a>catch</h4><p>捕获一个事件</p>
+<h4 id="singal"><a href="#singal" class="headerlink" title="singal"></a>singal</h4><p>捕获一个信号</p>
+<h4 id="win-winheight"><a href="#win-winheight" class="headerlink" title="win  : winheight"></a>win  : winheight</h4><p>进入可视化模式, 简单来说就是代码界面拥有了窗口, 同时一系列信息也会显示在上面</p>
+<p>(不过这个模式实际上会出现会显示错误, 比如会显示删除符号, 显示tab键之类的问题, 我不知道这算不算bug…)</p>
+<p>(或许我使用方式不对? )</p>
+<h4 id="e-edit"><a href="#e-edit" class="headerlink" title="e : edit"></a>e : edit</h4><p>你可以在 gdb 中直接更改源文件, 不过这好像有点鸡肋…</p>
+<h4 id="disassemble"><a href="#disassemble" class="headerlink" title="disassemble"></a>disassemble</h4><p>反编译代码, 显示 machine code</p>
+<h4 id="diaplay"><a href="#diaplay" class="headerlink" title="diaplay"></a>diaplay</h4><p>自动显示变量</p>
+<h4 id="set-convenience-variable"><a href="#set-convenience-variable" class="headerlink" title="set (convenience variable)"></a>set (convenience variable)</h4><p>使用该指令可以保存变量, 之后你可以用在任何命令的表达式里面, 记得前面加美元($)前缀</p>
+<pre><code>(gdb) set {int}0x604010 = 4
+(gdb) p v[0]
+$16 = (__gnu_cxx::__alloc_traits&lt;std::allocator&lt;int&gt; &gt;::value_type &amp;) @0x604010: 4
+(gdb) set {int}0x604010 = 5
+(gdb) p v[0]
+$17 = (__gnu_cxx::__alloc_traits&lt;std::allocator&lt;int&gt; &gt;::value_type &amp;) @0x604010: 5</code></pre><p>它可以用于对内存赋值!!!</p>
+<pre><code>(gdb) p $rbx
+$18 = 1
+(gdb) set $rbx = 200
+(gdb) p $rbx
+$19 = 200</code></pre><p>也可以用于对寄存器赋值!!!</p>
+<h4 id="convenience-function-10-12"><a href="#convenience-function-10-12" class="headerlink" title="convenience function (10.12)"></a>convenience function (10.12)</h4><p>gdb提供了一系列的函数以供使用, 例如:</p>
+<pre><code>$_strlen(str)     $_streq(str1, str2)      $_regex(str, regex) </code></pre><p>前面依旧要加 ‘$’ 符号</p>
+<h4 id="register-这个我超喜欢的-10-13"><a href="#register-这个我超喜欢的-10-13" class="headerlink" title="register (这个我超喜欢的) (10.13)"></a>register (这个我超喜欢的) (10.13)</h4><p>这个指令支持你查看寄存器的内容, 使用方法是</p>
+<pre><code>p $register</code></pre><p>(这个或许应该放在 p 中, 不过我觉得这应该放在高级内容中)</p>
+<p>我依稀记得之前我曾经因为无法在运行时看内存内容而苦恼  </p>
+<p>现在这个问题随着gdb的深入学习而解决了, 以后我分析汇编的时候, 可以更加深入了</p>
+<p>并且支持使用 set 来改变内容!!</p>
+<h4 id="info-os-args"><a href="#info-os-args" class="headerlink" title="info os [args]"></a>info os [args]</h4><p>查看系统相关信息, 比如:</p>
+<pre><code>info os files</code></pre><p>将会查看系统使用文件描述符的信息</p>
+<h4 id="trace-13"><a href="#trace-13" class="headerlink" title="trace (13)"></a>trace (13)</h4><p>按照 gdb 官方文档的描述, 这个指令是用来调试那些对于实时性有要求的程序  </p>
+<p>但是我也没能理解这个指令是如何使用的, 同时有这么一句话</p>
+<pre><code>The tracepoint facility is currently available only for remote targets
+追溯点当前只对远程目标有效</code></pre><p>这个指令的内容占了整个 13 章节, 应该相当重要. 所以这里仅仅记录一下, 或许以后会用到</p>
+<pre><code>14 Debugging Programs That Use Overlays</code></pre><p>=========</p>
+<p>后续内容(从 13 章往后)是一些高级内容(以置于我不得不将这段主题的标题改成中级功能…)</p>
+<p>比如大型程序, 远程调试 … </p>
+<p>暂不研究</p>
+<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><p>源自<a href="http://www.waider.ie/music/lyrics/gdb.html" target="_blank" rel="noopener">http://www.waider.ie/music/lyrics/gdb.html</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">GDB!</span><br><span class="line">based on _Tragedy_ by Barry, Robin <span class="keyword">and</span> Maurice Gibb</span><br><span class="line"></span><br><span class="line">Here<span class="number">'</span>s vi</span><br><span class="line">In a lost <span class="keyword">and</span> lonely part of code</span><br><span class="line">Held in time</span><br><span class="line">In a world of bugs my head explodes</span><br><span class="line">Goin<span class="number">'</span> <span class="built_in">home</span></span><br><span class="line">I just can<span class="number">'</span>t make it all alone</span><br><span class="line">I really should be coding you, coding you</span><br><span class="line"><span class="built_in">running</span> you, <span class="built_in">running</span> you</span><br><span class="line"></span><br><span class="line">CHORUS:</span><br><span class="line">GDB when the program<span class="number">'</span>s wrong <span class="keyword">and</span> the debug<span class="number">'</span>s on</span><br><span class="line">It<span class="number">'</span>s GDB when the system dies <span class="keyword">and</span> you don<span class="number">'</span>t know why</span><br><span class="line">It<span class="number">'</span>s hard to bear</span><br><span class="line">With no one to help you</span><br><span class="line">You're going nowhere</span><br><span class="line">GDB when you <span class="built_in">press</span> control <span class="keyword">and</span> the box just rolls</span><br><span class="line">It<span class="number">'</span>s GDB when the system dies <span class="keyword">and</span> you don<span class="number">'</span>t know why</span><br><span class="line">It<span class="number">'</span>s hard to bear</span><br><span class="line">With no one beside you</span><br><span class="line">You're going nowhere</span><br><span class="line"></span><br><span class="line">Night <span class="keyword">and</span> Day</span><br><span class="line">There<span class="number">'</span>s a burning down inside of me</span><br><span class="line">Burning code</span><br><span class="line">And a kernel that won<span class="number">'</span>t let me be</span><br><span class="line">Down it goes</span><br><span class="line"><span class="keyword">and</span> I just can<span class="number">'</span>t take it all alone</span><br><span class="line">I really should be coding you, coding you</span><br><span class="line">Running you, <span class="built_in">running</span> you</span><br><span class="line"></span><br><span class="line">REPEAT CHORUS</span><br><span class="line"></span><br><span class="line"><span class="function">REPEAT <span class="title">CHORUS</span><span class="params">(fade)</span></span></span><br></pre></td></tr></table></figure>
+<p>源自<a href="https://www.gnu.org/music/gdb-song.html" target="_blank" rel="noopener">https://www.gnu.org/music/gdb-song.html</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Let<span class="number">'</span>s start at the very beginning, a very good place to start,</span><br><span class="line">When you're learning to sing, its Do, Re, Mi; </span><br><span class="line">When you're learning to code, its G, D, B. </span><br><span class="line">(<span class="built_in">background</span>) G, D, B.</span><br><span class="line"></span><br><span class="line">The first three letters just happen to be, G, D, B.</span><br><span class="line"></span><br><span class="line">(<span class="built_in">background</span>) G, D, B.</span><br><span class="line"></span><br><span class="line">(Chorus)</span><br><span class="line"></span><br><span class="line">G!,</span><br><span class="line">GNU!, it<span class="number">'</span>s Stallman<span class="number">'</span>s hope,</span><br><span class="line">D,</span><br><span class="line">a <span class="keyword">break</span> I <span class="built_in">set</span> myself.</span><br><span class="line">B,</span><br><span class="line">debug that rotten code,</span><br><span class="line">Run,</span><br><span class="line">a far, far way to go.</span><br><span class="line">Print,</span><br><span class="line">to see what you have done,</span><br><span class="line">Set,</span><br><span class="line">a patch that follows <span class="built_in">print</span>.</span><br><span class="line">Quit,</span><br><span class="line"><span class="keyword">and</span> recompile your code - - -</span><br><span class="line">That will bring it back to G,</span><br><span class="line">                              D,</span><br><span class="line">                                 B,</span><br><span class="line">                                    &lt;link&gt;</span><br><span class="line">(Resume from the Chorus)</span><br></pre></td></tr></table></figure>
+<p>感觉, 嗯, 很有气势</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/leetcode/48RotateImage/" rel="prev" title="leetcode/48RotateImage">
+      <i class="fa fa-chevron-left"></i> leetcode/48RotateImage
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#gdb"><span class="nav-number">1.</span> <span class="nav-text">gdb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础功能"><span class="nav-number">2.</span> <span class="nav-text">基础功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#n-next"><span class="nav-number">2.1.</span> <span class="nav-text">n : next</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#s-step"><span class="nav-number">2.2.</span> <span class="nav-text">s : step</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b-break"><span class="nav-number">2.3.</span> <span class="nav-text">b : break</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c-continue"><span class="nav-number">2.4.</span> <span class="nav-text">c : continue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#p-print"><span class="nav-number">2.5.</span> <span class="nav-text">p : print</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#l-：list"><span class="nav-number">2.6.</span> <span class="nav-text">l ：list</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bt-backtrace"><span class="nav-number">2.7.</span> <span class="nav-text">bt : backtrace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#f-frame"><span class="nav-number">2.8.</span> <span class="nav-text">f : frame</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#info"><span class="nav-number">2.9.</span> <span class="nav-text">info</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u-until"><span class="nav-number">2.10.</span> <span class="nav-text">u : until</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#finish"><span class="nav-number">2.11.</span> <span class="nav-text">finish</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中级功能"><span class="nav-number">3.</span> <span class="nav-text">中级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#watch"><span class="nav-number">3.1.</span> <span class="nav-text">watch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkpoint"><span class="nav-number">3.2.</span> <span class="nav-text">checkpoint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#record"><span class="nav-number">3.3.</span> <span class="nav-text">record</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#forward-search-search"><span class="nav-number">3.4.</span> <span class="nav-text">forward-search&#x2F;search</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inferior"><span class="nav-number">3.5.</span> <span class="nav-text">inferior</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#thread"><span class="nav-number">3.6.</span> <span class="nav-text">thread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#catch"><span class="nav-number">3.7.</span> <span class="nav-text">catch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#singal"><span class="nav-number">3.8.</span> <span class="nav-text">singal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#win-winheight"><span class="nav-number">3.9.</span> <span class="nav-text">win  : winheight</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#e-edit"><span class="nav-number">3.10.</span> <span class="nav-text">e : edit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disassemble"><span class="nav-number">3.11.</span> <span class="nav-text">disassemble</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#diaplay"><span class="nav-number">3.12.</span> <span class="nav-text">diaplay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-convenience-variable"><span class="nav-number">3.13.</span> <span class="nav-text">set (convenience variable)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#convenience-function-10-12"><span class="nav-number">3.14.</span> <span class="nav-text">convenience function (10.12)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#register-这个我超喜欢的-10-13"><span class="nav-number">3.15.</span> <span class="nav-text">register (这个我超喜欢的) (10.13)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#info-os-args"><span class="nav-number">3.16.</span> <span class="nav-text">info os [args]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trace-13"><span class="nav-number">3.17.</span> <span class="nav-text">trace (13)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#other"><span class="nav-number">4.</span> <span class="nav-text">other</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
