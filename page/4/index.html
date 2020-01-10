@@ -166,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/Linux_command/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/B-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -180,7 +180,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/other/Linux_command/" class="post-title-link" itemprop="url">other/Linux_command</a>
+            <a href="/2020/01/09/read/B-tree/" class="post-title-link" itemprop="url">read/B-tree</a>
         </h1>
 
         <div class="post-meta">
@@ -189,10 +189,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-07-25 17:54:48" itemprop="dateModified" datetime="2019-07-25T17:54:48+08:00">2019-07-25</time>
+              </span>
 
           
 
@@ -205,21 +211,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>ps aux |　grep “reg” 查看进程后通过正则表达式筛选 </p>
-<p>pwdx ID 根据进程ID查找文件路径  </p>
-<p>whatis [] 查看命令的简单描述  </p>
-<p>apropos [] 查看相关指令的文档位置</p>
-<p>su “username” 切换用户(su默认切换root用户)</p>
-<p>history 查看命令行记录<br>只能查看当前用户的命令行记录, 并且该命令无法查看文件中执行的命令行  </p>
-<p>Ctrl+l　清屏</p>
-<p>ZZ(upper) 保存并退出VI  </p>
-<h3 id="多文件vim"><a href="#多文件vim" class="headerlink" title="多文件vim"></a>多文件vim</h3><pre><code>vim file1 file2   # 编辑file1和file2, 默认显示file1
-:buffers          # 显示所有正在编辑的文件
-:bnum             # 显示num编号的文件(num由:buffers调用后显示)
-:n/N                 # 切换到下一个/上一个文件</code></pre><h3 id="批量注释-反注释"><a href="#批量注释-反注释" class="headerlink" title="批量注释/反注释"></a>批量注释/反注释</h3><pre><code>ctrl + v     #
-选中注释行  
-shift + i  
-输入</code></pre>
+          <h2 id="原文地址-https-en-wikipedia-org-wiki-B-tree"><a href="#原文地址-https-en-wikipedia-org-wiki-B-tree" class="headerlink" title="原文地址 : https://en.wikipedia.org/wiki/B-tree"></a>原文地址 : <a href="https://en.wikipedia.org/wiki/B-tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/B-tree</a></h2><h2 id="B-tree"><a href="#B-tree" class="headerlink" title="B-tree"></a>B-tree</h2><p>In <a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener">computer science</a>, a <strong>B-tree</strong> is a self-balancing <a href="https://en.wikipedia.org/wiki/Tree_data_structure" target="_blank" rel="noopener">tree data structure</a> that maintains sorted data and allows searches, sequential access, insertions, and deletions in <a href="https://en.wikipedia.org/wiki/Logarithmic_time" target="_blank" rel="noopener">logarithmic time</a>. The B-tree is a generalization of a <a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">binary search tree</a> in that a node can have more than two children.<a href="https://en.wikipedia.org/wiki/B-tree#cite_note-Comer-1" target="_blank" rel="noopener">[1]</a> Unlike other <a href="https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree" target="_blank" rel="noopener">self-balancing binary search trees</a>, the B-tree is well suited for storage systems that read and write relatively large blocks of data, such as discs. It is commonly used in <a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">databases</a> and <a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">file systems</a>.</p>
+<p>What, if anything, the <em>B</em> stands for has never been established.</p>
+<p>在计算机科学中, B-tree 是自平衡树数据结构, 管理排序后的数据, 能常量时间内搜索. 序列访问, 插入和删除操作</p>
+<p>B-tree 是二分查找树的广泛实现, 即一个节点可以有超过两个子节点</p>
+<p>不像其他自平衡二分查找树, B-tree 适用于存储系统, 用作读取和写入相当庞大的数据</p>
+<p>比如 discs, 通常被数据库和操作系统使用</p>
+<h3 id="Overview-概览"><a href="#Overview-概览" class="headerlink" title="Overview (概览)"></a>Overview (概览)</h3><p>In B-trees, internal (<a href="https://en.wikipedia.org/wiki/Leaf_node" target="_blank" rel="noopener">non-leaf</a>) nodes can have a variable number of child nodes within some pre-defined range. When data is inserted or removed from a node, its number of child nodes changes. In order to maintain the pre-defined range, internal nodes may be joined or split. Because a range of child nodes is permitted, B-trees do not need re-balancing as frequently as other self-balancing search trees, but may waste some space, since nodes are not entirely full. The lower and upper bounds on the number of child nodes are typically fixed for a particular implementation. For example, in a <a href="https://en.wikipedia.org/wiki/2-3_tree" target="_blank" rel="noopener">2-3 B-tree</a> (often simply referred to as a <strong>2-3 tree</strong>), each internal node may have only 2 or 3 child nodes.</p>
+<p>Each internal node of a B-tree contains a number of <a href="https://en.wikipedia.org/wiki/Unique_key" target="_blank" rel="noopener">keys</a>. The keys act as separation values which divide its <a href="https://en.wikipedia.org/wiki/Subtree" target="_blank" rel="noopener">subtrees</a>. For example, if an internal node has 3 child nodes (or subtrees) then it must have 2 keys: <em>a</em>1 and <em>a</em>2. All values in the leftmost subtree will be less than <em>a</em>1, all values in the middle subtree will be between <em>a</em>1 and <em>a</em>2, and all values in the rightmost subtree will be greater than <em>a</em>2.</p>
+<p>在 B-tree 中, 内部(非叶子)节点可以在预定义范围内拥有可变数量的子节点</p>
+<p>当从节点中插入或删除数据时, 子节点的数量改变. 为了管理预定义的范围, 内部节点可以连接或分裂</p>
+<p>因为子节点的范围是受限的, B-tree 不需要像其他自平衡二分查找数一样频繁地重平衡, 但是会浪费一些空间, 因为节点不是填充满的</p>
+<p>子节点数量的上限和下限通常有具体的实现固定, 比如 2-3 B-tree(通常简称 2-3 tree) 每个内部节点只有 2 个 或 3个子节点</p>
+<p>每个 B-tree 的内部节点含有一些 keys, keys 充当分离的值 分离子树</p>
+<p>比如, 如果内部节点有 3 个子节点(或子树) 那么, 它必须有 2 个 keys : a1 和 a2</p>
+<p>所有在最左边子树的值 &lt;a1, 所有在中间子树的值 &gt;a1 &lt;a2, 在最右子树中的所有值 &gt;a2</p>
+<p>(PS. 这里没有考虑 = 的情况, 不过还行, 等于放在值的左边还是右边, 不会有太大影响)</p>
+<p>Usually, the number of keys is chosen to vary between {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> and {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d">, where {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> is the minimum number of keys, and {\displaystyle d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/056e0c06c828dbe71a0f9021b2828ff176a3d337" alt="d+1"> is the minimum <a href="https://en.wikipedia.org/wiki/Outdegree#Indegree_and_outdegree" target="_blank" rel="noopener">degree</a> or <a href="https://en.wikipedia.org/wiki/Branching_factor" target="_blank" rel="noopener">branching factor</a> of the tree. In practice, the keys take up the most space in a node. The factor of 2 will guarantee that nodes can be split or combined. If an internal node has {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys, then adding a key to that node can be accomplished by splitting the hypothetical {\displaystyle 2d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d68ab692c5c4a44b63f3bd320249b8cb8d035191" alt="2d+1"> key node into two {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> key nodes and moving the key that would have been in the middle to the parent node. Each split node has the required minimum number of keys. Similarly, if an internal node and its neighbor each have {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys, then a key may be deleted from the internal node by combining it with its neighbor. Deleting the key would make the internal node have {\displaystyle d-1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0195b64ba44bcc80b4c98e9d34256b4043fe519e" alt="d-1"> keys; joining the neighbor would add {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys plus one more key brought down from the neighbor’s parent. The result is an entirely full node of {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys.</p>
+
       
     </div>
 
@@ -238,7 +247,7 @@ shift + i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/aQuestionAboutStaticKeyword/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -252,7 +261,7 @@ shift + i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/other/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" class="post-title-link" itemprop="url">other/Linux学习笔记2</a>
+            <a href="/2020/01/09/other/aQuestionAboutStaticKeyword/" class="post-title-link" itemprop="url">other/aQuestionAboutStaticKeyword</a>
         </h1>
 
         <div class="post-meta">
@@ -261,9 +270,8 @@ shift + i
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+              <time title="Created: 2020-01-09 17:14:50" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:50+08:00">2020-01-09</time>
             </span>
 
           
@@ -277,13 +285,18 @@ shift + i
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>撤销命令 <code>:u</code><br>PS: 之前修改文件时忘记切换到管理员模式, wq之后告诉我没有权限<br>但这时我已经退不出去了, 一直提示不能修改之类的问题<br>使用这个命令撤销wq指令, 再出去切换管理员模式, 修改文件  </p>
-<p>增加root用户<br>切换管理员模式, 执行 <code>visudo</code> 指令  </p>
-<pre><code>在 root ALL=(ALL) ALL 处增加 你的名字 ALL=(ALL) ALL  </code></pre><p>PS: 使用sudo时提示我不在sudoers中, 无法sudo执行指令  </p>
-<p>vim跳到行尾 <code>:$</code><br>PS: 一直按着下箭头很累的… 到达行尾没停下来还会被嘟<del>~</del><br>顺便, 到达指定行命令 <code>:n</code> 表示行数, <code>:10</code> 跳到第十行</p>
-<p>UNIX环境高级编程中的apue.h文件<br>这个文件是作者编写的, 需要到<a href="http://www.apuebook.com/code3e.html" target="_blank" rel="noopener">http://www.apuebook.com/code3e.html</a>下载<br>下载之后解压, 将 <code>apue.h</code> 文件和 <code>error.c</code> 文件拷贝到 <code>/usr/include</code> 文件夹下<br>修改apue.h文件, 在最后一行(#endif)之前, 添加 <code>#include &quot;error.c&quot;</code>   </p>
-<p>更改文件/文件夹权限指令  <code>chmod</code><br>上述加上apue.h文件之后, 提示error.c文件不可访问<br>原来是文件默认属性为 -rw——-<br>执行 <code>chmod -R 666 文件名</code> 更改权限<br>PS: 用man查了一下chmod指令-R选项是递归执行…<br>emmmmmmmm 这好像是用于文件夹的, 有点尴尬  </p>
-<p>man手册 <code>man 1 要查询的指令</code><br>linux中不知道一些指令的具体用法, 可以使用man手册来查<br>PS: 1表示手册1, 好像是分为多个手册, linux命令行使用的大多指令在手册1中(猜测)<br>man手册中还包含函数 比如 <code>man 3 atoi</code> 就可以查询函数atoi的具体信息</p>
+          <h3 id="一个关于-static-的问题"><a href="#一个关于-static-的问题" class="headerlink" title="一个关于 static 的问题"></a>一个关于 static 的问题</h3><p>2019年4月22日19:42:18  </p>
+<p>日常的一天, 做做 leetcode, 但是突然发现了关于 leetcode 代码优化的问题 </p>
+<p><img src="https://imgur.com/cH0JYBG.png" alt=""></p>
+<p>题目大概是要你中序遍历树</p>
+<p>(看到题目的时候愣了一下, 怀疑自己是不是眼花了, 直到看到了 Follow up…  emmm, 好吧, 迭代)</p>
+<p>总之我先用递归试了一下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left)</span><br><span class="line">            inorderTraversal(root-&gt;left);</span><br><span class="line"></span><br><span class="line">        ret.push_back(root-&gt;val);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">            inorderTraversal(root-&gt;right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://imgur.com/NMNndgq.png" alt=""></p>
+<p>但是它总是给我报这个错</p>
+<p>这是没有理由的! 我代码中不可能无中生有</p>
+<p>我怀疑这是 leetcode 平台对于用户所做的一种优化  </p>
+<p>而这种优化与我使用 static 关键字相冲突</p>
 
       
     </div>
@@ -372,71 +385,6 @@ shift + i
 <p>PS: O(log n)的复杂度计算好像不太容易, 一般人还不一定计算得出来… </p>
 <p>RET: 总的来说时间复杂度就是一个随着计算数据增加, 算法效率呈何种形式增加的一种规律<br>了解一下时间复杂度是很有必要的<br>以后别人问你 你的算法效率如何的时候. 就可以回答: 我的算法时间复杂度是O(1)!  </p>
 <p>以上经验参照自<a href="https://www.jianshu.com/p/f4cca5ce055a" target="_blank" rel="noopener">简书</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/README/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/README/" class="post-title-link" itemprop="url">other/README</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>与具体环境, 具体语言无关, 理论和原理的理解</p>
-<p>具体来说就是研究语言的汇编代码, 或者某个技术的框架(暂时没有)</p>
-<h3 id="1-优化前还是优化后的汇编"><a href="#1-优化前还是优化后的汇编" class="headerlink" title="1. 优化前还是优化后的汇编"></a>1. 优化前还是优化后的汇编</h3><p>  对此我选择优化后的代码, 虽然优化前的代码更能表现出语言特性, 但是执行的毕竟是优化后的代码</p>
-<p>  (隔天当我分析(多重继承 + 虚继承)时就有点后悔做出这个决定, 编译器优化后的代码与书上的讲解有很大差别, 并且是像迷宫一样的结构…)</p>
-<h3 id="2-是否需要在某些数字-字符前后加空格"><a href="#2-是否需要在某些数字-字符前后加空格" class="headerlink" title="2. 是否需要在某些数字/字符前后加空格"></a>2. 是否需要在某些数字/字符前后加空格</h3><p>  这个源自于写代码时 int i = 1; 这样…</p>
-<p>  当中文和英文/数字混杂时, 下意识想加空格分开, 我打算保持这个习惯</p>
-<h3 id="3-要不要去掉无用的汇编信息-例如-cfi-伪指令"><a href="#3-要不要去掉无用的汇编信息-例如-cfi-伪指令" class="headerlink" title="3. 要不要去掉无用的汇编信息, 例如 .cfi 伪指令"></a>3. 要不要去掉无用的汇编信息, 例如 .cfi 伪指令</h3><p>  我打算尽量保持它原有的样子</p>
 
       
     </div>
@@ -549,107 +497,6 @@ shift + i
 <p>(一开始看重构这本书的时候, 本来对里面一些降低效率的做法不太满意)</p>
 <p>(但是真的使用了之后, 发现代码的确好多了, 无论是易读, 编写, 调试, 增加/删除方面, 都有明显提升)</p>
 <p>(不过可惜没有运用到&lt;设计模式&gt;中的东西(或许我用到了, 只是没注意到?) )</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/debug%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/debug%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">other/debug的小技巧</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:35" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#关于“逆向”思维<br>    forward_list<int>::iterator it;</p>
-<pre><code>inline void ptf(forward_list&lt;int&gt;::iterator fli)
-{
-    if (fli == it)
-    {
-        return;
-    }
-
-    //这里我保存了当前迭代器中的值
-    forward_list&lt;int&gt;::value_type i = *fli;
-    //前向列表没有重载+，（其实可以写一个），注意此处的++
-    ptf(++fli);
-
-    //我原先是在此处打印fli中的值
-    cout &lt;&lt; i &lt;&lt; endl;
-//    ptf(++fli);
-}
-
-int main()
-{
-    forward_list&lt;int&gt; fli{1, 2, 3, 4, 5};
-    it = fli.end();
-
-    ptf (fli.begin());
-
-    system(&quot;pause&quot;);
-}</code></pre><p>参考上面的代码，在上文中唯一打印的一处，会出现错误，经过排查，发现是解引用了end迭代器<br>其实上文的错误正常情况下很快就能排查出来，但是当时我排查了半个多小时…  </p>
-<p>为什么会出现这一系列错误呢，属于一个巧合，就和《思考，快与慢》中的介绍一样，思维陷入了误区<br>无形地被一些因素（快思考）误导了：  </p>
-<ol>
-<li><p>我不常用单向链表，在获取下一个元素的时候，我自然而然地想到了获得它的下一个节点的指针（因为我来写的话就是这么实现的）<br> 但是我发现并没有这样的操作，花费了一些时间，才想到，它重载了++运算符，这里浪费了一点时间<br> （如果我不自以为是地认为它的接口应当是获得下一个节点指针的话，就不会这样。但这也不能全怪我的“系统一”，毕竟在大多数情况下<br> “系统一”会帮我快速处理问题而不经过“系统二”，对于这种情况，<strong>多慎重考虑一下可能会取得不错的效果</strong>）</p>
-</li>
-<li><p>系统的报错很奇怪，我一开始不知道自己错在了哪里，排查之后才发现是解引用出错了，之后才又发现我解引用了end迭代器<br> （其中函数最开始的if，让我误以为我跳过了end的情况，并且使用++时，我的思维还停留在恍然大悟中（原来它重载了++运算<br> 而没有直接给我下一个节点的指针），所以我没有考虑到++之后，它又指向end迭代器了）之后再思考时，我没有第一时间想到++的问题<br> <strong>对于这种问题，最好的方法是在编写代码时保持心平气和</strong></p>
-</li>
-<li><p>错误的方向：我以为可能是forward_list个人的问题（其中做了什么操作？），我又用vector去试验了，这里又浪费了时间，<br> 等我排查完个可能之后又去猜测其他的问题，才找了原因<br> （<strong>不够熟悉</strong>，如果我对知识点都很了解的话，我就不至于手动排查这个问题原因）</p>
-</li>
-</ol>
-<p>最后，我想到了在笨办法学python中，作者对于debug的建议：<strong>代码从后往前看</strong><br>这是个不错的想法，当正向思维被困住时，利用逆向思维，就更多的思考这代码为什么这样写，这之前该如何操作<br>想来，如果一开始我就用逆向的思维来debug的话，这个问题我一开始应该就能发现：  </p>
-<ol>
-<li>最后一句打印了迭代器中的值，emmm 这不能是end迭代器，它的++操作返回了什么类型？这个类型重载了&lt;&lt;么？…  </li>
-<li>然后上一句将迭代器递增之后当做参数使用了递归结构，这里已经把迭代器递增了，上面应该会出现结束递归的判断吧  </li>
-<li>看到递归的判断了，emmm，当迭代器为end的时候是不操作的，很好，应该是这样，最后一次会跳过end迭代器，<br> 第一次打印的值应该是指向back迭代器的，emmmm…  等等，第一次打印之前我做了什么操作来着？++？<br> 那又指向了end迭代器了，这不是我想要的效果</li>
-</ol>
-<p>大概思维导图是这样的话，能够节省我不少的时间吧<br>重申：<br><strong>心平气和，专一地思考，不要沉溺于其他的事情</strong><br><strong>逆向思维，反向看代码更能排查出问题</strong><br><strong>有很强的基础，能解决不少不必要的问题</strong></p>
 
       
     </div>
@@ -1102,11 +949,208 @@ int main()
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/install%20vim8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/install%20vim8/" class="post-title-link" itemprop="url">other/install vim8</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在和 master vim quickly 的作者邮件中 </p>
+<p>发现了自己的vim版本还可以再更新, 于是有了这篇笔记</p>
+<p>参考教程:</p>
+<p><a href="https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/" target="_blank" rel="noopener">https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/</a></p>
+<p><a href="https://www.systutorials.com/241762/how-to-upgrade-vim-to-version-8-on-centos-7/" target="_blank" rel="noopener">https://www.systutorials.com/241762/how-to-upgrade-vim-to-version-8-on-centos-7/</a></p>
+<p>vim的git地址:</p>
+<p><a href="https://github.com/vim/vim" target="_blank" rel="noopener">https://github.com/vim/vim</a></p>
+<p>vim8安装指南:</p>
+<p><a href="https://github.com/vim/vim/blob/master/src/INSTALL" target="_blank" rel="noopener">https://github.com/vim/vim/blob/master/src/INSTALL</a></p>
+<h3 id="安装vim8"><a href="#安装vim8" class="headerlink" title="安装vim8"></a>安装vim8</h3><ol>
+<li><p>首先需要源代码</p>
+<p>git clone <a href="https://github.com/vim/vim.git" target="_blank" rel="noopener">https://github.com/vim/vim.git</a></p>
+</li>
+<li><p>编译</p>
+<p>cd &lt;vim repo 路径&gt;/src</p>
+<p>make</p>
+<p>make install</p>
+<p>现在应该就已经获得了新的vim可执行文件, 将他覆盖原来的vim就好</p>
+</li>
+</ol>
+<p>@btw: 中途可能会遇到一些问题</p>
+<ul>
+<li>安装编译vim所需的API<ul>
+<li>yum  -y install  ncurses-devel</li>
+</ul>
+</li>
+<li>覆盖时提示出错<ul>
+<li>因为可能vim还在其他地方被运行, 使用 losf 查看进程, kill 掉</li>
+</ul>
+</li>
+</ul>
+<p>具体的可以参考上面的教程链接, 这里只是简单概述</p>
+<p>顺便给一份通常的vim设置</p>
+<pre><code>&quot;General&quot;
+set number    &quot;Show line numbers&quot;
+set linebreak    &quot;Break lines at word (requires Wrap lines)&quot;
+set showbreak=+++    &quot;Wrap-broken line prefix&quot;
+set textwidth=100    &quot;Line wrap (number of cols)&quot;
+set showmatch    &quot;Highlight matching brace&quot;
+set visualbell    &quot;Use visual bell (no beeping)&quot;
+
+set hlsearch    &quot;Highlight all search results&quot;
+set smartcase    &quot;Enable smart-case search&quot;
+set ignorecase    &quot;Always case-insensitive&quot;
+set incsearch    &quot;Searches for strings incrementally&quot;
+
+set autoindent    &quot;Auto-indent new lines&quot;
+set shiftwidth=4    &quot;Number of auto-indent spaces&quot;
+set smartindent    &quot;Enable smart-indent&quot;
+set smarttab    &quot;Enable smart-tabs&quot;
+set softtabstop=4    &quot;Number of spaces per Tab&quot;
+
+&quot;Advanced&quot;
+set ruler    &quot;Show row and column ruler information&quot;
+​    
+set undolevels=1000    &quot;Number of undo levels&quot;
+set backspace=indent,eol,start    &quot;Backspace behaviour&quot;</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/linux/" class="post-title-link" itemprop="url">other/linux</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <pre><code>mkdir 创建文件夹指令  
+su 切换到管理员模式  
+sudo 以管理员模式执行命令
+sudo passwd 以用户密码更改管理员密码
+rm -f * 删除当前目录下所有文件
+clear 清空终端窗口(实际还存在, 只不过看不见了, 和cmd一样)
+
+apt-get install [工具名] 安装工具  
+CentOS下是使用yum
+
+更改vim配色
+1. 下载vim文件
+2. 放到~/.vim/colors文件夹下(没有就创建)
+3. 更改vimrc文件, 路径: /etc/vim/vimrc, 增加指令: colorscheme [配色方案名]
+PS: 默认的colors文件夹路径: /usr/share/vim/vim80/colors
+之后发现vimrc文件在/etc目录下, 而vim文件放在了~/.vim目录下
+emmmmm, 已经想不起当时怎么弄的了... 就这样吧, 可能是版本问题...
+
+更改tab间距
+同样更改vimrc文件, 增加如下指令: 
+set ts=4 // 设置table间距为4
+set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: 想起之前刚接触linux, 安装g++, gcc参照了错误的教程(那沙雕教程又是装插件又是下安装包)<br>好不容易装完之后又被vi的输入和命令行模式, 嘟嘟嘟嘟嘟, 气得半死<br>之后又好不容易写好一个测试代码, ctrl+s一保存, 直接TMD不响应了<br>(事后才得知这是关闭向终端输入的接口, 只需要ctrl+q就可以重新打开输入, 留下了属于无知者的泪水…)<br>一系列操作让我直接删除ubuntu… </p>
+<p>vim查询字符串 <code>/字符串</code><br>PS: 但是之后被搜索的字符串会持续高亮显示, 使输入<code>noh</code>可还原  </p>
+<p>vim注释多行<br>control + v<br>上下键/(j/k) 键选中操作的行<br>shift + i<br>输入<code>//</code> (视语言而定)<br>连续两次 ESC</p>
+<p>取消多行注释<br>control + v<br>上下左右键 选中需要注释的符号<br>d</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1172,7 +1216,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

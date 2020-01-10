@@ -166,6 +166,740 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/LocksSetbyDifferentSQLStatementsinInnoDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/LocksSetbyDifferentSQLStatementsinInnoDB/" class="post-title-link" itemprop="url">read/LocksSetbyDifferentSQLStatementsinInnoDB</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-08 20:02:59" itemprop="dateModified" datetime="2019-08-08T20:02:59+08:00">2019-08-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="15-7-3-Locks-Set-by-Different-SQL-Statements-in-InnoDB"><a href="#15-7-3-Locks-Set-by-Different-SQL-Statements-in-InnoDB" class="headerlink" title="15.7.3 Locks Set by Different SQL Statements in InnoDB"></a>15.7.3 Locks Set by Different SQL Statements in InnoDB</h3><p>If a secondary index is used in a search and index record locks to be set are exclusive, <code>InnoDB</code> also retrieves the corresponding clustered index records and sets locks on them.</p>
+<p>如果在搜索中使用次级索引, 并且索引记录锁被设置为互斥. InnoDB 还检索相应的聚簇索引记录, 在记录上设置锁</p>
+<p>If you have no indexes suitable for your statement and MySQL must scan the entire table to process the statement, every row of the table becomes locked, which in turn blocks all inserts by other users to the table. It is important to create good indexes so that your queries do not unnecessarily scan many rows.</p>
+<p>如果语句没有适当的索引, MySQL 必须扫描整个表. 表的每行都被加锁, 这会导致其他用户在该表的插入操作被阻塞. 创建好的索引非常重要, 这样查询语句就不需要扫描大量行</p>
+<p><code>InnoDB</code> sets specific types of locks as follows.</p>
+<ul>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FROM</code></a> is a consistent read, reading a snapshot of the database and setting no locks unless the transaction isolation level is set to <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_serializable" target="_blank" rel="noopener"><code>SERIALIZABLE</code></a>. For<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_serializable" target="_blank" rel="noopener"><code>SERIALIZABLE</code></a> level, the search sets shared next-key locks on the index records it encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.</p>
+<p>SELECT … FROM 具有一致读属性, 读取数据库的快照, 除非事务隔离等级设置为序列化, 否则不加锁.</p>
+<p>对序列化隔离等级, 搜索设置共享的 next-key 锁在遇到的索引记录上, 然而, 使用唯一索引去搜索唯一行的语句, 只有索引记录锁是必须的 (PS. 我不懂 = =… )</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR UPDATE</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR SHARE</code></a> statements that use a unique index acquire locks for scanned rows, and release the locks for rows that do not qualify for inclusion in the result set (for example, if they do not meet the criteria given in the <code>WHERE</code> clause). However, in some cases, rows might not be unlocked immediately because the relationship between a result row and its original source is lost during query execution. For example, in a <a href="https://dev.mysql.com/doc/refman/8.0/en/union.html" target="_blank" rel="noopener"><code>UNION</code></a>, scanned (and locked) rows from a table might be inserted into a temporary table before evaluation whether they qualify for the result set. In this circumstance, the relationship of the rows in the temporary table to the rows in the original table is lost and the latter rows are not unlocked until the end of query execution.</p>
+<p>SELECT … FOR UPDATE 和 SELECT … FOR SHARE 语句使用唯一索引获取锁扫描行, 释放不符合返回集合的锁 (比如, 如果它们不在 WHERE 子句条件中). 然而, 在某些条件下, 行可能不会被立即解锁, 因为返回行和它原始资源在查询语句执行期间丢失了. 比如, 在 UNION 语句中, 来自表的已扫描(和已锁)行在它们被评估是否符合搜索结果时, 可能被插入到临时表中, 在这样的环境下, 临时表中的行与原始表中的行的关系将会丢失, 后面的行直到查询结束后才解锁</p>
+</li>
+<li><p>For <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_locking_read" target="_blank" rel="noopener">locking reads</a> (<a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT</code></a> with <code>FOR UPDATE</code> or <code>FOR SHARE</code>), <a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE</code></a>, and <a href="https://dev.mysql.com/doc/refman/8.0/en/delete.html" target="_blank" rel="noopener"><code>DELETE</code></a> statements, the locks that are taken depend on whether the statement uses a unique index with a unique search condition, or a range-type search condition.</p>
+<p>对于加锁读(SELECT 和 FRO UPDATE 或 FOR SHARED 配合), UPDATE, 和 DELETE 语句, 是否加锁取决于语句是否使用具有唯一搜索条件或范围类型搜索条件的唯一索引</p>
+<ul>
+<li><p>For a unique index with a unique search condition, <code>InnoDB</code> locks only the index record found, not the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_gap" target="_blank" rel="noopener">gap</a> before it.</p>
+<p>对于具有唯一搜索条件的唯一索引而言, InnoDB 只锁定查找到的索引记录, 不包含前面的间隙</p>
+</li>
+<li><p>For other search conditions, and for non-unique indexes, <code>InnoDB</code> locks the index range scanned, using <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_gap_lock" target="_blank" rel="noopener">gap locks</a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_next_key_lock" target="_blank" rel="noopener">next-key locks</a> to block insertions by other sessions into the gaps covered by the range. For information about gap locks and next-key locks, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html" target="_blank" rel="noopener">Section 15.7.1, “InnoDB Locking”</a>.</p>
+<p>对于其他搜索条件, 以及非唯一索引, InnoDB 锁定范围扫描的索引, 使用间隙锁或 next-key (PS. 我真不知道怎么翻译这个比较优雅 = =) 锁阻塞其他会话包含范围的插入</p>
+</li>
+</ul>
+</li>
+<li><p>For index records the search encounters, <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR UPDATE</code></a> blocks other sessions from doing <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR SHARE</code></a> or from reading in certain transaction isolation levels. Consistent reads ignore any locks set on the records that exist in the read view.</p>
+<p>搜索所遇见的索引记录, SELECT … FOR UPDATE 阻塞其他来自 SELECT … FOR SHARE 或 来自在某一隔离级别的读取操作的会话, 一致读忽略任何在读取视图中的记录上设置的锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE ... WHERE ...</code></a> sets an exclusive next-key lock on every record the search encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.</p>
+<p>UPDATE … WHERE … 设置互斥 next-key 锁到每个搜索遇到的记录上, 然而, 使用唯一索引查找唯一行的语句只需要一个索引记录锁</p>
+</li>
+<li><p>When <a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE</code></a> modifies a clustered index record, implicit locks are taken on affected secondary index records. The <a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE</code></a> operation also takes shared locks on affected secondary index records when performing duplicate check scans prior to inserting new secondary index records, and when inserting new secondary index records.</p>
+<p>当 UPDATE 更改聚簇索引记录时, 在受影响的次级索引上添加一个隐式锁. UPDATE 还会在插入新的次级索引记录前, 执行重复检查扫描时, 向受影响的次级索引记录上添加共享锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/delete.html" target="_blank" rel="noopener"><code>DELETE FROM ... WHERE ...</code></a> sets an exclusive next-key lock on every record the search encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.</p>
+<p>DELETE FROM … WHERE … 给每个搜索遇到的记录设置一个互斥锁, 然而, (PS. 一模一样 = =)</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank" rel="noopener"><code>INSERT</code></a> sets an exclusive lock on the inserted row. This lock is an index-record lock, not a next-key lock (that is, there is no gap lock) and does not prevent other sessions from inserting into the gap before the inserted row.</p>
+<p>INSERT 在插入行设置互斥锁, 这是一个索引记录锁, 而非 next-key 锁 (也就是说, 不是间隙锁)</p>
+<p>Prior to inserting the row, a type of gap lock called an insert intention gap lock is set. This lock signals the intent to insert in such a way that multiple transactions inserting into the same index gap need not wait for each other if they are not inserting at the same position within the gap. Suppose that there are index records with values of 4 and 7. Separate transactions that attempt to insert values of 5 and 6 each lock the gap between 4 and 7 with insert intention locks prior to obtaining the exclusive lock on the inserted row, but do not block each other because the rows are nonconflicting.</p>
+<p>在插入行之前, 一种称为插入意图间隙锁的间隙锁被设置. 这个锁表示意图一种插入方式 : 多个事务插入同样的索引间隙, 如果它们不是插入间隙中的同样位置, 那么不必等待其他事务完成 (PS. 例如, 你想插入 4 和 5 到 3 和7 之间, 4 和 5 虽然插入的是同样的间隙, 但是它们插入的位置是不同的, 所以不应该阻塞彼此) 假设有值为 4 和 7 的索引记录, 事务分别尝试插入值 5 和 6, 每个事务在获取行的互斥锁之前都使用插入间隙锁锁住间隙 4 到 7, 但是因为行不冲突, 所以不会阻塞彼此</p>
+<p>If a duplicate-key error occurs, a shared lock on the duplicate index record is set. This use of a shared lock can result in deadlock should there be multiple sessions trying to insert the same row if another session already has an exclusive lock. This can occur if another session deletes the row. Suppose that an <code>InnoDB</code> table <code>t1</code> has the following structure:</p>
+<p>如果发生重复键错误, 在重复所以记录上设置一个共享锁, 这种共享锁的用法会导致死锁 : 可能会有多个会话尝试插入同样的行, 但彼此都已经有了一个互斥锁. 如果其他的事务尝试删除行, 那么可能会出错. 假设 InnoDB 表 t1 有如下结构 : </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (i <span class="built_in">INT</span>, PRIMARY <span class="keyword">KEY</span> (i)) <span class="keyword">ENGINE</span> = <span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Now suppose that three sessions perform the following operations in order:</p>
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 2:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 3:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ROLLBACK</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The first operation by session 1 acquires an exclusive lock for the row. The operations by sessions 2 and 3 both result in a duplicate-key error and they both request a shared lock for the row. When session 1 rolls back, it releases its exclusive lock on the row and the queued shared lock requests for sessions 2 and 3 are granted. At this point, sessions 2 and 3 deadlock: Neither can acquire an exclusive lock for the row because of the shared lock held by the other.</p>
+<p>会话1 的操作获取行的互斥锁, 会话2 和 会话3 都会导致重复键错误, 都请求获得共享锁. 当 会话1 回滚后, 释放它在行上的互斥锁, 排队的 会话2 和 会话3 被授权共享锁请求, 此时, 会话2 和 会话3 将会陷入死锁状态. 没有会话能获取行互斥锁, 因为彼此持有共享锁</p>
+<p>A similar situation occurs if the table already contains a row with key value 1 and three sessions perform the following operations in order:</p>
+<p>类似的情况还有 : 如果表已经包含了具有键值 1 的行, 三个会话顺序执行如下操作</p>
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> t1 <span class="keyword">WHERE</span> i = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Session 2:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 3:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The first operation by session 1 acquires an exclusive lock for the row. The operations by sessions 2 and 3 both result in a duplicate-key error and they both request a shared lock for the row. When session 1 commits, it releases its exclusive lock on the row and the queued shared lock requests for sessions 2 and 3 are granted. At this point, sessions 2 and 3 deadlock: Neither can acquire an exclusive lock for the row because of the shared lock held by the other.</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html" target="_blank" rel="noopener"><code>INSERT ... ON DUPLICATE KEY UPDATE</code></a> differs from a simple <a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank" rel="noopener"><code>INSERT</code></a> in that an exclusive lock rather than a shared lock is placed on the row to be updated when a duplicate-key error occurs. An exclusive index-record lock is taken for a duplicate primary key value. An exclusive next-key lock is taken for a duplicate unique key value.</p>
+<p>INSERT … ON DUPLICATE KEY UPDATE 不同于简单的 INSERT, 当重复键错误发生时, 它获取行的互斥锁而非共享锁, 重复主键值获取互斥索引记录锁, 重复唯一键值获取互斥 next-key 锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/replace.html" target="_blank" rel="noopener"><code>REPLACE</code></a> is done like an <a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank" rel="noopener"><code>INSERT</code></a> if there is no collision on a unique key. Otherwise, an exclusive next-key lock is placed on the row to be replaced.</p>
+<p>如果没有唯一键碰撞, REPLACE 行为类似 INSERT. 其他情况下, 获取行的互斥 next-key 锁</p>
+</li>
+<li><p><code>INSERT INTO T SELECT ... FROM S WHERE ...</code> sets an exclusive index record lock (without a gap lock) on each row inserted into <code>T</code>. If the transaction isolation level is <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_read-committed" target="_blank" rel="noopener"><code>READ COMMITTED</code></a>, <code>InnoDB</code> does the search on <code>S</code> as a consistent read (no locks). Otherwise, <code>InnoDB</code> sets shared next-key locks on rows from <code>S</code>. <code>InnoDB</code> has to set locks in the latter case: During roll-forward recovery using a statement-based binary log, every SQL statement must be executed in exactly the same way it was done originally.</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... SELECT ...</code></a> performs the <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT</code></a> with shared next-key locks or as a consistent read, as for <a href="https://dev.mysql.com/doc/refman/8.0/en/insert-select.html" target="_blank" rel="noopener"><code>INSERT ... SELECT</code></a>.</p>
+<p>INSERT INTO T SELECT … FROM S WHERE … 在每个插入到 T 的行上设置一个互斥索引记录锁. </p>
+<p>如果事务隔离等级是 READ COMMITTED, InnoDB 在 S 上执行一致读, 其他情况, InnoDB 在来自 S 的行上设置共享 next-key 锁. InnoDB 需要在后一种情况下设置锁 : 在 roll-forward 恢复期间, 使用基于语句的二进制日志, 每个 SQL 语句必须以与初始语句完全相同的方式执行.</p>
+<p>CREATE TABLE … SELECT … 执行带有共享 next-key 锁或一致读的 SELECT 语句, 就像 INSERT … SELECT 一样</p>
+<p>When a <code>SELECT</code> is used in the constructs <code>REPLACE INTO t SELECT ... FROM s WHERE ...</code> or <code>UPDATE t ... WHERE col IN (SELECT ... FROM s ...)</code>, <code>InnoDB</code>sets shared next-key locks on rows from table <code>s</code>.</p>
+<p>当 SELECT 在构造 REPLACE INTO t SELECT … FROM s WHERE … 或 UPDATE t … WHERE col IN (SELECR … FROM s …) 语句时, InnoDB 在 s 中的行上设置共享锁</p>
+</li>
+<li><p>While initializing a previously specified <code>AUTO_INCREMENT</code> column on a table, <code>InnoDB</code> sets an exclusive lock on the end of the index associated with the <code>AUTO_INCREMENT</code>column. In accessing the auto-increment counter, <code>InnoDB</code> uses a specific <code>AUTO-INC</code> table lock mode where the lock lasts only to the end of the current SQL statement, not to the end of the entire transaction. Other sessions cannot insert into the table while the <code>AUTO-INC</code> table lock is held; see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-model.html" target="_blank" rel="noopener">Section 15.7.2, “InnoDB Transaction Model”</a>.</p>
+<p>当初始化在表上之前指定带有 AUTO_INCREMENT 关键字的列时, InnoDB 在与 AUTO_INCREMENT 关联的索引末尾设置互斥锁. 在访问自增计数器时, InnoDB 使用特殊的 AUTO-INC 表锁模式, 锁只持续当前 SQL 语句的末尾, 而不是当前事务的末尾. 其他会话不能在 AUTO-INC 表锁已获得的情况下插入数据进该表中</p>
+<p><code>InnoDB</code> fetches the value of a previously initialized <code>AUTO_INCREMENT</code> column without setting any locks.</p>
+<p>InnoDB 无需加锁即可获取之前初始化的 AUTO_INCREMENT 列的值</p>
+</li>
+<li><p>If a <code>FOREIGN KEY</code> constraint is defined on a table, any insert, update, or delete that requires the constraint condition to be checked sets shared record-level locks on the records that it looks at to check the constraint. <code>InnoDB</code> also sets these locks in the case where the constraint fails.</p>
+<p>如果表上定义了 FOREIGN KEY 约束, 任何插入, 更新, 或删除都需要检查约束条件, 在检查约束的记录上设置共享的, 记录级锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> sets table locks, but it is the higher MySQL layer above the <code>InnoDB</code> layer that sets these locks. <code>InnoDB</code> is aware of table locks if <code>innodb_table_locks = 1</code>(the default) and <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_autocommit" target="_blank" rel="noopener"><code>autocommit = 0</code></a>, and the MySQL layer above <code>InnoDB</code> knows about row-level locks.</p>
+<p>LOCK TABLES 设置表锁, 这是高于 InnoDB 层的 MySQL 层设置的锁. 如果 innodb_table_locks = 1 (默认) 并且 autocommit = 0, 则 InnoDB 能够感知表锁, MySQL 层知道行级锁</p>
+<p>Otherwise, <code>InnoDB</code>‘s automatic deadlock detection cannot detect deadlocks where such table locks are involved. Also, because in this case the higher MySQL layer does not know about row-level locks, it is possible to get a table lock on a table where another session currently has row-level locks. However, this does not endanger transaction integrity, as discussed in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-deadlock-detection.html" target="_blank" rel="noopener">Section 15.7.5.2, “Deadlock Detection and Rollback”</a>. See also <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html" target="_blank" rel="noopener">Section 15.6.1.6, “Limits on InnoDB Tables”</a>.</p>
+<p>其他情况, InnoDB 的自动死锁发现机制不能察觉涉及这样的表锁的死锁, 同样, 因为在这样的情况下 MySQL 层不能察觉行级锁, 可以在另一个会话当前拥有行级锁的表上获取表锁. 然而, 这会危害事务的完整性</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/LimitsonInnoDBTables/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/LimitsonInnoDBTables/" class="post-title-link" itemprop="url">read/LimitsonInnoDBTables</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-05 20:49:37" itemprop="dateModified" datetime="2019-08-05T20:49:37+08:00">2019-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="15-6-1-6-Limits-on-InnoDB-Tables"><a href="#15-6-1-6-Limits-on-InnoDB-Tables" class="headerlink" title="15.6.1.6 Limits on InnoDB Tables"></a>15.6.1.6 Limits on InnoDB Tables</h4><p>Limits on <code>InnoDB</code> tables are described under the following topics in this section:</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-maximums-minimums" target="_blank" rel="noopener">Maximums and Minimums</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-table-restrictions" target="_blank" rel="noopener">Restrictions on InnoDB Tables</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-locking-transactions" target="_blank" rel="noopener">Locking and Transactions</a></li>
+</ul>
+<p>InnoDB表的限制在以下几个话题中讨论 : 最大和最小, InnoDB表的限制, 锁和事务</p>
+<h5 id="Maximums-and-Minimums"><a href="#Maximums-and-Minimums" class="headerlink" title="Maximums and Minimums"></a>Maximums and Minimums</h5><ul>
+<li><p>A table can contain a maximum of 1017 columns. Virtual generated columns are included in this limit.</p>
+<p>表最多可以包含 1017 列, 虚拟创建的列也包含在其中</p>
+</li>
+<li><p>A table can contain a maximum of 64 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_secondary_index" target="_blank" rel="noopener">secondary indexes</a>.</p>
+<p>表最多能有 64 个次级索引</p>
+</li>
+<li><p>The index key prefix length limit is 3072 bytes for <code>InnoDB</code> tables that use <code>DYNAMIC</code> or <code>COMPRESSED</code> row format.</p>
+<p>使用 DYNAMIC 或 COMPRESSED 行存储的 InnoDB 表索引键的前缀宽度被限制在 3072 字节内 (&lt;=)</p>
+<p>The index key prefix length limit is 767 bytes for <code>InnoDB</code> tables that use <code>REDUNDANT</code> or <code>COMPACT</code> row format. For example, you might hit this limit with a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_column_prefix" target="_blank" rel="noopener">column prefix</a>index of more than 191 characters on a <code>TEXT</code> or <code>VARCHAR</code> column, assuming a <code>utf8mb4</code> character set and the maximum of 4 bytes for each character.</p>
+<p>使用 REDUNDANT 或 COMPACT  行存储的 InnoDB 表索引间的前缀宽度被限制在 767 字节内 (&lt;=)</p>
+<p>Attempting to use an index key prefix length that exceeds the limit returns an error.</p>
+<p>尝试使用超过限制的字节前缀宽度会返回错误</p>
+<p>The limits that apply to index key prefixes also apply to full-column index keys.</p>
+<p>适用于索引键前缀的限制也适用于全列索引键</p>
+</li>
+<li><p>If you reduce the <code>InnoDB</code> <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_size" target="_blank" rel="noopener">page size</a> to 8KB or 4KB by specifying the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> option when creating the MySQL instance, the maximum length of the index key is lowered proportionally, based on the limit of 3072 bytes for a 16KB page size. That is, the maximum index key length is 1536 bytes when the page size is 8KB, and 768 bytes when the page size is 4KB.</p>
+<p>如果在创建 MySQL 实例时显式指定 innodb_page_size 减少 InnoDB 的页面大小(8kb -&gt; 4kb)索引键的最大长度也会成比例减少</p>
+<p>16kb 页大小限制在 3072 字节, 8kb 页大小限制在 1536 字节, 而 4kb 页面大小限制在 768 字节</p>
+</li>
+<li><p>A maximum of 16 columns is permitted for multicolumn indexes. Exceeding the limit returns an error.</p>
+<p>多列索引子列数不能超过 16 个</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1070 (42000): Too many key parts specified; max 16 parts allowed</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>The maximum row length, except for variable-length columns (<a href="https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html" target="_blank" rel="noopener"><code>VARBINARY</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a>), is slightly less than half of a page for 4KB, 8KB, 16KB, and 32KB page sizes. For example, the maximum row length for the default <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> of 16KB is about 8000 bytes. However, for an <code>InnoDB</code> page size of 64KB, the maximum row length is approximately 16000 bytes. <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>LONGBLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>LONGTEXT</code></a> columns must be less than 4GB, and the total row length, including <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a>columns, must be less than 4GB.</p>
+<p>除变长列(VARBINARY, VATCHAR, BLOB, TEXT)外, 列的长度都稍少于一半页的大小. 比如, 页面大小为 16kb 的行长度最大 8000 字节左右, 然而 InnoDB 64kb 的页最大在 16000 字节左右. LONGBLOB 和 LONGTEXT 列必须少于 4GB, 整个行的长度, 包括 BLOB 和 TEXT 列, 也必须少于 4GB.</p>
+<p>If a row is less than half a page long, all of it is stored locally within the page. If it exceeds half a page, variable-length columns are chosen for external off-page storage until the row fits within half a page, as described in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-file-space.html" target="_blank" rel="noopener">Section 15.11.2, “File Space Management”</a>.</p>
+<p>如果行小于页的一般, 数据则全部保存在页中, 如果超过, 变长列被选择页外存储直到列的大小符合为止</p>
+</li>
+<li><p>Although <code>InnoDB</code> supports row sizes larger than 65,535 bytes internally, MySQL itself imposes a row-size limit of 65,535 for the combined size of all columns:</p>
+<p>尽管 InnoDB 支持超过 65535 字节的行, MySQL 自身约束列的组合大小不能超过 65535</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t (a VARCHAR(8000), b VARCHAR(10000),</span><br><span class="line">    -&gt; c VARCHAR(10000), d VARCHAR(10000), e VARCHAR(10000),</span><br><span class="line">    -&gt; f VARCHAR(10000), g VARCHAR(10000)) ENGINE=InnoDB;</span><br><span class="line">ERROR 1118 (42000): Row size too large. The maximum row size for the</span><br><span class="line">used table type, not counting BLOBs, is 65535. You have to <span class="keyword">change</span> <span class="keyword">some</span></span><br><span class="line"><span class="keyword">columns</span> <span class="keyword">to</span> <span class="built_in">TEXT</span> <span class="keyword">or</span> BLOBs</span><br></pre></td></tr></table></figure>
+
+<p>See <a href="https://dev.mysql.com/doc/refman/8.0/en/column-count-limit.html" target="_blank" rel="noopener">Section C.10.4, “Limits on Table Column Count and Row Size”</a>.</p>
+</li>
+<li><p>On some older operating systems, files must be less than 2GB. This is not a limitation of <code>InnoDB</code> itself, but if you require a large tablespace, configure it using several smaller data files rather than one large data file.</p>
+<p>在一些较老的操作系统上, 文件必须小于 2GB. 这不是 InnoDB 的限制, 但是如果你需要一个大的表空间, 可以配置成使用些许较小的数据文件, 而不是一个大的数据文件</p>
+</li>
+<li><p>The combined size of the <code>InnoDB</code> log files can be up to 512GB.</p>
+<p>InnoDB 日志文件的组合大小最大 512GB</p>
+</li>
+<li><p>The minimum tablespace size is slightly larger than 10MB. The maximum tablespace size depends on the <code>InnoDB</code> page size.</p>
+<p>表的最小容量稍大于 10mb, 最大的表大小取决于 InnoDB 页大小</p>
+<p><strong>Table 15.3 InnoDB Maximum Tablespace Size</strong></p>
+<table>
+<thead>
+<tr>
+<th>InnoDB Page Size</th>
+<th>Maximum Tablespace Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4KB</td>
+<td>16TB</td>
+</tr>
+<tr>
+<td>8KB</td>
+<td>32TB</td>
+</tr>
+<tr>
+<td>16KB</td>
+<td>64TB</td>
+</tr>
+<tr>
+<td>32KB</td>
+<td>128TB</td>
+</tr>
+<tr>
+<td>64KB</td>
+<td>256TB</td>
+</tr>
+</tbody></table>
+<p>The maximum tablespace size is also the maximum size for a table.</p>
+<p>最大表空间大小也是最大表大小</p>
+</li>
+<li><p>The path of a tablespace file, including the file name, cannot exceed the <code>MAX_PATH</code> limit on Windows. Prior to Windows 10, the <code>MAX_PATH</code> limit is 260 characters. As of Windows 10, version 1607, <code>MAX_PATH</code> limitations are removed from common Win32 file and directory functions, but you must enable the new behavior.</p>
+<p>表空间文件的路径, 包括表名, 在 windows 上不能超过 MAX_PATH 限制, 在 win10 以前 MAX_PATH 限制为 260 字符. win10 1607 版本后移除了该限制</p>
+</li>
+<li><p>The default page size in <code>InnoDB</code> is 16KB. You can increase or decrease the page size by configuring the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> option when creating the MySQL instance.</p>
+<p>InnoDB 默认页大小为 16kb, 创建 MySQL 实例时可以通过设置 innodb_page_size 更改(PS. 页大小在创建后是属于表的局部常量么?)</p>
+<p>32KB and 64KB page sizes are supported, but <code>ROW_FORMAT=COMPRESSED</code> is unsupported for page sizes greater than 16KB. For both 32KB and 64KB page sizes, the maximum record size is 16KB. For <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size=32KB</code></a>, extent size is 2MB. For <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size=64KB</code></a>, extent size is 4MB.</p>
+<p>A MySQL instance using a particular <code>InnoDB</code> page size cannot use data files or log files from an instance that uses a different page size.</p>
+<p>32kb 和 64kb 的页也是支持的, 但是行存储为 COMPRESSED 不支持超过 16kb 大小的页. 对于 32kb 和 64kb 大小的也, 最大记录的大小其实是 16kb. </p>
+<p>MySQL 实例不能使用底层页面不一致的数据文件和日志文件</p>
+</li>
+</ul>
+<h5 id="Restrictions-on-InnoDB-Tables"><a href="#Restrictions-on-InnoDB-Tables" class="headerlink" title="Restrictions on InnoDB Tables"></a>Restrictions on InnoDB Tables</h5><ul>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> determines index cardinality (as displayed in the <code>Cardinality</code> column of <a href="https://dev.mysql.com/doc/refman/8.0/en/show-index.html" target="_blank" rel="noopener"><code>SHOW INDEX</code></a> output) by performing <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_random_dive" target="_blank" rel="noopener">random dives</a> on each of the index trees and updating index cardinality estimates accordingly. Because these are only estimates, repeated runs of <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> could produce different numbers. This makes<a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> fast on <code>InnoDB</code> tables but not 100% accurate because it does not take all rows into account.</p>
+<p>ANALYZE TABLE 语句每个索引树执行随机潜水(PS. ???)更新预估索引的基数(在 SHOW INDEX 的输出中 Cardinality 列显示)</p>
+<p>因为只是估计, 重复执行 ANALYZE TABLE 将会产生不同的值, 这使得 ANALYZE TABLE 在 InnoDB 上运行地很快, 但并不是 100% 正确, 因为并不会估计所有的行</p>
+<p>(PS. ANALYZE TABLE 将会分析表, 其中部分分析结果可以在 SHOW INDEX 中查看. 这里以列的基数为例)</p>
+<p>You can make the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_statistics" target="_blank" rel="noopener">statistics</a> collected by <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> more precise and more stable by turning on the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_persistent" target="_blank" rel="noopener"><code>innodb_stats_persistent</code></a> configuration option, as explained in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-persistent-stats.html" target="_blank" rel="noopener">Section 15.8.10.1, “Configuring Persistent Optimizer Statistics Parameters”</a>. When that setting is enabled, it is important to run <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> after major changes to indexed column data, because the statistics are not recalculated periodically (such as after a server restart).</p>
+<p>通过启用 innodb_stats_persistent 使 ANALYZE TABLE 的数据统计更加精确, 当启用这个选项后, 需要在对索引列数据进行主要更改后再使用 ANALYZE TABLE, 因为统计信息不是定期重新计算的</p>
+<p>If the persistent statistics setting is enabled, you can change the number of random dives by modifying the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_persistent_sample_pages" target="_blank" rel="noopener"><code>innodb_stats_persistent_sample_pages</code></a> system variable. If the persistent statistics setting is disabled, modify the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_transient_sample_pages" target="_blank" rel="noopener"><code>innodb_stats_transient_sample_pages</code></a> system variable instead.</p>
+<p>如果启用了持续性统计, 可以更改 innodb_stats_persistent_sample_pages 系统变量, 如果持久性统计设置取消, 则可以通过 innodb_stats_transient_sampke_pages 更改</p>
+<p>MySQL uses index cardinality estimates in join optimization. If a join is not optimized in the right way, try using <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a>. In the few cases that <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a>does not produce values good enough for your particular tables, you can use <code>FORCE INDEX</code> with your queries to force the use of a particular index, or set the<a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_seeks_for_key" target="_blank" rel="noopener"><code>max_seeks_for_key</code></a> system variable to ensure that MySQL prefers index lookups over table scans. See <a href="https://dev.mysql.com/doc/refman/8.0/en/optimizer-issues.html" target="_blank" rel="noopener">Section B.4.5, “Optimizer-Related Issues”</a>.</p>
+<p>MySQL 在 Join 优化中使用索引基数估计, 如果 Join 不能正确优化, 尝试使用 ANALYZE_TABLE. 在少数情况下 ANALYZE_TABLE 不能为指定的表产生足够好的值, 可以使用 FORCE INDEX 配合查询, 强制使用指定的索引或者设置 max_seeks_for_key 系统变量确保 MySQL 更偏向于索引查找而不是表扫描</p>
+</li>
+<li><p>If statements or transactions are running on a table, and <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> is run on the same table followed by a second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> operation, the second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> operation is blocked until the statements or transactions are completed. This behavior occurs because <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> marks the currently loaded table definition as obsolete when <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> is finished running. New statements or transactions (including a second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> statement) must load the new table definition into the table cache, which cannot occur until currently running statements or transactions are completed and the old table definition is purged. Loading multiple concurrent table definitions is not supported.</p>
+<p>如果语句和事务正在运行于表上, ANALYZE TABLE 同样运行于这张表上, 之后继续执行 ANALYZE_TABLE 操作, 第二个 ANALYZE TABLE 操作将会阻塞直到之前的事务/语句执行完成. 会发生这样的情况是因为 ANALYZE_TABLE 在执行完成时会将当前加载的表标记为已过时, 新的语句/事务(包括第二个 ANALYZE_TABLE 语句)必须加载新的表到表缓存中, 改操作在当前语句/事务已经完成, 并且旧表的定义已经被清理后才能发生, 不支持加载多个并发表</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> does not give accurate statistics on <code>InnoDB</code> tables except for the physical size reserved by the table. The row count is only a rough estimate used in SQL optimization.</p>
+<p>SHOW TABLE STATUS 不提供 InnoDB 表除表存储的物理大小外, 其他统计信息的精确性, 行数量只是一个 SQL 优化中粗略的估计</p>
+</li>
+<li><p><code>InnoDB</code> does not keep an internal count of rows in a table because concurrent transactions might “see” different numbers of rows at the same time. Consequently, <code>SELECT COUNT(*)</code> statements only count rows visible to the current transaction.</p>
+<p>InnoDB 不保存表中行的内部计数, 因为并发事务可能在同样的时间见到不同的值. </p>
+<p>因此, SELECT COUNT(*) 语句只计数对当前事务可见的行</p>
+<p>For information about how <code>InnoDB</code> processes <code>SELECT COUNT(*)</code> statements, refer to the <a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html#function_count" target="_blank" rel="noopener"><code>COUNT()</code></a> description in <a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html" target="_blank" rel="noopener">Section 12.20.1, “Aggregate (GROUP BY) Function Descriptions”</a>.</p>
+</li>
+<li><p>On Windows, <code>InnoDB</code> always stores database and table names internally in lowercase. To move databases in a binary format from Unix to Windows or from Windows to Unix, create all databases and tables using lowercase names.</p>
+<p>在 Windows 上, InnoDB 总是以小写存储数据库和表的名字(大小写不敏感 = =)</p>
+</li>
+<li><p>An <code>AUTO_INCREMENT</code> column <em>ai_col</em> must be defined as part of an index such that it is possible to perform the equivalent of an indexed <code>SELECT MAX(*ai_col*)</code> lookup on the table to obtain the maximum column value. Typically, this is achieved by making the column the first column of some table index.</p>
+<p>AUTO_INCREMENT 列 ai_col 必须被定义成索引的一部分, 这样就可以执行已被索引的 SELECT MAX(ai_col) 相等性判断, 获取最大的列值. 通常都是公国将列成为列的首列来获得的</p>
+</li>
+<li><p><code>InnoDB</code> sets an exclusive lock on the end of the index associated with the <code>AUTO_INCREMENT</code> column while initializing a previously specified <code>AUTO_INCREMENT</code> column on a table.</p>
+<p>InnoDB 在和 AUTO_INCREMENT 列相关的索引末尾设置互斥锁</p>
+<p>With <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=0</code></a>, <code>InnoDB</code> uses a special <code>AUTO-INC</code> table lock mode where the lock is obtained and held to the end of the current SQL statement while accessing the auto-increment counter. Other clients cannot insert into the table while the <code>AUTO-INC</code> table lock is held. The same behavior occurs for “bulk inserts”with <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=1</code></a>. Table-level <code>AUTO-INC</code> locks are not used with <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=2</code></a>. For more information, See <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-auto-increment-handling.html" target="_blank" rel="noopener">Section 15.6.1.4, “AUTO_INCREMENT Handling in InnoDB”</a>.</p>
+<p>innodb_automic_lock_mod 设置为 0 时, InnoDB 使用特殊的 AUTO_INC 表锁模式. 在访问自增计数器时锁被持有直到当前 SQL 语句结束</p>
+</li>
+<li><p>When an <code>AUTO_INCREMENT</code> integer column runs out of values, a subsequent <code>INSERT</code> operation returns a duplicate-key error. This is general MySQL behavior.</p>
+<p>当 AUTO_INCREMENT 越界, 插入操作会返回 重复的键 错误, 这是通常 MySQL 的行为</p>
+</li>
+<li><p><code>DELETE FROM *tbl_name*</code> does not regenerate the table but instead deletes all rows, one by one.</p>
+<p>DELETE FROM tbl_name 不再生表, 而是依次删除所有行 </p>
+</li>
+<li><p>Cascaded foreign key actions do not activate triggers.</p>
+<p>级联外键操作不激活触发器</p>
+</li>
+<li><p>You cannot create a table with a column name that matches the name of an internal <code>InnoDB</code> column (including <code>DB_ROW_ID</code>, <code>DB_TRX_ID</code>, <code>DB_ROLL_PTR</code>, and <code>DB_MIX_ID</code>). This restriction applies to use of the names in any letter case.</p>
+<p>你不能创建和内部 InnoDB 列重名的列, 包括(DB_ROW_ID, DB_TRX_ID, DB_ROLL_PTR, DB_MIX_ID)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (c1 INT, db_row_id INT) ENGINE=INNODB;</span><br><span class="line">ERROR 1166 (42000): Incorrect column name 'db_row_id'</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h5 id="Locking-and-Transactions"><a href="#Locking-and-Transactions" class="headerlink" title="Locking and Transactions"></a>Locking and Transactions</h5><ul>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> acquires two locks on each table if <code>innodb_table_locks=1</code> (the default). In addition to a table lock on the MySQL layer, it also acquires an <code>InnoDB</code> table lock. Versions of MySQL before 4.1.2 did not acquire <code>InnoDB</code> table locks; the old behavior can be selected by setting <code>innodb_table_locks=0</code>. If no <code>InnoDB</code> table lock is acquired, <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> completes even if some records of the tables are being locked by other transactions.</p>
+<p>如果 innodb_table_locks = 1 则 LOCK TABLES 在每个表上获取两个锁, 除了在 MySQL 层上的锁, 还获取 InnoDB 表锁, 如果没有获取 InnoDB 表锁, 即使一些记录被其他事务锁定, LOCK TABLES 也会完成</p>
+<p>In MySQL 8.0, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_table_locks" target="_blank" rel="noopener"><code>innodb_table_locks=0</code></a> has no effect for tables locked explicitly with <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... WRITE</code></a>. It does have an effect for tables locked for read or write by <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... WRITE</code></a> implicitly (for example, through triggers) or by <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... READ</code></a>.</p>
+</li>
+<li><p>All <code>InnoDB</code> locks held by a transaction are released when the transaction is committed or aborted. Thus, it does not make much sense to invoke <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> on<code>InnoDB</code> tables in <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_autocommit" target="_blank" rel="noopener"><code>autocommit=1</code></a> mode because the acquired <code>InnoDB</code> table locks would be released immediately.</p>
+<p>通过事务获取的所有 InnoDB 锁在事务提交或退出时释放, 因此, 在 autocommit = 1 模式下没有那么必要在 InnoDB 表上显式调用 LOCK TABLES 语句, 因为获取的 InnoDB 表锁会立即释放</p>
+</li>
+<li><p>You cannot lock additional tables in the middle of a transaction because <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> performs an implicit <a href="https://dev.mysql.com/doc/refman/8.0/en/commit.html" target="_blank" rel="noopener"><code>COMMIT</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>UNLOCK TABLES</code></a>.</p>
+<p>你不能在事务中锁额外的表, 因为 LOCK TABLES 执行隐式的 COMMIT 和 UNLOCK TABLES</p>
+</li>
+<li><p>For limits associated with concurrent read-write transactions, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html" target="_blank" rel="noopener">Section 15.6.6, “Undo Logs”</a>.</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/JVM-Memory-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/JVM-Memory-model/" class="post-title-link" itemprop="url">read/JVM-Memory-model</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-24 10:45:34" itemprop="dateModified" datetime="2019-09-24T10:45:34+08:00">2019-09-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://www.journaldev.com/2856/java-jvm-memory-model-memory-management-in-java" target="_blank" rel="noopener">source link</a></p>
+<h1 id="Java-JVM-Memory-Model-Memory-Management-in-Java"><a href="#Java-JVM-Memory-Model-Memory-Management-in-Java" class="headerlink" title="Java (JVM) Memory Model - Memory Management in Java"></a>Java (JVM) Memory Model - Memory Management in Java</h1><h2 id="Java-JVM-Memory-Model"><a href="#Java-JVM-Memory-Model" class="headerlink" title="Java (JVM) Memory Model"></a>Java (JVM) Memory Model</h2><p><a href="https://cdn.journaldev.com/wp-content/uploads/2014/05/Java-Memory-Model.png" target="_blank" rel="noopener"><img src="https://cdn.journaldev.com/wp-content/uploads/2014/05/Java-Memory-Model-450x186.png" alt="Java Memory Model, JVM Memory Model, Memory Management in Java, Java Memory Management"></a></p>
+<p>As you can see in the above image, JVM memory is divided into separate parts. At broad level, JVM Heap memory is physically divided into two parts – <strong>Young Generation</strong> and <strong>Old Generation</strong>.</p>
+<p>如上图所示, JVM 被分为了多个部分. JVM 堆物理性被分为两部分, Young Generation 和 Old Generation</p>
+<h2 id="Memory-Management-in-Java-–-Young-Generation"><a href="#Memory-Management-in-Java-–-Young-Generation" class="headerlink" title="Memory Management in Java – Young Generation"></a>Memory Management in Java – Young Generation</h2><p>The young generation is the place where all the new objects are created. When the young generation is filled, garbage collection is performed. This garbage collection is called <strong>Minor GC</strong>. Young Generation is divided into three parts – <strong>Eden Memory</strong> and two <strong>Survivor Memory</strong> spaces.</p>
+<p>所有新创建的对象一开始都在 young generation 中. GC 在 young generation 被填满时执行. 这个 GC 被称为 Minor GC. Young Generation 被分为三部分, Eden Memory 和两个 Survivor Memory 空间 </p>
+<p>Important Points about Young Generation Spaces:</p>
+<ul>
+<li><p>Most of the newly created objects are located in the Eden memory space.</p>
+</li>
+<li><p>大部分新创建的对象位于 Eden memory 空间</p>
+</li>
+<li><p>When Eden space is filled with objects, Minor GC is performed and all the survivor objects are moved to one of the survivor spaces.</p>
+</li>
+<li><p>Minor GC 在 Eden space 被对象填充时执行, 所有的 survivor 对象被移动到其中一个 survivor 空间</p>
+</li>
+<li><p>Minor GC also checks the survivor objects and move them to the other survivor space. So at a time, one of the survivor space is always empty.</p>
+</li>
+<li><p>Minor GC 元入会检查 survivor 对象, 将其移动到其他的 survivor 空间. 所以在同一时刻, 有一个 survivor 空间一直是空的</p>
+</li>
+<li><p>Objects that are survived after many cycles of GC, are moved to the Old generation memory space. Usually, it’s done by setting a threshold for the age of the young generation objects before they become eligible to promote to Old generation.</p>
+</li>
+<li><p>在多次 GC 循环后仍幸存的对象将会被移动到 Old generation 内存空间. </p>
+<p>通常, 是通过给 young generation 对象设置一个年龄的阈值来实现的 (超过这个阈值的对象将会被移动到 Old Generation 中)</p>
+</li>
+</ul>
+<h2 id="Memory-Management-in-Java-–-Old-Generation"><a href="#Memory-Management-in-Java-–-Old-Generation" class="headerlink" title="Memory Management in Java – Old Generation"></a>Memory Management in Java – Old Generation</h2><p>Old Generation memory contains the objects that are long-lived and survived after many rounds of Minor GC. Usually, garbage collection is performed in Old Generation memory when it’s full. Old Generation Garbage Collection is called <strong>Major GC</strong> and usually takes a longer time.</p>
+<p>Old Generation 内存包含在多次 Minor GC 循环后仍幸存的对象. 通常, GC 在 Old Generation 被填满时执行.</p>
+<p>Old Generation GC 被成为 Major GC, 通常花费更长的时间</p>
+<h3 id="Stop-the-World-Event"><a href="#Stop-the-World-Event" class="headerlink" title="Stop the World Event"></a>Stop the World Event</h3><p>All the Garbage Collections are “Stop the World” events because all application threads are stopped until the operation completes.</p>
+<p>所有的 GC 都是 “Stop the World” 事件. 因为所有的应用线程阻塞直到操作完成</p>
+<p>Since Young generation keeps short-lived objects, Minor GC is very fast and the application doesn’t get affected by this.</p>
+<p>因为 Young generation 保持短期存活对象, Minor GC 相当快, 应用不会受此影响</p>
+<p>However, Major GC takes a long time because it checks all the live objects. Major GC should be minimized because it will make your application unresponsive for the garbage collection duration. So if you have a responsive application and there are a lot of Major Garbage Collection happening, you will notice timeout errors.</p>
+<p>然而, Major GC 花费较长的时间, 因为它会检查所有的存活对象, Major GC 应该尽量少使用. 因为它会在 GC 期间, 使你的程序无相应. 所以如果你有一个响应应用, 同时在应用中存在大量 Major GC 发生时, 你应该注意是否会产生超时错误</p>
+<p>The duration taken by garbage collector depends on the strategy used for garbage collection. That’s why it’s necessary to monitor and tune the garbage collector to avoid timeouts in the highly responsive applications.</p>
+<p>GC 占用时间取决于 GC 策略, 这就是为什么要在高响应应用程序中需要监控和调整 GC 策略的原因</p>
+<h3 id="Java-Memory-Model-–-Permanent-Generation"><a href="#Java-Memory-Model-–-Permanent-Generation" class="headerlink" title="Java Memory Model – Permanent Generation"></a>Java Memory Model – Permanent Generation</h3><p>Permanent Generation or “Perm Gen” contains the application metadata required by the JVM to describe the classes and methods used in the application. Note that Perm Gen is not part of <a href="https://www.journaldev.com/4098/java-heap-space-vs-stack-memory" target="_blank" rel="noopener">Java Heap memory</a>.</p>
+<p>Permanent Generation 或 “Perm Gen” 包含 JVM 所需的应用元数据, 描述应用于应用中的类和方法. 注意, Perm Gen 不是 Java Heap memory 的一部分</p>
+<p>Perm Gen is populated by JVM at runtime based on the classes used by the application. Perm Gen also contains Java SE library classes and methods. Perm Gen objects are garbage collected in a full garbage collection.</p>
+<p>Perm Gen 由 JVM 在运行时填充, 基于被应用程序使用的类. Perm Gen 也包含 Java SE 库类以及方法. Perm Gen 对象在完整的 GC 中被回收</p>
+<h3 id="Java-Memory-Model-–-Method-Area"><a href="#Java-Memory-Model-–-Method-Area" class="headerlink" title="Java Memory Model – Method Area"></a>Java Memory Model – Method Area</h3><p>Method Area is part of space in the Perm Gen and used to store class structure (runtime constants and static variables) and code for methods and constructors.</p>
+<p>Method Area 是 Perm Gen 空间的一部分. 用于存储类数据结构 (运行时常量和静态变量) 以及 方法的代码和结构</p>
+<h3 id="Java-Memory-Model-–-Memory-Pool"><a href="#Java-Memory-Model-–-Memory-Pool" class="headerlink" title="Java Memory Model – Memory Pool"></a>Java Memory Model – Memory Pool</h3><p>Memory Pools are created by JVM memory managers to create a pool of <a href="https://www.journaldev.com/129/how-to-create-immutable-class-in-java" target="_blank" rel="noopener">immutable</a> objects if the implementation supports it. String Pool is a good example of this kind of memory pool. Memory Pool can belong to Heap or Perm Gen, depending on the JVM memory manager implementation.</p>
+<p>内存池由 JVM 内存管理器创建, 创建一个不变量对象池 (如果实现支持的话). String 池是这种内存池的一个很好的例子. 内存池可以属于 Heap 或 Perm Gen, 取决于 JVM 内存管理器的实现</p>
+<h3 id="Java-Memory-Model-–-Runtime-Constant-Pool"><a href="#Java-Memory-Model-–-Runtime-Constant-Pool" class="headerlink" title="Java Memory Model – Runtime Constant Pool"></a>Java Memory Model – Runtime Constant Pool</h3><p>Runtime constant pool is per-class runtime representation of constant pool in a class. It contains class runtime constants and static methods. Runtime constant pool is part of the method area.</p>
+<p>运行时常量池是类中常量池的每个类的运行时表示. 包含类运行时常量和静态方法. 运行时常量池是 method 区域的一部分</p>
+<h3 id="Java-Memory-Model-–-Java-Stack-Memory"><a href="#Java-Memory-Model-–-Java-Stack-Memory" class="headerlink" title="Java Memory Model – Java Stack Memory"></a>Java Memory Model – Java Stack Memory</h3><p>Java Stack memory is used for execution of a thread. They contain method specific values that are short-lived and references to other objects in the heap that is getting referred from the method. You should read <a href="https://www.journaldev.com/4098/java-heap-space-vs-stack-memory" target="_blank" rel="noopener">Difference between Stack and Heap Memory</a>.</p>
+<p>Java 栈内存用户执行线程. 它们包含方法指定值 (生命周期短, 指向堆中的对象)</p>
+<h3 id="Memory-Management-in-Java-–-Java-Heap-Memory-Switches"><a href="#Memory-Management-in-Java-–-Java-Heap-Memory-Switches" class="headerlink" title="Memory Management in Java – Java Heap Memory Switches"></a>Memory Management in Java – Java Heap Memory Switches</h3><p>Java provides a lot of memory switches that we can use to set the memory sizes and their ratios. Some of the commonly used memory switches are:</p>
+<p>Java 提供了大量的内存开关, 用于设置内存大小和比例. 一些常用的内存开关有: </p>
+<table>
+<thead>
+<tr>
+<th align="left">VM Switch</th>
+<th align="left">VM Switch Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-Xms</td>
+<td align="left">For setting the initial heap size when JVM starts</td>
+</tr>
+<tr>
+<td align="left">-Xmx</td>
+<td align="left">For setting the maximum heap size.</td>
+</tr>
+<tr>
+<td align="left">-Xmn</td>
+<td align="left">For setting the size of the Young Generation, rest of the space goes for Old Generation.</td>
+</tr>
+<tr>
+<td align="left">-XX:PermGen</td>
+<td align="left">For setting the initial size of the Permanent Generation memory</td>
+</tr>
+<tr>
+<td align="left">-XX:MaxPermGen</td>
+<td align="left">For setting the maximum size of Perm Gen</td>
+</tr>
+<tr>
+<td align="left">-XX:SurvivorRatio</td>
+<td align="left">For providing ratio of Eden space and Survivor Space, for example if Young Generation size is 10m and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces. The default value is 8.</td>
+</tr>
+<tr>
+<td align="left">-XX:NewRatio</td>
+<td align="left">For providing ratio of old/new generation sizes. The default value is 2.</td>
+</tr>
+</tbody></table>
+<p>Most of the times, above options are sufficient, but if you want to check out other options too then please check <a href="https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html" target="_blank" rel="noopener">JVM Options Official Page</a>.</p>
+<p>大多数时候, 上面的选项就足够了, 其他选项可以参见… </p>
+<h3 id="Memory-Management-in-Java-–-Java-Garbage-Collection"><a href="#Memory-Management-in-Java-–-Java-Garbage-Collection" class="headerlink" title="Memory Management in Java – Java Garbage Collection"></a>Memory Management in Java – Java Garbage Collection</h3><p>Java Garbage Collection is the process to identify and remove the unused objects from the memory and free space to be allocated to objects created in future processing. One of the best features of Java programming language is the <strong>automatic garbage collection</strong>, unlike other programming languages such as C where memory allocation and deallocation is a manual process.</p>
+<p>Java GC 是用于从内存中确定和移除未使用对象的进程, 释放内存, 以用于将来创建的对象. Java 的特性之一是自动垃圾回收, 不像其他语言需要手动处理 (其实也不是啦, 栈是不需要管的, 也就是 heap 需要手动释放)</p>
+<p><strong>Garbage Collector</strong> is the program running in the background that looks into all the objects in the memory and find out objects that are not referenced by any part of the program. All these unreferenced objects are deleted and space is reclaimed for allocation to other objects.</p>
+<p>GC 是一个运行于后台的程序, 查看在内容中的所有对象, 找到没有被程序中任何部分引用的对象. 所有这些未引用对象都会被删除, 空间会回收利用, 以用于其他对象的分配</p>
+<p>One of the basic ways of garbage collection involves three steps:</p>
+<ol>
+<li><p><strong>Marking</strong>: This is the first step where garbage collector identifies which objects are in use and which ones are not in use.</p>
+<p>Marking: 这是 GC 用于确定对象是否被使用的第一步</p>
+</li>
+<li><p><strong>Normal Deletion</strong>: Garbage Collector removes the unused objects and reclaim the free space to be allocated to other objects.</p>
+<p>Normal Deletion: GC 移除未使用对象, 回收资源</p>
+</li>
+<li><p><strong>Deletion with Compacting</strong>: For better performance, after deleting unused objects, all the survived objects can be moved to be together. This will increase the performance of allocation of memory to newer objects.</p>
+<p>Deletion with Compacting: 为了获得更好的性能, 在删除未使用对象后, 所有幸存对象可以移到一起, 这可以增加分配新对象的性能</p>
+</li>
+</ol>
+<p>There are two problems with a simple mark and delete approach.</p>
+<ol>
+<li><p>First one is that it’s not efficient because most of the newly created objects will become unused</p>
+<p>首先, 这并不高效, 因为大部分新创建的对象将会变成未使用</p>
+</li>
+<li><p>Secondly objects that are in-use for multiple garbage collection cycle are most likely to be in-use for future cycles too.</p>
+<p>其次, 多个 GC 循环后仍使用的对象在将来也可能是使用的</p>
+</li>
+</ol>
+<p>(总结来说就是, 大多数对象是创建后就失效的, 维护起来有一定成为. 其次, 一个多次 GC 后存在的对象在以后也大概率不会被移除, 这又会产生额外的性能损失)</p>
+<p>The above shortcomings with the simple approach is the reason that <strong>Java Garbage Collection is Generational</strong> and we have <strong>Young Generation</strong> and <strong>Old Generation</strong> spaces in the heap memory. I have already explained above how objects are scanned and moved from one generational space to another based on the Minor GC and Major GC.</p>
+<p>以上简单方法的缺点是 Java GC 是在堆内存中分代, 使用 Young Generation 和 Old Generation 空间的原因</p>
+<h3 id="Memory-Management-in-Java-–-Java-Garbage-Collection-Types"><a href="#Memory-Management-in-Java-–-Java-Garbage-Collection-Types" class="headerlink" title="Memory Management in Java – Java Garbage Collection Types"></a>Memory Management in Java – Java Garbage Collection Types</h3><p>There are five types of garbage collection types that we can use in our applications. We just need to use the JVM switch to enable the garbage collection strategy for the application. Let’s look at each of them one by one.</p>
+<p>我们可以在我们的应用中使用五种 GC, 仅需使用 JVM 开关就可使 GC 策略应用于应用. </p>
+<ol>
+<li><p><strong>Serial GC (-XX:+UseSerialGC)</strong>: Serial GC uses the simple <strong>mark-sweep-compact</strong> approach for young and old generations garbage collection i.e Minor and Major GC.</p>
+<p>Serial GC is useful in client machines such as our simple stand-alone applications and machines with smaller CPU. It is good for small applications with low memory footprint.</p>
+<p>Serial GC: Serial GC 使用最简单的 <strong>mark-sweep-compact</strong> 方法用于 young 和 old generations GC. 比如, Minor 和 Major GC.</p>
+<p>Serial GC 在如我们简单的, 独立的应用和小的 CPU 上很有用, 适用于低内存占用的小型应用</p>
+</li>
+<li><p><strong>Parallel GC (-XX:+UseParallelGC)</strong>: Parallel GC is same as Serial GC except that is spawns N threads for young generation garbage collection where N is the number of CPU cores in the system. We can control the number of threads using <code>-XX:ParallelGCThreads=n</code> JVM option.</p>
+<p>Parallel GC: Parallel GC 类似于 Serial GC, 除了为 young generation GC 产生 N 个线程 (N 是CPU核心数). 可以使用 JVM 选项控制线程的数量</p>
+<p>Parallel Garbage Collector is also called throughput collector because it uses multiple CPUs to speed up the GC performance. Parallel GC uses a single thread for Old Generation garbage collection.</p>
+<p>Parallel GC 也被称为吞吐量收集器, 因为它使用多个CPU提升GC性能. Parallel GC为Old Generation GC 单独分配一个线程</p>
+</li>
+<li><p><strong>Parallel Old GC (-XX:+UseParallelOldGC)</strong>: This is same as Parallel GC except that it uses multiple threads for both Young Generation and Old Generation garbage collection.</p>
+<p>和Parallel GC相同, 但它对 Young GC 和 Old GC 都使用多线程</p>
+</li>
+<li><p><strong>Concurrent Mark Sweep (CMS) Collector (-XX:+UseConcMarkSweepGC)</strong>: CMS Collector is also referred as concurrent low pause collector. It does the garbage collection for the Old generation. CMS collector tries to minimize the pauses due to garbage collection by doing most of the garbage collection work concurrently with the application threads.</p>
+<p>CMS 收集器也被称为并发低暂停收集器. 它为 Old generation 做 GC 操作. CMS 收集器尝试使用应用线程, 通过并发执行大部分 GC 操作来尽可能减低 GC 的暂停</p>
+<p>CMS collector on the young generation uses the same algorithm as that of the parallel collector. This garbage collector is suitable for responsive applications where we can’t afford longer pause times. We can limit the number of threads in CMS collector using <code>-XX:ParallelCMSThreads=n</code> JVM option.</p>
+<p>CMS 在 young generation 上像 parallel 收集器一样使用同样的算法, 这个算法适用于不能承担长时间暂停的响应程序, 可以使用选项限制 CMS 收集器使用的线程数</p>
+</li>
+<li><p><strong>G1 Garbage Collector (-XX:+UseG1GC)</strong>: The Garbage First or G1 garbage collector is available from Java 7 and its long term goal is to replace the CMS collector. The G1 collector is a parallel, concurrent, and incrementally compacting low-pause garbage collector.Garbage First Collector doesn’t work like other collectors and there is no concept of Young and Old generation space. It divides the heap space into multiple equal-sized heap regions. When a garbage collection is invoked, it first collects the region with lesser live data, hence “Garbage First”. You can find more details about it at Garbage-First Collector Oracle Documentation.</p>
+<p>G1 GC 从 Java 7 开始支持, 它长期的目标是取代 CMS 收集器. G1 是一个并行, 并发以及递增压紧的低暂停 GC. G1 不像其他收集器, 它没有 Young 和 Old generation 的概念. 它将 heap 空间分为多个相同的 heap 区域. 当GC 执行时, 它首先清理较少存留数据的 heap 区域, 因此成为”Garbage  First”. 你可以在 Oracle 的文档中找到更多关于 G1 收集器的信息.</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/IteratorsandReverseIterators/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/IteratorsandReverseIterators/" class="post-title-link" itemprop="url">read/IteratorsandReverseIterators</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:39" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:39+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-26 15:20:44" itemprop="dateModified" datetime="2019-08-26T15:20:44+08:00">2019-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Iterators-and-Reverse-Iterators"><a href="#Iterators-and-Reverse-Iterators" class="headerlink" title="Iterators and Reverse Iterators"></a>Iterators and Reverse Iterators</h2><p>You can convert normal iterators into reverse iterators. Naturally, the iterators must be bidirectional<br>iterators, but note that the logical position of an iterator is moved during the conversion. Consider<br>the following program:</p>
+<p>可以将普通的迭代器转换为反向迭代去(当然, 这个迭代器必须是双向的)</p>
+<p>请记住, 转换后迭代器的逻辑位置会发生改变, 参考以下程序 : </p>
+<pre><code>// iter/reviter2.cpp
+#include &lt;iterator&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+int main()
+{
+    // create list with elements from 1 to 9
+    vector&lt;int&gt; coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+    // find position of element with value 5
+    vector&lt;int&gt;::const_iterator pos;
+    pos = find (coll.cbegin(), coll.cend(),
+    5);
+
+    // print value to which iterator pos refers
+    cout &lt;&lt; &quot;pos: &quot; &lt;&lt; *pos &lt;&lt; endl;
+
+    // convert iterator to reverse iterator rpos
+    vector&lt;int&gt;::const_reverse_iterator rpos(pos);
+
+    // print value to which reverse iterator rpos refers
+    cout &lt;&lt; &quot;rpos: &quot; &lt;&lt; *rpos &lt;&lt; endl;
+}</code></pre><p>This program has the following output:<br>    pos: 5<br>    rpos: 4<br>Thus, if you print the value of an iterator and convert the iterator into a reverse iterator, the value has<br>changed. This is not a bug; it’s a feature! This behavior is a consequence of the fact that ranges are<br>half open. To specify all elements of a container, you must use the position after the last argument.<br>However, for a reverse iterator, this is the position before the first element. Unfortunately, such a<br>position may not exist. Containers are not required to guarantee that the position before their first<br>element is valid. Consider that ordinary strings and arrays might also be containers, and the language<br>does not guarantee that arrays don’t start at address zero.</p>
+<p>因此, 更改后迭代器的值发生了变化. 这不是一个 bug, 而是一个特性. 这是一个因半开区间而产生的结果.</p>
+<p>要指定容器的所有元素, 需要使用最后一个元素后的位置. 然而, 对于反向迭代器而言, 就是一个在第一个元素之前的位置, 不幸的是, 这样的位置是不存在的. 容器不保证他们第一个位置之前的元素是有效的.</p>
+<p>参考原始字符串和数组可能也会是容器, 语言不保证数组不从地址0开始</p>
+<p>As a result, the designers of reverse iterators use a trick: They “physically” reverse the “half-open<br>principle.” Physically, in a range defined by reverse iterators, the beginning is not included, whereas<br>the end is. However, logically, they behave as usual. Thus, there is a distinction between the physical<br>position that defines the element to which the iterator refers and the logical position that defines the<br>value to which the iterator refers (Figure 9.3). The question is, what happens on a conversion from<br>an iterator to a reverse iterator? Does the iterator keep its logical position (the value) or its physical<br>position (the element)? As the previous example shows, the latter is the case. Thus, the value is<br>moved to the previous element (Figure 9.4) </p>
+<p>结论是, 反向迭代器设计用了一个方法 : 它们物理性地反向半开区间. 物理性地, 在反向迭代器的定义中, 开始的元素不包含在内, 而尾端被包含. 然而, 逻辑上, 它们的行为和普通的迭代器一样. 因此, 定义迭代器引用的元素的物理位置和定义迭代器引用的值的逻辑位置是有区别的. </p>
+<p>问题是, 当普通迭代器转换为反向迭代器的时候, 会发生什么? 迭代器会保持它的逻辑位置, 还是物理位置? 在上面的案例显示中, 属于后者. 因此, 值移动到了之前的元素位置.</p>
+<p><img src="https://imgur.com/Xe1ifka.png" alt=""></p>
+<p><img src="https://imgur.com/1rPZHcM.png" alt=""></p>
+<h2 id="内部如何处理的"><a href="#内部如何处理的" class="headerlink" title="内部如何处理的"></a>内部如何处理的</h2><p>以上, 就是这篇笔记的原因, 我想看看反向迭代器它的内部是如何工作的</p>
+<p>这次的目标是解决如下疑问</p>
+<ol>
+<li>普通迭代器转换成反向迭代器会做什么?</li>
+<li>反向迭代器如何迭代的? </li>
+<li>反向迭代器如何保证不会越界? </li>
+</ol>
+<p>首先, 参考一下 C++ 代码 : </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">array</span>&lt;<span class="keyword">int</span>, 9&gt; v&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line">	<span class="keyword">auto</span> it = v.<span class="built_in">begin</span>();</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; *it &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">array</span>&lt;<span class="keyword">int</span>,9&gt;::<span class="function">const_reverse_iterator <span class="title">rit</span><span class="params">(it)</span></span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; *rit &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>然后是汇编代码 : </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB4368:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   subq▹   $64, %rsp</span><br><span class="line">▹   movl▹   $1, -64(%rbp)</span><br><span class="line">▹   movl▹   $2, -60(%rbp)</span><br><span class="line">▹   movl▹   $3, -56(%rbp)</span><br><span class="line">▹   movl▹   $4, -52(%rbp)</span><br><span class="line">▹   movl▹   $5, -48(%rbp)</span><br><span class="line">▹   movl▹   $6, -44(%rbp)</span><br><span class="line">▹   movl▹   $7, -40(%rbp)</span><br><span class="line">▹   movl▹   $8, -36(%rbp)</span><br><span class="line">▹   movl▹   $9, -32(%rbp)</span><br><span class="line">▹   leaq▹   -64(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt5arrayIiLm9EE5beginEv	&#x2F;&#x2F; 上述是 array 的初始化代码</span><br><span class="line">▹   movq▹   %rax, -8(%rbp)	&#x2F;&#x2F; 构造的返回值即是 begin</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movl▹   (%rax), %eax	&#x2F;&#x2F; *it</span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   movl▹   $_ZSt4cout, %edi</span><br><span class="line">▹   call▹   _ZNSolsEi</span><br><span class="line">▹   movl▹   $_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSolsEPFRSoS_E</span><br><span class="line">▹   movq▹   -8(%rbp), %rdx	&#x2F;&#x2F; -8(%rbp) 即 it</span><br><span class="line">▹   leaq▹   -16(%rbp), %rax	&#x2F;&#x2F; 这是一块未使用的内存</span><br><span class="line">▹   movq▹   %rdx, %rsi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt16reverse_iteratorIPKiEC1ES1_	&#x2F;&#x2F; 这应当就是 reverse_iterator 的 construct</span><br><span class="line">▹   leaq▹   -16(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNKSt16reverse_iteratorIPKiEdeEv	&#x2F;&#x2F; 在解引用之前, 会调用这个函数</span><br><span class="line">▹   movl▹   (%rax), %eax	&#x2F;&#x2F; 返回值解引用, 即 *rit</span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   movl▹   $_ZSt4cout, %edi</span><br><span class="line">▹   call▹   _ZNSolsEi</span><br><span class="line">▹   movl▹   $_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSolsEPFRSoS_E</span><br><span class="line">▹   movl▹   $0, %eax</span><br><span class="line">▹   leave</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br></pre></td></tr></table></figure>
+
+<p>可以看出, 关键点在于 “<em>ZNSt16reverse_iteratorIPKiEC1ES1</em>“ 和 “_ZNKSt16reverse_iteratorIPKiEdeEv” 将是关键</p>
+<p>其中, ZNSt16reverse_iteratorIPKiEC1ES1 的代码如下所示 (没有错, 就是这个)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">_ZNSt16reverse_iteratorIPKiEC2ES1_:</span><br><span class="line">.LFB4445:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   subq▹   $16, %rsp</span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)</span><br><span class="line">▹   movq▹   %rsi, -16(%rbp)</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movq▹   -16(%rbp), %rdx</span><br><span class="line">▹   movq▹   %rdx, (%rax)</span><br><span class="line">▹   leave</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br></pre></td></tr></table></figure>
+
+<p>代码除 _ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev 外, 就是简单地将 %rsi(-8(%rbp) 即 it) 的地址放入 %rdi(-16(%rbp) 我提到过的那块未使用的内存)</p>
+<p>_ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev 代码如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">_ZNSt8iteratorISt26random_access_iterator_tagilPKiRS1_EC2Ev:</span><br><span class="line">.LFB4443:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)</span><br><span class="line">▹   popq▹   %rbp</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br><span class="line">▹   .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>好像… 什么也没做 = = , 这个函数没有栈帧开辟, movq▹   %rdi, -8(%rbp) 也大概率是个无用的语句</p>
+<p>那么, 可以暂时得出结论, 反向迭代器是一个二级指针, 它保存了普通迭代器的地址</p>
+<p>那么, 来看另外一个函数 _ZNKSt16reverse_iteratorIPKiEdeEv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">_ZNKSt16reverse_iteratorIPKiEdeEv:</span><br><span class="line">.LFB4447:</span><br><span class="line">▹   .cfi_startproc</span><br><span class="line">▹   pushq▹  %rbp</span><br><span class="line">▹   .cfi_def_cfa_offset 16</span><br><span class="line">▹   .cfi_offset 6, -16</span><br><span class="line">▹   movq▹   %rsp, %rbp</span><br><span class="line">▹   .cfi_def_cfa_register 6</span><br><span class="line">▹   movq▹   %rdi, -24(%rbp)</span><br><span class="line">▹   movq▹   -24(%rbp), %rax</span><br><span class="line">▹   movq▹   (%rax), %rax</span><br><span class="line">▹   movq▹   %rax, -8(%rbp)</span><br><span class="line">▹   subq▹   $4, -8(%rbp)</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   popq▹   %rbp</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br><span class="line">▹   .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>一句话概括: 二级指针解引用 -4. 那么就和文档所说的吻合了, 反向迭代器会往前移动一个位置</p>
+<p>这个函数发生在反向迭代器解引用时, 大概可以猜出它的行为</p>
+<h2 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h2><p>疑问 1 和 疑问 2 解决了, 但是疑问 3 还未解决</p>
+<p>我原来想通过更改内存值来看的, 但是貌似有什么防范操作 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Breakpoint 1, main () at t.cpp:13</span><br><span class="line">13	    array&lt;int, 9&gt; v&#123;1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</span><br><span class="line">(gdb) n</span><br><span class="line">14	    auto it &#x3D; v.begin();</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe480	&#x2F;&#x2F; 这里就是 it</span><br><span class="line">$16 &#x3D; 1</span><br><span class="line">(gdb) set &#123;int&#125;0x7fffffffe480 &#x3D; 100	&#x2F;&#x2F; 更改 it 中的值</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe480	&#x2F;&#x2F; 成功更改</span><br><span class="line">$17 &#x3D; 100</span><br><span class="line">(gdb) n</span><br><span class="line">15	    cout &lt;&lt; *it &lt;&lt; endl;</span><br><span class="line">(gdb) n	&#x2F;&#x2F; 本来该打印 1 的, 更改后打印了 100 </span><br><span class="line">100</span><br><span class="line">16	    array&lt;int,9&gt;::const_reverse_iterator rit(it);</span><br><span class="line">(gdb) p v	&#x2F;&#x2F; 再次验证更改是有效的</span><br><span class="line">$18 &#x3D; &#123;_M_elems &#x3D; &#123;100, 2, 3, 4, 5, 6, 7, 8, 9&#125;&#125;</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe47b	&#x2F;&#x2F; 根据推算, 这个就是 rend 的地址</span><br><span class="line">$19 &#x3D; 0</span><br><span class="line">(gdb) set &#123;int&#125;0x7fffffffe47b &#x3D; 200	&#x2F;&#x2F; 更改 rend ( 在程序崩溃的边缘疯狂试探 :) )</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe47b</span><br><span class="line">$20 &#x3D; 200</span><br><span class="line">(gdb) n</span><br><span class="line">17	    cout &lt;&lt; *rit &lt;&lt; endl;</span><br><span class="line">(gdb) n	&#x2F;&#x2F; 结果让人很失望</span><br><span class="line">0</span><br><span class="line">18	&#125;</span><br><span class="line">(gdb) p &#123;int&#125;0x7fffffffe47b &#x2F;&#x2F; 谁让你改回去的!?</span><br><span class="line">$21 &#x3D; 0</span><br></pre></td></tr></table></figure>
+
+<p>我之后在 end 上做了同样的测试, 发现 end 也有防范操作</p>
+<p>但我不知道具体是哪里防范了我这个操作, 应该是在解引用时, 但是里面代码不会更改到. </p>
+<p>我还看了 objdump 的汇编代码, 依旧没有发现什么特别之处, 和编译器生成的汇编代码是一样的… </p>
+<p>算了, 也算有所收获吧… </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/InnoDBRowFormat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1134,323 +1868,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/B-tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/B-tree/" class="post-title-link" itemprop="url">read/B-tree</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-07-25 17:54:48" itemprop="dateModified" datetime="2019-07-25T17:54:48+08:00">2019-07-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="原文地址-https-en-wikipedia-org-wiki-B-tree"><a href="#原文地址-https-en-wikipedia-org-wiki-B-tree" class="headerlink" title="原文地址 : https://en.wikipedia.org/wiki/B-tree"></a>原文地址 : <a href="https://en.wikipedia.org/wiki/B-tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/B-tree</a></h2><h2 id="B-tree"><a href="#B-tree" class="headerlink" title="B-tree"></a>B-tree</h2><p>In <a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener">computer science</a>, a <strong>B-tree</strong> is a self-balancing <a href="https://en.wikipedia.org/wiki/Tree_data_structure" target="_blank" rel="noopener">tree data structure</a> that maintains sorted data and allows searches, sequential access, insertions, and deletions in <a href="https://en.wikipedia.org/wiki/Logarithmic_time" target="_blank" rel="noopener">logarithmic time</a>. The B-tree is a generalization of a <a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">binary search tree</a> in that a node can have more than two children.<a href="https://en.wikipedia.org/wiki/B-tree#cite_note-Comer-1" target="_blank" rel="noopener">[1]</a> Unlike other <a href="https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree" target="_blank" rel="noopener">self-balancing binary search trees</a>, the B-tree is well suited for storage systems that read and write relatively large blocks of data, such as discs. It is commonly used in <a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">databases</a> and <a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">file systems</a>.</p>
-<p>What, if anything, the <em>B</em> stands for has never been established.</p>
-<p>在计算机科学中, B-tree 是自平衡树数据结构, 管理排序后的数据, 能常量时间内搜索. 序列访问, 插入和删除操作</p>
-<p>B-tree 是二分查找树的广泛实现, 即一个节点可以有超过两个子节点</p>
-<p>不像其他自平衡二分查找树, B-tree 适用于存储系统, 用作读取和写入相当庞大的数据</p>
-<p>比如 discs, 通常被数据库和操作系统使用</p>
-<h3 id="Overview-概览"><a href="#Overview-概览" class="headerlink" title="Overview (概览)"></a>Overview (概览)</h3><p>In B-trees, internal (<a href="https://en.wikipedia.org/wiki/Leaf_node" target="_blank" rel="noopener">non-leaf</a>) nodes can have a variable number of child nodes within some pre-defined range. When data is inserted or removed from a node, its number of child nodes changes. In order to maintain the pre-defined range, internal nodes may be joined or split. Because a range of child nodes is permitted, B-trees do not need re-balancing as frequently as other self-balancing search trees, but may waste some space, since nodes are not entirely full. The lower and upper bounds on the number of child nodes are typically fixed for a particular implementation. For example, in a <a href="https://en.wikipedia.org/wiki/2-3_tree" target="_blank" rel="noopener">2-3 B-tree</a> (often simply referred to as a <strong>2-3 tree</strong>), each internal node may have only 2 or 3 child nodes.</p>
-<p>Each internal node of a B-tree contains a number of <a href="https://en.wikipedia.org/wiki/Unique_key" target="_blank" rel="noopener">keys</a>. The keys act as separation values which divide its <a href="https://en.wikipedia.org/wiki/Subtree" target="_blank" rel="noopener">subtrees</a>. For example, if an internal node has 3 child nodes (or subtrees) then it must have 2 keys: <em>a</em>1 and <em>a</em>2. All values in the leftmost subtree will be less than <em>a</em>1, all values in the middle subtree will be between <em>a</em>1 and <em>a</em>2, and all values in the rightmost subtree will be greater than <em>a</em>2.</p>
-<p>在 B-tree 中, 内部(非叶子)节点可以在预定义范围内拥有可变数量的子节点</p>
-<p>当从节点中插入或删除数据时, 子节点的数量改变. 为了管理预定义的范围, 内部节点可以连接或分裂</p>
-<p>因为子节点的范围是受限的, B-tree 不需要像其他自平衡二分查找数一样频繁地重平衡, 但是会浪费一些空间, 因为节点不是填充满的</p>
-<p>子节点数量的上限和下限通常有具体的实现固定, 比如 2-3 B-tree(通常简称 2-3 tree) 每个内部节点只有 2 个 或 3个子节点</p>
-<p>每个 B-tree 的内部节点含有一些 keys, keys 充当分离的值 分离子树</p>
-<p>比如, 如果内部节点有 3 个子节点(或子树) 那么, 它必须有 2 个 keys : a1 和 a2</p>
-<p>所有在最左边子树的值 &lt;a1, 所有在中间子树的值 &gt;a1 &lt;a2, 在最右子树中的所有值 &gt;a2</p>
-<p>(PS. 这里没有考虑 = 的情况, 不过还行, 等于放在值的左边还是右边, 不会有太大影响)</p>
-<p>Usually, the number of keys is chosen to vary between {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> and {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d">, where {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> is the minimum number of keys, and {\displaystyle d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/056e0c06c828dbe71a0f9021b2828ff176a3d337" alt="d+1"> is the minimum <a href="https://en.wikipedia.org/wiki/Outdegree#Indegree_and_outdegree" target="_blank" rel="noopener">degree</a> or <a href="https://en.wikipedia.org/wiki/Branching_factor" target="_blank" rel="noopener">branching factor</a> of the tree. In practice, the keys take up the most space in a node. The factor of 2 will guarantee that nodes can be split or combined. If an internal node has {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys, then adding a key to that node can be accomplished by splitting the hypothetical {\displaystyle 2d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d68ab692c5c4a44b63f3bd320249b8cb8d035191" alt="2d+1"> key node into two {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> key nodes and moving the key that would have been in the middle to the parent node. Each split node has the required minimum number of keys. Similarly, if an internal node and its neighbor each have {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys, then a key may be deleted from the internal node by combining it with its neighbor. Deleting the key would make the internal node have {\displaystyle d-1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0195b64ba44bcc80b4c98e9d34256b4043fe519e" alt="d-1"> keys; joining the neighbor would add {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys plus one more key brought down from the neighbor’s parent. The result is an entirely full node of {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/aQuestionAboutStaticKeyword/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/aQuestionAboutStaticKeyword/" class="post-title-link" itemprop="url">other/aQuestionAboutStaticKeyword</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:14:50" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:50+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="一个关于-static-的问题"><a href="#一个关于-static-的问题" class="headerlink" title="一个关于 static 的问题"></a>一个关于 static 的问题</h3><p>2019年4月22日19:42:18  </p>
-<p>日常的一天, 做做 leetcode, 但是突然发现了关于 leetcode 代码优化的问题 </p>
-<p><img src="https://imgur.com/cH0JYBG.png" alt=""></p>
-<p>题目大概是要你中序遍历树</p>
-<p>(看到题目的时候愣了一下, 怀疑自己是不是眼花了, 直到看到了 Follow up…  emmm, 好吧, 迭代)</p>
-<p>总之我先用递归试了一下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left)</span><br><span class="line">            inorderTraversal(root-&gt;left);</span><br><span class="line"></span><br><span class="line">        ret.push_back(root-&gt;val);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">            inorderTraversal(root-&gt;right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><img src="https://imgur.com/NMNndgq.png" alt=""></p>
-<p>但是它总是给我报这个错</p>
-<p>这是没有理由的! 我代码中不可能无中生有</p>
-<p>我怀疑这是 leetcode 平台对于用户所做的一种优化  </p>
-<p>而这种优化与我使用 static 关键字相冲突</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/Create%20so%20file%20in%20linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/Create%20so%20file%20in%20linux/" class="post-title-link" itemprop="url">other/Create so file in linux</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h3><ol>
-<li>编写动态库源文件  </li>
-<li>将动态库源文件编译链接生成动态库文件  </li>
-<li>在执行源文件中添加头文件声明  </li>
-<li>使用动态库文件  </li>
-</ol>
-<hr>
-<h4 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h4><p>…</p>
-<h4 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h4><pre><code>gcc/g++ -fPIC -shared -o [libname].so [sourcefile]</code></pre><p>example:  </p>
-<pre><code>gcc -fPIC -shared -o tlib.so tlib.c</code></pre><p>这样就会生成一个<code>tlib.so</code>的动态库文件<br>其中<code>-fPIC</code>的含义是: Position Independent Code (位置无关代码)</p>
-<h4 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h4><p>添加声明可以在单独的头文件中添加, 也可以直接在使用的源文件内添加  </p>
-<h4 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h4><pre><code>gcc t.c -L. tlib.so  </code></pre><p>会生成一个默认的<code>a.out</code>可执行文件  </p>
-<p>此时还有一个问题就是直接运行的话会报错:<br>应用程序找不到<code>.so</code>文件<br>解决方法有两种, 一种是改系统文件, 另外一种是临时告诉shell动态库的路径<br>因为这个是测试用例, 介绍第二种  </p>
-<pre><code>LD_LIBRARY_PATH=. ./a.out  </code></pre><p>执行此命令可以解决报错问题, 其中<code>LD_LIBRARY_PATH=.</code>的含义是:<br>告诉shell, 库的路径在当前路径下(如果库放在别的路径, 将<code>.</code>替换即可)  </p>
-<p>以上经验来自<a href="https://www.cnblogs.com/jiqingwu/p/linux_dynamic_lib_create.html" target="_blank" rel="noopener">博客园</a>  </p>
-<hr>
-<p>顺便: 第一次写了<code>makefile</code>, 用作上述的动态库管理  </p>
-<blockquote>
-<p>make build: 生成动态库, 可执行文件<br>make doit: 执行程序(如果文件并不存在, 先生成文件)<br>make clean: 清除生成的文件</p>
-</blockquote>
-<pre><code> 1 build: tlib.so a.out
- 2 
- 3 tlib.so: tlib.c
- 4           gcc -fPIC -shared -o $@ $&lt;
- 5 
- 6 a.out: t1.c
- 7           gcc $&lt; -L. tlib.so
- 8 
- 9 doit: build 
-10           LD_LIBRARY_PATH=. ./a.out
-11 
-12 file = tlib.so a.out
-13 clean: 
-14           rm $(file)</code></pre><p>书写makedile和核心就是搞清楚依赖关系<br>其中<code>build</code>为创建动态库和可执行文件, 所以依赖于<code>tlib.so</code>和<code>a.out</code><br>而<code>tlib.so</code>依赖于<code>tlib.c</code>, <code>a.out</code>依赖于<code>t1.c</code><br>…</p>
-<p>有一份<a href="https://www.kancloud.cn/kancloud/make-command/45593" target="_blank" rel="noopener">make教程</a></p>
-<p>上述所用到的基础makefile规则并不难理解, 这里不做赘述  </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/Dll%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/Dll%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">other/Dll文件的创建和使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#Dll文件的创建和使用<br>在创建时需要 __declspec(dllexport)声明为导出<br>在使用时需要 __declspec(dllimport)声明为导入</p>
-<p>1.使用VS创建动态库工程, 在VS创建的默认文件中(stdafx.h)声明(也可以自己创建头文件):  </p>
-<pre><code>__declspec(dllexport)void func();</code></pre><p>2.然后在对应的cpp文件中编写函数(默认是以工程名命名的cpp文件)(注意要添加所使用的标准库文件):</p>
-<pre><code>void func()
-{
-    std::cout &lt;&lt; &quot;dll file&quot; &lt;&lt; std::endl;
-}</code></pre><p>3.然后生成项目, 会分别获得一个以工程名命名的.dll文件和.lib文件  </p>
-<p>4.在使用dll文件的项目中添加.lib和.dll资源文件, 添加stdafx.h头文件(需要添加stdafx中包含的头文件)  </p>
-<p>5.在使用前添加:</p>
-<pre><code>__declspec(dllimport)void func(); // 注意这里是import;</code></pre><p>然后就可以正常使用func()函数了.  </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1516,7 +1938,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

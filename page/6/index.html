@@ -166,778 +166,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/useful%20skill/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/useful%20skill/" class="post-title-link" itemprop="url">other/useful skill</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="vim中执行cmd"><a href="#vim中执行cmd" class="headerlink" title="vim中执行cmd"></a>vim中执行cmd</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!cmd</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="vim中编写额外的文件"><a href="#vim中编写额外的文件" class="headerlink" title="vim中编写额外的文件"></a>vim中编写额外的文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">args filename</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="sed处理文件"><a href="#sed处理文件" class="headerlink" title="sed处理文件"></a>sed处理文件</h4><h4 id="at和crontab定时"><a href="#at和crontab定时" class="headerlink" title="at和crontab定时"></a>at和crontab定时</h4><h4 id="流重定向"><a href="#流重定向" class="headerlink" title="流重定向"></a>流重定向</h4><p>“&gt;”:  输出重定向, 这个操作符会覆盖已有文件的内容, 若文件不存在, 则创建</p>
-<p>“&gt;&gt;”: 同样也是输出重定向, 这个操作符会将内容添加到文件尾部, 同样的, 若文件不存在, 则创建文件</p>
-<p>@note:</p>
-<p>​    比较特殊的是内联输入重定向: “&lt;&lt;”, 我现在也不太明白这东西的实质用法和含义</p>
-<p>​    只知道它的行为: 它可以使用命令行的内容作为输入流, 并且可以指定一个”标识”来表示结束</p>
-<h4 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h4><p>@brief: </p>
-<p>​    将一个命令的输出作为另一个命令的输入. 例如:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | less</span><br></pre></td></tr></table></figure>
-
-<p>cat仅仅只是查看文件, 但并不会增加一些控制功能(如翻页, 搜索…)  </p>
-<p>less则提供了相关的更高级的功能, 将cat的输入(文件内容)作为less的输入</p>
-<p>@note: </p>
-<p>​    其实这个例子很没有必要, 现实中这么写, 可能会被diss到死. 因为可以直接使用 less file</p>
-<h4 id="创建一个新文件"><a href="#创建一个新文件" class="headerlink" title="创建一个新文件"></a>创建一个新文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch file</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="置空文件内容"><a href="#置空文件内容" class="headerlink" title="置空文件内容"></a>置空文件内容</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /dev/null &gt; file</span><br></pre></td></tr></table></figure>
-
-<p>@note: </p>
-<p>​    更加简便的方式是 &gt; file</p>
-<h4 id="单引号和双引号"><a href="#单引号和双引号" class="headerlink" title="单引号和双引号"></a>单引号和双引号</h4><p>需要注意的是, 单引号中, 双引号不需要转义.</p>
-<p>同样的, 双引号中, 单引号不需要转义</p>
-<p>这会在某些场合下, 让你的字符串更加简洁易懂, 同时还更好改, 更不容易写错</p>
-<p>@ps:</p>
-<p>​    我曾在一次 crontab 任务中遇到这种场合, 我使用了 crontab file 的形式来添加任务</p>
-<p>​    同时使用 echo + 重定向 的形式往文件中添加内容, 而要执行的命令中就包含些许单引号和双引号</p>
-<p>​    (不过我倒是没有在这里面用到这个技巧, 因为我第一次就写对了 :) )</p>
-<h4 id="md5加密"><a href="#md5加密" class="headerlink" title="md5加密"></a>md5加密</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "test" | md5sum</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="查看自己的公网信息"><a href="#查看自己的公网信息" class="headerlink" title="查看自己的公网信息"></a>查看自己的公网信息</h4><pre><code>curl cip.cc</code></pre><p>简析: curl 为一个在服务器中传递数据的攻击, 而 cip.cc 为一个查询网络信息的网站  </p>
-<p>当你登录 cip.cc 时, 它应当会根据你访问网站时的信息, 查询你 IP 的相关信息, 并返还给你</p>
-<h4 id="传递大量文件-远端和本地"><a href="#传递大量文件-远端和本地" class="headerlink" title="传递大量文件(远端和本地)"></a>传递大量文件(远端和本地)</h4><pre><code>rsync</code></pre><p>具体用法参照 man 手册</p>
-<h4 id="查看本地IP端口信息"><a href="#查看本地IP端口信息" class="headerlink" title="查看本地IP端口信息"></a>查看本地IP端口信息</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tunlp</span><br></pre></td></tr></table></figure>
-
-<p>t : TCP</p>
-<p>u : UDP</p>
-<p>n : 不经过域名服务器</p>
-<p>l : 显示监控中服务器的socket</p>
-<p>p : 显示监控中的程序识别码和名称    </p>
-<p>@btw: 可以加入 -a 选项, 这会将所有(包括当前未监听)的端口信息都列出来</p>
-<p>​    与之相关的命令还有 nmap, nc</p>
-<h4 id="查看本机服务"><a href="#查看本机服务" class="headerlink" title="查看本机服务"></a>查看本机服务</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service --status-all | grep running</span><br></pre></td></tr></table></figure>
-
-<p>这个命令可以查看本机现在运行的所有服务</p>
-<p>@note: –status-all 之间不能空格.  “–status -all” 这是错误的写法</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/virtualFunction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/virtualFunction/" class="post-title-link" itemprop="url">other/virtualFunction</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>想深入了解一下(或者说验证)对象底层是如何工作的</p>
-<p>重点是虚函数的调用, 虚指针的生成, 虚表中的数据</p>
-<p>以及这些数据在多重继承, 虚继承, 多重虚继承环境下的表现</p>
-<h3 id="虚指针-virtual-point"><a href="#虚指针-virtual-point" class="headerlink" title="虚指针(virtual point)"></a>虚指针(virtual point)</h3><p>考虑以下代码</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"A %d\n"</span>, _i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"A2 %d\n"</span>, _i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">10</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"B %d\n"</span>, _i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">20</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    B b;</span><br><span class="line">    A *pa = &amp;b;</span><br><span class="line">    </span><br><span class="line">    pa-&gt;func();		<span class="comment">// B 20</span></span><br><span class="line">    pa-&gt;func2();	<span class="comment">// A2 10</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出和预期一致, 其中 func 是被 B 覆盖过的虚函数, 而 func2 则未被覆盖</p>
-<p>以下是生成的汇编代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1199:</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    subq    $32, %rsp</span><br><span class="line">    movq    $_ZTV1B+16, -32(%rbp)	&#x2F;&#x2F; 又是这个东西, 现在我怀疑它是 lippman 说的 thunk</span><br><span class="line">    							&#x2F;&#x2F; 后面知道了, **其实这就是虚指针, 它被放到了头部**</span><br><span class="line">    							&#x2F;&#x2F; 编译器非常聪明, 在即使有 vptr, nontrivial 的情况下</span><br><span class="line">    							&#x2F;&#x2F; 也并未生成构造函数</span><br><span class="line">    movl    $10, -24(%rbp)	</span><br><span class="line">    movl    $20, -20(%rbp)</span><br><span class="line">    leaq    -32(%rbp), %rax</span><br><span class="line">    movq    %rax, -8(%rbp)</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; rax &#x3D; vptr	拿到虚指针地址</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; rax &#x3D; *vptr	获得虚指针中的地址(槽 0)</span><br><span class="line">    movq    -8(%rbp), %rdx	&#x2F;&#x2F; member data 是直接位移得到的</span><br><span class="line">    movq    %rdx, %rdi</span><br><span class="line">    call    *%rax		&#x2F;&#x2F; 调用slot0</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movq    (%rax), %rax</span><br><span class="line">    addq    $8, %rax	&#x2F;&#x2F; 虚指针地址 +8 位移(也就是下一个槽)</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; 获得 slot1 的地址</span><br><span class="line">    movq    -8(%rbp), %rdx</span><br><span class="line">    movq    %rdx, %rdi</span><br><span class="line">    call    *%rax	&#x2F;&#x2F; 调用slot1</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-
-<p>所以调用方式和书中一致, 从 vptr 索引虚表, 获得相应的 slot</p>
-<p>这些信息全部都是在编译的时候由编译器生成</p>
-<p>有一个点我忽略了: <strong>单一继承对象只有一个虚表</strong></p>
-<p>后续我加上 C 对象后( C 继承自 A ), 让 B 继承 A, 这样A中就有 B C</p>
-<p>但是依旧只有一个虚表, 仅当我让A再继承一个对象时, 这时产生了 2 个虚表</p>
-<p>可能会问, 那么C对象是如何通过 pc-&gt;A::func() 这样的形式来调用 A 作用域的函数的呢?</p>
-<p>答案是, 这会是一个单纯的函数调用, 并不会通过虚表或虚指针, 也没有任何的偏移</p>
-<p>(emmm… 也就是说普通成员函数对于类来说, 可能更像是个陌生人, 即使它是成员)</p>
-<p>(这也是为什么大多数情况下基类需要 virtual destruct 的原因)</p>
-<h3 id="虚析构是如何被调用的"><a href="#虚析构是如何被调用的" class="headerlink" title="虚析构是如何被调用的"></a>虚析构是如何被调用的</h3><p>在写标题的时候大概猜到了, 其实虚析构就是一个在子类中占了一个不能被重写的虚表槽</p>
-<p>应该就是通过简单的偏移来调用的, 来试一下</p>
-<p>(重点在于虚析构是不可能被覆盖的, 因为子类中不可能存在同名的函数)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">5</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"> <span class="number">6</span> <span class="keyword">public</span>:</span><br><span class="line"> <span class="number">7</span>     <span class="keyword">virtual</span> ~A() &#123;</span><br><span class="line"> <span class="number">8</span>         <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, <span class="string">"A destruct"</span>);</span><br><span class="line"> <span class="number">9</span>     &#125;</span><br><span class="line"><span class="number">10</span> &#125;;</span><br><span class="line"><span class="number">11</span> </span><br><span class="line"><span class="number">12</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="number">13</span> <span class="keyword">public</span>:</span><br><span class="line"><span class="number">14</span>     <span class="keyword">virtual</span> ~B() &#123;</span><br><span class="line"><span class="number">15</span>         <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, <span class="string">"B destruct"</span>);</span><br><span class="line"><span class="number">16</span>     &#125;</span><br><span class="line"><span class="number">17</span> &#125;;</span><br><span class="line"><span class="number">18</span> </span><br><span class="line"><span class="number">19</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="number">20</span>     B a;</span><br><span class="line"><span class="number">21</span> </span><br><span class="line"><span class="number">22</span>     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">23</span> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>汇编:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">161 main:</span><br><span class="line">162 .LFB1204:</span><br><span class="line">163     .cfi_startproc</span><br><span class="line">164     pushq   %rbp</span><br><span class="line">165     .cfi_def_cfa_offset 16</span><br><span class="line">166     .cfi_offset 6, -16</span><br><span class="line">167     movq    %rsp, %rbp</span><br><span class="line">168     .cfi_def_cfa_register 6</span><br><span class="line">169     pushq   %rbx</span><br><span class="line">170     subq    $24, %rsp</span><br><span class="line">171     .cfi_offset 3, -24</span><br><span class="line">172     movq    $_ZTV1B+16, -32(%rbp)</span><br><span class="line">173     movl    $0, %ebx</span><br><span class="line">174     leaq    -32(%rbp), %rax</span><br><span class="line">175     movq    %rax, %rdi</span><br><span class="line">176     call    _ZN1BD1Ev	&#x2F;&#x2F; 就是这里调用了析构函数</span><br><span class="line">177     movl    %ebx, %eax</span><br><span class="line">178     addq    $24, %rsp</span><br><span class="line">179     popq    %rbx</span><br><span class="line">180     popq    %rbp</span><br><span class="line">181     .cfi_def_cfa 7, 8</span><br><span class="line">182     ret</span><br><span class="line">183     .cfi_endproc</span><br></pre></td></tr></table></figure>
-
-<p>B的析构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 89 _ZN1BD2Ev:	&#x2F;&#x2F; 如果足够细心, 那么注意到了这里是 _ZN1BD2Ev 而并非 _ZN1BD1Ev</span><br><span class="line"> 				&#x2F;&#x2F; 对此, 我发现编译器类似有个中间层一样的东西(或者说会符号替换?)</span><br><span class="line"> 				&#x2F;&#x2F; 然后其实会跳转到这里来, 汇编中将这两个东西相关联</span><br><span class="line"> 90 .LFB1201:</span><br><span class="line"> 91     .cfi_startproc</span><br><span class="line"> 92     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line"> 93     .cfi_lsda 0x3,.LLSDA1201</span><br><span class="line"> 94     pushq   %rbp</span><br><span class="line"> 95     .cfi_def_cfa_offset 16</span><br><span class="line"> 96     .cfi_offset 6, -16</span><br><span class="line"> 97     movq    %rsp, %rbp</span><br><span class="line"> 98     .cfi_def_cfa_register 6</span><br><span class="line"> 99     subq    $16, %rsp</span><br><span class="line">100     movq    %rdi, -8(%rbp)</span><br><span class="line">101     movq    -8(%rbp), %rax</span><br><span class="line">102     movq    $_ZTV1B+16, (%rax)</span><br><span class="line">103     movl    $.LC1, %edi</span><br><span class="line">104     call    puts	&#x2F;&#x2F; 编译器知道只是打印一个字符串, 所以调用的是 puts</span><br><span class="line">105     movq    -8(%rbp), %rax</span><br><span class="line">106     movq    %rax, %rdi</span><br><span class="line">107     call    _ZN1AD2Ev	&#x2F;&#x2F; 和我想的不一样, 又一样...</span><br><span class="line">108     movl    $0, %eax</span><br><span class="line">109     testl   %eax, %eax</span><br><span class="line">110     je  .L6	&#x2F;&#x2F; 这里我也不太懂, 这个不是必跳么?</span><br><span class="line">111     movq    -8(%rbp), %rax</span><br><span class="line">112     movq    %rax, %rdi</span><br><span class="line">113     call    _ZdlPv	&#x2F;&#x2F; 这个东西没有找到</span><br></pre></td></tr></table></figure>
-
-<p>和预料中不同的是, A 的析构函数是直接调用的, 而并非偏移  </p>
-<p>想了想这在意料之中, 因为编译器将它优化成了普通函数</p>
-<p>至于 _ZdlPv, 没有在汇编中找到这个符号 … </p>
-<p>(我试了一下, 没有什么好的方式让它像被虚函数一样调用, 很可惜…)</p>
-<h3 id="虚继承的析构函数调用"><a href="#虚继承的析构函数调用" class="headerlink" title="虚继承的析构函数调用"></a>虚继承的析构函数调用</h3><p>感觉非常奇怪, 所以本来是打算看看就好的, 因为之前花功夫去看了看虚继承的内存布局</p>
-<p>不过实在太奇怪了, 所以打算好好分析一下, 顺便我在之前分析的时候好像忘了看虚继承的虚函数调用了</p>
-<p>因为那时候好像已经晕了… </p>
-<p>它会怎么被调用呢? 最无趣的情况就是像上面那样硬编码</p>
-<p>不过在虚继承这种比较复杂的环境下, 编译器可能会做出其他反应也说不定?</p>
-<p>源码就单纯的E被CD虚继承, B继承CD, 这里直接汇编:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1212:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    pushq   %rbx	&#x2F;&#x2F; 这里, 与前面的 pushq 无关</span><br><span class="line">    subq    $56, %rsp</span><br><span class="line">    .cfi_offset 3, -24</span><br><span class="line">    leaq    -64(%rbp), %rax	&#x2F;&#x2F; 前面有 pushq, 所以这里是 -64</span><br><span class="line">    movq    %rax, %rdi</span><br><span class="line">    call    _ZN1BC1Ev	&#x2F;&#x2F; 构造</span><br><span class="line">    movl    $0, %ebx</span><br><span class="line">    leaq    -64(%rbp), %rax</span><br><span class="line">    movq    %rax, %rdi</span><br><span class="line">    call    _ZN1BD1Ev	&#x2F;&#x2F; 析构</span><br><span class="line">    movl    %ebx, %eax</span><br><span class="line">    addq    $56, %rsp</span><br><span class="line">    popq    %rbx</span><br><span class="line">    popq    %rbp</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure>
-
-<p>B的析构函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">457 _ZN1BD1Ev:</span><br><span class="line">458 .LFB1210:</span><br><span class="line">459     .cfi_startproc</span><br><span class="line">460     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">461     .cfi_lsda 0x3,.LLSDA1210</span><br><span class="line">462     pushq   %rbp</span><br><span class="line">463     .cfi_def_cfa_offset 16</span><br><span class="line">464     .cfi_offset 6, -16</span><br><span class="line">465     movq    %rsp, %rbp</span><br><span class="line">466     .cfi_def_cfa_register 6</span><br><span class="line">467     subq    $16, %rsp</span><br><span class="line">468     movq    %rdi, -8(%rbp)</span><br><span class="line">469     movl    $_ZTV1B+24, %edx</span><br><span class="line">470     movq    -8(%rbp), %rax</span><br><span class="line">471     movq    %rdx, (%rax)	&#x2F;&#x2F; 栈顶加入了虚指针 +24</span><br><span class="line">472     movl    $32, %edx</span><br><span class="line">473     movq    -8(%rbp), %rax</span><br><span class="line">474     addq    %rax, %rdx</span><br><span class="line">475     movl    $_ZTV1B+104, %eax</span><br><span class="line">476     movq    %rax, (%rdx)	&#x2F;&#x2F; 栈顶 -32 处加入了虚指针 +104</span><br><span class="line">477     movl    $_ZTV1B+64, %edx</span><br><span class="line">478     movq    -8(%rbp), %rax</span><br><span class="line">479     movq    %rdx, 16(%rax)	&#x2F;&#x2F; 栈顶 -16 处加入了虚指针 +64</span><br><span class="line">480     movq    -8(%rbp), %rax</span><br><span class="line">481     movl    28(%rax), %eax</span><br><span class="line">482     movl    %eax, %esi</span><br><span class="line">483     movl    $.LC3, %edi	&#x2F;&#x2F; .string &quot;B destruct: %d\n&quot;</span><br><span class="line">484     movl    $0, %eax</span><br><span class="line">485     call    printf</span><br><span class="line">486     movl    $_ZTT1B+24, %eax</span><br><span class="line">487     movq    -8(%rbp), %rdx</span><br><span class="line">488     addq    $16, %rdx</span><br><span class="line">489     movq    %rax, %rsi</span><br><span class="line">490     movq    %rdx, %rdi</span><br><span class="line">491     call    _ZN1CD2Ev	&#x2F;&#x2F; 硬编码...</span><br><span class="line">492     movl    $_ZTT1B+8, %edx</span><br><span class="line">493     movq    -8(%rbp), %rax</span><br><span class="line">494     movq    %rdx, %rsi</span><br><span class="line">495     movq    %rax, %rdi</span><br><span class="line">496     call    _ZN1AD2Ev</span><br><span class="line">497     movl    $2, %eax</span><br><span class="line">498     testl   %eax, %eax</span><br><span class="line">499     je  .L23</span><br><span class="line">500     movq    -8(%rbp), %rax</span><br><span class="line">501     addq    $32, %rax</span><br><span class="line">502     movq    %rax, %rdi</span><br><span class="line">503     call    _ZN1ED2Ev</span><br><span class="line">504     nop</span><br></pre></td></tr></table></figure>
-
-<p>虚函数是通过硬编码来调用的  </p>
-<p>不过有个非常不错的发现, 我在 _ZTT1B 中发现了 LTHUNK 的影子</p>
-<p>在 _ZTT1B  中有 LTHUNK  相关的代码, 不过很可惜, 这些猜测无从证明…</p>
-<p>来看看虚函数的调用吧:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">911 main:</span><br><span class="line">912 .LFB1216:</span><br><span class="line">913     .cfi_startproc</span><br><span class="line">914     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">915     .cfi_lsda 0x3,.LLSDA1216</span><br><span class="line">916     pushq   %rbp</span><br><span class="line">917     .cfi_def_cfa_offset 16</span><br><span class="line">918     .cfi_offset 6, -16</span><br><span class="line">919     movq    %rsp, %rbp</span><br><span class="line">920     .cfi_def_cfa_register 6</span><br><span class="line">921     pushq   %rbx</span><br><span class="line">922     subq    $88, %rsp</span><br><span class="line">923     .cfi_offset 3, -24</span><br><span class="line">924     leaq    -96(%rbp), %rax</span><br><span class="line">925     movq    %rax, %rdi</span><br><span class="line">926     call    _ZN1BC1Ev</span><br><span class="line">927     leaq    -96(%rbp), %rax</span><br><span class="line">928     movq    %rax, -24(%rbp)</span><br><span class="line">929     movq    -24(%rbp), %rax</span><br><span class="line">930     movq    (%rax), %rax	&#x2F;&#x2F; 解引用</span><br><span class="line">931     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">932     movq    (%rax), %rax	&#x2F;&#x2F; 取这个槽中的地址</span><br><span class="line">933     movq    -24(%rbp), %rdx</span><br><span class="line">934     movq    %rdx, %rdi</span><br><span class="line">935 .LEHB0:</span><br><span class="line">936     call    *%rax</span><br><span class="line">937     leaq    -96(%rbp), %rax</span><br><span class="line">938     movq    %rax, -32(%rbp)</span><br><span class="line">939     movq    -32(%rbp), %rax</span><br><span class="line">940     movq    (%rax), %rax</span><br><span class="line">941     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">942     movq    (%rax), %rax</span><br><span class="line">943     movq    -32(%rbp), %rdx</span><br><span class="line">944     movq    %rdx, %rdi</span><br><span class="line">945     call    *%rax			&#x2F;&#x2F; A, B使用了一样的虚表和槽, 仅仅是this指针不同</span><br><span class="line">946     leaq    -96(%rbp), %rax</span><br><span class="line">947     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">948     movq    %rax, -40(%rbp)</span><br><span class="line">949     movq    -40(%rbp), %rax</span><br><span class="line">950     movq    (%rax), %rax	</span><br><span class="line">951     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">952     movq    (%rax), %rax</span><br><span class="line">953     movq    -40(%rbp), %rdx</span><br><span class="line">954     movq    %rdx, %rdi</span><br><span class="line">955     call    *%rax			&#x2F;&#x2F; C 先是 +16 取到自己的虚表, 然后同样使用槽 1</span><br><span class="line">956 .LEHE0:</span><br><span class="line">957     movl    $0, %ebx</span><br><span class="line">958     leaq    -96(%rbp), %rax</span><br><span class="line">959     movq    %rax, %rdi</span><br><span class="line"> 960     call    _ZN1BD1Ev</span><br><span class="line">961     movl    %ebx, %eax</span><br><span class="line">962     jmp .L39</span><br><span class="line">963 .L38:</span><br><span class="line">964     movq    %rax, %rbx</span><br><span class="line">965     leaq    -96(%rbp), %rax</span><br><span class="line">966     movq    %rax, %rdi</span><br><span class="line">967     call    _ZN1BD1Ev</span><br><span class="line">968     movq    %rbx, %rax</span><br><span class="line">969     movq    %rax, %rdi</span><br><span class="line">970 .LEHB1:</span><br><span class="line">971     call    _Unwind_Resume</span><br><span class="line">972 .LEHE1:</span><br><span class="line">973 .L39:</span><br><span class="line">974     addq    $88, %rsp</span><br><span class="line">975     popq    %rbx</span><br><span class="line">976     popq    %rbp</span><br><span class="line">977     .cfi_def_cfa 7, 8</span><br><span class="line">978     ret</span><br><span class="line">979     .cfi_endproc</span><br></pre></td></tr></table></figure>
-
-<p>普通虚函数的调用就是找到自己的虚表, 调用对应的槽</p>
-<p>这个虚继承来的虚函数调用和普通继承的虚函数调用方式基本一致</p>
-<p>多态是如何实现的呢?</p>
-<p>每个构造函数, 都会覆写它的所有虚指针, 使他指向不同的地址(但是这些地址都不相同!!!)</p>
-<p>如你所见, 当C指针去调用时, 发生了偏移, 虽然取到了同样的 slot, 但却不是同一张虚表</p>
-<p>那么我能想到的就是有多张相同的虚表</p>
-<p>(我只能如此猜测, 我想不到为什么这样的情况下还能调用同一个函数)</p>
-<p>(但是为什么要有相同的呢? 这又是一个问题)</p>
-<p>我尝试了看看这些虚表中是什么数据, 可惜失败了, 或者说看不懂</p>
-<p>但是同一个类的虚表是完全相同的, 这可以肯定</p>
-<p>不同的情况仅在于A类中C类和单独的C类, 这两个C类的虚表是不一样的</p>
-<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p>虚函数机制和书中所说基本一致</p>
-<ol>
-<li>找到对应的虚表</li>
-<li>调用槽中的函数</li>
-</ol>
-<h3 id="review"><a href="#review" class="headerlink" title="review"></a>review</h3><p>我在 objdump 的输出中发现, 诸如 _ZTI1C 这样的东西在链接的时候会转化成一个数字常量</p>
-<p>有些可能会是基于某个位置的偏移(比如 %rip)</p>
-<p>编译器会利用它进行直接寻址, 有些会利用它进行间接寻址</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/virtualInherit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/virtualInherit/" class="post-title-link" itemprop="url">other/virtualInherit</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>想要了解一下虚继承的内部数据结构</p>
-<p>(语言: c++, 编译器: g++(4.8.5))</p>
-<h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><p>考虑以下代码</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">2</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> :</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">3</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> :</span> <span class="keyword">public</span> B, <span class="keyword">public</span> C&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">4</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>单纯的虚拟继承而已, 我使用了这种方式打印它们的内部数据</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line"><span class="keyword">void</span> *p = &amp;a;</span><br><span class="line"><span class="keyword">int</span> *pi = (<span class="keyword">int</span> *)p;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(a) / <span class="number">4</span>; ++i)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pi[i]);</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"val:%d\n"</span>, a._i);</span><br></pre></td></tr></table></figure>
-
-<p>然后它们A, B, C, D内部数据情况如下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">A: 	<span class="number">1</span></span><br><span class="line">B: 	<span class="number">4196632</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">2</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">C: 	<span class="number">4196632</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">3</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">D:	<span class="number">4196760</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">2</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">4196784</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">3</span></span><br><span class="line">    <span class="number">4</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">    <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>emmm… </p>
-<p>OK, 我可以把前两个 4 字节认为是虚指针(A没有) </p>
-<p>那么A, B, C的内存分布就不用看了, 唯一比较特殊的是<strong>虚基类在内存的高地址</strong></p>
-<p>然后D的内部分布… 这… emmm… 仔细一想, 还好, 重要的是(Q1: 为什么最后补了一个0 ??)</p>
-<h3 id="存取方式"><a href="#存取方式" class="headerlink" title="存取方式"></a>存取方式</h3><p>我试着访问了一下数据</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line">A *pa = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pa-&gt;_i);</span><br><span class="line">B *pb = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pb-&gt;_i);</span><br><span class="line">C *pc = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pc-&gt;_i);</span><br><span class="line">D *pd = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pd-&gt;_i);</span><br></pre></td></tr></table></figure>
-
-<p>来看一看汇编</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp</span><br><span class="line">.cfi_def_cfa_offset 16</span><br><span class="line">.cfi_offset 6, -16</span><br><span class="line">movq    %rsp, %rbp</span><br><span class="line">.cfi_def_cfa_register 6</span><br><span class="line">subq    $80, %rsp		&#x2F;&#x2F; 80 栈帧</span><br><span class="line">leaq    -80(%rbp), %rax	</span><br><span class="line">movq    %rax, %rdi	</span><br><span class="line">call    _ZN1DC1Ev		&#x2F;&#x2F; 这里是构造函数, 稍后可能需要看看它的构造</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $32, %rax		&#x2F;&#x2F; +32, OK, 向上 32 字节的确是 1</span><br><span class="line">movq    %rax, -8(%rbp)	</span><br><span class="line">movq    -8(%rbp), %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 1 第一次printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -16(%rbp)</span><br><span class="line">movq    -16(%rbp), %rax	&#x2F;&#x2F; B 类型指针并没有经过偏移, 这和预料的一样</span><br><span class="line">movl    8(%rax), %eax	&#x2F;&#x2F; 这里+8, 跳过了虚指针</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 2 第二次printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $16, %rax		&#x2F;&#x2F; +16 C类型指针跳过了 B的内存, 这也没什么不对</span><br><span class="line">movq    %rax, -24(%rbp)</span><br><span class="line">movq    -24(%rbp), %rax	</span><br><span class="line">movl    8(%rax), %eax	&#x2F;&#x2F; 同理</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 3 第三次printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -32(%rbp)</span><br><span class="line">movq    -32(%rbp), %rax</span><br><span class="line">movl    28(%rax), %eax	&#x2F;&#x2F; +28 OK~</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 4 第四次printf</span><br><span class="line">movl    $0, %eax</span><br><span class="line">leave</span><br></pre></td></tr></table></figure>
-
-<p>数据的访问在编译时就已经定好的, 不存在额外效率影响</p>
-<p>A指针    偏移了 +32 字节     直接访问数据</p>
-<p>B指针    未偏移             访问数据时跳过了虚指针(8字节)</p>
-<p>C指针    偏移 +16 字节     访问数据时跳过了虚指针(8字节)</p>
-<p>D指针    未偏移             访问数据时跳过了虚指针 + B, C类数据(共28字节)</p>
-<p>或许看一下访问虚基类的数据会有所了解? </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp</span><br><span class="line">.cfi_def_cfa_offset 16</span><br><span class="line">.cfi_offset 6, -16</span><br><span class="line">movq    %rsp, %rbp</span><br><span class="line">.cfi_def_cfa_register 6</span><br><span class="line">subq    $80, %rsp</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, %rdi</span><br><span class="line">call    _ZN1DC1Ev</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $32, %rax</span><br><span class="line">movq    %rax, -8(%rbp)</span><br><span class="line">movq    -8(%rbp), %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 基类访问方式和上面的汇编并没有不同</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -16(%rbp)</span><br><span class="line">movq    -16(%rbp), %rax</span><br><span class="line">movq    (%rax), %rax	&#x2F;&#x2F; 取指针指向的值, 也就是D的地址</span><br><span class="line">subq    $24, %rax		&#x2F;&#x2F; D地址减去24字节 也就是说, 它前面还有东西</span><br><span class="line">movq    (%rax), %rax	&#x2F;&#x2F; 获得那个地址中的值</span><br><span class="line">movq    %rax, %rdx</span><br><span class="line">movq    -16(%rbp), %rax</span><br><span class="line">addq    %rdx, %rax		&#x2F;&#x2F; 增加了 rdx 大小, </span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $16, %rax</span><br><span class="line">movq    %rax, -24(%rbp)</span><br><span class="line">movq    -24(%rbp), %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">subq    $24, %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">movq    %rax, %rdx</span><br><span class="line">movq    -24(%rbp), %rax</span><br><span class="line">addq    %rdx, %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -32(%rbp)</span><br><span class="line">movq    -32(%rbp), %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">subq    $24, %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">movq    %rax, %rdx</span><br><span class="line">movq    -32(%rbp), %rax</span><br><span class="line">addq    %rdx, %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf</span><br><span class="line">movl    $0, %eax</span><br><span class="line">leave</span><br></pre></td></tr></table></figure>
-
-<p>emmm… 有一个重大的发现就是, <strong>基类对象前面有数据</strong></p>
-<p>这些数据应该是偏移, 这些偏移配合 + 指针本身的地址能够访问到正确的虚基类数据</p>
-<p>也就是说, 这是 深入探索对象 中, 对于虚基类的两种实现方式中的第一种</p>
-<p>即: 在每个基类中添加虚基类的偏移, 但是又不全对…</p>
-<p>越来越糊涂了 (눈_눈), 深吸一口气, 想想自己要干嘛… emmmm….</p>
-<p>这样吧, 完整地看一遍构造的过程, 这样应该就明白了</p>
-<p>(如果还是晕, 那么就希望下次遇到这个问题的时候能够更从容一些)</p>
-<p>(我已经再这个问题上花太多时间, 再这样下去反而不好, 这也不是一个很重要/常用的知识)</p>
-<h3 id="完整的构造过程"><a href="#完整的构造过程" class="headerlink" title="完整的构造过程"></a>完整的构造过程</h3><p>首先是 main 区块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1196:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    subq	$48, %rsp	&#x2F;&#x2F; 48 字节栈帧, 为什么是 48 呢?</span><br><span class="line">    leaq	-48(%rbp), %rax</span><br><span class="line">    movq	%rax, %rdi</span><br><span class="line">    call	_ZN1DC1Ev	&#x2F;&#x2F; 调用构造函数</span><br><span class="line">    movl	$0, %eax</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-<p>然后是D的构造函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">_ZN1DC1Ev:</span><br><span class="line">.LFB1208:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    subq	$16, %rsp		&#x2F;&#x2F; 它再次开辟了 16 字节的栈帧</span><br><span class="line">    movq	%rdi, -8(%rbp)	&#x2F;&#x2F; 把原栈顶指针放入了栈中</span><br><span class="line">    movq	-8(%rbp), %rax	</span><br><span class="line">    addq	$32, %rax		&#x2F;&#x2F; 原栈顶指针 +32 偏移, 距栈底还有 16 字节</span><br><span class="line">    movq	%rax, %rdi</span><br><span class="line">    call	_ZN1AC2Ev		&#x2F;&#x2F; 这里留了 16 字节用于 A 的构造</span><br><span class="line">    movl	$_ZTT1D+8, %edx	&#x2F;&#x2F; 我很好奇地查了 $_ZTT1D 这东西是多少, 然而事实让我绝望...</span><br><span class="line">    						&#x2F;&#x2F; 它有非常多的耦合, 短时间内我根本无法计算出这东西是多少!!!</span><br><span class="line">    						&#x2F;&#x2F; 而且里面的代码是以.开头的, 这意味着是伪指令... (;´༎ຶД༎ຶ&#96;)</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, %rsi		&#x2F;&#x2F; rdx 从未被赋值过, 我很好奇它将什么值给了 rsi</span><br><span class="line">    						&#x2F;&#x2F; 对了, 在上面一句用到了 edx, 这和 rdx 有关</span><br><span class="line">    						&#x2F;&#x2F; 暂且把它认为是一个, 编译器施加的魔法: magic</span><br><span class="line">    movq	%rax, %rdi		&#x2F;&#x2F; 原栈顶指针</span><br><span class="line">    call	_ZN1BC2Ev		&#x2F;&#x2F; 调用 B 构造函数</span><br><span class="line">    movl	$_ZTT1D+16, %eax</span><br><span class="line">    movq	-8(%rbp), %rdx	&#x2F;&#x2F; 拿出原栈顶指针</span><br><span class="line">    addq	$16, %rdx		&#x2F;&#x2F; +16 偏移</span><br><span class="line">    movq	%rax, %rsi</span><br><span class="line">    movq	%rdx, %rdi</span><br><span class="line">    call	_ZN1CC2Ev		&#x2F;&#x2F; 调用 C 构造函数</span><br><span class="line">    movl	$_ZTV1D+24, %edxl</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, (%rax)	&#x2F;&#x2F; 这里与调用 B 时的步骤重复了 :), 覆写</span><br><span class="line">    movl	$_ZTV1D+48, %edx</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, 16(%rax)	&#x2F;&#x2F; 这里与调用 C 时的步骤重复了 :), 覆写</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$444, 28(%rax)	&#x2F;&#x2F; 写入值</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-<p>A的构造函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">_ZN1AC2Ev:</span><br><span class="line">.LFB1199:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    movq	%rdi, -8(%rbp)</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$111, (%rax)	&#x2F;&#x2F; 将 $111 放入了参数 rdi 指向的内存中 movl: 4字节</span><br><span class="line">    popq	%rbp</span><br><span class="line">    ret		&#x2F;&#x2F; 嗯, 没了, 所以编译器仅仅对这 4 字节赋值</span><br><span class="line">    		&#x2F;&#x2F; 剩下的 12 字节呢?</span><br><span class="line">    		&#x2F;&#x2F; 其中8字节没用过, 或者不在 D 的内存中, 因为 sizeof d 是40, 而非48</span><br></pre></td></tr></table></figure>
-<p>B的构造函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_ZN1BC2Ev:</span><br><span class="line">.LFB1202:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    movq	%rdi, -8(%rbp)	&#x2F;&#x2F; 原栈顶指针</span><br><span class="line">    movq	%rsi, -16(%rbp)	&#x2F;&#x2F; 未知的原 rdx(magic)</span><br><span class="line">    movq	-16(%rbp), %rax</span><br><span class="line">    movq	(%rax), %rdx	&#x2F;&#x2F; magic的地址 -16 中的值放入 rdx</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, (%rax)	&#x2F;&#x2F; 将 rdx 中的值放入了栈顶, 这里是q, 占了 8 字节</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$222, 8(%rax)	&#x2F;&#x2F; 栈顶 +8 偏移中, 放入了 $222</span><br><span class="line">    popq	%rbp</span><br><span class="line">    ret				&#x2F;&#x2F; 共写入了 12 字节</span><br></pre></td></tr></table></figure>
-<p>C的构造函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_ZN1CC2Ev:</span><br><span class="line">.LFB1205:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    movq	%rdi, -8(%rbp)</span><br><span class="line">    movq	%rsi, -16(%rbp)</span><br><span class="line">    movq	-16(%rbp), %rax</span><br><span class="line">    movq	(%rax), %rdx</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, (%rax)</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$333, 8(%rax)</span><br><span class="line">    popq	%rbp		&#x2F;&#x2F; 步骤与 B 基本相同</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-<p>也就是说, 在D的构造中, ABC的构造都被调用了</p>
-<p>要注意的一点是, BC都未调用A的构造, A的构造仅在D中调用了一次</p>
-<p>同时要注意的是, BC会用那个编译器给的数字往自身的内存布局中写值</p>
-<p>但是如果其上有D, D会将那个值覆写一次, 假设其值恒定不变, 位移分别为:</p>
-<p>8 16 24 48</p>
-<p>这是一组有规律的数字, 以 8 为开始, 每个数字是前面数字之和(这个就是偏移)</p>
-<p>剩下来最重要的是, D覆写了什么?</p>
-<p>再次来看看是如何访问虚基类数据的</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line">C *pd = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pd-&gt;A::_i);</span><br></pre></td></tr></table></figure>
-
-
-<p>汇编:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">.LFB1196:</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    subq    $48, %rsp</span><br><span class="line">    leaq    -48(%rbp), %rax</span><br><span class="line">    movq    %rax, %rdi</span><br><span class="line">    call    _ZN1DC1Ev</span><br><span class="line">    leaq    -48(%rbp), %rax</span><br><span class="line">    addq    $16, %rax		&#x2F;&#x2F; 因为是 C 类型指针, 所以做了 +16 偏移</span><br><span class="line">    movq    %rax, -8(%rbp)	&#x2F;&#x2F; C *pd &#x3D; &amp;a;</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; 获得了指针中的值</span><br><span class="line">    subq    $24, %rax		&#x2F;&#x2F; 该值减去 24 </span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; 再以该值间接寻址</span><br><span class="line">    movq    %rax, %rdx</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    addq    %rdx, %rax		&#x2F;&#x2F; rdx 本身的值 + 指针的值</span><br><span class="line">    movl    (%rax), %eax	&#x2F;&#x2F; 间接寻址得到的值就是虚基类的值</span><br><span class="line">    movl    %eax, %esi</span><br><span class="line">    movl    $.LC0, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-
-<p>这次要清晰得多了, 我们以上面D的内存布局为例:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4196760</span>	<span class="comment">// 2. 它减去 24 到了这里 </span></span><br><span class="line">    	<span class="comment">// 3. 用这里的值寻址得到了某个数 x </span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">4196784</span>	<span class="comment">// 1. 这是一开始 C 指针指向的内存</span></span><br><span class="line">    	<span class="comment">// 4. 用这个指针 + x 得到了虚基类数据的地址</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>那么在代码中试一下, 如果没有错误的话, 那个 x 应该是 4</p>
-<p>(这个地址明显非常低, 它甚至没达到 8 字节, 这应该是编译的时候准备好的数据)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> *pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> *pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">*pl2 = *pl;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);	<span class="comment">// 16</span></span><br></pre></td></tr></table></figure>
-
-
-<p>取出来了 16, emmm… 嗯, 没错, 4 个 4字节 4 x 4 = 16 !!!!!!! </p>
-<p>PS: 有没有思考过为什么通过双间接才能去到虚基类呢?</p>
-<p>这里明显的一个问题是, 虚基类的数据是通过 C 的某个地址索引到 D 的某个地址</p>
-<p>然后再用 C 的地址索引到虚基类数据, 有两次的跳转 </p>
-<p>我再次试了一下有继承三个虚基类的情况(就是D再继承了一个类似 BC的类)</p>
-<p>发现它的访问方式是一样的, 也就是说, 每一个自身都会往前寻找固定的字节(编译后固定)</p>
-<p>然后用那个地址的数据 + 指针本身的地址(我不知道我又没有表达清楚, 不过我感觉我没有 :) )</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">E</span> :</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">555</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> :</span> <span class="keyword">public</span> B, <span class="keyword">public</span> C, <span class="keyword">public</span> E&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">444</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    D a;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> *pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> *pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">    *pl2 = *pl;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);   <span class="comment">// 32</span></span><br><span class="line"></span><br><span class="line">    pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a + <span class="number">2</span>;</span><br><span class="line">    pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">    *pl2 = *pl;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);   <span class="comment">// 16</span></span><br><span class="line"></span><br><span class="line">    pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a + <span class="number">4</span>;</span><br><span class="line">    pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">    *pl2 = *pl;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);   <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
-
-<p>内存布局:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4196856</span>	(<span class="number">32</span>)<span class="comment">// 2. 通过这个地址拿到偏移</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">222</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">4196880</span>	(<span class="number">16</span>)<span class="comment">// 1. C对象, 当我要找虚基类对象时, 我先往上移动固定字节</span></span><br><span class="line">    		<span class="comment">// 这些移动的大小都是在编译时就写死了的常量(编译器自动计算)</span></span><br><span class="line">    		<span class="comment">// 往上移动的字节会随着数据大小而改变, 但是数据中的地址是不变的</span></span><br><span class="line">    		<span class="comment">// 比如我这里是4196880, 那么无论往上移动多少</span></span><br><span class="line">    		<span class="comment">// 上一个地址中存的值恒定为 当前值 - 24 (4196856)</span></span><br><span class="line">    	<span class="comment">// 3. 根据拿到的偏移 + 地址获取虚基类数据</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">333</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">4196904</span> (<span class="number">0</span>)<span class="comment">// E对象, 它如果想拿到虚基类数据, 执行和 C 对象一样的操作就好</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">555</span></span><br><span class="line"><span class="number">444</span></span><br><span class="line"><span class="number">111</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>这样的内存布局在其他方面可能还会有用</p>
-<p>那么为什么会有 0 呢? 我估计是因为要实现这种内存布局, 或者说什么其他原因</p>
-<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p> 我很怀疑下次我看笔记时, 我自己看不看得懂我在说什么…</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90%E8%A1%A5%E9%BD%90%E4%B8%8E%E5%88%86%E6%94%AF%E7%9B%AE%E6%A0%87%E7%BC%93%E5%86%B2%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90%E8%A1%A5%E9%BD%90%E4%B8%8E%E5%88%86%E6%94%AF%E7%9B%AE%E6%A0%87%E7%BC%93%E5%86%B2%E5%99%A8/" class="post-title-link" itemprop="url">other/内存对齐补齐与分支目标缓冲器</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:35" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#内层对齐补齐与分支目标缓冲器<br>    出自《C++反汇编技术分析与揭秘》<br>    此书我并没有读完，收获是对于底层更加了解，有2个点更加清楚了</p>
-<h2 id="内存对齐与补齐，为什么是4字节"><a href="#内存对齐与补齐，为什么是4字节" class="headerlink" title="内存对齐与补齐，为什么是4字节"></a>内存对齐与补齐，为什么是4字节</h2><ul>
-<li><p>CPU运算的第二梯队是cache（高速缓冲区），它的访问速度仅次于寄存器</p>
-</li>
-<li><p>cache中有虚拟地址映射，当运算时会从中拿到地址进行寻址操作</p>
-</li>
-<li><p>同时32位机的寄存器位数为32位，我们常用的数据整形int和指针的大小也为4字节</p>
-</li>
-<li><p>思考2个问题：</p>
-<ul>
-<li><p>一般常用的数据类型基本是4字节以上（除单个的char和short）</p>
-</li>
-<li><p>cache的内存十分宝贵，里面保存的地址是否有必要精确到1位  </p>
-<p>对于cache进行了优化，其中保存的内存地址会丢弃后两位，丢弃之后，寻址操作只能基于4字节的倍数<br>所以对齐补齐是以4字节为基础的</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="对于循环的优化"><a href="#对于循环的优化" class="headerlink" title="对于循环的优化"></a>对于循环的优化</h2><ul>
-<li><p>先考虑流水线优化，其原理很简单：<br>  A B C D四个工人，当一个任务来的时候，顺序是A-&gt;B-&gt;C-&gt;D<br>  当A做完了，继续来了第2个任务，在此时，B在做第一个任务的第二步，参考如图：</p>
-<ol>
-<li><p>A B C D</p>
-</li>
-<li><p>&emsp;A B C D    </p>
-</li>
-<li><p>&emsp; &emsp;A B C D</p>
-</li>
-<li><p>……  </p>
-<p>其核心是，如果只有一个任务，那么就需要花费一整段工作时间<br>而如果是多个任务，例如2个任务，那么就是5/4的时间，以此类推</p>
-</li>
-</ol>
-</li>
-<li><p>分支目标缓冲器，考虑下面的循环：  </p>
-<pre><code>/**
-*@brief 外层循环做10次
-*/
-for (int i = 0; i &lt; 10; ++i)
-{
-    /**
-    *@brief 内层做1000次循环，第一次不预测，预测成功999次，第1001次预测失败
-    */
-    for (int j = 0; j &lt; 1000; ++j)
-    {
-        //...
-    }
-}</code></pre><p>  分支目标缓冲器要结合流水线优化来理解<br>  当第一个分支启动时，分支目标缓冲器不进行预测，当第二次循环进行时，进行预测，预测成功，直到失败<br>  分支目标缓冲器是经验主义，预测越多，优化更好，如果多次失败，则会刷新<br>  （intel的CPU是这样的，当进行一个分支时，下一个分支已经在进行预测了，它对true/false的情况进行预测<br>  ，也就是在这次分支执行时，下一次分支已经准备好了（其中的同步这些则是更底层的知识了）如果预测失败则会回流，<br>  如果预测成功，将会节省时间以达到提升性能的目的）</p>
-<p>  如果外层分支进行10次，内层分支进行1000次，那么1次不预测，999次成功，最后一次失败，这样的操作重复10次<br>  则 10 x 999 = 9990 次<br>  如果外层分支进行1000次，内层分支进行10次，那么1次不预测，9次成功，最后一次失败，这样的操作重复1000次<br>  则 9 x 1000 = 9000 次<br>  分支预测是经验主义，预测越多，优化也就更好，所以：<br>  <strong>多重循环，内层循环次数应大于外层循环次数</strong><br>  PS：这需要结合CPU来考虑，intel的CPU是这样的，AMD就不知道了</p>
-</li>
-</ul>
-<p>至于switch，if，等等，都有优化，具体以后再补，分支的结构类似于函数调用，都会发生跳转（inline例外）<br>PS：强推程序应当了解底层知识，编译器优化和汇编，如果了解了底层，很多知识点都能迎刃而解<br>当然，前提是有那耐心，一个简单的除法编译器都可能会优化成一堆计算机处理比较简单，而人理解起来就很头疼的代码<br>那涉及到数学方面的知识，并且不简单…</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/%E5%8F%8D%E7%A0%81%E5%92%8C%E8%A1%A5%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/%E5%8F%8D%E7%A0%81%E5%92%8C%E8%A1%A5%E7%A0%81/" class="post-title-link" itemprop="url">other/反码和补码</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:35" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#为什么是-128<del>127?<br>我们常说char类型数据占1个字节,范围是-128</del>127<br>OK,1字节八位,1位为符号为,7位存储数据,但是为什么负数要比正数多一个呢?</p>
-<p>这涉及到补码和反码的概念,8位能表示2^8+1种变化(我更偏向于称它为变化,因为计算机中的二进制是我们赋予他的意义,这里+1指的是0)<br>也就是0<del>255,256个数字,所以-128</del>127是正确的<br>考虑一下0会如何被表示:</p>
-<pre><code>在符号位为正的情况下为 0000 0000  
-在符号位为负的情况下为 1000 0000  </code></pre><p>同样的数,他们表示方式重叠了,这显然不好<br>所以CPU采用了正数和负数表示方式不同的方法来解决这个问题<br>负数的表现方式为 补码: 反码 + 1</p>
-<p>##反码<br>就和它的名字一样,它的意义是除符号位外,其他所有位取反<br>例如 0000 0000 取反为 0111 1111</p>
-<p>##补码<br>补码即为反码 + 1</p>
-<p>有了以上知识,那么可以得知以下二进制表示多少(假设为1 byte):</p>
-<pre><code>1111 1111 反码:1000 0000 补码:1000 0001 表示 -1
-1000 0000 反码:1111 1111 补码:(这里不好表示o(*￣▽￣*)ブ) 表示:-128</code></pre><p>所以,为什么负数比正数多了一个呢?<br>因为计算机内部结构(补码)造成了负数比正数能多表达一个(这一个是来自于-0这个概念,因为我们更加偏向于+0而不是-0,<br>所以就让正数吃亏了,也不仅仅是这样,在很多我无法举例但的确存在的某些”骚操作”里面,这种方式给予了很大的支持)</p>
-<p>这里也映射了很多概念,比如一个数已经表示最大了(比如char的127)我将它+1 为什么他表示了-128?</p>
-<pre><code>127二进制 0111 1111
-+1之后 1000 0000(很熟悉吧,就在上面,这表示了负最大)</code></pre><p>PS:底层的东西很有趣,不然为什么编译原理和操作系统凭什么被认为是程序三大浪漫(还有一个是图形学,<br>emmm 三大浪漫有很多争议,有些认为应当包含数据库和算法,新的三大浪漫还有人工智能和机器视觉等等)</p>
-<p>PS:关于符号位扩展</p>
-<p>思考下面代码<br>    (x &lt;&lt; 1) &gt;&gt; 1<br>x左移一位后又右移一位, 乍一看并没有什么改变, 这涉及到符号位的扩展问题  </p>
-<p>对于移位操作, 左移都补0, 而右移因为反码的关系:正数移位补0, 而负数移位补1, 所以当x左移改变了符号位时,再右移,它的值将会发生改变<br>具体改变的规律是符号位发生改变, 而数值上的体现涉及到负数会补码, 所以改变前后可能是两个看起来完全不同但其实有规律的值</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/%E5%AE%89%E8%A3%85CentOS7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/%E5%AE%89%E8%A3%85CentOS7/" class="post-title-link" itemprop="url">other/安装CentOS7</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>第一次安装CentOS7的时候也是被一些问题弄得很烦, 不了了之<br>既然已经开始学习Linux了, 那就再试试   </p>
-<p>官网下载CentOS7 iso, 虚拟机安装之后, 默认是命令行界面, 并且没有网络  </p>
-<p>首先解决网络的问题  </p>
-<pre><code>进入目录    
-/etc/sysconfig/network-scripts/
-目录下有多个文件 编辑 ifcfg-ensXX 文件(不同环境下可能不同XX在我的环境下是33) 
-修改 noboot = no -&gt; noboot = yes
-保存并退出, 再试试是否能使用网络功能</code></pre><p>其次是安装图形界面 </p>
-<pre><code>// 安装图形界面程序
-yum groupinstall &quot;GNOME Desktop&quot; &quot;Graphical Administration Tools&quot;
-// 更新系统的运行级别(网上是这么说的, 大概意思是设置图形界面为首启动?)    
-ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
-重启计算机, 默认已经是图形界面</code></pre><p>完成  </p>
-<p>PS: 很多问题都是第一次没有解决, 再回过头来的时候, 居然出奇的轻松…  </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/%E6%BA%A2%E5%87%BA%E5%92%8C%E8%B6%8A%E7%95%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/%E6%BA%A2%E5%87%BA%E5%92%8C%E8%B6%8A%E7%95%8C/" class="post-title-link" itemprop="url">other/溢出和越界</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:35" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>##对于溢出和越界的理解(overflow/outside range)</p>
-<p>x86汇编flag寄存器有两个表示位, 分别位OF/CF, 溢出标志位/进位标志位<br>其中OF只对有符号数有效, 例如:<br>当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)<br>A + B = 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结果是错误的<br>这里错误的原因是计算结果<strong>占用了一个不该它占有的有效位</strong><br>不该它占有: 它占有了符号位, 这个位错误地被计算结果改变<br>有效: 这个符号位是被合理分配的, 并不是未定义的</p>
-<p>CF只对无符号数有效, 例如:<br>当两个1字节大小的数字相加时, A: 1111 1111 (255), B: 0000 0001 (1)<br>A + B = 256, 对应二进制位是 1 0000 0000, 1字节大小存不下9bit, 计算结果无法保存, 产生错误<br>错误原因是: 计算结果<strong>超出了合理的范围, 这个位未被定义</strong><br>同样不该它占有, 但是同时这是个<strong>未被定义的空间</strong>  </p>
-<p>那么就可以简单看出, 从寄存器角度, 溢出/越界的区分了, <strong>那个位是否有效</strong><br>(但是也不一定…)</p>
-<pre><code>vector&lt;int&gt; veci{1, 2, 3};
-vector&lt;int&gt;::iterator it1 = veci.begin();
-vector&lt;int&gt;::iterator it2 = veci.begin() + 1; 
-
-veci.erase(it1);
-// @note 这里的erase会报错, 因为在上一句代码中, begin迭代器所指向的数据被删除了, 
-//     删除之后, begin迭代器之后的元素重新排序(往前移), 此时的it2已经不指向它原先希望指向的位置了  
-//     可能它指向了新的begin迭代器之后的位置, 也可能指向begin了, 直接的结果是: 它失效了  
-veci.erase(it2);</code></pre><p>在上段代码中, it2实际可能还是指向一个元素的, (实际VS debug中, it2指向了第三个元素, 也就是3)<br>it2并未失效, 它依旧指向一块内存,(至少在VS debug中这样) 但是这是块<strong>不该它占有的内存</strong><br>按照上述我们对溢出/越界的定义, 这种问题属于溢出  </p>
-<p>但是很可惜, 报错信息是:<br>“vector erase iterator outside range”<br>emmmmmmmmmm, 也就是说, 它认为这是越界…<br>所以我的理解可能是错的, 但是我还是认为这样子理解没有什么问题(大概… :) )</p>
-<p>或许这样说更好, 有符号数, 只有7位数值, 两个7位数值无论如何计算也不会超过8位<br>而无符号数, 8位数值, 计算是可能超过8位的</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/apache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/apache/" class="post-title-link" itemprop="url">other/apache</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="http://httpd.apache.org/docs/2.4/install.html" target="_blank" rel="noopener">http://httpd.apache.org/docs/2.4/install.html</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install httpd</span><br><span class="line">sudo systemctl enable httpd</span><br><span class="line">sudo systemctl start httpd</span><br></pre></td></tr></table></figure>
-<p>外文三句指令搞定的事情, 在百度上能搜出一堆用不了的东西, 我真的…</p>
-<p>@btw: 要让 apache 支持php, 需要在 httpd.conf 中添加</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .php</span><br><span class="line">AddType application/x-httpd-php .html</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/135Candy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1088,11 +316,632 @@ veci.erase(it2);</code></pre><p>在上段代码中, it2实际可能还是指向�
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/160IntersectionofTwoLinkedList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/160IntersectionofTwoLinkedList/" class="post-title-link" itemprop="url">leetcode/160IntersectionofTwoLinkedList</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Intersection-of-two-linked-list"><a href="#Intersection-of-two-linked-list" class="headerlink" title="Intersection of two linked list"></a>Intersection of two linked list</h2><p><img src="https://imgur.com/nhmAc0h.png" alt=""></p>
+<p>获得两条链表的连接点</p>
+<h3 id="my-solution-36ms-100"><a href="#my-solution-36ms-100" class="headerlink" title="my solution (36ms, 100%)"></a>my solution (36ms, 100%)</h3><p>(虽然效率看起来是最好的, 但是其实比起最好的算法要差不少)</p>
+<p>核心难点在于两条链表的长度不一定相等, 这样就不能遍历节点用等于的形式来判断  </p>
+<p>那么拿到两条链表的长度, 让较长的链表前进若干次, 以达到长度相等的情形, 那么就可以遍历了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> deep_A = <span class="number">0</span>, deep_B = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        ListNode *temp_head = headA;</span><br><span class="line">        <span class="keyword">while</span> (temp_head) &#123;</span><br><span class="line">            temp_head = temp_head-&gt;next;</span><br><span class="line">            ++deep_A;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        temp_head = headB;</span><br><span class="line">        <span class="keyword">while</span> (temp_head) &#123;</span><br><span class="line">            temp_head = temp_head-&gt;next;</span><br><span class="line">            ++deep_B;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> distance = <span class="built_in">abs</span>(deep_A - deep_B);</span><br><span class="line">        <span class="keyword">if</span> (deep_A &gt; deep_B) &#123;</span><br><span class="line">            <span class="keyword">while</span> (distance) &#123;</span><br><span class="line">                headA = headA-&gt;next;</span><br><span class="line">                --distance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (distance) &#123;</span><br><span class="line">                headB = headB-&gt;next;</span><br><span class="line">                --distance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (headA &amp;&amp; headB &amp;&amp; headA != headB) &#123;</span><br><span class="line">            headA = headA-&gt;next;</span><br><span class="line">            headB = headB-&gt;next;    </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> headA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>代码如下, 会产生 3 次遍历, 两次完整的遍历 O(3n) =&gt; O(n)</p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        ListNode *p = headA;</span><br><span class="line">        ListNode *q = headB;</span><br><span class="line">        <span class="keyword">while</span> (p != q) &#123;</span><br><span class="line">            p = (p ? p-&gt;next: headB);</span><br><span class="line">            q = (q ? q-&gt;next: headA);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>原来还可以这么做!!!</p>
+<p>算法的核心思想在于, A + B = B + A</p>
+<p>假设有两条链表, 长度不等</p>
+<pre><code>0 0 0 2 1 1    // A
+0 0 2 1 1    // B</code></pre><p>其中将他们的链接点标为 2</p>
+<p>那么有以下组合链表</p>
+<pre><code>0 0 0 2 1 1 0 0 2 1 1    // A + B
+0 0 2 1 1 0 0 0 2 1 1    // B + A</code></pre><p>他们如果有链接点, 那么在第二次循环时必然相等  </p>
+<p>我是用求深度差来解决这个问题, 这个算法更加巧妙地用组合链表的形式规避了这个深度差</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/16Z3Sum_Closest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/16Z3Sum_Closest/" class="post-title-link" itemprop="url">leetcode/16Z3Sum_Closest</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="3Sum-Closest"><a href="#3Sum-Closest" class="headerlink" title="3Sum Closest"></a>3Sum Closest</h2><p><img src="https://i.imgur.com/7Q0hVY2.png" alt=""></p>
+<p>给一个包含多个整数的数组 nums, 以及一个整数 target, 在 nums 中找一个三整数, 满足和最接近 target</p>
+<p>返回这个和, 你可以假定每一个输入都只有一个解法</p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">threeSumClosest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// nums.size() return value is size_t !!!!</span></span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">3</span>) <span class="keyword">return</span> nums[<span class="number">0</span>] + nums[<span class="number">1</span>] + nums[<span class="number">2</span>];</span><br><span class="line">        cut(nums);</span><br><span class="line">        <span class="keyword">int</span> length = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        minn = nums[<span class="number">0</span>] + nums[<span class="number">1</span>] + nums[<span class="number">2</span>];</span><br><span class="line">        targetp = target;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= length; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i2 = <span class="number">0</span>; i2 &lt;= length; ++i2) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i2 != i) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i3 = <span class="number">0</span>; i3 &lt;= length; ++i3) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (i3 != i2 &amp;&amp; i3 != i) &#123;</span><br><span class="line">                            <span class="keyword">if</span> ( !isMin(nums[i] + nums[i2] + nums[i3]) )</span><br><span class="line">                                <span class="keyword">break</span>;</span><br><span class="line">                        &#125; <span class="comment">// 3 if</span></span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">continue</span>;</span><br><span class="line">                    &#125; <span class="comment">// 3</span></span><br><span class="line">                &#125; <span class="comment">// 2 if</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">continue</span>;</span><br><span class="line">            &#125; <span class="comment">// 2</span></span><br><span class="line">        &#125; <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> minn;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">cut</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMin</span><span class="params">(<span class="keyword">int</span> newn)</span> </span>&#123;</span><br><span class="line">        minn = <span class="built_in">abs</span>(newn - targetp) &gt; <span class="built_in">abs</span>(targetp - minn) ? minn : newn;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> newn &lt; targetp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> minn;</span><br><span class="line">    <span class="keyword">int</span> targetp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>非常愚蠢地选择了丑陋的forforfor…</p>
+<p>比较主要的是重新排序了集合, 这样在循环中的值就会越来越大, </p>
+<p>那么当超过一定数值的时候, 就可以break出去, 减少更多的无用计算</p>
+<p>不过依旧差不多是 o3 的复杂度</p>
+<h4 id="memery-and-speed"><a href="#memery-and-speed" class="headerlink" title="memery and speed"></a>memery and speed</h4><p><img src="https://imgur.com/BFPPahz.png" alt=""></p>
+<p>速度在统计图之外, 内存使用倒是挺少的 (算法就是要空间换时间啊, MU少有什么用 = =)</p>
+<h3 id="dalao‘s-code"><a href="#dalao‘s-code" class="headerlink" title="dalao‘s code"></a>dalao‘s code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">threeSumClosest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">3</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> rnum = nums[<span class="number">0</span>] + nums[<span class="number">1</span>] + nums[<span class="number">2</span>];</span><br><span class="line">        sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (n - <span class="number">2</span>); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> lb = i + <span class="number">1</span>, ub = n - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (lb &lt; ub) &#123;</span><br><span class="line">                <span class="keyword">int</span> tmpsum = nums[i] + nums[lb] + nums[ub];</span><br><span class="line">                <span class="keyword">if</span> (tmpsum == target) <span class="keyword">return</span> target;</span><br><span class="line">                <span class="keyword">if</span> (tmpsum &gt; target) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((tmpsum - target) &lt; <span class="built_in">abs</span>(rnum - target)) rnum = tmpsum;</span><br><span class="line">                    --ub;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((target - tmpsum) &lt; <span class="built_in">abs</span>(rnum - target)) rnum = tmpsum;</span><br><span class="line">                    ++lb;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rnum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>他的思路也是排序后, 根据有顺序的元素进行优化  </p>
+<p>不过是按照首位逼近的方式来优化, 并且没有丑陋的forforfor (diediedie!!!)</p>
+<p>代码少了很多, 但是也更加简洁和清晰了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/17ZLetter_Combinations_of_a_phone_Number/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/17ZLetter_Combinations_of_a_phone_Number/" class="post-title-link" itemprop="url">leetcode/17ZLetter_Combinations_of_a_phone_Number</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Letter-combinations-of-a-phone-number"><a href="#Letter-combinations-of-a-phone-number" class="headerlink" title="Letter combinations of a phone number"></a>Letter combinations of a phone number</h3><p><img src="https://i.imgur.com/VLZKo4s.png" alt=""></p>
+<p>给一个包含 2-9 整数的字符串, 返回所有可能的数字能代表的字母组合  </p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; letterCombinations(<span class="built_in">string</span> digits) &#123;</span><br><span class="line">        <span class="keyword">if</span> (digits.empty()) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        doit(digits, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doit</span><span class="params">(<span class="built_in">string</span> digits, <span class="built_in">string</span> <span class="keyword">const</span>&amp; str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (digits.<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">            ret.emplace_back(str);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&amp; charset = dict[<span class="keyword">int</span>(digits[<span class="number">0</span>]) - <span class="number">48</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; charset.<span class="built_in">size</span>(); ++i) &#123;          </span><br><span class="line">            doit(&#123;digits.<span class="built_in">begin</span>() + <span class="number">1</span>, digits.<span class="built_in">end</span>()&#125;, str + charset[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt; dict = &#123;</span><br><span class="line">        &#123;<span class="number">2</span>, &#123;<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">3</span>, &#123;<span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">4</span>, &#123;<span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">5</span>, &#123;<span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'l'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">6</span>, &#123;<span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">7</span>, &#123;<span class="string">'p'</span>, <span class="string">'q'</span>, <span class="string">'r'</span>, <span class="string">'s'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">8</span>, &#123;<span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="number">9</span>, &#123;<span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>&#125;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; ret;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>简单地存储一个映射, 然后循环调用, 每次获取一个字符  </p>
+<p>因为循环深度不可控, 以及为了简单易懂, 所以选择了递归, 不过这会带来额外的栈帧</p>
+<p><img src="https://imgur.com/FnyQQQ1.png" alt=""></p>
+<p>内存开销上会多不少, 速度上差别倒是不大  </p>
+<h3 id="dalao’s-code"><a href="#dalao’s-code" class="headerlink" title="dalao’s code"></a>dalao’s code</h3><p>简单看了一下, 是用 for 循环实现的  </p>
+<p>因为时间上并没有什么差距, 原理也很好懂, 这次就不具体贴出来了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/190EReverseBits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/190EReverseBits/" class="post-title-link" itemprop="url">leetcode/190EReverseBits</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://imgur.com/194AzQQ.png" alt=""></p>
+<p>反转二进制</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>我选的方法是直接调用 bits.Reverse 函数来解决, 如果自己写的话, 应该会循环获取每一位, 重新构造一个数字</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> bits.Reverse32(num)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><p>这也是为什么一道 easy 的题会单独做笔记的原因, 因为这道题的解法很有意思</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">    constNums := []<span class="keyword">uint32</span>&#123;<span class="number">0xAAAAAAAA</span>, <span class="number">0x55555555</span>, <span class="number">0xCCCCCCCC</span>, <span class="number">0x33333333</span>, <span class="number">0xF0F0F0F0</span>, <span class="number">0x0F0F0F0F</span>, <span class="number">0xFF00FF00</span>, <span class="number">0x00FF00FF</span>, <span class="number">0xFFFF0000</span>, <span class="number">0x0000FFFF</span>&#125;</span><br><span class="line">    <span class="keyword">var</span> index, power <span class="keyword">uint32</span></span><br><span class="line">    <span class="keyword">for</span> index, power = <span class="number">0</span>, <span class="number">0</span>; index &lt;= <span class="number">8</span>; index, power = index+<span class="number">2</span>, power+<span class="number">1</span> &#123;</span><br><span class="line">        num = ((num &amp; constNums[index]) &gt;&gt; (<span class="number">1</span> &lt;&lt; power)) | ((num &amp; constNums[index+<span class="number">1</span>]) &lt;&lt; (<span class="number">1</span> &lt;&lt; power))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> num</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乍看之下理解不了, 特别是循环中的那句代码, 先给个例子来展示一下 :</p>
+<pre><code>原二进制:       00000010100101000001111010011100
+第一次循环后:       00000001011010000010110101101100
+第二次循环后:       00000100100100101000011110010011
+第三次循环后:       01000000001010010111100000111001
+第四次循环后:       00101001010000000011100101111000
+第五次循环后:       00111001011110000010100101000000</code></pre><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((num &amp; constNums[index]) &gt;&gt; (<span class="number">1</span> &lt;&lt; power)) | ((num &amp; constNums[index+<span class="number">1</span>]) &lt;&lt; (<span class="number">1</span> &lt;&lt; power))</span><br></pre></td></tr></table></figure>
+
+<p>代码的含义是这样的(诶… 我想想怎么解释一下 = =)</p>
+<p>emmm, 先看一个最简单的例子, 那么就能理解了, 首先, 取二进制 01, 只执行一次循环, 看看效果</p>
+<p>num &amp; constNums[index]  = 0, (num &amp; constNums[index+1]) = 1, power = 0, 所以结果是 10, 我们得到了反转字符串</p>
+<p>那么再来难点的例子, 1101, 这样需要执行两次循环</p>
+<p>num &amp; constNums[index]  = 1000,  (num &amp; constNums[index+1]) = 0101, power = 0, 所以第一次循环的结果是 0100 | 1010 = 1110</p>
+<p>num &amp; constNums[index]  = 1100, (num &amp; constNums[index+1]) = 0010, power = 1, 所以结果是 0011 | 1000 = 1011</p>
+<p>这样大概就能了解了吧, 第一次循环是两位为一组交换位置, 第二次循环是四位为一组交换位置, 所以第一次的二进制是 0xAAAAAAAA, 0x55555555 类似与 101010… 010101… 这样的, 他们的二进制位是相反的, 同理直到达到足够的位数为止, 这道题的复杂度是 O(logn) 级别的, 其中 s = 数字的位数, s = 2 的 n 次方</p>
+<p>真是个不错的算法 :)</p>
+<p>这个算法能见到 二分 和 递归 的影子, 理解了就会非常简单</p>
+<p>看了 go 对于该算法的实现, 也是这样的</p>
+<p>顺便, 看了 go 的源码, 其实句子可以更简单 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">constNums[index] &amp; num &gt;&gt; (<span class="number">1</span> &lt;&lt; power) | constNums[index+<span class="number">1</span>] &amp; num &lt;&lt; (<span class="number">1</span> &lt;&lt; power)</span><br></pre></td></tr></table></figure>
+
+<p>整个代码也可以重构</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(n <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> m0 <span class="keyword">uint32</span> = <span class="number">0x55555555</span></span><br><span class="line">    <span class="keyword">var</span> m1 <span class="keyword">uint32</span> = <span class="number">0x33333333</span></span><br><span class="line">    <span class="keyword">var</span> m2 <span class="keyword">uint32</span> = <span class="number">0x0F0F0F0F</span></span><br><span class="line">    <span class="keyword">var</span> m3 <span class="keyword">uint32</span> = <span class="number">0x00FF00FF</span></span><br><span class="line"></span><br><span class="line">    n = n &gt;&gt; <span class="number">1</span> &amp; m0 | n &amp; m0 &lt;&lt; <span class="number">1</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">2</span> &amp; m1 | n &amp; m1 &lt;&lt; <span class="number">2</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">4</span> &amp; m2 | n &amp; m2 &lt;&lt; <span class="number">4</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">8</span> &amp; m3 | n &amp; m3 &lt;&lt; <span class="number">8</span></span><br><span class="line">    <span class="keyword">return</span> n &gt;&gt; <span class="number">16</span> | n &lt;&lt; <span class="number">16</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这基本与 go 的 reverse32 源码一致, 不愧是源码啊…  </p>
+<p>这个版本的代码进一步减少了变量和常量, 其中那 index 所代表的一对本就可以用移位来代替</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/209MininumSizeSubarraySum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/209MininumSizeSubarraySum/" class="post-title-link" itemprop="url">leetcode/209MininumSizeSubarraySum</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Minimun-Size-Subarray-Sum"><a href="#Minimun-Size-Subarray-Sum" class="headerlink" title="Minimun Size Subarray Sum"></a>Minimun Size Subarray Sum</h2><p><img src="https://imgur.com/HJmyh7Q.png" alt=""></p>
+<p>不想解释…</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>简单思考了一下, 以每个元素为起点, 循环往右找到满足条件的数 </p>
+<p>最终做比较, 就可以得出答案</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">minSubArrayLen</span><span class="params">(s <span class="keyword">int</span>, nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    size := <span class="built_in">len</span>(nums)</span><br><span class="line">    ret := size</span><br><span class="line">    <span class="keyword">var</span> sum <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span>(nums) &#123;</span><br><span class="line">        sum += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (sum &lt; s) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, v := <span class="keyword">range</span>(nums) &#123;</span><br><span class="line">        sum = v</span><br><span class="line">        counter := <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i2 := i + <span class="number">1</span>; i2 &lt; size &amp;&amp; sum &lt; s; i2++ &#123;</span><br><span class="line">            sum += nums[i2]</span><br><span class="line">            counter++</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sum &gt;= s &amp;&amp; counter &lt; ret &#123;</span><br><span class="line">            ret = counter</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的复杂度大概是 O(n2), 同时为了区别特殊情况, 还做了一次… </p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">minSubArrayLen</span><span class="params">(s <span class="keyword">int</span>, nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    size := <span class="built_in">len</span>(nums)</span><br><span class="line">    ret := size + <span class="number">1</span></span><br><span class="line">    start := <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> sum <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, v := <span class="keyword">range</span>(nums) &#123;</span><br><span class="line">        sum += v</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> sum &gt;= s &amp;&amp; sum - nums[start] &gt;= s &#123;</span><br><span class="line">            sum -= nums[start]</span><br><span class="line">            start++</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sum &gt;= s &amp;&amp; i - start + <span class="number">1</span> &lt; ret &#123;</span><br><span class="line">            ret = i - start + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ret == size + <span class="number">1</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实这是我将算法思想重写后的代码…</p>
+<p>简单来说, 就是先找到匹配的 sum, 然后没加一次, 就尝试减少前面的数  </p>
+<p>这样遍历之后, 得到的数同样也是最短的</p>
+<p>(我很好奇没有是否没有人对数级的解决方案…)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/222CountCompleteTreeNodes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/222CountCompleteTreeNodes/" class="post-title-link" itemprop="url">leetcode/222CountCompleteTreeNodes</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 16:55:14" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="222-Count-Complete-Tree-Nodes"><a href="#222-Count-Complete-Tree-Nodes" class="headerlink" title="222. Count Complete Tree Nodes"></a>222. Count Complete Tree Nodes</h2><p><img src="https://imgur.com/7DA2TjB.png" alt=""></p>
+<p>统计 complete tree 节点数量</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>首先说说我的做法, 我首先想到的是用栈来保存其数据结构, 跟踪路径, 从右至左, 直到找到一条能到达底层的路</p>
+<p>first.  my idea  is use stack to save the data structure, trace the route, from right to left, until find a way to bottom node</p>
+<p>(前些天被一个 13 说我 leetcode 从不写注释, 我怨念到了现在 = =)</p>
+<p>(I was told by a 13 the other day that i never write comments in leetcode. I remember it till now :(  )</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;pair&lt;TreeNode*, <span class="keyword">bool</span>&gt;&gt; nodes;</span><br><span class="line">        </span><br><span class="line">        TreeNode* <span class="built_in">cursor</span> = root;</span><br><span class="line">        <span class="keyword">int</span> ldeep = <span class="number">0</span>, rdeep = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">            <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;left;</span><br><span class="line">            ++ldeep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cursor</span> = root;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">            <span class="comment">// 1 means next is a right node</span></span><br><span class="line">            nodes.push(make_pair(<span class="built_in">cursor</span>, <span class="number">1</span>));</span><br><span class="line">            <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;right;</span><br><span class="line">            ++rdeep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ret = (<span class="number">1</span> &lt;&lt; ldeep) - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// is a full binary tree</span></span><br><span class="line">        <span class="keyword">if</span> (ldeep == rdeep) </span><br><span class="line">            <span class="keyword">return</span> ret;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!nodes.empty()) &#123;</span><br><span class="line">            <span class="built_in">cursor</span> = nodes.top().first;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">cursor</span>-&gt;right) --ret;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">cursor</span>-&gt;left) --ret;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cursor</span>-&gt;left || <span class="built_in">cursor</span>-&gt;right)</span><br><span class="line">                <span class="keyword">return</span> ret;</span><br><span class="line">            </span><br><span class="line">            nodes.pop();</span><br><span class="line">            --rdeep;</span><br><span class="line">            <span class="comment">// current node is right node, so next node is left node</span></span><br><span class="line">            <span class="keyword">if</span> (!nodes.empty() &amp;&amp; nodes.top().second) &#123;</span><br><span class="line">                nodes.top().second = <span class="number">0</span>;</span><br><span class="line">                nodes.push(make_pair(nodes.top().first-&gt;left, <span class="number">1</span>));</span><br><span class="line">                ++rdeep;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// find next node with next node is right node</span></span><br><span class="line">            <span class="keyword">while</span> (!nodes.empty() &amp;&amp; !nodes.top().second) &#123;</span><br><span class="line">                nodes.pop();</span><br><span class="line">                --rdeep;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// means some errors occur</span></span><br><span class="line">            <span class="keyword">if</span> (nodes.empty()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            nodes.top().second = <span class="number">0</span>;</span><br><span class="line">            <span class="built_in">cursor</span> = nodes.top().first-&gt;left;</span><br><span class="line">            <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">                nodes.push(make_pair(<span class="built_in">cursor</span>, <span class="number">1</span>));</span><br><span class="line">                <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;right;</span><br><span class="line">                ++rdeep;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// get the bottom element</span></span><br><span class="line">            <span class="keyword">if</span> (ldeep == rdeep) <span class="keyword">return</span> ret;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// means some errors occur</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最不理想的情况下, 最左边只有一个节点, 会遍历掉所有节点 = =. stack 容量应该不会超过 31 个元素. </p>
+<p>代码不够整洁, 不够易懂. 勉强算个解法.</p>
+<p><img src="https://imgur.com/ST4TQfP.png" alt=""></p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">is_high</span> <span class="params">(TreeNode* root, <span class="keyword">int</span> path, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    high--;</span><br><span class="line">    <span class="keyword">while</span> (high &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">bool</span> flag = path &amp; (<span class="number">1</span> &lt;&lt; high);</span><br><span class="line">        <span class="keyword">if</span> (flag &amp;&amp; root-&gt;right) &#123;</span><br><span class="line">            root = root-&gt;right;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!flag &amp;&amp; root-&gt;left) &#123;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        high--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span> <span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> high = <span class="number">0</span>;</span><br><span class="line">        TreeNode* node = root-&gt;left;</span><br><span class="line">        <span class="keyword">while</span> (node) &#123;</span><br><span class="line">            high++;</span><br><span class="line">            node = node-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> first = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> last = <span class="number">1</span> &lt;&lt; high;</span><br><span class="line">        <span class="keyword">while</span> (first &lt; last) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (first + last) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (is_high(root, mid, high)) &#123;</span><br><span class="line">                first = mid + <span class="number">1</span>;        </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                last = mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (<span class="number">1</span> &lt;&lt; high) - <span class="number">1</span> + last;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最后的 return 里面, 用 first 和 last 都可以, 我觉得 last 语义可能更好, 所以换成了 last.</p>
+<p>on the end of return, use both first and last. i think ‘last’ more make sence, so i use ‘last’</p>
+<p>他的计算是 full tree 节点数 + 底层节点数. 从这个算法中我学到了一些东西, 二进制和 binary tree, 真的有很大可操作空间.</p>
+<p>the algorithm is a number of full tree nodes plus bottom nodes. I study something from the algorithm. it’s a lot of skill can use between binary system and binary tree.</p>
+<p>在分析算法前, 我先总结一下我从这个算法中看到的规律. </p>
+<p>before profiling this algorithm, summarize  some rules of complete tree that I saw in this algorithm</p>
+<p>首先, 将树节点排序, root 为 1, 从左到右, 从上到下,  依次递进. 得到类似的图 : </p>
+<p>first, sort tree nodes. root is number 1, from left to right, up to down, get this map:</p>
+<pre><code>                            1
+            2                                3
+    4                5                6                7
+8(1)    9(2)    10(3)    11(4)    12(5)    13(6)    14(7)    15(8)</code></pre><p>假设一个数, 5, 其二进制为 101, 已知是 binary tree, 所以每个节点的 2 倍就是当前数字右移 1 位, 右尾置 0. 所以 0 代表向左下前进, 1 则代表向右下前进. 分为两种情况.</p>
+<p>assume a number, for example 5, it’s binary expression is 101.</p>
+<ol>
+<li><p>将首位看做无效位, 则 101 = 01, 代表从根向左-&gt;向右, 则得到了数字 5.</p>
+<p>treat the first digit as an invalid bit. 101 means left -&gt; right. get the number 5.</p>
+</li>
+<li><p>将首位看做有效位, 则 101 = 101, 代表从根向右-&gt;向左-&gt;向右, 得到数字 13, 而这个数字, 刚好是底部从左往右的第 5 个数字 + 1 = 第 6 个数字. </p>
+<p>treat the first digit as an valid bit. 101 means right -&gt; left -&gt; right. get the number 13. the number sorted by bottom level is the the original number plus one. </p>
+<p>(为什么呢? 为什么刚好是 + 1? 因为恒定的, 因为这是 complete tree, 每一层到下一层的相对应那个数的步数都是恒定的. 都是 (2 &lt;&lt; n) - 1, 而 + 1 就刚好是 2 &lt;&lt; n, 这和刚才将首位看做有效位对应上了, 其实将首位看做有效位也就是增加了 2 &lt;&lt; n 而已.)</p>
+</li>
+</ol>
+<p>将一些规律总结后, 就变简单了许多</p>
+<p>after summarize some rules, things more simple. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (first &lt; last) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (first + last) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (is_high(root, mid, high)) &#123;</span><br><span class="line">        first = mid + <span class="number">1</span>;        </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        last = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码就是在首位间不断逼近, 求得的最大的数字, 也就是最后一排. </p>
+<p>this code just get more close between ‘first’ and ‘last’. get biggest number, also is the result.</p>
+<p>is_high(root, mid, high) 实则是在判断, 最后一排有没有 mid + 1 这个数字, 如果有, 则 first = mid + 1, 意味着这个数字是存在的, 继续不断逼近. 直到最后 last == first, 因为 first = mid + 1, 而 mid = (first + last) / 2, 所以 first 最大不会超过 last. </p>
+<p>‘is_higt’ judge is there a number ‘mid + 1’. if is, then ‘first = mid + 1’. means this number is exist.</p>
+<p>所以这个解法是利用了 complete tree 的特性. 相当简洁, 也没有使用额外的空间, 时间复杂度是 O(logn), 很不错的解法.</p>
+<p>I’m tired… :(     </p>
+<p>thanks for browsing :)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/230KthSmallestElementInaBST/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/230KthSmallestElementInaBST/" class="post-title-link" itemprop="url">leetcode/230KthSmallestElementInaBST</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Kth-Smallest-Element-In-a-BST"><a href="#Kth-Smallest-Element-In-a-BST" class="headerlink" title="Kth Smallest Element In a BST"></a>Kth Smallest Element In a BST</h2><p><img src="https://imgur.com/bstQOJh.png" alt=""></p>
+<p>找到二叉树中, 第 n 个最小的节点</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>可以一步一步找它的最小节点, 追踪的问题, 可以交给 stack</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">kthSmallest</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="comment">// if root == nil &#123;</span></span><br><span class="line">    <span class="comment">//     return 0</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    stack := []*TreeNode&#123;root&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> root.Left != <span class="literal">nil</span> &#123;</span><br><span class="line">        stack = <span class="built_in">append</span>(stack, root.Left)</span><br><span class="line">        root = root.Left</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pos := <span class="built_in">len</span>(stack) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> foot := <span class="number">1</span>; foot != k; foot++ &#123;</span><br><span class="line">        <span class="comment">// if cur.Right != nil then next is cur.Right.Left(bottom)</span></span><br><span class="line">        <span class="keyword">if</span> stack[pos].Right != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="comment">// i really need stack...</span></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(stack) &gt; pos + <span class="number">1</span> &#123;</span><br><span class="line">                stack[pos + <span class="number">1</span>] = stack[pos].Right</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                stack = <span class="built_in">append</span>(stack, stack[pos].Right)</span><br><span class="line">            &#125;</span><br><span class="line">            pos++</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> stack[pos].Left != <span class="literal">nil</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(stack) &gt; pos + <span class="number">1</span> &#123;</span><br><span class="line">                    stack[pos + <span class="number">1</span>] = stack[pos].Left</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    stack = <span class="built_in">append</span>(stack, stack[pos].Left)</span><br><span class="line">                &#125;</span><br><span class="line">                pos++</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// if cur.Right == nil then next is last biger value</span></span><br><span class="line">            old := stack[pos].Val</span><br><span class="line"></span><br><span class="line">            <span class="comment">// hope BST don't have repetitive value... </span></span><br><span class="line">            <span class="keyword">for</span> stack[pos].Val &lt;= old &#123;</span><br><span class="line">                pos--</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> stack[pos].Val</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查找下一节点 (next) 可以这么描述:</p>
+<p>如果当前节点 (cur) 有右子节点, 则 next 为右子节点的左根节点</p>
+<p>否则, next 为上一个大于当前节点值的节点</p>
+<p>这是用递归来实现的, 为了追踪, 使用了 stack </p>
+<p>(我好希望 go 能提供一个标准的 stack, 这样代码可以更加简洁. 或许是提供了, 但我不知道?)</p>
+<p><img src="https://imgur.com/2mIMNZl.png" alt=""></p>
+<p>一次成功, 真好</p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">kthSmallest</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    helper(root,k,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> res <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">helper</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>, i <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    cur := <span class="number">0</span> </span><br><span class="line">    <span class="keyword">if</span> root.Left != <span class="literal">nil</span> &#123;</span><br><span class="line">        prev := helper(root.Left, k, i)</span><br><span class="line">        cur = prev + <span class="number">1</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cur = i</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> cur == k &#123;</span><br><span class="line">        res = root.Val</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> root.Right != <span class="literal">nil</span> &amp;&amp; cur &lt; k &#123;</span><br><span class="line">        <span class="keyword">return</span> helper(root.Right, k, cur+<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cur</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>emm, 他使用了递归, 用递归来追踪, 可以不用显式追踪数据了, 挺好</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/25ZReverse_Nodes_in_k-Group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/25ZReverse_Nodes_in_k-Group/" class="post-title-link" itemprop="url">leetcode/25ZReverse_Nodes_in_k-Group</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="25-Reverse-Nodes-in-k-Group"><a href="#25-Reverse-Nodes-in-k-Group" class="headerlink" title="25. Reverse Nodes in k-Group"></a>25. Reverse Nodes in k-Group</h3><p><img src="https://imgur.com/sancVDL.png" alt=""></p>
+<p>给定一个链表, 每次反转链表数量为k的节点, 然后返回更改后的链表</p>
+<p>k是一个正整数, 小于等于链表的长度, 如果链表的长度不是k的整数倍, 最后遗漏的节点保持原样</p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!head) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">        ListNode* ret = head;</span><br><span class="line">        <span class="keyword">while</span> (head &amp;&amp; head-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">int</span> kt = k;</span><br><span class="line">            ListNode* headt = head;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line"></span><br><span class="line">            vec.push_back(headt-&gt;val);</span><br><span class="line">            <span class="keyword">while</span> (--kt &amp;&amp; head-&gt;next) &#123;</span><br><span class="line">                head = head-&gt;next;</span><br><span class="line">                vec.push_back(head-&gt;val);</span><br><span class="line">            &#125;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (kt) <span class="keyword">break</span>;</span><br><span class="line">            reverse(headt, vec);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(ListNode* head, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; vec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) &#123;</span><br><span class="line">            head-&gt;val = *it;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这道题的思路很清晰, 感觉不应该是hard难度的题  </p>
+<p>简单地将链表每一部分分开, 然后调用反序函数就可以了</p>
+<p>可以优化的点是 while 那里, 以及我可以不用在 while 中判断, reverse 应该能够正常处理元素数量不同的情况  </p>
+<p>那么我在最后做一次判断, 将最后一次不用修改的还原就可以了, 这样可以省去 while 中的判断逻辑</p>
+<p><img src="https://imgur.com/8QPzS1D.png" alt=""></p>
+<p>速度上来说还算不错, 但是资源使用率上就很堪忧了</p>
+<h3 id="dalao’s-code"><a href="#dalao’s-code" class="headerlink" title="dalao’s code"></a>dalao’s code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverse</span><span class="params">(ListNode* first, ListNode* last)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ListNode* prev = last;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( first != last )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> tmp = first-&gt;next;</span><br><span class="line">            first-&gt;next = prev;</span><br><span class="line">            prev = first;</span><br><span class="line">            first = tmp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> node=head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ( ! node  )</span><br><span class="line">                <span class="keyword">return</span> head; <span class="comment">// nothing to do list too sort</span></span><br><span class="line">            node = node-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> new_head = reverse( head, node);</span><br><span class="line">        head-&gt;next = reverseKGroup( node, k);</span><br><span class="line">        <span class="keyword">return</span> new_head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个做法和我的想法基本相同, 但是在细节上的处理很好</p>
+<p>首先, 他采用的递归, 这样代码更加简洁易懂</p>
+<p>其次循环中是更改链表的指向, 而不是赋值, 这样功能性更强</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1158,7 +1007,7 @@ veci.erase(it2);</code></pre><p>在上段代码中, it2实际可能还是指向�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -46,19 +46,19 @@
   };
 </script>
 
-  <meta name="description" content="Step 编写动态库源文件   将动态库源文件编译链接生成动态库文件   在执行源文件中添加头文件声明   使用动态库文件     Step1:… Step2:gcc&#x2F;g++ -fPIC -shared -o [libname].so [sourcefile]example:   gcc -fPIC -shared -o tlib.so tlib.c这样就会生成一个tlib.so的动态库文件其中-">
+  <meta name="description" content="##对于溢出和越界的理解(overflow&#x2F;outside range) x86汇编flag寄存器有两个表示位, 分别位OF&#x2F;CF, 溢出标志位&#x2F;进位标志位其中OF只对有符号数有效, 例如:当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)A + B &#x3D; 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结">
 <meta property="og:type" content="article">
-<meta property="og:title" content="other&#x2F;Create so file in linux">
-<meta property="og:url" content="http://yoursite.com/2020/01/09/other/Create%20so%20file%20in%20linux/index.html">
+<meta property="og:title" content="other&#x2F;overFlowAndCarry">
+<meta property="og:url" content="http://yoursite.com/2020/01/10/other/overFlowAndCarry/index.html">
 <meta property="og:site_name" content="cas&#39;s website">
-<meta property="og:description" content="Step 编写动态库源文件   将动态库源文件编译链接生成动态库文件   在执行源文件中添加头文件声明   使用动态库文件     Step1:… Step2:gcc&#x2F;g++ -fPIC -shared -o [libname].so [sourcefile]example:   gcc -fPIC -shared -o tlib.so tlib.c这样就会生成一个tlib.so的动态库文件其中-">
+<meta property="og:description" content="##对于溢出和越界的理解(overflow&#x2F;outside range) x86汇编flag寄存器有两个表示位, 分别位OF&#x2F;CF, 溢出标志位&#x2F;进位标志位其中OF只对有符号数有效, 例如:当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)A + B &#x3D; 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
-<meta property="article:modified_time" content="2020-01-09T09:13:54.758Z">
+<meta property="article:published_time" content="2020-01-10T11:12:57.994Z">
+<meta property="article:modified_time" content="2020-01-09T09:12:35.306Z">
 <meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/09/other/Create%20so%20file%20in%20linux/">
+<link rel="canonical" href="http://yoursite.com/2020/01/10/other/overFlowAndCarry/">
 
 
 <script id="page-configurations">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>other/Create so file in linux | cas's website</title>
+  <title>other/overFlowAndCarry | cas's website</title>
   
 
 
@@ -170,7 +170,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/Create%20so%20file%20in%20linux/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/other/overFlowAndCarry/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -183,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          other/Create so file in linux
+          other/overFlowAndCarry
         </h1>
 
         <div class="post-meta">
@@ -192,10 +192,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+              <time title="Created: 2020-01-10 19:12:57" itemprop="dateCreated datePublished" datetime="2020-01-10T19:12:57+08:00">2020-01-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-09 17:12:35" itemprop="dateModified" datetime="2020-01-09T17:12:35+08:00">2020-01-09</time>
+              </span>
 
           
 
@@ -208,42 +214,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h3><ol>
-<li>编写动态库源文件  </li>
-<li>将动态库源文件编译链接生成动态库文件  </li>
-<li>在执行源文件中添加头文件声明  </li>
-<li>使用动态库文件  </li>
-</ol>
-<hr>
-<h4 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h4><p>…</p>
-<h4 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h4><pre><code>gcc/g++ -fPIC -shared -o [libname].so [sourcefile]</code></pre><p>example:  </p>
-<pre><code>gcc -fPIC -shared -o tlib.so tlib.c</code></pre><p>这样就会生成一个<code>tlib.so</code>的动态库文件<br>其中<code>-fPIC</code>的含义是: Position Independent Code (位置无关代码)</p>
-<h4 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h4><p>添加声明可以在单独的头文件中添加, 也可以直接在使用的源文件内添加  </p>
-<h4 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h4><pre><code>gcc t.c -L. tlib.so  </code></pre><p>会生成一个默认的<code>a.out</code>可执行文件  </p>
-<p>此时还有一个问题就是直接运行的话会报错:<br>应用程序找不到<code>.so</code>文件<br>解决方法有两种, 一种是改系统文件, 另外一种是临时告诉shell动态库的路径<br>因为这个是测试用例, 介绍第二种  </p>
-<pre><code>LD_LIBRARY_PATH=. ./a.out  </code></pre><p>执行此命令可以解决报错问题, 其中<code>LD_LIBRARY_PATH=.</code>的含义是:<br>告诉shell, 库的路径在当前路径下(如果库放在别的路径, 将<code>.</code>替换即可)  </p>
-<p>以上经验来自<a href="https://www.cnblogs.com/jiqingwu/p/linux_dynamic_lib_create.html" target="_blank" rel="noopener">博客园</a>  </p>
-<hr>
-<p>顺便: 第一次写了<code>makefile</code>, 用作上述的动态库管理  </p>
-<blockquote>
-<p>make build: 生成动态库, 可执行文件<br>make doit: 执行程序(如果文件并不存在, 先生成文件)<br>make clean: 清除生成的文件</p>
-</blockquote>
-<pre><code> 1 build: tlib.so a.out
- 2 
- 3 tlib.so: tlib.c
- 4           gcc -fPIC -shared -o $@ $&lt;
- 5 
- 6 a.out: t1.c
- 7           gcc $&lt; -L. tlib.so
- 8 
- 9 doit: build 
-10           LD_LIBRARY_PATH=. ./a.out
-11 
-12 file = tlib.so a.out
-13 clean: 
-14           rm $(file)</code></pre><p>书写makedile和核心就是搞清楚依赖关系<br>其中<code>build</code>为创建动态库和可执行文件, 所以依赖于<code>tlib.so</code>和<code>a.out</code><br>而<code>tlib.so</code>依赖于<code>tlib.c</code>, <code>a.out</code>依赖于<code>t1.c</code><br>…</p>
-<p>有一份<a href="https://www.kancloud.cn/kancloud/make-command/45593" target="_blank" rel="noopener">make教程</a></p>
-<p>上述所用到的基础makefile规则并不难理解, 这里不做赘述  </p>
+        <p>##对于溢出和越界的理解(overflow/outside range)</p>
+<p>x86汇编flag寄存器有两个表示位, 分别位OF/CF, 溢出标志位/进位标志位<br>其中OF只对有符号数有效, 例如:<br>当两个1字节大小的数字相加时, A: 0111 1111 (127), B: 0000 0001 (1)<br>A + B = 128, 对应二进制位是 1000 0000, 但是对于有符号数来说, 这是负数, 计算结果是错误的<br>这里错误的原因是计算结果<strong>占用了一个不该它占有的有效位</strong><br>不该它占有: 它占有了符号位, 这个位错误地被计算结果改变<br>有效: 这个符号位是被合理分配的, 并不是未定义的</p>
+<p>CF只对无符号数有效, 例如:<br>当两个1字节大小的数字相加时, A: 1111 1111 (255), B: 0000 0001 (1)<br>A + B = 256, 对应二进制位是 1 0000 0000, 1字节大小存不下9bit, 计算结果无法保存, 产生错误<br>错误原因是: 计算结果<strong>超出了合理的范围, 这个位未被定义</strong><br>同样不该它占有, 但是同时这是个<strong>未被定义的空间</strong>  </p>
+<p>那么就可以简单看出, 从寄存器角度, 溢出/越界的区分了, <strong>那个位是否有效</strong><br>(但是也不一定…)</p>
+<pre><code>vector&lt;int&gt; veci{1, 2, 3};
+vector&lt;int&gt;::iterator it1 = veci.begin();
+vector&lt;int&gt;::iterator it2 = veci.begin() + 1; 
+
+veci.erase(it1);
+// @note 这里的erase会报错, 因为在上一句代码中, begin迭代器所指向的数据被删除了, 
+//     删除之后, begin迭代器之后的元素重新排序(往前移), 此时的it2已经不指向它原先希望指向的位置了  
+//     可能它指向了新的begin迭代器之后的位置, 也可能指向begin了, 直接的结果是: 它失效了  
+veci.erase(it2);</code></pre><p>在上段代码中, it2实际可能还是指向一个元素的, (实际VS debug中, it2指向了第三个元素, 也就是3)<br>it2并未失效, 它依旧指向一块内存,(至少在VS debug中这样) 但是这是块<strong>不该它占有的内存</strong><br>按照上述我们对溢出/越界的定义, 这种问题属于溢出  </p>
+<p>但是很可惜, 报错信息是:<br>“vector erase iterator outside range”<br>emmmmmmmmmm, 也就是说, 它认为这是越界…<br>所以我的理解可能是错的, 但是我还是认为这样子理解没有什么问题(大概… :) )</p>
+<p>或许这样说更好, 有符号数, 只有7位数值, 两个7位数值无论如何计算也不会超过8位<br>而无符号数, 8位数值, 计算是可能超过8位的</p>
 
     </div>
 
@@ -259,12 +244,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/09/other/Dll%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/" rel="prev" title="other/Dll文件的创建和使用">
-      <i class="fa fa-chevron-left"></i> other/Dll文件的创建和使用
+    <a href="/2020/01/10/other/CreatesoFileinLinux/" rel="prev" title="other/CreatesoFileinLinux">
+      <i class="fa fa-chevron-left"></i> other/CreatesoFileinLinux
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/01/09/other/aQuestionAboutStaticKeyword/" rel="next" title="other/aQuestionAboutStaticKeyword">
-      other/aQuestionAboutStaticKeyword <i class="fa fa-chevron-right"></i>
+    <a href="/2020/01/10/other/encode/" rel="next" title="other/encode">
+      other/encode <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -325,7 +310,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step"><span class="nav-number">1.</span> <span class="nav-text">Step</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Step1"><span class="nav-number">1.1.</span> <span class="nav-text">Step1:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step2"><span class="nav-number">1.2.</span> <span class="nav-text">Step2:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step3"><span class="nav-number">1.3.</span> <span class="nav-text">Step3:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step4"><span class="nav-number">1.4.</span> <span class="nav-text">Step4:</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -339,7 +323,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

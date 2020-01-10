@@ -166,262 +166,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/install%20vim8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/install%20vim8/" class="post-title-link" itemprop="url">other/install vim8</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在和 master vim quickly 的作者邮件中 </p>
-<p>发现了自己的vim版本还可以再更新, 于是有了这篇笔记</p>
-<p>参考教程:</p>
-<p><a href="https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/" target="_blank" rel="noopener">https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/</a></p>
-<p><a href="https://www.systutorials.com/241762/how-to-upgrade-vim-to-version-8-on-centos-7/" target="_blank" rel="noopener">https://www.systutorials.com/241762/how-to-upgrade-vim-to-version-8-on-centos-7/</a></p>
-<p>vim的git地址:</p>
-<p><a href="https://github.com/vim/vim" target="_blank" rel="noopener">https://github.com/vim/vim</a></p>
-<p>vim8安装指南:</p>
-<p><a href="https://github.com/vim/vim/blob/master/src/INSTALL" target="_blank" rel="noopener">https://github.com/vim/vim/blob/master/src/INSTALL</a></p>
-<h3 id="安装vim8"><a href="#安装vim8" class="headerlink" title="安装vim8"></a>安装vim8</h3><ol>
-<li><p>首先需要源代码</p>
-<p>git clone <a href="https://github.com/vim/vim.git" target="_blank" rel="noopener">https://github.com/vim/vim.git</a></p>
-</li>
-<li><p>编译</p>
-<p>cd &lt;vim repo 路径&gt;/src</p>
-<p>make</p>
-<p>make install</p>
-<p>现在应该就已经获得了新的vim可执行文件, 将他覆盖原来的vim就好</p>
-</li>
-</ol>
-<p>@btw: 中途可能会遇到一些问题</p>
-<ul>
-<li>安装编译vim所需的API<ul>
-<li>yum  -y install  ncurses-devel</li>
-</ul>
-</li>
-<li>覆盖时提示出错<ul>
-<li>因为可能vim还在其他地方被运行, 使用 losf 查看进程, kill 掉</li>
-</ul>
-</li>
-</ul>
-<p>具体的可以参考上面的教程链接, 这里只是简单概述</p>
-<p>顺便给一份通常的vim设置</p>
-<pre><code>&quot;General&quot;
-set number    &quot;Show line numbers&quot;
-set linebreak    &quot;Break lines at word (requires Wrap lines)&quot;
-set showbreak=+++    &quot;Wrap-broken line prefix&quot;
-set textwidth=100    &quot;Line wrap (number of cols)&quot;
-set showmatch    &quot;Highlight matching brace&quot;
-set visualbell    &quot;Use visual bell (no beeping)&quot;
-
-set hlsearch    &quot;Highlight all search results&quot;
-set smartcase    &quot;Enable smart-case search&quot;
-set ignorecase    &quot;Always case-insensitive&quot;
-set incsearch    &quot;Searches for strings incrementally&quot;
-
-set autoindent    &quot;Auto-indent new lines&quot;
-set shiftwidth=4    &quot;Number of auto-indent spaces&quot;
-set smartindent    &quot;Enable smart-indent&quot;
-set smarttab    &quot;Enable smart-tabs&quot;
-set softtabstop=4    &quot;Number of spaces per Tab&quot;
-
-&quot;Advanced&quot;
-set ruler    &quot;Show row and column ruler information&quot;
-​    
-set undolevels=1000    &quot;Number of undo levels&quot;
-set backspace=indent,eol,start    &quot;Backspace behaviour&quot;</code></pre>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/linux/" class="post-title-link" itemprop="url">other/linux</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <pre><code>mkdir 创建文件夹指令  
-su 切换到管理员模式  
-sudo 以管理员模式执行命令
-sudo passwd 以用户密码更改管理员密码
-rm -f * 删除当前目录下所有文件
-clear 清空终端窗口(实际还存在, 只不过看不见了, 和cmd一样)
-
-apt-get install [工具名] 安装工具  
-CentOS下是使用yum
-
-更改vim配色
-1. 下载vim文件
-2. 放到~/.vim/colors文件夹下(没有就创建)
-3. 更改vimrc文件, 路径: /etc/vim/vimrc, 增加指令: colorscheme [配色方案名]
-PS: 默认的colors文件夹路径: /usr/share/vim/vim80/colors
-之后发现vimrc文件在/etc目录下, 而vim文件放在了~/.vim目录下
-emmmmm, 已经想不起当时怎么弄的了... 就这样吧, 可能是版本问题...
-
-更改tab间距
-同样更改vimrc文件, 增加如下指令: 
-set ts=4 // 设置table间距为4
-set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: 想起之前刚接触linux, 安装g++, gcc参照了错误的教程(那沙雕教程又是装插件又是下安装包)<br>好不容易装完之后又被vi的输入和命令行模式, 嘟嘟嘟嘟嘟, 气得半死<br>之后又好不容易写好一个测试代码, ctrl+s一保存, 直接TMD不响应了<br>(事后才得知这是关闭向终端输入的接口, 只需要ctrl+q就可以重新打开输入, 留下了属于无知者的泪水…)<br>一系列操作让我直接删除ubuntu… </p>
-<p>vim查询字符串 <code>/字符串</code><br>PS: 但是之后被搜索的字符串会持续高亮显示, 使输入<code>noh</code>可还原  </p>
-<p>vim注释多行<br>control + v<br>上下键/(j/k) 键选中操作的行<br>shift + i<br>输入<code>//</code> (视语言而定)<br>连续两次 ESC</p>
-<p>取消多行注释<br>control + v<br>上下左右键 选中需要注释的符号<br>d</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/other/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/other/" class="post-title-link" itemprop="url">other/other</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>b4 -&gt;BCUnrar.dll</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/permission/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1134,11 +878,394 @@ public:
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/useful%20skill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/useful%20skill/" class="post-title-link" itemprop="url">other/useful skill</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="vim中执行cmd"><a href="#vim中执行cmd" class="headerlink" title="vim中执行cmd"></a>vim中执行cmd</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!cmd</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="vim中编写额外的文件"><a href="#vim中编写额外的文件" class="headerlink" title="vim中编写额外的文件"></a>vim中编写额外的文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">args filename</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="sed处理文件"><a href="#sed处理文件" class="headerlink" title="sed处理文件"></a>sed处理文件</h4><h4 id="at和crontab定时"><a href="#at和crontab定时" class="headerlink" title="at和crontab定时"></a>at和crontab定时</h4><h4 id="流重定向"><a href="#流重定向" class="headerlink" title="流重定向"></a>流重定向</h4><p>“&gt;”:  输出重定向, 这个操作符会覆盖已有文件的内容, 若文件不存在, 则创建</p>
+<p>“&gt;&gt;”: 同样也是输出重定向, 这个操作符会将内容添加到文件尾部, 同样的, 若文件不存在, 则创建文件</p>
+<p>@note:</p>
+<p>​    比较特殊的是内联输入重定向: “&lt;&lt;”, 我现在也不太明白这东西的实质用法和含义</p>
+<p>​    只知道它的行为: 它可以使用命令行的内容作为输入流, 并且可以指定一个”标识”来表示结束</p>
+<h4 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h4><p>@brief: </p>
+<p>​    将一个命令的输出作为另一个命令的输入. 例如:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | less</span><br></pre></td></tr></table></figure>
+
+<p>cat仅仅只是查看文件, 但并不会增加一些控制功能(如翻页, 搜索…)  </p>
+<p>less则提供了相关的更高级的功能, 将cat的输入(文件内容)作为less的输入</p>
+<p>@note: </p>
+<p>​    其实这个例子很没有必要, 现实中这么写, 可能会被diss到死. 因为可以直接使用 less file</p>
+<h4 id="创建一个新文件"><a href="#创建一个新文件" class="headerlink" title="创建一个新文件"></a>创建一个新文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch file</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="置空文件内容"><a href="#置空文件内容" class="headerlink" title="置空文件内容"></a>置空文件内容</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /dev/null &gt; file</span><br></pre></td></tr></table></figure>
+
+<p>@note: </p>
+<p>​    更加简便的方式是 &gt; file</p>
+<h4 id="单引号和双引号"><a href="#单引号和双引号" class="headerlink" title="单引号和双引号"></a>单引号和双引号</h4><p>需要注意的是, 单引号中, 双引号不需要转义.</p>
+<p>同样的, 双引号中, 单引号不需要转义</p>
+<p>这会在某些场合下, 让你的字符串更加简洁易懂, 同时还更好改, 更不容易写错</p>
+<p>@ps:</p>
+<p>​    我曾在一次 crontab 任务中遇到这种场合, 我使用了 crontab file 的形式来添加任务</p>
+<p>​    同时使用 echo + 重定向 的形式往文件中添加内容, 而要执行的命令中就包含些许单引号和双引号</p>
+<p>​    (不过我倒是没有在这里面用到这个技巧, 因为我第一次就写对了 :) )</p>
+<h4 id="md5加密"><a href="#md5加密" class="headerlink" title="md5加密"></a>md5加密</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "test" | md5sum</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查看自己的公网信息"><a href="#查看自己的公网信息" class="headerlink" title="查看自己的公网信息"></a>查看自己的公网信息</h4><pre><code>curl cip.cc</code></pre><p>简析: curl 为一个在服务器中传递数据的攻击, 而 cip.cc 为一个查询网络信息的网站  </p>
+<p>当你登录 cip.cc 时, 它应当会根据你访问网站时的信息, 查询你 IP 的相关信息, 并返还给你</p>
+<h4 id="传递大量文件-远端和本地"><a href="#传递大量文件-远端和本地" class="headerlink" title="传递大量文件(远端和本地)"></a>传递大量文件(远端和本地)</h4><pre><code>rsync</code></pre><p>具体用法参照 man 手册</p>
+<h4 id="查看本地IP端口信息"><a href="#查看本地IP端口信息" class="headerlink" title="查看本地IP端口信息"></a>查看本地IP端口信息</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tunlp</span><br></pre></td></tr></table></figure>
+
+<p>t : TCP</p>
+<p>u : UDP</p>
+<p>n : 不经过域名服务器</p>
+<p>l : 显示监控中服务器的socket</p>
+<p>p : 显示监控中的程序识别码和名称    </p>
+<p>@btw: 可以加入 -a 选项, 这会将所有(包括当前未监听)的端口信息都列出来</p>
+<p>​    与之相关的命令还有 nmap, nc</p>
+<h4 id="查看本机服务"><a href="#查看本机服务" class="headerlink" title="查看本机服务"></a>查看本机服务</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service --status-all | grep running</span><br></pre></td></tr></table></figure>
+
+<p>这个命令可以查看本机现在运行的所有服务</p>
+<p>@note: –status-all 之间不能空格.  “–status -all” 这是错误的写法</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/virtualFunction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/virtualFunction/" class="post-title-link" itemprop="url">other/virtualFunction</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>想深入了解一下(或者说验证)对象底层是如何工作的</p>
+<p>重点是虚函数的调用, 虚指针的生成, 虚表中的数据</p>
+<p>以及这些数据在多重继承, 虚继承, 多重虚继承环境下的表现</p>
+<h3 id="虚指针-virtual-point"><a href="#虚指针-virtual-point" class="headerlink" title="虚指针(virtual point)"></a>虚指针(virtual point)</h3><p>考虑以下代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"A %d\n"</span>, _i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"A2 %d\n"</span>, _i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">10</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"B %d\n"</span>, _i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">20</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    B b;</span><br><span class="line">    A *pa = &amp;b;</span><br><span class="line">    </span><br><span class="line">    pa-&gt;func();		<span class="comment">// B 20</span></span><br><span class="line">    pa-&gt;func2();	<span class="comment">// A2 10</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出和预期一致, 其中 func 是被 B 覆盖过的虚函数, 而 func2 则未被覆盖</p>
+<p>以下是生成的汇编代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1199:</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    subq    $32, %rsp</span><br><span class="line">    movq    $_ZTV1B+16, -32(%rbp)	&#x2F;&#x2F; 又是这个东西, 现在我怀疑它是 lippman 说的 thunk</span><br><span class="line">    							&#x2F;&#x2F; 后面知道了, **其实这就是虚指针, 它被放到了头部**</span><br><span class="line">    							&#x2F;&#x2F; 编译器非常聪明, 在即使有 vptr, nontrivial 的情况下</span><br><span class="line">    							&#x2F;&#x2F; 也并未生成构造函数</span><br><span class="line">    movl    $10, -24(%rbp)	</span><br><span class="line">    movl    $20, -20(%rbp)</span><br><span class="line">    leaq    -32(%rbp), %rax</span><br><span class="line">    movq    %rax, -8(%rbp)</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; rax &#x3D; vptr	拿到虚指针地址</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; rax &#x3D; *vptr	获得虚指针中的地址(槽 0)</span><br><span class="line">    movq    -8(%rbp), %rdx	&#x2F;&#x2F; member data 是直接位移得到的</span><br><span class="line">    movq    %rdx, %rdi</span><br><span class="line">    call    *%rax		&#x2F;&#x2F; 调用slot0</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movq    (%rax), %rax</span><br><span class="line">    addq    $8, %rax	&#x2F;&#x2F; 虚指针地址 +8 位移(也就是下一个槽)</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; 获得 slot1 的地址</span><br><span class="line">    movq    -8(%rbp), %rdx</span><br><span class="line">    movq    %rdx, %rdi</span><br><span class="line">    call    *%rax	&#x2F;&#x2F; 调用slot1</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
+
+<p>所以调用方式和书中一致, 从 vptr 索引虚表, 获得相应的 slot</p>
+<p>这些信息全部都是在编译的时候由编译器生成</p>
+<p>有一个点我忽略了: <strong>单一继承对象只有一个虚表</strong></p>
+<p>后续我加上 C 对象后( C 继承自 A ), 让 B 继承 A, 这样A中就有 B C</p>
+<p>但是依旧只有一个虚表, 仅当我让A再继承一个对象时, 这时产生了 2 个虚表</p>
+<p>可能会问, 那么C对象是如何通过 pc-&gt;A::func() 这样的形式来调用 A 作用域的函数的呢?</p>
+<p>答案是, 这会是一个单纯的函数调用, 并不会通过虚表或虚指针, 也没有任何的偏移</p>
+<p>(emmm… 也就是说普通成员函数对于类来说, 可能更像是个陌生人, 即使它是成员)</p>
+<p>(这也是为什么大多数情况下基类需要 virtual destruct 的原因)</p>
+<h3 id="虚析构是如何被调用的"><a href="#虚析构是如何被调用的" class="headerlink" title="虚析构是如何被调用的"></a>虚析构是如何被调用的</h3><p>在写标题的时候大概猜到了, 其实虚析构就是一个在子类中占了一个不能被重写的虚表槽</p>
+<p>应该就是通过简单的偏移来调用的, 来试一下</p>
+<p>(重点在于虚析构是不可能被覆盖的, 因为子类中不可能存在同名的函数)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">5</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"> <span class="number">6</span> <span class="keyword">public</span>:</span><br><span class="line"> <span class="number">7</span>     <span class="keyword">virtual</span> ~A() &#123;</span><br><span class="line"> <span class="number">8</span>         <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, <span class="string">"A destruct"</span>);</span><br><span class="line"> <span class="number">9</span>     &#125;</span><br><span class="line"><span class="number">10</span> &#125;;</span><br><span class="line"><span class="number">11</span> </span><br><span class="line"><span class="number">12</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="number">13</span> <span class="keyword">public</span>:</span><br><span class="line"><span class="number">14</span>     <span class="keyword">virtual</span> ~B() &#123;</span><br><span class="line"><span class="number">15</span>         <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, <span class="string">"B destruct"</span>);</span><br><span class="line"><span class="number">16</span>     &#125;</span><br><span class="line"><span class="number">17</span> &#125;;</span><br><span class="line"><span class="number">18</span> </span><br><span class="line"><span class="number">19</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="number">20</span>     B a;</span><br><span class="line"><span class="number">21</span> </span><br><span class="line"><span class="number">22</span>     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">23</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>汇编:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">161 main:</span><br><span class="line">162 .LFB1204:</span><br><span class="line">163     .cfi_startproc</span><br><span class="line">164     pushq   %rbp</span><br><span class="line">165     .cfi_def_cfa_offset 16</span><br><span class="line">166     .cfi_offset 6, -16</span><br><span class="line">167     movq    %rsp, %rbp</span><br><span class="line">168     .cfi_def_cfa_register 6</span><br><span class="line">169     pushq   %rbx</span><br><span class="line">170     subq    $24, %rsp</span><br><span class="line">171     .cfi_offset 3, -24</span><br><span class="line">172     movq    $_ZTV1B+16, -32(%rbp)</span><br><span class="line">173     movl    $0, %ebx</span><br><span class="line">174     leaq    -32(%rbp), %rax</span><br><span class="line">175     movq    %rax, %rdi</span><br><span class="line">176     call    _ZN1BD1Ev	&#x2F;&#x2F; 就是这里调用了析构函数</span><br><span class="line">177     movl    %ebx, %eax</span><br><span class="line">178     addq    $24, %rsp</span><br><span class="line">179     popq    %rbx</span><br><span class="line">180     popq    %rbp</span><br><span class="line">181     .cfi_def_cfa 7, 8</span><br><span class="line">182     ret</span><br><span class="line">183     .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>B的析构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 89 _ZN1BD2Ev:	&#x2F;&#x2F; 如果足够细心, 那么注意到了这里是 _ZN1BD2Ev 而并非 _ZN1BD1Ev</span><br><span class="line"> 				&#x2F;&#x2F; 对此, 我发现编译器类似有个中间层一样的东西(或者说会符号替换?)</span><br><span class="line"> 				&#x2F;&#x2F; 然后其实会跳转到这里来, 汇编中将这两个东西相关联</span><br><span class="line"> 90 .LFB1201:</span><br><span class="line"> 91     .cfi_startproc</span><br><span class="line"> 92     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line"> 93     .cfi_lsda 0x3,.LLSDA1201</span><br><span class="line"> 94     pushq   %rbp</span><br><span class="line"> 95     .cfi_def_cfa_offset 16</span><br><span class="line"> 96     .cfi_offset 6, -16</span><br><span class="line"> 97     movq    %rsp, %rbp</span><br><span class="line"> 98     .cfi_def_cfa_register 6</span><br><span class="line"> 99     subq    $16, %rsp</span><br><span class="line">100     movq    %rdi, -8(%rbp)</span><br><span class="line">101     movq    -8(%rbp), %rax</span><br><span class="line">102     movq    $_ZTV1B+16, (%rax)</span><br><span class="line">103     movl    $.LC1, %edi</span><br><span class="line">104     call    puts	&#x2F;&#x2F; 编译器知道只是打印一个字符串, 所以调用的是 puts</span><br><span class="line">105     movq    -8(%rbp), %rax</span><br><span class="line">106     movq    %rax, %rdi</span><br><span class="line">107     call    _ZN1AD2Ev	&#x2F;&#x2F; 和我想的不一样, 又一样...</span><br><span class="line">108     movl    $0, %eax</span><br><span class="line">109     testl   %eax, %eax</span><br><span class="line">110     je  .L6	&#x2F;&#x2F; 这里我也不太懂, 这个不是必跳么?</span><br><span class="line">111     movq    -8(%rbp), %rax</span><br><span class="line">112     movq    %rax, %rdi</span><br><span class="line">113     call    _ZdlPv	&#x2F;&#x2F; 这个东西没有找到</span><br></pre></td></tr></table></figure>
+
+<p>和预料中不同的是, A 的析构函数是直接调用的, 而并非偏移  </p>
+<p>想了想这在意料之中, 因为编译器将它优化成了普通函数</p>
+<p>至于 _ZdlPv, 没有在汇编中找到这个符号 … </p>
+<p>(我试了一下, 没有什么好的方式让它像被虚函数一样调用, 很可惜…)</p>
+<h3 id="虚继承的析构函数调用"><a href="#虚继承的析构函数调用" class="headerlink" title="虚继承的析构函数调用"></a>虚继承的析构函数调用</h3><p>感觉非常奇怪, 所以本来是打算看看就好的, 因为之前花功夫去看了看虚继承的内存布局</p>
+<p>不过实在太奇怪了, 所以打算好好分析一下, 顺便我在之前分析的时候好像忘了看虚继承的虚函数调用了</p>
+<p>因为那时候好像已经晕了… </p>
+<p>它会怎么被调用呢? 最无趣的情况就是像上面那样硬编码</p>
+<p>不过在虚继承这种比较复杂的环境下, 编译器可能会做出其他反应也说不定?</p>
+<p>源码就单纯的E被CD虚继承, B继承CD, 这里直接汇编:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1212:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    pushq   %rbx	&#x2F;&#x2F; 这里, 与前面的 pushq 无关</span><br><span class="line">    subq    $56, %rsp</span><br><span class="line">    .cfi_offset 3, -24</span><br><span class="line">    leaq    -64(%rbp), %rax	&#x2F;&#x2F; 前面有 pushq, 所以这里是 -64</span><br><span class="line">    movq    %rax, %rdi</span><br><span class="line">    call    _ZN1BC1Ev	&#x2F;&#x2F; 构造</span><br><span class="line">    movl    $0, %ebx</span><br><span class="line">    leaq    -64(%rbp), %rax</span><br><span class="line">    movq    %rax, %rdi</span><br><span class="line">    call    _ZN1BD1Ev	&#x2F;&#x2F; 析构</span><br><span class="line">    movl    %ebx, %eax</span><br><span class="line">    addq    $56, %rsp</span><br><span class="line">    popq    %rbx</span><br><span class="line">    popq    %rbp</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>B的析构函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">457 _ZN1BD1Ev:</span><br><span class="line">458 .LFB1210:</span><br><span class="line">459     .cfi_startproc</span><br><span class="line">460     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">461     .cfi_lsda 0x3,.LLSDA1210</span><br><span class="line">462     pushq   %rbp</span><br><span class="line">463     .cfi_def_cfa_offset 16</span><br><span class="line">464     .cfi_offset 6, -16</span><br><span class="line">465     movq    %rsp, %rbp</span><br><span class="line">466     .cfi_def_cfa_register 6</span><br><span class="line">467     subq    $16, %rsp</span><br><span class="line">468     movq    %rdi, -8(%rbp)</span><br><span class="line">469     movl    $_ZTV1B+24, %edx</span><br><span class="line">470     movq    -8(%rbp), %rax</span><br><span class="line">471     movq    %rdx, (%rax)	&#x2F;&#x2F; 栈顶加入了虚指针 +24</span><br><span class="line">472     movl    $32, %edx</span><br><span class="line">473     movq    -8(%rbp), %rax</span><br><span class="line">474     addq    %rax, %rdx</span><br><span class="line">475     movl    $_ZTV1B+104, %eax</span><br><span class="line">476     movq    %rax, (%rdx)	&#x2F;&#x2F; 栈顶 -32 处加入了虚指针 +104</span><br><span class="line">477     movl    $_ZTV1B+64, %edx</span><br><span class="line">478     movq    -8(%rbp), %rax</span><br><span class="line">479     movq    %rdx, 16(%rax)	&#x2F;&#x2F; 栈顶 -16 处加入了虚指针 +64</span><br><span class="line">480     movq    -8(%rbp), %rax</span><br><span class="line">481     movl    28(%rax), %eax</span><br><span class="line">482     movl    %eax, %esi</span><br><span class="line">483     movl    $.LC3, %edi	&#x2F;&#x2F; .string &quot;B destruct: %d\n&quot;</span><br><span class="line">484     movl    $0, %eax</span><br><span class="line">485     call    printf</span><br><span class="line">486     movl    $_ZTT1B+24, %eax</span><br><span class="line">487     movq    -8(%rbp), %rdx</span><br><span class="line">488     addq    $16, %rdx</span><br><span class="line">489     movq    %rax, %rsi</span><br><span class="line">490     movq    %rdx, %rdi</span><br><span class="line">491     call    _ZN1CD2Ev	&#x2F;&#x2F; 硬编码...</span><br><span class="line">492     movl    $_ZTT1B+8, %edx</span><br><span class="line">493     movq    -8(%rbp), %rax</span><br><span class="line">494     movq    %rdx, %rsi</span><br><span class="line">495     movq    %rax, %rdi</span><br><span class="line">496     call    _ZN1AD2Ev</span><br><span class="line">497     movl    $2, %eax</span><br><span class="line">498     testl   %eax, %eax</span><br><span class="line">499     je  .L23</span><br><span class="line">500     movq    -8(%rbp), %rax</span><br><span class="line">501     addq    $32, %rax</span><br><span class="line">502     movq    %rax, %rdi</span><br><span class="line">503     call    _ZN1ED2Ev</span><br><span class="line">504     nop</span><br></pre></td></tr></table></figure>
+
+<p>虚函数是通过硬编码来调用的  </p>
+<p>不过有个非常不错的发现, 我在 _ZTT1B 中发现了 LTHUNK 的影子</p>
+<p>在 _ZTT1B  中有 LTHUNK  相关的代码, 不过很可惜, 这些猜测无从证明…</p>
+<p>来看看虚函数的调用吧:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">911 main:</span><br><span class="line">912 .LFB1216:</span><br><span class="line">913     .cfi_startproc</span><br><span class="line">914     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">915     .cfi_lsda 0x3,.LLSDA1216</span><br><span class="line">916     pushq   %rbp</span><br><span class="line">917     .cfi_def_cfa_offset 16</span><br><span class="line">918     .cfi_offset 6, -16</span><br><span class="line">919     movq    %rsp, %rbp</span><br><span class="line">920     .cfi_def_cfa_register 6</span><br><span class="line">921     pushq   %rbx</span><br><span class="line">922     subq    $88, %rsp</span><br><span class="line">923     .cfi_offset 3, -24</span><br><span class="line">924     leaq    -96(%rbp), %rax</span><br><span class="line">925     movq    %rax, %rdi</span><br><span class="line">926     call    _ZN1BC1Ev</span><br><span class="line">927     leaq    -96(%rbp), %rax</span><br><span class="line">928     movq    %rax, -24(%rbp)</span><br><span class="line">929     movq    -24(%rbp), %rax</span><br><span class="line">930     movq    (%rax), %rax	&#x2F;&#x2F; 解引用</span><br><span class="line">931     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">932     movq    (%rax), %rax	&#x2F;&#x2F; 取这个槽中的地址</span><br><span class="line">933     movq    -24(%rbp), %rdx</span><br><span class="line">934     movq    %rdx, %rdi</span><br><span class="line">935 .LEHB0:</span><br><span class="line">936     call    *%rax</span><br><span class="line">937     leaq    -96(%rbp), %rax</span><br><span class="line">938     movq    %rax, -32(%rbp)</span><br><span class="line">939     movq    -32(%rbp), %rax</span><br><span class="line">940     movq    (%rax), %rax</span><br><span class="line">941     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">942     movq    (%rax), %rax</span><br><span class="line">943     movq    -32(%rbp), %rdx</span><br><span class="line">944     movq    %rdx, %rdi</span><br><span class="line">945     call    *%rax			&#x2F;&#x2F; A, B使用了一样的虚表和槽, 仅仅是this指针不同</span><br><span class="line">946     leaq    -96(%rbp), %rax</span><br><span class="line">947     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">948     movq    %rax, -40(%rbp)</span><br><span class="line">949     movq    -40(%rbp), %rax</span><br><span class="line">950     movq    (%rax), %rax	</span><br><span class="line">951     addq    $16, %rax		&#x2F;&#x2F; +16</span><br><span class="line">952     movq    (%rax), %rax</span><br><span class="line">953     movq    -40(%rbp), %rdx</span><br><span class="line">954     movq    %rdx, %rdi</span><br><span class="line">955     call    *%rax			&#x2F;&#x2F; C 先是 +16 取到自己的虚表, 然后同样使用槽 1</span><br><span class="line">956 .LEHE0:</span><br><span class="line">957     movl    $0, %ebx</span><br><span class="line">958     leaq    -96(%rbp), %rax</span><br><span class="line">959     movq    %rax, %rdi</span><br><span class="line"> 960     call    _ZN1BD1Ev</span><br><span class="line">961     movl    %ebx, %eax</span><br><span class="line">962     jmp .L39</span><br><span class="line">963 .L38:</span><br><span class="line">964     movq    %rax, %rbx</span><br><span class="line">965     leaq    -96(%rbp), %rax</span><br><span class="line">966     movq    %rax, %rdi</span><br><span class="line">967     call    _ZN1BD1Ev</span><br><span class="line">968     movq    %rbx, %rax</span><br><span class="line">969     movq    %rax, %rdi</span><br><span class="line">970 .LEHB1:</span><br><span class="line">971     call    _Unwind_Resume</span><br><span class="line">972 .LEHE1:</span><br><span class="line">973 .L39:</span><br><span class="line">974     addq    $88, %rsp</span><br><span class="line">975     popq    %rbx</span><br><span class="line">976     popq    %rbp</span><br><span class="line">977     .cfi_def_cfa 7, 8</span><br><span class="line">978     ret</span><br><span class="line">979     .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>普通虚函数的调用就是找到自己的虚表, 调用对应的槽</p>
+<p>这个虚继承来的虚函数调用和普通继承的虚函数调用方式基本一致</p>
+<p>多态是如何实现的呢?</p>
+<p>每个构造函数, 都会覆写它的所有虚指针, 使他指向不同的地址(但是这些地址都不相同!!!)</p>
+<p>如你所见, 当C指针去调用时, 发生了偏移, 虽然取到了同样的 slot, 但却不是同一张虚表</p>
+<p>那么我能想到的就是有多张相同的虚表</p>
+<p>(我只能如此猜测, 我想不到为什么这样的情况下还能调用同一个函数)</p>
+<p>(但是为什么要有相同的呢? 这又是一个问题)</p>
+<p>我尝试了看看这些虚表中是什么数据, 可惜失败了, 或者说看不懂</p>
+<p>但是同一个类的虚表是完全相同的, 这可以肯定</p>
+<p>不同的情况仅在于A类中C类和单独的C类, 这两个C类的虚表是不一样的</p>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p>虚函数机制和书中所说基本一致</p>
+<ol>
+<li>找到对应的虚表</li>
+<li>调用槽中的函数</li>
+</ol>
+<h3 id="review"><a href="#review" class="headerlink" title="review"></a>review</h3><p>我在 objdump 的输出中发现, 诸如 _ZTI1C 这样的东西在链接的时候会转化成一个数字常量</p>
+<p>有些可能会是基于某个位置的偏移(比如 %rip)</p>
+<p>编译器会利用它进行直接寻址, 有些会利用它进行间接寻址</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/virtualInherit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/virtualInherit/" class="post-title-link" itemprop="url">other/virtualInherit</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>想要了解一下虚继承的内部数据结构</p>
+<p>(语言: c++, 编译器: g++(4.8.5))</p>
+<h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><p>考虑以下代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> :</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">2</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> :</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">3</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> :</span> <span class="keyword">public</span> B, <span class="keyword">public</span> C&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">4</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>单纯的虚拟继承而已, 我使用了这种方式打印它们的内部数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line"><span class="keyword">void</span> *p = &amp;a;</span><br><span class="line"><span class="keyword">int</span> *pi = (<span class="keyword">int</span> *)p;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(a) / <span class="number">4</span>; ++i)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pi[i]);</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"val:%d\n"</span>, a._i);</span><br></pre></td></tr></table></figure>
+
+<p>然后它们A, B, C, D内部数据情况如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">A: 	<span class="number">1</span></span><br><span class="line">B: 	<span class="number">4196632</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">2</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">C: 	<span class="number">4196632</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">3</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">D:	<span class="number">4196760</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">2</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">4196784</span></span><br><span class="line">    <span class="number">0</span></span><br><span class="line">    <span class="number">3</span></span><br><span class="line">    <span class="number">4</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">    <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>emmm… </p>
+<p>OK, 我可以把前两个 4 字节认为是虚指针(A没有) </p>
+<p>那么A, B, C的内存分布就不用看了, 唯一比较特殊的是<strong>虚基类在内存的高地址</strong></p>
+<p>然后D的内部分布… 这… emmm… 仔细一想, 还好, 重要的是(Q1: 为什么最后补了一个0 ??)</p>
+<h3 id="存取方式"><a href="#存取方式" class="headerlink" title="存取方式"></a>存取方式</h3><p>我试着访问了一下数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line">A *pa = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pa-&gt;_i);</span><br><span class="line">B *pb = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pb-&gt;_i);</span><br><span class="line">C *pc = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pc-&gt;_i);</span><br><span class="line">D *pd = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pd-&gt;_i);</span><br></pre></td></tr></table></figure>
+
+<p>来看一看汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp</span><br><span class="line">.cfi_def_cfa_offset 16</span><br><span class="line">.cfi_offset 6, -16</span><br><span class="line">movq    %rsp, %rbp</span><br><span class="line">.cfi_def_cfa_register 6</span><br><span class="line">subq    $80, %rsp		&#x2F;&#x2F; 80 栈帧</span><br><span class="line">leaq    -80(%rbp), %rax	</span><br><span class="line">movq    %rax, %rdi	</span><br><span class="line">call    _ZN1DC1Ev		&#x2F;&#x2F; 这里是构造函数, 稍后可能需要看看它的构造</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $32, %rax		&#x2F;&#x2F; +32, OK, 向上 32 字节的确是 1</span><br><span class="line">movq    %rax, -8(%rbp)	</span><br><span class="line">movq    -8(%rbp), %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 1 第一次printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -16(%rbp)</span><br><span class="line">movq    -16(%rbp), %rax	&#x2F;&#x2F; B 类型指针并没有经过偏移, 这和预料的一样</span><br><span class="line">movl    8(%rax), %eax	&#x2F;&#x2F; 这里+8, 跳过了虚指针</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 2 第二次printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $16, %rax		&#x2F;&#x2F; +16 C类型指针跳过了 B的内存, 这也没什么不对</span><br><span class="line">movq    %rax, -24(%rbp)</span><br><span class="line">movq    -24(%rbp), %rax	</span><br><span class="line">movl    8(%rax), %eax	&#x2F;&#x2F; 同理</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 3 第三次printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -32(%rbp)</span><br><span class="line">movq    -32(%rbp), %rax</span><br><span class="line">movl    28(%rax), %eax	&#x2F;&#x2F; +28 OK~</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 4 第四次printf</span><br><span class="line">movl    $0, %eax</span><br><span class="line">leave</span><br></pre></td></tr></table></figure>
+
+<p>数据的访问在编译时就已经定好的, 不存在额外效率影响</p>
+<p>A指针    偏移了 +32 字节     直接访问数据</p>
+<p>B指针    未偏移             访问数据时跳过了虚指针(8字节)</p>
+<p>C指针    偏移 +16 字节     访问数据时跳过了虚指针(8字节)</p>
+<p>D指针    未偏移             访问数据时跳过了虚指针 + B, C类数据(共28字节)</p>
+<p>或许看一下访问虚基类的数据会有所了解? </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp</span><br><span class="line">.cfi_def_cfa_offset 16</span><br><span class="line">.cfi_offset 6, -16</span><br><span class="line">movq    %rsp, %rbp</span><br><span class="line">.cfi_def_cfa_register 6</span><br><span class="line">subq    $80, %rsp</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, %rdi</span><br><span class="line">call    _ZN1DC1Ev</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $32, %rax</span><br><span class="line">movq    %rax, -8(%rbp)</span><br><span class="line">movq    -8(%rbp), %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf			&#x2F;&#x2F; 基类访问方式和上面的汇编并没有不同</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -16(%rbp)</span><br><span class="line">movq    -16(%rbp), %rax</span><br><span class="line">movq    (%rax), %rax	&#x2F;&#x2F; 取指针指向的值, 也就是D的地址</span><br><span class="line">subq    $24, %rax		&#x2F;&#x2F; D地址减去24字节 也就是说, 它前面还有东西</span><br><span class="line">movq    (%rax), %rax	&#x2F;&#x2F; 获得那个地址中的值</span><br><span class="line">movq    %rax, %rdx</span><br><span class="line">movq    -16(%rbp), %rax</span><br><span class="line">addq    %rdx, %rax		&#x2F;&#x2F; 增加了 rdx 大小, </span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">addq    $16, %rax</span><br><span class="line">movq    %rax, -24(%rbp)</span><br><span class="line">movq    -24(%rbp), %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">subq    $24, %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">movq    %rax, %rdx</span><br><span class="line">movq    -24(%rbp), %rax</span><br><span class="line">addq    %rdx, %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf</span><br><span class="line">leaq    -80(%rbp), %rax</span><br><span class="line">movq    %rax, -32(%rbp)</span><br><span class="line">movq    -32(%rbp), %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">subq    $24, %rax</span><br><span class="line">movq    (%rax), %rax</span><br><span class="line">movq    %rax, %rdx</span><br><span class="line">movq    -32(%rbp), %rax</span><br><span class="line">addq    %rdx, %rax</span><br><span class="line">movl    (%rax), %eax</span><br><span class="line">movl    %eax, %esi</span><br><span class="line">movl    $.LC0, %edi</span><br><span class="line">movl    $0, %eax</span><br><span class="line">call    printf</span><br><span class="line">movl    $0, %eax</span><br><span class="line">leave</span><br></pre></td></tr></table></figure>
+
+<p>emmm… 有一个重大的发现就是, <strong>基类对象前面有数据</strong></p>
+<p>这些数据应该是偏移, 这些偏移配合 + 指针本身的地址能够访问到正确的虚基类数据</p>
+<p>也就是说, 这是 深入探索对象 中, 对于虚基类的两种实现方式中的第一种</p>
+<p>即: 在每个基类中添加虚基类的偏移, 但是又不全对…</p>
+<p>越来越糊涂了 (눈_눈), 深吸一口气, 想想自己要干嘛… emmmm….</p>
+<p>这样吧, 完整地看一遍构造的过程, 这样应该就明白了</p>
+<p>(如果还是晕, 那么就希望下次遇到这个问题的时候能够更从容一些)</p>
+<p>(我已经再这个问题上花太多时间, 再这样下去反而不好, 这也不是一个很重要/常用的知识)</p>
+<h3 id="完整的构造过程"><a href="#完整的构造过程" class="headerlink" title="完整的构造过程"></a>完整的构造过程</h3><p>首先是 main 区块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1196:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    subq	$48, %rsp	&#x2F;&#x2F; 48 字节栈帧, 为什么是 48 呢?</span><br><span class="line">    leaq	-48(%rbp), %rax</span><br><span class="line">    movq	%rax, %rdi</span><br><span class="line">    call	_ZN1DC1Ev	&#x2F;&#x2F; 调用构造函数</span><br><span class="line">    movl	$0, %eax</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
+<p>然后是D的构造函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">_ZN1DC1Ev:</span><br><span class="line">.LFB1208:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    subq	$16, %rsp		&#x2F;&#x2F; 它再次开辟了 16 字节的栈帧</span><br><span class="line">    movq	%rdi, -8(%rbp)	&#x2F;&#x2F; 把原栈顶指针放入了栈中</span><br><span class="line">    movq	-8(%rbp), %rax	</span><br><span class="line">    addq	$32, %rax		&#x2F;&#x2F; 原栈顶指针 +32 偏移, 距栈底还有 16 字节</span><br><span class="line">    movq	%rax, %rdi</span><br><span class="line">    call	_ZN1AC2Ev		&#x2F;&#x2F; 这里留了 16 字节用于 A 的构造</span><br><span class="line">    movl	$_ZTT1D+8, %edx	&#x2F;&#x2F; 我很好奇地查了 $_ZTT1D 这东西是多少, 然而事实让我绝望...</span><br><span class="line">    						&#x2F;&#x2F; 它有非常多的耦合, 短时间内我根本无法计算出这东西是多少!!!</span><br><span class="line">    						&#x2F;&#x2F; 而且里面的代码是以.开头的, 这意味着是伪指令... (;´༎ຶД༎ຶ&#96;)</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, %rsi		&#x2F;&#x2F; rdx 从未被赋值过, 我很好奇它将什么值给了 rsi</span><br><span class="line">    						&#x2F;&#x2F; 对了, 在上面一句用到了 edx, 这和 rdx 有关</span><br><span class="line">    						&#x2F;&#x2F; 暂且把它认为是一个, 编译器施加的魔法: magic</span><br><span class="line">    movq	%rax, %rdi		&#x2F;&#x2F; 原栈顶指针</span><br><span class="line">    call	_ZN1BC2Ev		&#x2F;&#x2F; 调用 B 构造函数</span><br><span class="line">    movl	$_ZTT1D+16, %eax</span><br><span class="line">    movq	-8(%rbp), %rdx	&#x2F;&#x2F; 拿出原栈顶指针</span><br><span class="line">    addq	$16, %rdx		&#x2F;&#x2F; +16 偏移</span><br><span class="line">    movq	%rax, %rsi</span><br><span class="line">    movq	%rdx, %rdi</span><br><span class="line">    call	_ZN1CC2Ev		&#x2F;&#x2F; 调用 C 构造函数</span><br><span class="line">    movl	$_ZTV1D+24, %edxl</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, (%rax)	&#x2F;&#x2F; 这里与调用 B 时的步骤重复了 :), 覆写</span><br><span class="line">    movl	$_ZTV1D+48, %edx</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, 16(%rax)	&#x2F;&#x2F; 这里与调用 C 时的步骤重复了 :), 覆写</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$444, 28(%rax)	&#x2F;&#x2F; 写入值</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
+<p>A的构造函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">_ZN1AC2Ev:</span><br><span class="line">.LFB1199:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    movq	%rdi, -8(%rbp)</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$111, (%rax)	&#x2F;&#x2F; 将 $111 放入了参数 rdi 指向的内存中 movl: 4字节</span><br><span class="line">    popq	%rbp</span><br><span class="line">    ret		&#x2F;&#x2F; 嗯, 没了, 所以编译器仅仅对这 4 字节赋值</span><br><span class="line">    		&#x2F;&#x2F; 剩下的 12 字节呢?</span><br><span class="line">    		&#x2F;&#x2F; 其中8字节没用过, 或者不在 D 的内存中, 因为 sizeof d 是40, 而非48</span><br></pre></td></tr></table></figure>
+<p>B的构造函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_ZN1BC2Ev:</span><br><span class="line">.LFB1202:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    movq	%rdi, -8(%rbp)	&#x2F;&#x2F; 原栈顶指针</span><br><span class="line">    movq	%rsi, -16(%rbp)	&#x2F;&#x2F; 未知的原 rdx(magic)</span><br><span class="line">    movq	-16(%rbp), %rax</span><br><span class="line">    movq	(%rax), %rdx	&#x2F;&#x2F; magic的地址 -16 中的值放入 rdx</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, (%rax)	&#x2F;&#x2F; 将 rdx 中的值放入了栈顶, 这里是q, 占了 8 字节</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$222, 8(%rax)	&#x2F;&#x2F; 栈顶 +8 偏移中, 放入了 $222</span><br><span class="line">    popq	%rbp</span><br><span class="line">    ret				&#x2F;&#x2F; 共写入了 12 字节</span><br></pre></td></tr></table></figure>
+<p>C的构造函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_ZN1CC2Ev:</span><br><span class="line">.LFB1205:</span><br><span class="line">    pushq	%rbp</span><br><span class="line">    movq	%rsp, %rbp</span><br><span class="line">    movq	%rdi, -8(%rbp)</span><br><span class="line">    movq	%rsi, -16(%rbp)</span><br><span class="line">    movq	-16(%rbp), %rax</span><br><span class="line">    movq	(%rax), %rdx</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movq	%rdx, (%rax)</span><br><span class="line">    movq	-8(%rbp), %rax</span><br><span class="line">    movl	$333, 8(%rax)</span><br><span class="line">    popq	%rbp		&#x2F;&#x2F; 步骤与 B 基本相同</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
+<p>也就是说, 在D的构造中, ABC的构造都被调用了</p>
+<p>要注意的一点是, BC都未调用A的构造, A的构造仅在D中调用了一次</p>
+<p>同时要注意的是, BC会用那个编译器给的数字往自身的内存布局中写值</p>
+<p>但是如果其上有D, D会将那个值覆写一次, 假设其值恒定不变, 位移分别为:</p>
+<p>8 16 24 48</p>
+<p>这是一组有规律的数字, 以 8 为开始, 每个数字是前面数字之和(这个就是偏移)</p>
+<p>剩下来最重要的是, D覆写了什么?</p>
+<p>再次来看看是如何访问虚基类数据的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line">C *pd = &amp;a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, pd-&gt;A::_i);</span><br></pre></td></tr></table></figure>
+
+
+<p>汇编:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">.LFB1196:</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    subq    $48, %rsp</span><br><span class="line">    leaq    -48(%rbp), %rax</span><br><span class="line">    movq    %rax, %rdi</span><br><span class="line">    call    _ZN1DC1Ev</span><br><span class="line">    leaq    -48(%rbp), %rax</span><br><span class="line">    addq    $16, %rax		&#x2F;&#x2F; 因为是 C 类型指针, 所以做了 +16 偏移</span><br><span class="line">    movq    %rax, -8(%rbp)	&#x2F;&#x2F; C *pd &#x3D; &amp;a;</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; 获得了指针中的值</span><br><span class="line">    subq    $24, %rax		&#x2F;&#x2F; 该值减去 24 </span><br><span class="line">    movq    (%rax), %rax	&#x2F;&#x2F; 再以该值间接寻址</span><br><span class="line">    movq    %rax, %rdx</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    addq    %rdx, %rax		&#x2F;&#x2F; rdx 本身的值 + 指针的值</span><br><span class="line">    movl    (%rax), %eax	&#x2F;&#x2F; 间接寻址得到的值就是虚基类的值</span><br><span class="line">    movl    %eax, %esi</span><br><span class="line">    movl    $.LC0, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    leave</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
+
+<p>这次要清晰得多了, 我们以上面D的内存布局为例:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4196760</span>	<span class="comment">// 2. 它减去 24 到了这里 </span></span><br><span class="line">    	<span class="comment">// 3. 用这里的值寻址得到了某个数 x </span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">4196784</span>	<span class="comment">// 1. 这是一开始 C 指针指向的内存</span></span><br><span class="line">    	<span class="comment">// 4. 用这个指针 + x 得到了虚基类数据的地址</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>那么在代码中试一下, 如果没有错误的话, 那个 x 应该是 4</p>
+<p>(这个地址明显非常低, 它甚至没达到 8 字节, 这应该是编译的时候准备好的数据)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">D a;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> *pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> *pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">*pl2 = *pl;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);	<span class="comment">// 16</span></span><br></pre></td></tr></table></figure>
+
+
+<p>取出来了 16, emmm… 嗯, 没错, 4 个 4字节 4 x 4 = 16 !!!!!!! </p>
+<p>PS: 有没有思考过为什么通过双间接才能去到虚基类呢?</p>
+<p>这里明显的一个问题是, 虚基类的数据是通过 C 的某个地址索引到 D 的某个地址</p>
+<p>然后再用 C 的地址索引到虚基类数据, 有两次的跳转 </p>
+<p>我再次试了一下有继承三个虚基类的情况(就是D再继承了一个类似 BC的类)</p>
+<p>发现它的访问方式是一样的, 也就是说, 每一个自身都会往前寻找固定的字节(编译后固定)</p>
+<p>然后用那个地址的数据 + 指针本身的地址(我不知道我又没有表达清楚, 不过我感觉我没有 :) )</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">E</span> :</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">555</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> :</span> <span class="keyword">public</span> B, <span class="keyword">public</span> C, <span class="keyword">public</span> E&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> _i = <span class="number">444</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    D a;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> *pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> *pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">    *pl2 = *pl;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);   <span class="comment">// 32</span></span><br><span class="line"></span><br><span class="line">    pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a + <span class="number">2</span>;</span><br><span class="line">    pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">    *pl2 = *pl;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);   <span class="comment">// 16</span></span><br><span class="line"></span><br><span class="line">    pl = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;a + <span class="number">4</span>;</span><br><span class="line">    pl2 = (<span class="keyword">long</span> <span class="keyword">long</span> *)&amp;pl;</span><br><span class="line">    *pl2 = *pl;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, *pl);   <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+
+<p>内存布局:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4196856</span>	(<span class="number">32</span>)<span class="comment">// 2. 通过这个地址拿到偏移</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">222</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">4196880</span>	(<span class="number">16</span>)<span class="comment">// 1. C对象, 当我要找虚基类对象时, 我先往上移动固定字节</span></span><br><span class="line">    		<span class="comment">// 这些移动的大小都是在编译时就写死了的常量(编译器自动计算)</span></span><br><span class="line">    		<span class="comment">// 往上移动的字节会随着数据大小而改变, 但是数据中的地址是不变的</span></span><br><span class="line">    		<span class="comment">// 比如我这里是4196880, 那么无论往上移动多少</span></span><br><span class="line">    		<span class="comment">// 上一个地址中存的值恒定为 当前值 - 24 (4196856)</span></span><br><span class="line">    	<span class="comment">// 3. 根据拿到的偏移 + 地址获取虚基类数据</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">333</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">4196904</span> (<span class="number">0</span>)<span class="comment">// E对象, 它如果想拿到虚基类数据, 执行和 C 对象一样的操作就好</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">555</span></span><br><span class="line"><span class="number">444</span></span><br><span class="line"><span class="number">111</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>这样的内存布局在其他方面可能还会有用</p>
+<p>那么为什么会有 0 呢? 我估计是因为要实现这种内存布局, 或者说什么其他原因</p>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p> 我很怀疑下次我看笔记时, 我自己看不看得懂我在说什么…</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1204,7 +1331,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

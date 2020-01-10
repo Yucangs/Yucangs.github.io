@@ -46,19 +46,19 @@
   };
 </script>
 
-  <meta name="description" content="撤销命令 :uPS: 之前修改文件时忘记切换到管理员模式, wq之后告诉我没有权限但这时我已经退不出去了, 一直提示不能修改之类的问题使用这个命令撤销wq指令, 再出去切换管理员模式, 修改文件   增加root用户切换管理员模式, 执行 visudo 指令   在 root ALL&#x3D;(ALL) ALL 处增加 你的名字 ALL&#x3D;(ALL) ALL  PS: 使用sudo时提示我不在sudoers">
+  <meta name="description" content="Step 编写动态库源文件   将动态库源文件编译链接生成动态库文件   在执行源文件中添加头文件声明   使用动态库文件     Step1:… Step2:gcc&#x2F;g++ -fPIC -shared -o [libname].so [sourcefile]example:   gcc -fPIC -shared -o tlib.so tlib.c这样就会生成一个tlib.so的动态库文件其中-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="other&#x2F;Linux学习笔记2">
-<meta property="og:url" content="http://yoursite.com/2020/01/09/other/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/index.html">
+<meta property="og:title" content="other&#x2F;CreatesoFileinLinux">
+<meta property="og:url" content="http://yoursite.com/2020/01/10/other/CreatesoFileinLinux/index.html">
 <meta property="og:site_name" content="cas&#39;s website">
-<meta property="og:description" content="撤销命令 :uPS: 之前修改文件时忘记切换到管理员模式, wq之后告诉我没有权限但这时我已经退不出去了, 一直提示不能修改之类的问题使用这个命令撤销wq指令, 再出去切换管理员模式, 修改文件   增加root用户切换管理员模式, 执行 visudo 指令   在 root ALL&#x3D;(ALL) ALL 处增加 你的名字 ALL&#x3D;(ALL) ALL  PS: 使用sudo时提示我不在sudoers">
+<meta property="og:description" content="Step 编写动态库源文件   将动态库源文件编译链接生成动态库文件   在执行源文件中添加头文件声明   使用动态库文件     Step1:… Step2:gcc&#x2F;g++ -fPIC -shared -o [libname].so [sourcefile]example:   gcc -fPIC -shared -o tlib.so tlib.c这样就会生成一个tlib.so的动态库文件其中-">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-09T09:14:16.214Z">
-<meta property="article:modified_time" content="2020-01-09T09:13:54.766Z">
+<meta property="article:published_time" content="2020-01-10T11:12:23.843Z">
+<meta property="article:modified_time" content="2020-01-09T09:13:54.758Z">
 <meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/09/other/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+<link rel="canonical" href="http://yoursite.com/2020/01/10/other/CreatesoFileinLinux/">
 
 
 <script id="page-configurations">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>other/Linux学习笔记2 | cas's website</title>
+  <title>other/CreatesoFileinLinux | cas's website</title>
   
 
 
@@ -170,7 +170,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/other/CreatesoFileinLinux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -183,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          other/Linux学习笔记2
+          other/CreatesoFileinLinux
         </h1>
 
         <div class="post-meta">
@@ -192,10 +192,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+              <time title="Created: 2020-01-10 19:12:23" itemprop="dateCreated datePublished" datetime="2020-01-10T19:12:23+08:00">2020-01-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-09 17:13:54" itemprop="dateModified" datetime="2020-01-09T17:13:54+08:00">2020-01-09</time>
+              </span>
 
           
 
@@ -208,13 +214,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>撤销命令 <code>:u</code><br>PS: 之前修改文件时忘记切换到管理员模式, wq之后告诉我没有权限<br>但这时我已经退不出去了, 一直提示不能修改之类的问题<br>使用这个命令撤销wq指令, 再出去切换管理员模式, 修改文件  </p>
-<p>增加root用户<br>切换管理员模式, 执行 <code>visudo</code> 指令  </p>
-<pre><code>在 root ALL=(ALL) ALL 处增加 你的名字 ALL=(ALL) ALL  </code></pre><p>PS: 使用sudo时提示我不在sudoers中, 无法sudo执行指令  </p>
-<p>vim跳到行尾 <code>:$</code><br>PS: 一直按着下箭头很累的… 到达行尾没停下来还会被嘟<del>~</del><br>顺便, 到达指定行命令 <code>:n</code> 表示行数, <code>:10</code> 跳到第十行</p>
-<p>UNIX环境高级编程中的apue.h文件<br>这个文件是作者编写的, 需要到<a href="http://www.apuebook.com/code3e.html" target="_blank" rel="noopener">http://www.apuebook.com/code3e.html</a>下载<br>下载之后解压, 将 <code>apue.h</code> 文件和 <code>error.c</code> 文件拷贝到 <code>/usr/include</code> 文件夹下<br>修改apue.h文件, 在最后一行(#endif)之前, 添加 <code>#include &quot;error.c&quot;</code>   </p>
-<p>更改文件/文件夹权限指令  <code>chmod</code><br>上述加上apue.h文件之后, 提示error.c文件不可访问<br>原来是文件默认属性为 -rw——-<br>执行 <code>chmod -R 666 文件名</code> 更改权限<br>PS: 用man查了一下chmod指令-R选项是递归执行…<br>emmmmmmmm 这好像是用于文件夹的, 有点尴尬  </p>
-<p>man手册 <code>man 1 要查询的指令</code><br>linux中不知道一些指令的具体用法, 可以使用man手册来查<br>PS: 1表示手册1, 好像是分为多个手册, linux命令行使用的大多指令在手册1中(猜测)<br>man手册中还包含函数 比如 <code>man 3 atoi</code> 就可以查询函数atoi的具体信息</p>
+        <h3 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h3><ol>
+<li>编写动态库源文件  </li>
+<li>将动态库源文件编译链接生成动态库文件  </li>
+<li>在执行源文件中添加头文件声明  </li>
+<li>使用动态库文件  </li>
+</ol>
+<hr>
+<h4 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h4><p>…</p>
+<h4 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h4><pre><code>gcc/g++ -fPIC -shared -o [libname].so [sourcefile]</code></pre><p>example:  </p>
+<pre><code>gcc -fPIC -shared -o tlib.so tlib.c</code></pre><p>这样就会生成一个<code>tlib.so</code>的动态库文件<br>其中<code>-fPIC</code>的含义是: Position Independent Code (位置无关代码)</p>
+<h4 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h4><p>添加声明可以在单独的头文件中添加, 也可以直接在使用的源文件内添加  </p>
+<h4 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h4><pre><code>gcc t.c -L. tlib.so  </code></pre><p>会生成一个默认的<code>a.out</code>可执行文件  </p>
+<p>此时还有一个问题就是直接运行的话会报错:<br>应用程序找不到<code>.so</code>文件<br>解决方法有两种, 一种是改系统文件, 另外一种是临时告诉shell动态库的路径<br>因为这个是测试用例, 介绍第二种  </p>
+<pre><code>LD_LIBRARY_PATH=. ./a.out  </code></pre><p>执行此命令可以解决报错问题, 其中<code>LD_LIBRARY_PATH=.</code>的含义是:<br>告诉shell, 库的路径在当前路径下(如果库放在别的路径, 将<code>.</code>替换即可)  </p>
+<p>以上经验来自<a href="https://www.cnblogs.com/jiqingwu/p/linux_dynamic_lib_create.html" target="_blank" rel="noopener">博客园</a>  </p>
+<hr>
+<p>顺便: 第一次写了<code>makefile</code>, 用作上述的动态库管理  </p>
+<blockquote>
+<p>make build: 生成动态库, 可执行文件<br>make doit: 执行程序(如果文件并不存在, 先生成文件)<br>make clean: 清除生成的文件</p>
+</blockquote>
+<pre><code> 1 build: tlib.so a.out
+ 2 
+ 3 tlib.so: tlib.c
+ 4           gcc -fPIC -shared -o $@ $&lt;
+ 5 
+ 6 a.out: t1.c
+ 7           gcc $&lt; -L. tlib.so
+ 8 
+ 9 doit: build 
+10           LD_LIBRARY_PATH=. ./a.out
+11 
+12 file = tlib.so a.out
+13 clean: 
+14           rm $(file)</code></pre><p>书写makedile和核心就是搞清楚依赖关系<br>其中<code>build</code>为创建动态库和可执行文件, 所以依赖于<code>tlib.so</code>和<code>a.out</code><br>而<code>tlib.so</code>依赖于<code>tlib.c</code>, <code>a.out</code>依赖于<code>t1.c</code><br>…</p>
+<p>有一份<a href="https://www.kancloud.cn/kancloud/make-command/45593" target="_blank" rel="noopener">make教程</a></p>
+<p>上述所用到的基础makefile规则并不难理解, 这里不做赘述  </p>
 
     </div>
 
@@ -230,12 +265,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/09/other/O(n)/" rel="prev" title="other/O(n)">
-      <i class="fa fa-chevron-left"></i> other/O(n)
+    <a href="/2020/01/10/leetcode/234PalindromeLinkedList/" rel="prev" title="leetcode/234PalindromeLinkedList">
+      <i class="fa fa-chevron-left"></i> leetcode/234PalindromeLinkedList
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/01/09/other/Linux_command/" rel="next" title="other/Linux_command">
-      other/Linux_command <i class="fa fa-chevron-right"></i>
+    <a href="/2020/01/10/other/overFlowAndCarry/" rel="next" title="other/overFlowAndCarry">
+      other/overFlowAndCarry <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -296,6 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step"><span class="nav-number">1.</span> <span class="nav-text">Step</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Step1"><span class="nav-number">1.1.</span> <span class="nav-text">Step1:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step2"><span class="nav-number">1.2.</span> <span class="nav-text">Step2:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step3"><span class="nav-number">1.3.</span> <span class="nav-text">Step3:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step4"><span class="nav-number">1.4.</span> <span class="nav-text">Step4:</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -309,7 +345,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
