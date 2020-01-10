@@ -166,6 +166,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/SortedIndexBuilds/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/SortedIndexBuilds/" class="post-title-link" itemprop="url">read/SortedIndexBuilds</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-06 17:23:10" itemprop="dateModified" datetime="2019-08-06T17:23:10+08:00">2019-08-06</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="15-6-2-3-Sorted-Index-Builds"><a href="#15-6-2-3-Sorted-Index-Builds" class="headerlink" title="15.6.2.3 Sorted Index Builds"></a>15.6.2.3 Sorted Index Builds</h4><p>There are three phases to an index build. In the first phase, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_clustered_index" target="_blank" rel="noopener">clustered index</a> is scanned, and index entries are generated and added to the sort buffer. When the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_sort_buffer" target="_blank" rel="noopener">sort buffer</a> becomes full, entries are sorted and written out to a temporary intermediate file. This process is also known as a “run”. In the second phase, with one or more runs written to the temporary intermediate file, a merge sort is performed on all entries in the file. In the third and final phase, the sorted entries are inserted into the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_b_tree" target="_blank" rel="noopener">B-tree</a>.</p>
+<p>索引构建有三个阶段, 第一阶段, 扫描聚簇索引, 生成索引条目, 添加到排序缓存中. 当排序缓存被填满时, 条目数据排序并存储到临时的中间文件. 这个过程也被成为 ‘run’, 第二阶段, 随着 ‘runs’ 写入到临时中间文件, 对所有文件中的条目数据执行合并排序, 第三阶段, 排序好的条目数据插入到 B-tree 中.</p>
+<p>Prior to the introduction of sorted index builds, index entries were inserted into the B-tree one record at a time using insert APIs. This method involved opening a B-tree<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_cursor" target="_blank" rel="noopener">cursor</a> to find the insert position and then inserting entries into a B-tree page using an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimistic" target="_blank" rel="noopener">optimistic</a> insert. If an insert failed due to a page being full, a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_pessimistic" target="_blank" rel="noopener">pessimistic</a> insert would be performed, which involves opening a B-tree cursor and splitting and merging B-tree nodes as necessary to find space for the entry. The drawbacks of this “top-down”method of building an index are the cost of searching for an insert position and the constant splitting and merging of B-tree nodes.</p>
+<p>在引进有序索引构建之前, 使用插入 APIs 一次一条, 将索引条目插入到 B-tree 中. 这个方法包括打开 B-tree 光标, 查找插入位置, 然后使用 optimistic 插入数据到 B-tree 页中.</p>
+<p>如果因为页面已满而插入失败, 执行 pessimistic 插入, 包括打开 B-tree 光标, 并根据需要分裂合并 B-tree 节点, 以便为条目找到空间. </p>
+<p>Sorted index builds use a “bottom-up” approach to building an index. With this approach, a reference to the right-most leaf page is held at all levels of the B-tree. The right-most leaf page at the necessary B-tree depth is allocated and entries are inserted according to their sorted order. Once a leaf page is full, a node pointer is appended to the parent page and a sibling leaf page is allocated for the next insert. This process continues until all entries are inserted, which may result in inserts up to the root level. When a sibling page is allocated, the reference to the previously pinned leaf page is released, and the newly allocated leaf page becomes the right-most leaf page and new default insert location.</p>
+<p>有序索引使用自底向上方法构建索引, 使用这种方法, 所有 B-tree 层级都有一个指向最右叶子页的引用. 最右叶子页在必要的 B-tree 深度分配, 条目根据他们有序顺序插入. 当叶子节点满了, 父节点增加一个节点指针, 为下一次插入分配一个 sibling 叶子页. 这个过程持续到所有的条目插入为止, 可能导致插入到根层级.</p>
+<p>当 sibling 页分配后, 指向之前固定的叶子页的引用被释放, 新分配的叶子页成为最右叶子页和新的插入位置</p>
+<p>(PS. 和自平衡二叉树类似, 插入节点到尾端节点, 不断上溢到适当的位置)</p>
+<h5 id="Reserving-B-tree-Page-Space-for-Future-Index-Growth"><a href="#Reserving-B-tree-Page-Space-for-Future-Index-Growth" class="headerlink" title="Reserving B-tree Page Space for Future Index Growth"></a>Reserving B-tree Page Space for Future Index Growth</h5><p>To set aside space for future index growth, you can use the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> configuration option to reserve a percentage of B-tree page space. For example, setting <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> to 80 reserves 20 percent of the space in B-tree pages during a sorted index build. This setting applies to both B-tree leaf and non-leaf pages. It does not apply to external pages used for <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> entries. The amount of space that is reserved may not be exactly as configured, as the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> value is interpreted as a hint rather than a hard limit.</p>
+<p>为了设置空间为以后的索引增长做准备, 可以使用 innodb_fill_factor 设置存储百分比 B-tree 页空间, 比如, 设置 innodb_fill_factor 为 80, 存储 20% 的空间. 这个设置引用于所有 B-tree 叶和非叶页, 不适用于 TEXT / BLOB 条目的页. </p>
+<p>存储的页面大小不一定精准, innodb_fill_factor 是一个提示, 而并不是硬限制</p>
+<h5 id="Sorted-Index-Builds-and-Full-Text-Index-Support"><a href="#Sorted-Index-Builds-and-Full-Text-Index-Support" class="headerlink" title="Sorted Index Builds and Full-Text Index Support"></a>Sorted Index Builds and Full-Text Index Support</h5><p>Sorted index builds are supported for <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_fulltext_index" target="_blank" rel="noopener">fulltext indexes</a>. Previously, SQL was used to insert entries into a fulltext index.</p>
+<p>有序索引构建支持 fulltext index.</p>
+<h5 id="Sorted-Index-Builds-and-Compressed-Tables"><a href="#Sorted-Index-Builds-and-Compressed-Tables" class="headerlink" title="Sorted Index Builds and Compressed Tables"></a>Sorted Index Builds and Compressed Tables</h5><p>For <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_compression" target="_blank" rel="noopener">compressed tables</a>, the previous index creation method appended entries to both compressed and uncompressed pages. When the modification log (representing free space on the compressed page) became full, the compressed page would be recompressed. If compression failed due to a lack of space, the page would be split. With sorted index builds, entries are only appended to uncompressed pages. When an uncompressed page becomes full, it is compressed. Adaptive padding is used to ensure that compression succeeds in most cases, but if compression fails, the page is split and compression is attempted again. This process continues until compression is successful. For more information about compression of B-Tree pages, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-compression-internals.html" target="_blank" rel="noopener">Section 15.9.1.5, “How Compression Works for InnoDB Tables”</a>.</p>
+<p>对压缩表, 之前创建索引的方法将条目添加到压缩/未压缩页面, 当更改日志逐渐增多, 压缩页需要重压缩. 如果因为空间不足而压缩失败, 也需要被分割, 在有序构建中, 条目仅仅添加到未压缩页. 当未压缩页逐渐填满, 压缩该页.</p>
+<p>在大多数情况下适应的填充用作确保压缩成功, 如果压缩失败, 页被分隔, 然后再次尝试压缩. 这个过程直到压缩成功为止.</p>
+<h5 id="Sorted-Index-Builds-and-Redo-Logging"><a href="#Sorted-Index-Builds-and-Redo-Logging" class="headerlink" title="Sorted Index Builds and Redo Logging"></a>Sorted Index Builds and Redo Logging</h5><p><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_redo_log" target="_blank" rel="noopener">Redo logging</a> is disabled during a sorted index build. Instead, there is a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_checkpoint" target="_blank" rel="noopener">checkpoint</a> to ensure that the index build can withstand a crash or failure. The checkpoint forces a write of all dirty pages to disk. During a sorted index build, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_cleaner" target="_blank" rel="noopener">page cleaner</a> thread is signaled periodically to flush <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_dirty_page" target="_blank" rel="noopener">dirty pages</a> to ensure that the checkpoint operation can be processed quickly. Normally, the page cleaner thread flushes dirty pages when the number of clean pages falls below a set threshold. For sorted index builds, dirty pages are flushed promptly to reduce checkpoint overhead and to parallelize I/O and CPU activity.</p>
+<p>在有序索引构建期间, redo logging 不可用. 代替其的是 checkpoint, 它确保索引构建禁得住错误和崩溃. checkpoint 强制脏页写回缓存. </p>
+<h5 id="Sorted-Index-Builds-and-Optimizer-Statistics"><a href="#Sorted-Index-Builds-and-Optimizer-Statistics" class="headerlink" title="Sorted Index Builds and Optimizer Statistics"></a>Sorted Index Builds and Optimizer Statistics</h5><p>Sorted index builds may result in <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimizer" target="_blank" rel="noopener">optimizer</a> statistics that differ from those generated by the previous method of index creation. The difference in statistics, which is not expected to affect workload performance, is due to the different algorithm used to populate the index.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/sort2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1414,284 +1498,6 @@ int main()
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/InnoDBRowFormat/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/InnoDBRowFormat/" class="post-title-link" itemprop="url">read/InnoDBRowFormat</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:39" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:39+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-01 21:04:49" itemprop="dateModified" datetime="2019-08-01T21:04:49+08:00">2019-08-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="15-10-InnoDB-Row-Formats"><a href="#15-10-InnoDB-Row-Formats" class="headerlink" title="15.10 InnoDB Row Formats"></a>15.10 InnoDB Row Formats</h2><p>The row format of a table determines how its rows are physically stored, which in turn can affect the performance of queries and DML operations. As more rows fit into a single disk page, queries and index lookups can work faster, less cache memory is required in the buffer pool, and less I/O is required to write out updated values.</p>
-<p>表的行格式化确定了如何物理存储方式, 反过来也会影响查询的性能和 DML 的操作.</p>
-<p>更多的行放在单个磁盘页上, 查询和索引检索的速度会更快, 缓存池需要的空间也更少, 写出更新数据的 I/O 操作也会减少</p>
-<p>The data in each table is divided into pages. The pages that make up each table are arranged in a tree data structure called a B-tree index. Table data and secondary indexes both use this type of structure. The B-tree index that represents an entire table is known as the clustered index, which is organized according to the primary key columns. The nodes of a clustered index data structure contain the values of all columns in the row. The nodes of a secondary index structure contain the values of index columns and primary key columns.</p>
-<p>表的数据被分散到多个页中, 组成表的页的范围被限制在 B-tree 索引的树结构中, 表的数据和次级索引都使用这种结构</p>
-<p>表示整个表的 B-tree 索引被称作聚簇索引, 根据主键列构造. 聚簇索引的节点数据结构包含行中的所有列, 而次级索引机构包含索引列和主键列(PS. 类似二级指针)</p>
-<p>Variable-length columns are an exception to the rule that column values are stored in B-tree index nodes. Variable-length columns that are too long to fit on a B-tree page are stored on separately allocated disk pages called overflow pages. Such columns are referred to as off-page columns. The values of off-page columns are stored in singly-linked lists of overflow pages, with each such column having its own list of one or more overflow pages. Depending on column length, all or a prefix of variable-length column values are stored in the B-tree to avoid wasting storage and having to read a separate page.</p>
-<p>可变长度列是列值存储在 B-tree 索引节点规则的一种特殊情况, 可变长度列太长, 无法存储在单个 B-tree 也中, 可变长度列存储在单独分配的磁盘页中, 这些页叫做溢出页, 这些列也叫作页外列</p>
-<p>页外列以单链表形式存储在溢出页中, 每个页都有一个或多个溢出页的列表</p>
-<p>取决于列的长度, 整个/前缀部分 变长列可以存储在 B-tree 中, 避免存储消耗和读取额外的页</p>
-<p>The <code>InnoDB</code> storage engine supports four row formats: <code>REDUNDANT</code>, <code>COMPACT</code>, <code>DYNAMIC</code>, and <code>COMPRESSED</code>.</p>
-<p>InnoDB 存储引擎支持 4 种行格式化: REDUNDANT, COMPACT, DYNAMIC  和 COMPRESSED</p>
-<p><strong>Table 15.16 InnoDB Row Format Overview</strong></p>
-<table>
-<thead>
-<tr>
-<th>Row Format</th>
-<th>Compact Storage Characteristics</th>
-<th>Enhanced Variable-Length Column Storage</th>
-<th>Large Index Key Prefix Support</th>
-<th>Compression Support</th>
-<th>Supported Tablespace Types</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>REDUNDANT</code></td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>system, file-per-table, general</td>
-</tr>
-<tr>
-<td><code>COMPACT</code></td>
-<td>Yes</td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>system, file-per-table, general</td>
-</tr>
-<tr>
-<td><code>DYNAMIC</code></td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>No</td>
-<td>system, file-per-table, general</td>
-</tr>
-<tr>
-<td><code>COMPRESSED</code></td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>file-per-table, general</td>
-</tr>
-</tbody></table>
-<p>The topics that follow describe row format storage characteristics and how to define and determine the row format of a table.</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-row-format-redundant" target="_blank" rel="noopener">REDUNDANT Row Format</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-row-format-compact" target="_blank" rel="noopener">COMPACT Row Format</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-row-format-dynamic" target="_blank" rel="noopener">DYNAMIC Row Format</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-row-format-compressed" target="_blank" rel="noopener">COMPRESSED Row Format</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-row-format-defining" target="_blank" rel="noopener">Defining the Row Format of a Table</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-row-format-detrmining" target="_blank" rel="noopener">Determining the Row Format of a Table</a></li>
-</ul>
-<h3 id="REDUNDANT-Row-Format"><a href="#REDUNDANT-Row-Format" class="headerlink" title="REDUNDANT Row Format"></a>REDUNDANT Row Format</h3><p>Tables that use the <code>REDUNDANT</code> row format store the first 768 bytes of variable-length column values (<a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html" target="_blank" rel="noopener"><code>VARBINARY</code></a>, and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> types) in the index record within the B-tree node, with the remainder stored on overflow pages. Fixed-length columns greater than or equal to 768 bytes are encoded as variable-length columns, which can be stored off-page. For example, a <code>CHAR(255)</code> column can exceed 768 bytes if the maximum byte length of the character set is greater than 3, as it is with <code>utf8mb4</code>.</p>
-<p>使用 REDUNDANT 行格式化在 B-tree 节点记录中只存储变长列值的前 768 字节(VARCHAR, VARBINARY, BLOB, TEXT 类型), 剩下的存储在溢出页中, 固定长度但 &gt;= 768 字节的列被按照变长列编码, 存储到溢出页中</p>
-<p>If the value of a column is 768 bytes or less, an overflow page is not used, and some savings in I/O may result, since the value is stored entirely in the B-tree node. This works well for relatively short <code>BLOB</code> column values, but may cause B-tree nodes to fill with data rather than key values, reducing their efficiency. Tables with many <code>BLOB</code>columns could cause B-tree nodes to become too full, and contain too few rows, making the entire index less efficient than if rows were shorter or column values were stored off-page.</p>
-<p>如果列的值小于 768 字节, 溢出页不会被用到, 会节省一些 I/O 操作, 因为值完整存储在 B-tree 索引中(PS. 现在我中文的语序都有点乱了, 因为被英文语法的顺序影响了 = =)</p>
-<p>这在相对小的 BLOB 列上表现得很好, 但是可能会导致 B-tree 节点被数据填满, 而不是键值, 效率被减少了.</p>
-<p>具有太多 BLOB 列的表可能会导致 B-tree 过于充实, 包含的行过于少. 使整个索引的效率低于较短的列或者列存储在溢出页</p>
-<h4 id="REDUNDANT-Row-Format-Storage-Characteristics"><a href="#REDUNDANT-Row-Format-Storage-Characteristics" class="headerlink" title="REDUNDANT Row Format Storage Characteristics"></a>REDUNDANT Row Format Storage Characteristics</h4><p>The <code>REDUNDANT</code> row format has the following storage characteristics:</p>
-<ul>
-<li><p>Each index record contains a 6-byte header. The header is used to link together consecutive records, and for row-level locking.</p>
-<p>每个索引记录包含 6 字节的头部, 用于链接连续的记录和行级锁</p>
-</li>
-<li><p>Records in the clustered index contain fields for all user-defined columns. In addition, there is a 6-byte transaction ID field and a 7-byte roll pointer field.</p>
-<p>在聚簇索引记录中包含了所有用户定义的列, 除此之外, 还有 6 字节的事务ID和 7 字节的回滚指针</p>
-</li>
-<li><p>If no primary key is defined for a table, each clustered index record also contains a 6-byte row ID field.</p>
-<p>如果没有为表定义一个主键, 每个聚簇索引记录还包含 6 字节的行 ID 字段</p>
-</li>
-<li><p>Each secondary index record contains all the primary key columns defined for the clustered index key that are not in the secondary index.</p>
-<p>每个次级记录包含为聚簇索引定义的不在次级索引中的所有主键列</p>
-</li>
-<li><p>A record contains a pointer to each field of the record. If the total length of the fields in a record is less than 128 bytes, the pointer is one byte; otherwise, two bytes. The array of pointers is called the record directory. The area where the pointers point is the data part of the record.</p>
-<p>记录包含指向记录每个字段的指针, 如果记录中所有字段长度总和小于 128 字节, 指针大小为 1 字节, 否则为 2 字节 (PS. 这里的 pointer 可能不是指针的意思, 而是类似指示的含义, 它可能是偏移 offset)</p>
-<p>指针数组被称为记录目录, 指针指向记录的数据部分</p>
-</li>
-<li><p>Internally, fixed-length character columns such as <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(10)</code></a> in stored in fixed-length format. Trailing spaces are not truncated from <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a> columns.</p>
-<p>固定长度的列, 例如 CHAR(10) 以固定长度格式化, VARCHAR 结尾空白不会被截断</p>
-</li>
-<li><p>Fixed-length columns greater than or equal to 768 bytes are encoded as variable-length columns, which can be stored off-page. For example, a <code>CHAR(255)</code> column can exceed 768 bytes if the maximum byte length of the character set is greater than 3, as it is with <code>utf8mb4</code>.</p>
-<p>长度 &gt;= 768 字节的列即使是固定的, 也会被当做变长宽度列编码, 存储到溢出页</p>
-<p>比如, 一个 CHAR(255) 的列如果字符集的长度超过3, 那么就超过了768 字节, 正如 utf8mb4</p>
-</li>
-<li><p>An SQL <code>NULL</code> value reserves one or two bytes in the record directory. An SQL <code>NULL</code> value reserves zero bytes in the data part of the record if stored in a variable-length column. For a fixed-length column, the fixed length of the column is reserved in the data part of the record. Reserving fixed space for <code>NULL</code> values permits columns to be updated in place from <code>NULL</code> to non-<code>NULL</code> values without causing index page fragmentation.</p>
-<p>SQL NULL 值在记录目录中占有 1 或 2 个字节, 如果存储在变长列中, 在记录的数据部分不占空间. </p>
-<p>对于一个固定长度的列, 存储在记录的数据部分, 为 NULL 值保留固定的长度使列的更新可以就地发生, 而不会导致索引页碎片</p>
-</li>
-</ul>
-<h3 id="COMPACT-Row-Format"><a href="#COMPACT-Row-Format" class="headerlink" title="COMPACT Row Format"></a>COMPACT Row Format</h3><p>Tables that use the <code>COMPACT</code> row format store the first 768 bytes of variable-length column values (<a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html" target="_blank" rel="noopener"><code>VARBINARY</code></a>, and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> types) in the index record within the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_b_tree" target="_blank" rel="noopener">B-tree</a> node, with the remainder stored on overflow pages. Fixed-length columns greater than or equal to 768 bytes are encoded as variable-length columns, which can be stored off-page. For example, a <code>CHAR(255)</code> column can exceed 768 bytes if the maximum byte length of the character set is greater than 3, as it is with <code>utf8mb4</code>.</p>
-<p>(PS. 和 REDUNDANT 一样的 = =)</p>
-<p>If the value of a column is 768 bytes or less, an overflow page is not used, and some savings in I/O may result, since the value is stored entirely in the B-tree node. This works well for relatively short <code>BLOB</code> column values, but may cause B-tree nodes to fill with data rather than key values, reducing their efficiency. Tables with many <code>BLOB</code>columns could cause B-tree nodes to become too full, and contain too few rows, making the entire index less efficient than if rows were shorter or column values were stored off-page.</p>
-<p>(PS. 怎么还是一样的 = = )</p>
-<h4 id="COMPACT-Row-Format-Storage-Characteristics"><a href="#COMPACT-Row-Format-Storage-Characteristics" class="headerlink" title="COMPACT Row Format Storage Characteristics"></a>COMPACT Row Format Storage Characteristics</h4><p>The <code>COMPACT</code> row format has the following storage characteristics:</p>
-<ul>
-<li><p>Each index record contains a 5-byte header that may be preceded by a variable-length header. The header is used to link together consecutive records, and for row-level locking.</p>
-<p>每个索引记录包含 5 字节的头部, 前面可能是变长头部. 头部用于链接记录和行锁</p>
-</li>
-<li><p>The variable-length part of the record header contains a bit vector for indicating <code>NULL</code> columns. If the number of columns in the index that can be <code>NULL</code> is <em>N</em>, the bit vector occupies <code>CEILING(*N*/8)</code> bytes. (For example, if there are anywhere from 9 to 16 columns that can be <code>NULL</code>, the bit vector uses two bytes.) Columns that are <code>NULL</code>do not occupy space other than the bit in this vector. The variable-length part of the header also contains the lengths of variable-length columns. Each length takes one or two bytes, depending on the maximum length of the column. If all columns in the index are <code>NOT NULL</code> and have a fixed length, the record header has no variable-length part.</p>
-<p>变长列记录头部包含空列的位向量 NULL 列, 如果索引中可以是 NULL 的列的数量为 N, 向量占用 CEILING(N/8)字节(例如, 如果有 9 到 16 列可以为空, 向量使用 2 字节) NULL 列不占用空间, 只占用向量中的位</p>
-<p>头部的变长部分也包含变长列的长度, 占用 1 到 2 个字节, 取决于列的最大长度, 如果索引中的所有列非空, 并且有一个固定的长度, 那么记录头部不会有变长长度部分</p>
-</li>
-<li><p>For each non-<code>NULL</code> variable-length field, the record header contains the length of the column in one or two bytes. Two bytes are only needed if part of the column is stored externally in overflow pages or the maximum length exceeds 255 bytes and the actual length exceeds 127 bytes. For an externally stored column, the 2-byte length indicates the length of the internally stored part plus the 20-byte pointer to the externally stored part. The internal part is 768 bytes, so the length is 768+20. The 20-byte pointer stores the true length of the column.</p>
-<p>对于每个非空变长字段, 记录头部包含列的长度, 1 ~ 2 字节. 2 字节仅在列的部分存储在溢出页, 或最大长度超过 255 字节, 并且真实长度超过 127 字节</p>
-<p>对于一个外部存储的列, 这 2 字节长度代表内部存储部分 + 20 字节的指向外部存储部分的指针 </p>
-<p>内部部分是 768 字节, 长度是 768 + 20, 这 20 字节指针存储列的真实长度 (PS. 这里有点不对)</p>
-</li>
-<li><p>The record header is followed by the data contents of non-<code>NULL</code> columns.</p>
-<p>记录头后跟着非空列的数据内容</p>
-</li>
-<li><p>Records in the clustered index contain fields for all user-defined columns. In addition, there is a 6-byte transaction ID field and a 7-byte roll pointer field.</p>
-<p>聚簇索引记录包含所有用户定义列, 同时有 6 字节的事务 ID 和 7 字节的回滚 ID</p>
-</li>
-<li><p>If no primary key is defined for a table, each clustered index record also contains a 6-byte row ID field.</p>
-<p>如果没有为表定义主键, 每个聚簇索引还包含 6 字节的行 ID</p>
-</li>
-<li><p>Each secondary index record contains all the primary key columns defined for the clustered index key that are not in the secondary index. If any of the primary key columns are variable length, the record header for each secondary index has a variable-length part to record their lengths, even if the secondary index is defined on fixed-length columns.</p>
-<p>每个次级索引记录包含所有为聚簇索引定义的不在次级索引中的主键, 如果有主键列是变长的, 每个次级索引的头部有一个变长部分记录次级索引的长度, 即使次级索引是固定的列</p>
-</li>
-<li><p>Internally, for nonvariable-length character sets, fixed-length character columns such as <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(10)</code></a> are stored in a fixed-length format.</p>
-<p>Trailing spaces are not truncated from <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a> columns.</p>
-<p>对非变长字符集, 像 CHAR(10) 这样的固定字符集列以固定长度格式化</p>
-<p>VARCHAR 列尾部空白不会被截断</p>
-</li>
-<li><p>Internally, for variable-length character sets such as <code>utf8mb3</code> and <code>utf8mb4</code>, <code>InnoDB</code> attempts to store <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(*N*)</code></a> in <em>N</em> bytes by trimming trailing spaces. If the byte length of a <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(*N*)</code></a> column value exceeds <em>N</em> bytes, trailing spaces are trimmed to a minimum of the column value byte length. The maximum length of a <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(*N*)</code></a> column is the maximum character byte length × <em>N</em>.</p>
-<p>内部, 如 utf8mb3 和 utf8mb4 变长字符集, InnoDB 通过裁剪尾随的空格将 CHAR(N) 存储 N 字节</p>
-<p>如果 CHAR(N) 列长度超过 N 字节, 尾端空白被裁剪到列值字节数的最小值, CHAR(N) 列的最大长度是最大字符字节宽度 x N</p>
-<p>A minimum of <em>N</em> bytes is reserved for <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(*N*)</code></a>. Reserving the minimum space <em>N</em> in many cases enables column updates to be done in place without causing index page fragmentation. By comparison, <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>CHAR(*N*)</code></a> columns occupy the maximum character byte length × <em>N</em> when using the <code>REDUNDANT</code> row format.</p>
-<p>为 CHAR(N) 存储一个最小 N 字节空间, 存储这个最小的 N 空间在很多情况下是列值的更新就地发生, 不导致页碎片. 对比而言, 当使用 REDUNDANT 行格式化时, CHAR(N) 列占有最大字符长度  x N </p>
-<p>Fixed-length columns greater than or equal to 768 bytes are encoded as variable-length fields, which can be stored off-page. For example, a <code>CHAR(255)</code> column can exceed 768 bytes if the maximum byte length of the character set is greater than 3, as it is with <code>utf8mb4</code>.</p>
-<p>固定长度大于或等于 768 字节的列以变长字段编码, 存储在页外, … (PS. emm… 好像是一样的了)</p>
-</li>
-</ul>
-<p>(PS. REDUNDANT 和 COMPACT 的区别主要有两个 : 1. COMPACT 不保存固定字段的长度 2. COMPACT 会裁剪尾随的空白字符. 所以 REDUNDANT 叫 REDUNDANT, COMPACT 叫 COMPACT, REDUNDANT 牺牲了空间换取效率)</p>
-<h3 id="DYNAMIC-Row-Format"><a href="#DYNAMIC-Row-Format" class="headerlink" title="DYNAMIC Row Format"></a>DYNAMIC Row Format</h3><p>When a table is created with <code>ROW_FORMAT=DYNAMIC</code>, <code>InnoDB</code> can store long variable-length column values (for <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html" target="_blank" rel="noopener"><code>VARBINARY</code></a>, and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> types) fully off-page, with the clustered index record containing only a 20-byte pointer to the overflow page. Fixed-length fields greater than or equal to 768 bytes are encoded as variable-length fields. For example, a <code>CHAR(255)</code> column can exceed 768 bytes if the maximum byte length of the character set is greater than 3, as it is with <code>utf8mb4</code>.</p>
-<p>当表被创建为 DYNAMIC 类型时, InnoDB 能将长的变长列完全存储在页外, 聚簇索引只包含 20 字节的指向溢出页的指针. 固定长度 &gt;= 768 的字段按照变长字段存储, 比如 … (PS. 一样的, 就不比如了… = =)</p>
-<p>Whether columns are stored off-page depends on the page size and the total size of the row. When a row is too long, the longest columns are chosen for off-page storage until the clustered index record fits on the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_b_tree" target="_blank" rel="noopener">B-tree</a> page. <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> columns that are less than or equal to 40 bytes are stored in line.</p>
-<p>列是否存储在页外取决于页的大小和行的总大小. </p>
-<p>当行太长时, 最长的列被选为页外存储, 直到聚簇索引记录大小适合保存在 B-tree 页, TEXT 和 BLOB 列 &lt;= 40 字节按行存储</p>
-<p>The <code>DYNAMIC</code> row format maintains the efficiency of storing the entire row in the index node if it fits (as do the <code>COMPACT</code> and <code>REDUNDANT</code> formats), but the <code>DYNAMIC</code> row format avoids the problem of filling B-tree nodes with a large number of data bytes of long columns. The <code>DYNAMIC</code> row format is based on the idea that if a portion of a long data value is stored off-page, it is usually most efficient to store the entire value off-page. With <code>DYNAMIC</code> format, shorter columns are likely to remain in the B-tree node, minimizing the number of overflow pages required for a given row.</p>
-<p>DYNAMIC 行存储维护在索引节点中存储整行(如果大小匹配的话)的效率(就像 COMPACT 和 REDUNDANT 一样), 但是 DYNAMIC 避免了 B-tree 被大量长列填满的问题</p>
-<p>DYNAMIC 行存储基于一部分数据存储在页外的想法, 通常最有效的方法是整个值都存储在页外</p>
-<p>使用 DYNAMIC 存储, 较短的行更可能保存在 B-tree 节点, 最小化行所需要的溢出页数量</p>
-<p>The <code>DYNAMIC</code> row format supports index key prefixes up to 3072 bytes. </p>
-<p>DYNAMIC 行存储支持索引键前缀, 最大可达 3072 字节 (PS. = = 这么大的么…) (需要设置 innodb_large_prefix=1)</p>
-<p>Tables that use the <code>DYNAMIC</code> row format can be stored in the system tablespace, file-per-table tablespaces, and general tablespaces. To store <code>DYNAMIC</code> tables in the system tablespace, either disable <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> and use a regular <code>CREATE TABLE</code> or <code>ALTER TABLE</code> statement, or use the <code>TABLESPACE [=] innodb_system</code> table option with <code>CREATE TABLE</code> or <code>ALTER TABLE</code>. The <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> variable is not applicable to general tablespaces, nor is it applicable when using the <code>TABLESPACE [=] innodb_system</code> table option to store <code>DYNAMIC</code> tables in the system tablespace.</p>
-<p>使用 DYNAMIC 存储的行能保存在 system tablespace, file-per-table tablespace, 以及 general tablespace 中. </p>
-<p>将 DYNAMIC 表存储在 system tablespace 要么取消 innodb_file_per_table 以及使用常规的 CREATE TABLE 或 ALTER TABLE 语句, 或者在 CREATE TABLE 或 ALTER TABLE 时使用 TABLESPACE [=] innodb_system 表选项.</p>
-<p>innodb_file_per_table 变量不适用于 general tablespace, 也不适用于使用 TABLESPACE [=] innodb_system 表选项去在 system tablespace 中存储 DYNAMIC 表</p>
-<h4 id="DYNAMIC-Row-Format-Storage-Characteristics"><a href="#DYNAMIC-Row-Format-Storage-Characteristics" class="headerlink" title="DYNAMIC Row Format Storage Characteristics"></a>DYNAMIC Row Format Storage Characteristics</h4><p>The <code>DYNAMIC</code> row format is a variation of the <code>COMPACT</code> row format. For storage characteristics, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-compact-row-format-characteristics" target="_blank" rel="noopener">COMPACT Row Format Storage Characteristics</a>.</p>
-<p>DYNAMIC 行存储是 COMPACT 行存储的一种变化</p>
-<h3 id="COMPRESSED-Row-Format"><a href="#COMPRESSED-Row-Format" class="headerlink" title="COMPRESSED Row Format"></a>COMPRESSED Row Format</h3><p>The <code>COMPRESSED</code> row format uses similar internal details for off-page storage as the <code>DYNAMIC</code> row format, with additional storage and performance considerations from the table and index data being compressed and using smaller page sizes. With the <code>COMPRESSED</code> row format, the <code>KEY_BLOCK_SIZE</code> option controls how much column data is stored in the clustered index, and how much is placed on overflow pages. For more information about the <code>COMPRESSED</code> row format, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-compression.html" target="_blank" rel="noopener">Section 15.9, “InnoDB Table and Page Compression”</a>.</p>
-<p>COMPRESSED 行存储使用和 DYNAMIC 类似的内部细节 : 页外存储, 压缩表和索引数据以使用更少的页, 考虑额外的存储和性能. </p>
-<p>使用 COMPRESSED 行存储, KEY_BLOCK_SIZE 选项控制多少列数据存储在聚簇索引, 多少存储在溢出页. </p>
-<p>The <code>COMPRESSED</code> row format supports index key prefixes up to 3072 bytes.</p>
-<p>COMPRESSED 行存储支持索引键前缀, 最大可达 3072 字节</p>
-<p>Tables that use the <code>COMPRESSED</code> row format can be created in file-per-table tablespaces or general tablespaces. The system tablespace does not support the <code>COMPRESSED</code>row format. To store a <code>COMPRESSED</code> table in a file-per-table tablespace, the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> variable must be enabled. The <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> variable is not applicable to general tablespaces. General tablespaces support all row formats with the caveat that compressed and uncompressed tables cannot coexist in the same general tablespace due to different physical page sizes. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
-<h4 id="Compressed-Row-Format-Storage-Characteristics"><a href="#Compressed-Row-Format-Storage-Characteristics" class="headerlink" title="Compressed Row Format Storage Characteristics"></a>Compressed Row Format Storage Characteristics</h4><p>The <code>COMPRESSED</code> row format is a variation of the <code>COMPACT</code> row format. For storage characteristics, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html#innodb-compact-row-format-characteristics" target="_blank" rel="noopener">COMPACT Row Format Storage Characteristics</a>.</p>
-<h3 id="Defining-the-Row-Format-of-a-Table"><a href="#Defining-the-Row-Format-of-a-Table" class="headerlink" title="Defining the Row Format of a Table"></a>Defining the Row Format of a Table</h3><p>The default row format for <code>InnoDB</code> tables is defined by <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable, which has a default value of <code>DYNAMIC</code>. The default row format is used when the <code>ROW_FORMAT</code> table option is not defined explicitly or when <code>ROW_FORMAT=DEFAULT</code> is specified.</p>
-<p>innodb_default_row_format 控制默认创建的表行存储类型 (dynamic) , 当表选项 ROW_FORMAT 没有显式指明时才会使用默认配置</p>
-<p>The row format of a table can be defined explicitly using the <code>ROW_FORMAT</code> table option in a <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/alter-table.html" target="_blank" rel="noopener"><code>ALTER TABLE</code></a> statement. For example:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span>) ROW_FORMAT=DYNAMIC;</span><br></pre></td></tr></table></figure>
-
-<p>An explicitly defined <code>ROW_FORMAT</code> setting overrides the default row format. Specifying <code>ROW_FORMAT=DEFAULT</code> is equivalent to using the implicit default.</p>
-<p>The <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable can be set dynamically:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET GLOBAL innodb_default_row_format=DYNAMIC;</span><br></pre></td></tr></table></figure>
-
-<p>Valid <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> options include <code>DYNAMIC</code>, <code>COMPACT</code>, and <code>REDUNDANT</code>. The <code>COMPRESSED</code> row format, which is not supported for use in the system tablespace, cannot be defined as the default. It can only be specified explicitly in a <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/alter-table.html" target="_blank" rel="noopener"><code>ALTER TABLE</code></a> statement. Attempting to set the<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable to <code>COMPRESSED</code> returns an error:</p>
-<p>COMPRESSED 不能用于默认设置, 只能显式指定</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET GLOBAL innodb_default_row_format=COMPRESSED;</span><br><span class="line">ERROR 1231 (42000): Variable 'innodb_default_row_format'</span><br><span class="line">can't be <span class="keyword">set</span> <span class="keyword">to</span> the <span class="keyword">value</span> <span class="keyword">of</span> <span class="string">'COMPRESSED'</span></span><br></pre></td></tr></table></figure>
-
-<p>Newly created tables use the row format defined by the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable when a <code>ROW_FORMAT</code> option is not specified explicitly, or when<code>ROW_FORMAT=DEFAULT</code> is used. For example, the following <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statements use the row format defined by the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t2 (c1 <span class="built_in">INT</span>) ROW_FORMAT=<span class="keyword">DEFAULT</span>;</span><br></pre></td></tr></table></figure>
-
-<p>When a <code>ROW_FORMAT</code> option is not specified explicitly, or when <code>ROW_FORMAT=DEFAULT</code> is used, an operation that rebuilds a table silently changes the row format of the table to the format defined by the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable.</p>
-<p>Table-rebuilding operations include <a href="https://dev.mysql.com/doc/refman/8.0/en/alter-table.html" target="_blank" rel="noopener"><code>ALTER TABLE</code></a> operations that use <code>ALGORITHM=COPY</code> or <code>ALGORITHM=INPLACE</code> where table rebuilding is required. See <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-online-ddl-operations.html" target="_blank" rel="noopener">Section 15.12.1, “Online DDL Operations”</a> for more information. <a href="https://dev.mysql.com/doc/refman/8.0/en/optimize-table.html" target="_blank" rel="noopener"><code>OPTIMIZE TABLE</code></a> is also a table-rebuilding operation.</p>
-<p>The following example demonstrates a table-rebuilding operation that silently changes the row format of a table created without an explicitly defined row format.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT @@innodb_default_row_format;</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| @@innodb_default_row_format |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| dynamic                     |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; CREATE TABLE t1 (c1 INT);</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT * FROM INFORMATION_SCHEMA.INNODB_TABLES WHERE NAME LIKE 'test/t1' \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     TABLE_ID: 54</span><br><span class="line">         NAME: test/t1</span><br><span class="line">         FLAG: 33</span><br><span class="line">       N_COLS: 4</span><br><span class="line">        SPACE: 35</span><br><span class="line">   ROW_FORMAT: Dynamic</span><br><span class="line">ZIP_PAGE_SIZE: 0</span><br><span class="line">   SPACE_TYPE: Single</span><br><span class="line"></span><br><span class="line">mysql&gt; SET GLOBAL innodb_default_row_format=COMPACT;</span><br><span class="line"></span><br><span class="line">mysql&gt; ALTER TABLE t1 ADD COLUMN (c2 INT);</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT * FROM INFORMATION_SCHEMA.INNODB_TABLES WHERE NAME LIKE 'test/t1' \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     TABLE_ID: 55</span><br><span class="line">         NAME: test/t1</span><br><span class="line">         FLAG: 1</span><br><span class="line">       N_COLS: 5</span><br><span class="line">        SPACE: 36</span><br><span class="line">   ROW_FORMAT: Compact</span><br><span class="line">ZIP_PAGE_SIZE: 0</span><br><span class="line">   SPACE_TYPE: Single</span><br></pre></td></tr></table></figure>
-
-<p>(PS. 这种情况要格外注意, 更改表操作相当于重新创建, 之前设置的一些默认选项可能已经被改变了)</p>
-<p>Consider the following potential issues before changing the row format of existing tables from <code>REDUNDANT</code> or <code>COMPACT</code> to <code>DYNAMIC</code>.</p>
-<ul>
-<li><p>The <code>REDUNDANT</code> and <code>COMPACT</code> row formats support a maximum index key prefix length of 767 bytes whereas <code>DYNAMIC</code> and <code>COMPRESSED</code> row formats support an index key prefix length of 3072 bytes. In a replication environment, if the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> variable is set to <code>DYNAMIC</code> on the master, and set to <code>COMPACT</code> on the slave, the following DDL statement, which does not explicitly define a row format, succeeds on the master but fails on the slave:</p>
-<p>REDUNDANT 和 COMPACT 行存储支持最大 767 字节的索引键前缀, 然而 DYNAMIC 和 COMPRESSED 行存储支持的长度可达 3072 字节.</p>
-<p>在同样的环境下, 如果 innodb_default_row_format 在主环境下设置为 DYNAMIC, 而在次环境下设置为 COMPACT, 下列没有显式定义行存储的语句会在主环境下成功, 而次环境会失败</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>, c2 <span class="built_in">VARCHAR</span>(<span class="number">5000</span>), <span class="keyword">KEY</span> i1(c2(<span class="number">3070</span>)));</span><br></pre></td></tr></table></figure>
-
-<p>For related information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html" target="_blank" rel="noopener">Section 15.6.1.6, “Limits on InnoDB Tables”</a>.</p>
-<p>(PS. 原因是 REDUNDANT 和 COMPACT 行存储限制了索引前缀必须低于 768 字节</p>
-<p>这里还要加限制, 就是 c2(3070) 真正内存 &lt; 3072 )</p>
-</li>
-<li><p>Importing a table that does not explicitly define a row format results in a schema mismatch error if the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> setting on the source server differs from the setting on the destination server. For more information, refer to the limitations outlined in <a href="https://dev.mysql.com/doc/refman/8.0/en/tablespace-copying.html" target="_blank" rel="noopener">Section 15.6.3.7, “Copying Tablespaces to Another Instance”</a>.</p>
-<p>导入一个为显式指定行存储的表时, 被导入表的行存储和默认存储设置不一致会产生错误</p>
-</li>
-</ul>
-<h3 id="Determining-the-Row-Format-of-a-Table"><a href="#Determining-the-Row-Format-of-a-Table" class="headerlink" title="Determining the Row Format of a Table"></a>Determining the Row Format of a Table</h3><p>To determine the row format of a table, use <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a>:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW TABLE STATUS IN test1\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           Name: t1</span><br><span class="line">         Engine: InnoDB</span><br><span class="line">        Version: 10</span><br><span class="line">     Row_format: Dynamic</span><br><span class="line">           Rows: 0</span><br><span class="line"> Avg_row_length: 0</span><br><span class="line">    Data_length: 16384</span><br><span class="line">Max_data_length: 0</span><br><span class="line">   Index_length: 16384</span><br><span class="line">      Data_free: 0</span><br><span class="line"> Auto_increment: 1</span><br><span class="line">    Create_time: 2016-09-14 16:29:38</span><br><span class="line">    Update_time: NULL</span><br><span class="line">     Check_time: NULL</span><br><span class="line">      Collation: utf8mb4_0900_ai_ci</span><br><span class="line">       <span class="keyword">Checksum</span>: <span class="literal">NULL</span></span><br><span class="line"> Create_options: </span><br><span class="line">        <span class="keyword">Comment</span>:</span><br></pre></td></tr></table></figure>
-
-<p>Alternatively, query the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-tables-table.html" target="_blank" rel="noopener"><code>INFORMATION_SCHEMA.INNODB_TABLES</code></a> table:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT NAME, ROW_FORMAT FROM INFORMATION_SCHEMA.INNODB_TABLES WHERE NAME='test1/t1';</span><br><span class="line">+<span class="comment">----------+------------+</span></span><br><span class="line">| NAME     | ROW_FORMAT |</span><br><span class="line">+<span class="comment">----------+------------+</span></span><br><span class="line">| test1/t1 | Dynamic    |</span><br><span class="line">+<span class="comment">----------+------------+</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1762,7 +1568,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -166,6 +166,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/160IntersectionofTwoLinkedList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/160IntersectionofTwoLinkedList/" class="post-title-link" itemprop="url">leetcode/160IntersectionofTwoLinkedList</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Intersection-of-two-linked-list"><a href="#Intersection-of-two-linked-list" class="headerlink" title="Intersection of two linked list"></a>Intersection of two linked list</h2><p><img src="https://imgur.com/nhmAc0h.png" alt=""></p>
+<p>获得两条链表的连接点</p>
+<h3 id="my-solution-36ms-100"><a href="#my-solution-36ms-100" class="headerlink" title="my solution (36ms, 100%)"></a>my solution (36ms, 100%)</h3><p>(虽然效率看起来是最好的, 但是其实比起最好的算法要差不少)</p>
+<p>核心难点在于两条链表的长度不一定相等, 这样就不能遍历节点用等于的形式来判断  </p>
+<p>那么拿到两条链表的长度, 让较长的链表前进若干次, 以达到长度相等的情形, 那么就可以遍历了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> deep_A = <span class="number">0</span>, deep_B = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        ListNode *temp_head = headA;</span><br><span class="line">        <span class="keyword">while</span> (temp_head) &#123;</span><br><span class="line">            temp_head = temp_head-&gt;next;</span><br><span class="line">            ++deep_A;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        temp_head = headB;</span><br><span class="line">        <span class="keyword">while</span> (temp_head) &#123;</span><br><span class="line">            temp_head = temp_head-&gt;next;</span><br><span class="line">            ++deep_B;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> distance = <span class="built_in">abs</span>(deep_A - deep_B);</span><br><span class="line">        <span class="keyword">if</span> (deep_A &gt; deep_B) &#123;</span><br><span class="line">            <span class="keyword">while</span> (distance) &#123;</span><br><span class="line">                headA = headA-&gt;next;</span><br><span class="line">                --distance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (distance) &#123;</span><br><span class="line">                headB = headB-&gt;next;</span><br><span class="line">                --distance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (headA &amp;&amp; headB &amp;&amp; headA != headB) &#123;</span><br><span class="line">            headA = headA-&gt;next;</span><br><span class="line">            headB = headB-&gt;next;    </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> headA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>代码如下, 会产生 3 次遍历, 两次完整的遍历 O(3n) =&gt; O(n)</p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        ListNode *p = headA;</span><br><span class="line">        ListNode *q = headB;</span><br><span class="line">        <span class="keyword">while</span> (p != q) &#123;</span><br><span class="line">            p = (p ? p-&gt;next: headB);</span><br><span class="line">            q = (q ? q-&gt;next: headA);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>原来还可以这么做!!!</p>
+<p>算法的核心思想在于, A + B = B + A</p>
+<p>假设有两条链表, 长度不等</p>
+<pre><code>0 0 0 2 1 1    // A
+0 0 2 1 1    // B</code></pre><p>其中将他们的链接点标为 2</p>
+<p>那么有以下组合链表</p>
+<pre><code>0 0 0 2 1 1 0 0 2 1 1    // A + B
+0 0 2 1 1 0 0 0 2 1 1    // B + A</code></pre><p>他们如果有链接点, 那么在第二次循环时必然相等  </p>
+<p>我是用求深度差来解决这个问题, 这个算法更加巧妙地用组合链表的形式规避了这个深度差</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/16Z3Sum_Closest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -857,86 +932,6 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/32ZLongestValidParentheses/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/32ZLongestValidParentheses/" class="post-title-link" itemprop="url">leetcode/32ZLongestValidParentheses</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Longest-Valid-Parentheses"><a href="#Longest-Valid-Parentheses" class="headerlink" title="Longest Valid Parentheses"></a>Longest Valid Parentheses</h3><p><img src="https://imgur.com/ErQh0hJ.png" alt=""></p>
-<p>一个只包含字符 ‘(‘ 和字符 ‘)’ 的字符串, 找到最长的有效括号层数</p>
-<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>这个问题的核心是如何知道, 哪个 ‘)’ 和哪个 ‘(‘ 匹配  </p>
-<p>这种情况, 如果用栈来解决的话会简单很多</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    <span class="built_in">std</span>::ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestValidParentheses</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">size</span> = s.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vecc;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">'('</span>) &#123;</span><br><span class="line">                vecc.push_back(i);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;    <span class="comment">// asume is )</span></span><br><span class="line">                <span class="keyword">if</span> (vecc.<span class="built_in">size</span>() &amp;&amp; s[vecc.back()] == <span class="string">'('</span>) &#123;</span><br><span class="line">                    s[i] = <span class="string">'0'</span>;</span><br><span class="line">                    s[vecc.back()] = <span class="string">'0'</span>;</span><br><span class="line">                    vecc.pop_back();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;  <span class="comment">// asume if (vecc.back() != '(') </span></span><br><span class="line">                    vecc.<span class="built_in">clear</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>, now = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">'0'</span>)</span><br><span class="line">                ++now;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(now, ret);</span><br><span class="line">                now = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(now, ret);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>我并没有想到一次循环并找到最大长度的办法  </p>
-<p>采用的是一次循环将所有能够合并的括号全部替换, 再用一次循环来找到其中最长的序列  </p>
-<p><img src="https://imgur.com/8VYDL2H.png" alt=""></p>
-<p>效果比想象中的要好, 可能是归功于快速IO  </p>
-<h3 id="the-best-solution-4ms"><a href="#the-best-solution-4ms" class="headerlink" title="the best solution (4ms)"></a>the best solution (4ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">int</span> _= []()</span><br><span class="line">&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();	<span class="comment">// 在 hard 难度的题里面, 这个东西频繁出现</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestValidParentheses</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> maxLength = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(s.<span class="built_in">size</span>());</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; s.<span class="built_in">size</span>(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 只处理当前值是 ')' 的情况</span></span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">')'</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 如果上一个值是 '('</span></span><br><span class="line">                <span class="keyword">if</span> (s[i - <span class="number">1</span>] == <span class="string">'('</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// 如果当前下标超出了 2, 意味着可以加上之前的宽度</span></span><br><span class="line">                    <span class="keyword">if</span> (i &gt; <span class="number">2</span>)</span><br><span class="line">                        dp[i] = dp[i - <span class="number">2</span>] + <span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        <span class="comment">// 否则宽度直接为 2 </span></span><br><span class="line">                        dp[i] = <span class="number">2</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 如果上一个值是 ')'</span></span><br><span class="line">                <span class="keyword">else</span> <span class="comment">// s[i-1] == ')'</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// 暂时保存上一个下标所记录的步数</span></span><br><span class="line">                    <span class="keyword">int</span> prev = dp[i - <span class="number">1</span>];</span><br><span class="line">                    <span class="comment">// 先判断下标是否有效, s[i - prev - 1] 的含义是</span></span><br><span class="line">                    <span class="comment">// 当前下标 减去 上一个下标记录的宽度, 那么就来到了这个宽度的起始位置</span></span><br><span class="line">                    <span class="comment">// 再减去 1, 就得到了这个宽度的上一个字符, 如果是 '(' 则代表宽度可以继续增加2</span></span><br><span class="line">                    <span class="keyword">if</span> (i - prev - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; s[i - prev - <span class="number">1</span>] == <span class="string">'('</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">// 宽度增加了 2</span></span><br><span class="line">                        dp[i] = dp[i - <span class="number">1</span>] + <span class="number">2</span>;</span><br><span class="line">                        <span class="comment">// 再判断上一个区间的索引值是否合法</span></span><br><span class="line">                        <span class="keyword">if</span> (i - prev - <span class="number">2</span> &gt;= <span class="number">0</span>)</span><br><span class="line">                            <span class="comment">// 合法的话就再加上上一个区间的宽度</span></span><br><span class="line">                            dp[i] += dp[i - prev - <span class="number">2</span>];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> n : dp)</span><br><span class="line">            maxLength = <span class="built_in">max</span>(maxLength, n);</span><br><span class="line">        <span class="keyword">return</span> maxLength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>算法给人的第一感觉是”脚印”, 如果上一个”脚印”有效, 就加上他, 这样慢慢增加</p>
-<p>他也是由两次循环组成, 第一个循环计算每次的步数, 第二次循环找到最大值</p>
-<p>规律总结在代码注释, 假设字符串是 “()))()))()”, 那么他的 dp 可能是 0 2 0 0 0 2 0 0 0 2 </p>
-<p>“())(())()()()))” dp 可能是 0 2 0 0 0 2 4 0 6 0 8 0 [10] 0 0</p>
-<p>(眼睛有点花… 不过应该没错)</p>
-<p>大抵来说:</p>
-<ol>
-<li>跳过了 ‘(‘ 的判断, 这会使需要处理的情况少 1/2</li>
-<li>赋值少了 1/2, 他不对 ‘(‘ 的索引进行计算</li>
-</ol>
-<p>emmm… 学到了很多  </p>
-<p>感觉”脚印”这个概念在很多算法里面都看到过, 一个个累加将复杂的计算分为了很多的小计算</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1007,7 +1002,7 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
