@@ -166,6 +166,78 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/25ZReverse_Nodes_in_k-Group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/25ZReverse_Nodes_in_k-Group/" class="post-title-link" itemprop="url">leetcode/25ZReverse_Nodes_in_k-Group</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="25-Reverse-Nodes-in-k-Group"><a href="#25-Reverse-Nodes-in-k-Group" class="headerlink" title="25. Reverse Nodes in k-Group"></a>25. Reverse Nodes in k-Group</h3><p><img src="https://imgur.com/sancVDL.png" alt=""></p>
+<p>给定一个链表, 每次反转链表数量为k的节点, 然后返回更改后的链表</p>
+<p>k是一个正整数, 小于等于链表的长度, 如果链表的长度不是k的整数倍, 最后遗漏的节点保持原样</p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!head) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">        ListNode* ret = head;</span><br><span class="line">        <span class="keyword">while</span> (head &amp;&amp; head-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">int</span> kt = k;</span><br><span class="line">            ListNode* headt = head;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line"></span><br><span class="line">            vec.push_back(headt-&gt;val);</span><br><span class="line">            <span class="keyword">while</span> (--kt &amp;&amp; head-&gt;next) &#123;</span><br><span class="line">                head = head-&gt;next;</span><br><span class="line">                vec.push_back(head-&gt;val);</span><br><span class="line">            &#125;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (kt) <span class="keyword">break</span>;</span><br><span class="line">            reverse(headt, vec);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(ListNode* head, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; vec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) &#123;</span><br><span class="line">            head-&gt;val = *it;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这道题的思路很清晰, 感觉不应该是hard难度的题  </p>
+<p>简单地将链表每一部分分开, 然后调用反序函数就可以了</p>
+<p>可以优化的点是 while 那里, 以及我可以不用在 while 中判断, reverse 应该能够正常处理元素数量不同的情况  </p>
+<p>那么我在最后做一次判断, 将最后一次不用修改的还原就可以了, 这样可以省去 while 中的判断逻辑</p>
+<p><img src="https://imgur.com/8QPzS1D.png" alt=""></p>
+<p>速度上来说还算不错, 但是资源使用率上就很堪忧了</p>
+<h3 id="dalao’s-code"><a href="#dalao’s-code" class="headerlink" title="dalao’s code"></a>dalao’s code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverse</span><span class="params">(ListNode* first, ListNode* last)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ListNode* prev = last;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( first != last )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> tmp = first-&gt;next;</span><br><span class="line">            first-&gt;next = prev;</span><br><span class="line">            prev = first;</span><br><span class="line">            first = tmp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> node=head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ( ! node  )</span><br><span class="line">                <span class="keyword">return</span> head; <span class="comment">// nothing to do list too sort</span></span><br><span class="line">            node = node-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> new_head = reverse( head, node);</span><br><span class="line">        head-&gt;next = reverseKGroup( node, k);</span><br><span class="line">        <span class="keyword">return</span> new_head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个做法和我的想法基本相同, 但是在细节上的处理很好</p>
+<p>首先, 他采用的递归, 这样代码更加简洁易懂</p>
+<p>其次循环中是更改链表的指向, 而不是赋值, 这样功能性更强</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/300LongestIncreasingSubsequence/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -839,80 +911,6 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/56ZMergeIntervals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/56ZMergeIntervals/" class="post-title-link" itemprop="url">leetcode/56ZMergeIntervals</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Merge-Intervals"><a href="#Merge-Intervals" class="headerlink" title="Merge Intervals"></a>Merge Intervals</h3><p><img src="https://imgur.com/EpONkBi.png" alt=""></p>
-<p>给定一个区间的集合, 合并所有重复的区间</p>
-<h3 id="my-solution-12ms"><a href="#my-solution-12ms" class="headerlink" title="my solution (12ms)"></a>my solution (12ms)</h3><p>可以通过重新排序的形式来一步步合并, 比如:</p>
-<p>start:     1 2 8  15</p>
-<p>end:      3 6 10 18</p>
-<p>其中 start 和 end 是经排序后的数组  </p>
-<p>从 1 开始, 如果接下来的开始下标小于当前的结束下标 (2 &lt; 3)  </p>
-<p>那么, 就可以合并, 继续对比下一个. (8 &lt; 6) 不成立, 那么第一个区间就出现了, 1-6  </p>
-<p>接下来从 8 开始, 继续以上步骤, 直至数组尾部, 这样算法的复杂度就是 O(n)  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for an interval.</span></span><br><span class="line"><span class="comment"> * struct Interval &#123;</span></span><br><span class="line"><span class="comment"> *     int start;</span></span><br><span class="line"><span class="comment"> *     int end;</span></span><br><span class="line"><span class="comment"> *     Interval() : start(0), end(0) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     Interval(int s, int e) : start(s), end(e) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">vector</span>&lt;Interval&gt;&amp; intervals) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; start;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">end</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;Interval&gt; ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : intervals) &#123;</span><br><span class="line">            start.push_back(it.start);</span><br><span class="line">            <span class="built_in">end</span>.push_back(it.<span class="built_in">end</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sort(start.<span class="built_in">begin</span>(), start.<span class="built_in">end</span>());</span><br><span class="line">        sort(<span class="built_in">end</span>.<span class="built_in">begin</span>(), <span class="built_in">end</span>.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = start.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ) &#123;</span><br><span class="line">            <span class="keyword">int</span> ti = i;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i++; ;) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= <span class="built_in">size</span> || i &gt;= <span class="built_in">size</span>) &#123;	<span class="comment">// 这里应该可以少判断 j 的值</span></span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>.back()&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (start[i] &lt;= <span class="built_in">end</span>[j]) &#123;</span><br><span class="line">                    ++i, ++j;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>[j]&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>代码如上, 应该还有可以优化的地方 (比如说外围 for 循环, 他仅仅就是一个保留 i 的作用)</p>
-<p><img src="https://imgur.com/57NGf4L.png" alt=""></p>
-<p>结果还不错</p>
-<h3 id="the-best-solution-8ms"><a href="#the-best-solution-8ms" class="headerlink" title="the best solution (8ms)"></a>the best solution (8ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []()&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt;&amp; Intervals) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> IntervalNum = Intervals.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (IntervalNum &lt; <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> Intervals;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::sort(Intervals.<span class="built_in">begin</span>(), Intervals.<span class="built_in">end</span>(), </span><br><span class="line">                  [](<span class="keyword">const</span> Interval &amp;A, <span class="keyword">const</span> Interval &amp;B) &#123;</span><br><span class="line">                      <span class="keyword">return</span> A.start &lt; B.start;</span><br><span class="line">                  &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; Merged &#123;Intervals[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; IntervalNum; ++i) &#123;</span><br><span class="line">            <span class="keyword">const</span> Interval &amp;Curr = Intervals[i];</span><br><span class="line">            Interval &amp;LastMerged = Merged.back();</span><br><span class="line">            <span class="comment">// 完全被内含的区间会被跳过</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.<span class="built_in">end</span> &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">			<span class="comment">// 更新区间的最大值</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.start &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                LastMerged.<span class="built_in">end</span> = Curr.<span class="built_in">end</span>;</span><br><span class="line">            <span class="keyword">else</span>	<span class="comment">// 下一个区间完全不在当前区间内, 不能合并. 压入当前区间, 继续执行</span></span><br><span class="line">                Merged.push_back(Curr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Merged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>他的排序是直接在 Intervals 进行, 并且只比对 start  (也是, 我好像做了多余的比对)</p>
-<p>想法大致是一样的, 但是细节不够好</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -983,7 +981,7 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

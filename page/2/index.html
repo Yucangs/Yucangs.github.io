@@ -166,6 +166,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/F15_3Sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/F15_3Sum/" class="post-title-link" itemprop="url">leetcode/F15_3Sum</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:19:39 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:19:39+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://i.imgur.com/LqfHaar.png" alt=""></p>
+<p>给一个数组, 求其中三数和为零的所有组合, 要求不能重复  </p>
+<p>思路:</p>
+<p>遍历数组, 找出所有三数集合, 再判断是否为零, 之后用一个map去重</p>
+<p>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; threeSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">bool</span>&gt; repetitive;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>() - <span class="number">2</span>; ++i)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; nums.<span class="built_in">size</span>() - <span class="number">1</span>; ++k)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> v = k + <span class="number">1</span>; v &lt; nums.<span class="built_in">size</span>(); ++v) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (nums[i] + nums[k] + nums[v] != <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">int</span> nmax = <span class="built_in">max</span>(nums[i], nums[k]);</span><br><span class="line">                        nmax = <span class="built_in">max</span>(nmax, nums[v]);</span><br><span class="line">                        <span class="keyword">int</span> nmin = <span class="built_in">min</span>(nums[i], nums[k]);</span><br><span class="line">                        nmin = <span class="built_in">min</span>(nmin, nums[v]);</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (!repetitive[(nmax &lt;&lt; <span class="number">4</span>) + nmin]) &#123;</span><br><span class="line">                            repetitive[(nmax &lt;&lt; <span class="number">4</span>) + nmin] = <span class="literal">true</span>;</span><br><span class="line">                            result.push_back(&#123; nmin, <span class="number">0</span> - nmin - nmax, nmax &#125;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>实际上map去重那里有漏洞, “精心准备”的数字有可能骗过它</p>
+<p>结果:</p>
+<p><img src="https://i.imgur.com/kRu2dZG.png" alt=""></p>
+<p>超时了, 看到那密密麻麻的红字, 感觉有点不妙  </p>
+<p><img src="https://i.imgur.com/l5lBEhM.png" alt=""></p>
+<p>实测算法在数组长度为200时已经有明显的停顿</p>
+<p>算法复杂度大概是 差不多O(n3) 的样子, 所以随着长度的增加, 时间复杂度的增加是很恐怖的  </p>
+<p>200有明显停顿的话. 3000大概能算个痛  </p>
+<p>那么得优化算法了, 怎么优化呢? 暂时想不到…  </p>
+<p>优化的想法:  </p>
+<p>现在的算法在第一次循环的时候会将下标[0, 1]和后续所有的下标组合</p>
+<p>第二次循环的时候会将下标[1, 2]和后续所有下标组合  </p>
+<p>这里明显有可以提升的空间, 因为两次里面1重叠了, 同理, 后续的组合都有重叠  </p>
+<p>在200长度的算法中, 大致会有 4000000 次循环, 而最后的结果只有 6 个组合</p>
+<p>想要优化的话应该从这里入手, 如何在逻辑上筛除掉一些可能但和又不为零的组合</p>
+<p>怎么删除? emmmm… 想不到  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/20ValidParentheses/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1189,82 +1269,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/MinimunWindowSubstring/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/MinimunWindowSubstring/" class="post-title-link" itemprop="url">read/MinimunWindowSubstring</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-23 14:10:33" itemprop="dateModified" datetime="2019-08-23T14:10:33+08:00">2019-08-23</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Minimum Window Substring</p>
-<p><img src="https://imgur.com/nTiEE6m.png" alt=""></p>
-<p>找到字符串 S 中包含字符串 T 所有字符的最小子串</p>
-<h2 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    <span class="built_in">std</span>::ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">minWindow</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> t)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (t.<span class="built_in">size</span>() &gt; s.<span class="built_in">size</span>()) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> had = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">string</span> tmpt = t;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; used;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> indx = tmpt.<span class="built_in">find</span>(s[i]);</span><br><span class="line">            <span class="keyword">if</span> (indx == <span class="built_in">string</span>::npos) &#123;</span><br><span class="line">                ++used[s[i]]; <span class="keyword">continue</span>; </span><br><span class="line">            &#125;</span><br><span class="line">            tmpt.erase(tmpt.<span class="built_in">begin</span>() + indx);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (had++ == <span class="number">0</span>) b = i;</span><br><span class="line">            <span class="keyword">if</span> (tmpt.<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">                e = i; <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (had != t.<span class="built_in">size</span>()) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> rb = b, re = e;</span><br><span class="line">        <span class="keyword">while</span> (b &lt; s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">char</span> need = s[b++];</span><br><span class="line">            <span class="keyword">while</span> (b &lt; s.<span class="built_in">size</span>() &amp;&amp; t.<span class="built_in">find</span>(s[b]) == <span class="built_in">string</span>::npos) b++;</span><br><span class="line">            <span class="keyword">if</span> (b &gt;= s.<span class="built_in">size</span>()) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (used[need] &gt; <span class="number">0</span>) &#123; </span><br><span class="line">                <span class="keyword">if</span> (e - b &lt; re - rb) &#123;</span><br><span class="line">                    rb = b; re = e;</span><br><span class="line">                &#125;</span><br><span class="line">                --used[need]; <span class="keyword">continue</span>; </span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (++e &lt; s.<span class="built_in">size</span>() &amp;&amp; s[e] != need)</span><br><span class="line">                ++used[s[e]];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (e &gt;= s.<span class="built_in">size</span>()) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (e - b &lt; re - rb) &#123;</span><br><span class="line">                rb = b; re = e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> s.substr(rb, re - rb + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>代码量挺大的… </p>
-<p>简单来说, 我的想法是首先找到最左边包含所有字符的最小子串, 然后 slide window , 慢慢移动到字符 S 尾端 </p>
-<p>这样的话, 复杂度就是 O(n)</p>
-<h2 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">minWindow</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> t)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; hash(<span class="number">128</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> c: t) hash[c]++;</span><br><span class="line">        <span class="keyword">int</span> count = t.<span class="built_in">size</span>(), start = <span class="number">0</span>, <span class="built_in">end</span> = <span class="number">0</span>, minStart, minLen = INT_MAX;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">end</span> &lt; s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(hash[s[<span class="built_in">end</span>]] &gt; <span class="number">0</span>) count--;</span><br><span class="line">            hash[s[<span class="built_in">end</span>]]--;</span><br><span class="line">            <span class="built_in">end</span>++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(count == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span>(hash[s[start]] == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(<span class="built_in">end</span> - start &lt; minLen) &#123;</span><br><span class="line">                        minStart = start;</span><br><span class="line">                        minLen = <span class="built_in">end</span> - start;</span><br><span class="line">                    &#125;</span><br><span class="line">                    count++;</span><br><span class="line">                &#125;</span><br><span class="line">                hash[s[start]]++;</span><br><span class="line">                start++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(minLen == INT_MAX) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">return</span> s.substr(minStart, minLen);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>它也是类似 slide window 的做法, 不过比我简洁得多, 从实现角度上, 比我要好一些</p>
-<p>PS : 这是 hard 难度的题, 但是做完后感觉也就那样…  </p>
-<p>是不是所有 hard 难度的题其实本质上的解决方法都不难 ? 或许我对于这些的理解还不够深刻</p>
-<p>感觉我再加深一下, 应该就能较为轻松应对 hard 了 :) (膨胀ing… )</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1335,7 +1339,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
