@@ -166,6 +166,146 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/RedisMemoryOptimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/RedisMemoryOptimization/" class="post-title-link" itemprop="url">read/RedisMemoryOptimization</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-04 16:56:15" itemprop="dateModified" datetime="2019-09-04T16:56:15+08:00">2019-09-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://redis.io/topics/memory-optimization" target="_blank" rel="noopener">原文地址</a></p>
+<p>This page is a work in progress. Currently it is just a list of things you should check if you have problems with memory.</p>
+<h2 id="Special-encoding-of-small-aggregate-data-types"><a href="#Special-encoding-of-small-aggregate-data-types" class="headerlink" title="Special encoding of small aggregate data types"></a>Special encoding of small aggregate data types</h2><p>Since Redis 2.2 many data types are optimized to use less space up to a certain size. Hashes, Lists, Sets composed of just integers, and Sorted Sets, when smaller than a given number of elements, and up to a maximum element size, are encoded in a very memory efficient way that uses <em>up to 10 times less memory</em> (with 5 time less memory used being the average saving).</p>
+<p>从 Redis 2.2 开始, 许多数据类型经过优化后使用更少的空间. 哈希, 链表, 只由整型组成的集合, 以及已排序集合.</p>
+<p>当小于一定量元素, 并且元素大小达到最大时, 数据以一种相当高效的内存方式编码, 做多可节省 10 倍的内存空间(平均是 5 倍)</p>
+<p>This is completely transparent from the point of view of the user and API. Since this is a CPU / memory trade off it is possible to tune the maximum number of elements and maximum element size for special encoded types using the following redis.conf directives.</p>
+<p>从用户和API的角度上来看, 这是完全透明的. </p>
+<p>因为这是 CPU/内存 的权衡, 可以为使用以下 redis.conf 指令的特殊编码类型的最大元素数量和最大元素大小进行调优</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hash-max-zipmap-entries 512 (hash-max-ziplist-entries for Redis &gt;&#x3D; 2.6)</span><br><span class="line">hash-max-zipmap-value 64  (hash-max-ziplist-value for Redis &gt;&#x3D; 2.6)</span><br><span class="line">list-max-ziplist-entries 512</span><br><span class="line">list-max-ziplist-value 64</span><br><span class="line">zset-max-ziplist-entries 128</span><br><span class="line">zset-max-ziplist-value 64</span><br><span class="line">set-max-intset-entries 512</span><br></pre></td></tr></table></figure>
+
+<p>If a specially encoded value will overflow the configured max size, Redis will automatically convert it into normal encoding. This operation is very fast for small values, but if you change the setting in order to use specially encoded values for much larger aggregate types the suggestion is to run some benchmark and test to check the conversion time.</p>
+<p>如果特殊编码的值将超过配置的最大值, Redis 将自动转换其为普通编码. 对于小值转换操作非常快, 但是如果更改设置以为更大的聚合类型使用特殊编码值, 建议使用基准测试测量转换时间</p>
+<h2 id="Using-32-bit-instances"><a href="#Using-32-bit-instances" class="headerlink" title="Using 32 bit instances"></a>Using 32 bit instances</h2><p>Redis compiled with 32 bit target uses a lot less memory per key, since pointers are small, but such an instance will be limited to 4 GB of maximum memory usage. To compile Redis as 32 bit binary use <em>make 32bit</em>. RDB and AOF files are compatible between 32 bit and 64 bit instances (and between little and big endian of course) so you can switch from 32 to 64 bit, or the contrary, without problems.</p>
+<p>使用32位编译的redis每个键少使用很多空间, 因为指针变小了(8字节变4字节), 但是这样最多就只能使用4GB的内存. </p>
+<p>使用make 32bit可以将redis编译为32位程序. RDB和AOF文件在32位和64位实例下是兼容的(同样也是大小端兼容的)所以可以从32位和64位间切换</p>
+<h2 id="Bit-and-byte-level-operations"><a href="#Bit-and-byte-level-operations" class="headerlink" title="Bit and byte level operations"></a>Bit and byte level operations</h2><p>Redis 2.2 introduced new bit and byte level operations: <a href="https://redis.io/commands/getrange" target="_blank" rel="noopener">GETRANGE</a>, <a href="https://redis.io/commands/setrange" target="_blank" rel="noopener">SETRANGE</a>, <a href="https://redis.io/commands/getbit" target="_blank" rel="noopener">GETBIT</a> and <a href="https://redis.io/commands/setbit" target="_blank" rel="noopener">SETBIT</a>. Using these commands you can treat the Redis string type as a random access array. For instance if you have an application where users are identified by a unique progressive integer number, you can use a bitmap in order to save information about the sex of users, setting the bit for females and clearing it for males, or the other way around. With 100 million users this data will take just 12 megabytes of RAM in a Redis instance. You can do the same using <a href="https://redis.io/commands/getrange" target="_blank" rel="noopener">GETRANGE</a> and <a href="https://redis.io/commands/setrange" target="_blank" rel="noopener">SETRANGE</a> in order to store one byte of information for each user. This is just an example but it is actually possible to model a number of problems in very little space with these new primitives.</p>
+<p>redis 2.2 引进了新的比特和位级别的操作: GETRANGE, SETRANGE, GETBIT 和 SET BIT. 使用这些命令, 你可以对待string类型像一个随机访问数组一样(??? 难道不应该是么?) 比如, 如果有这样一个app, 用户以一个唯一的整型数字标识, 你可以使用bitmap保存用户的性别, 男的置1, 女的清0, 或者其他方式. 1亿用户只需要12m的内存</p>
+<p>你可以多 GETRANGE 和 SETRANGE 做同样的操作</p>
+<h2 id="Use-hashes-when-possible"><a href="#Use-hashes-when-possible" class="headerlink" title="Use hashes when possible"></a>Use hashes when possible</h2><p>Small hashes are encoded in a very small space, so you should try representing your data using hashes every time it is possible. For instance if you have objects representing users in a web application, instead of using different keys for name, surname, email, password, use a single hash with all the required fields.</p>
+<p>If you want to know more about this, read the next section.</p>
+<h2 id="Using-hashes-to-abstract-a-very-memory-efficient-plain-key-value-store-on-top-of-Redis"><a href="#Using-hashes-to-abstract-a-very-memory-efficient-plain-key-value-store-on-top-of-Redis" class="headerlink" title="Using hashes to abstract a very memory efficient plain key-value store on top of Redis"></a>Using hashes to abstract a very memory efficient plain key-value store on top of Redis</h2><p>I understand the title of this section is a bit scaring, but I’m going to explain in details what this is about.</p>
+<p>Basically it is possible to model a plain key-value store using Redis where values can just be just strings, that is not just more memory efficient than Redis plain keys but also much more memory efficient than memcached.</p>
+<p>在 redis 中可以实现只使用单纯string作为值的 key-value, 比 redis plain keys 和 memcached 都要更节省内存</p>
+<p>Let’s start with some fact: a few keys use a lot more memory than a single key containing a hash with a few fields. How is this possible? We use a trick. In theory in order to guarantee that we perform lookups in constant time (also known as O(1) in big O notation) there is the need to use a data structure with a constant time complexity in the average case, like a hash table.</p>
+<p>But many times hashes contain just a few fields. When hashes are small we can instead just encode them in an O(N) data structure, like a linear array with length-prefixed key value pairs. Since we do this only when N is small, the amortized time for HGET and HSET commands is still O(1): the hash will be converted into a real hash table as soon as the number of elements it contains will grow too much (you can configure the limit in redis.conf).</p>
+<p>This does not work well just from the point of view of time complexity, but also from the point of view of constant times, since a linear array of key value pairs happens to play very well with the CPU cache (it has a better cache locality than a hash table).</p>
+<p>However since hash fields and values are not (always) represented as full featured Redis objects, hash fields can’t have an associated time to live (expire) like a real key, and can only contain a string. But we are okay with this, this was anyway the intention when the hash data type API was designed (we trust simplicity more than features, so nested data structures are not allowed, as expires of single fields are not allowed).</p>
+<p>So hashes are memory efficient. This is very useful when using hashes to represent objects or to model other problems when there are group of related fields. But what about if we have a plain key value business?</p>
+<p>Imagine we want to use Redis as a cache for many small objects, that can be JSON encoded objects, small HTML fragments, simple key -&gt; boolean values and so forth. Basically anything is a string -&gt; string map with small keys and values.</p>
+<p>Now let’s assume the objects we want to cache are numbered, like:</p>
+<ul>
+<li>object:102393</li>
+<li>object:1234</li>
+<li>object:5</li>
+</ul>
+<p>This is what we can do. Every time there is to perform a SET operation to set a new value, we actually split the key into two parts, one used as a key, and used as field name for the hash. For instance the object named “object:1234” is actually split into:</p>
+<ul>
+<li>a Key named object:12</li>
+<li>a Field named 34</li>
+</ul>
+<p>So we use all the characters but the latest two for the key, and the final two characters for the hash field name. To set our key we use the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HSET object:12 34 somevalue</span><br></pre></td></tr></table></figure>
+
+<p>As you can see every hash will end containing 100 fields, that is an optimal compromise between CPU and memory saved.</p>
+<p>There is another very important thing to note, with this schema every hash will have more or less 100 fields regardless of the number of objects we cached. This is since our objects will always end with a number, and not a random string. In some way the final number can be considered as a form of implicit pre-sharding.</p>
+<p>What about small numbers? Like object:2? We handle this case using just “object:” as a key name, and the whole number as the hash field name. So object:2 and object:10 will both end inside the key “object:”, but one as field name “2” and one as “10”.</p>
+<p>How much memory we save this way?</p>
+<p>I used the following Ruby program to test how this works:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">require &#39;rubygems&#39;</span><br><span class="line">require &#39;redis&#39;</span><br><span class="line"></span><br><span class="line">UseOptimization &#x3D; true</span><br><span class="line"></span><br><span class="line">def hash_get_key_field(key)</span><br><span class="line">    s &#x3D; key.split(&quot;:&quot;)</span><br><span class="line">    if s[1].length &gt; 2</span><br><span class="line">        &#123;:key &#x3D;&gt; s[0]+&quot;:&quot;+s[1][0..-3], :field &#x3D;&gt; s[1][-2..-1]&#125;</span><br><span class="line">    else</span><br><span class="line">        &#123;:key &#x3D;&gt; s[0]+&quot;:&quot;, :field &#x3D;&gt; s[1]&#125;</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">def hash_set(r,key,value)</span><br><span class="line">    kf &#x3D; hash_get_key_field(key)</span><br><span class="line">    r.hset(kf[:key],kf[:field],value)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">def hash_get(r,key,value)</span><br><span class="line">    kf &#x3D; hash_get_key_field(key)</span><br><span class="line">    r.hget(kf[:key],kf[:field],value)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">r &#x3D; Redis.new</span><br><span class="line">(0..100000).each&#123;|id|</span><br><span class="line">    key &#x3D; &quot;object:#&#123;id&#125;&quot;</span><br><span class="line">    if UseOptimization</span><br><span class="line">        hash_set(r,key,&quot;val&quot;)</span><br><span class="line">    else</span><br><span class="line">        r.set(key,&quot;val&quot;)</span><br><span class="line">    end</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This is the result against a 64 bit instance of Redis 2.2:</p>
+<ul>
+<li>UseOptimization set to true: 1.7 MB of used memory</li>
+<li>UseOptimization set to false; 11 MB of used memory</li>
+</ul>
+<p>This is an order of magnitude, I think this makes Redis more or less the most memory efficient plain key value store out there.</p>
+<p><em>WARNING</em>: for this to work, make sure that in your redis.conf you have something like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash-max-zipmap-entries 256</span><br></pre></td></tr></table></figure>
+
+<p>Also remember to set the following field accordingly to the maximum size of your keys and values:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash-max-zipmap-value 1024</span><br></pre></td></tr></table></figure>
+
+<p>Every time a hash will exceed the number of elements or element size specified it will be converted into a real hash table, and the memory saving will be lost.</p>
+<p>You may ask, why don’t you do this implicitly in the normal key space so that I don’t have to care? There are two reasons: one is that we tend to make trade offs explicit, and this is a clear tradeoff between many things: CPU, memory, max element size. The second is that the top level key space must support a lot of interesting things like expires, LRU data, and so forth so it is not practical to do this in a general way.</p>
+<p>But the Redis Way is that the user must understand how things work so that he is able to pick the best compromise, and to understand how the system will behave exactly.</p>
+<h2 id="Memory-allocation"><a href="#Memory-allocation" class="headerlink" title="Memory allocation"></a>Memory allocation</h2><p>To store user keys, Redis allocates at most as much memory as the <code>maxmemory</code> setting enables (however there are small extra allocations possible).</p>
+<p>The exact value can be set in the configuration file or set later via <a href="https://redis.io/commands/config-set" target="_blank" rel="noopener">CONFIG SET</a> (see <a href="http://redis.io/topics/lru-cache" target="_blank" rel="noopener">Using memory as an LRU cache for more info</a>). There are a few things that should be noted about how Redis manages memory:</p>
+<ul>
+<li>Redis will not always free up (return) memory to the OS when keys are removed. This is not something special about Redis, but it is how most malloc() implementations work. For example if you fill an instance with 5GB worth of data, and then remove the equivalent of 2GB of data, the Resident Set Size (also known as the RSS, which is the number of memory pages consumed by the process) will probably still be around 5GB, even if Redis will claim that the user memory is around 3GB. This happens because the underlying allocator can’t easily release the memory. For example often most of the removed keys were allocated in the same pages as the other keys that still exist.</li>
+<li>The previous point means that you need to provision memory based on your <strong>peak memory usage</strong>. If your workload from time to time requires 10GB, even if most of the times 5GB could do, you need to provision for 10GB.</li>
+<li>However allocators are smart and are able to reuse free chunks of memory, so after you freed 2GB of your 5GB data set, when you start adding more keys again, you’ll see the RSS (Resident Set Size) to stay steady and don’t grow more, as you add up to 2GB of additional keys. The allocator is basically trying to reuse the 2GB of memory previously (logically) freed.</li>
+<li>Because of all this, the fragmentation ratio is not reliable when you had a memory usage that at peak is much larger than the currently used memory. The fragmentation is calculated as the amount of memory currently in use (as the sum of all the allocations performed by Redis) divided by the physical memory actually used (the RSS value). Because the RSS reflects the peak memory, when the (virtually) used memory is low since a lot of keys / values were freed, but the RSS is high, the ratio <code>mem_used / RSS</code> will be very high.</li>
+</ul>
+<p>If <code>maxmemory</code> is not set Redis will keep allocating memory as it finds fit and thus it can (gradually) eat up all your free memory. Therefore it is generally advisable to configure some limit. You may also want to set <code>maxmemory-policy</code> to <code>noeviction</code> (which is <em>not</em> the default value in some older versions of Redis).</p>
+<p>It makes Redis return an out of memory error for write commands if and when it reaches the limit - which in turn may result in errors in the application but will not render the whole machine dead because of memory starvation.</p>
+<h2 id="Work-in-progress"><a href="#Work-in-progress" class="headerlink" title="Work in progress"></a>Work in progress</h2><p>Work in progress… more tips will be added soon.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/MinimunWindowSubstring/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1660,131 +1800,6 @@ int main()
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/CreateInnoDBTables/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/CreateInnoDBTables/" class="post-title-link" itemprop="url">read/CreateInnoDBTables</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-07-31 15:18:10" itemprop="dateModified" datetime="2019-07-31T15:18:10+08:00">2019-07-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><h4 id="15-6-1-1-Creating-InnoDB-Tables"><a href="#15-6-1-1-Creating-InnoDB-Tables" class="headerlink" title="15.6.1.1 Creating InnoDB Tables"></a>15.6.1.1 Creating InnoDB Tables</h4></li>
-</ul>
-<p>  To create an <code>InnoDB</code> table, use the <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statement.</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (a)) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
-
-<p>  You do not need to specify the <code>ENGINE=InnoDB</code> clause if <code>InnoDB</code> is defined as the default storage engine, which it is by default. To check the default storage engine, issue the following statement:</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT @@default_storage_engine;</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| @@default_storage_engine |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| InnoDB                   |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br></pre></td></tr></table></figure>
-
-<p>  You might still use <code>ENGINE=InnoDB</code> clause if you plan to use <a href="https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html" target="_blank" rel="noopener"><strong>mysqldump</strong></a> or replication to replay the <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statement on a server where the default storage engine is not <code>InnoDB</code>.</p>
-<p>  如果你计划使用 mysqldump/复制 将 CREATE TABLE 语句复现在另外一个默认存储引擎不是 InnoDB 的服务器上, 就坚持使用 ENGINE=InnoDB 子句 (不过我看 mysqldump 出的语句中会显式指定存储引擎类型)</p>
-<p>  An <code>InnoDB</code> table and its indexes can be created in the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_system_tablespace" target="_blank" rel="noopener">system tablespace</a>, in a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_file_per_table" target="_blank" rel="noopener">file-per-table</a> tablespace, or in a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_general_tablespace" target="_blank" rel="noopener">general tablespace</a>. When <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> is enabled, which is the default, an <code>InnoDB</code> table is implicitly created in an individual file-per-table tablespace. Conversely, when <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> is disabled, an <code>InnoDB</code> table is implicitly created in the <code>InnoDB</code> system tablespace. To create a table in a general tablespace, use <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... TABLESPACE</code></a> syntax. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
-<p>  InnoDB 表及它的索引可以创建在 system tablespace, file-per-table tablespace  或 general tablespace. 当 innodb_file_per_table 启用, InnoDB 表默认创建在单独的 file-per-rable 表空间中, 相反, 则创建在 system tablespace 中. </p>
-<p>  使用 CREATE TABLE … TABLESPACE 语法可以创建在 general tablespace 中</p>
-<p>  When you create a table in a file-per-table tablespace, MySQL creates an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_ibd_file" target="_blank" rel="noopener">.ibd</a> tablespace file in a database directory under the MySQL data directory, by default. A table created in the <code>InnoDB</code> system tablespace is created in an existing <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_ibd_file" target="_blank" rel="noopener">ibdata file</a>, which resides in the MySQL data directory. A table created in a general tablespace is created in an existing general tablespace <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_ibd_file" target="_blank" rel="noopener">.ibd file</a>. General tablespace files can be created inside or outside of the MySQL data directory. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
-<p>  当你创建一个在 file-per-table 表空间中的表时, MySQL 在主目录下的单个数据库目录中创建 .idb 文件  </p>
-<p>  在 InnoDB system 表空间中则创建在一个在 MySQL 主目录下已存在的 ibdata 文件中(PS. 那么 ibdata 文件是什么时候创建的? 如何增长?) </p>
-<p>  Internally, <code>InnoDB</code> adds an entry for each table to the data dictionary. The entry includes the database name. For example, if table <code>t1</code> is created in the <code>test</code> database, the data dictionary entry for the database name is <code>&#39;test/t1&#39;</code>. This means you can create a table of the same name (<code>t1</code>) in a different database, and the table names do not collide inside <code>InnoDB</code>.</p>
-<h5 id="InnoDB-Tables-and-Row-Formats"><a href="#InnoDB-Tables-and-Row-Formats" class="headerlink" title="InnoDB Tables and Row Formats"></a>InnoDB Tables and Row Formats</h5><p>  The default row format for <code>InnoDB</code> tables is defined by the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> configuration option, which has a default value of <code>DYNAMIC</code>. <code>Dynamic</code> and<code>Compressed</code> row format allow you to take advantage of <code>InnoDB</code> features such as table compression and efficient off-page storage of long column values. To use these row formats, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> must be enabled (the default).</p>
-<p>  InnoDB 表的行格式化由 innodb_default_row_format 定义, 默认是 DYNAMIC </p>
-<p>  Dynamic 和 Compressed 行格式化提供了 InnoDB 高级特性, 比如 压缩表, 高效的长列值页外存储</p>
-<p>  使用这些行格式化, 必须启用 innodb_file_per_table</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> innodb_file_per_table=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t3 (a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (a)) ROW_FORMAT=DYNAMIC;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t4 (a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (a)) ROW_FORMAT=COMPRESSED;</span><br></pre></td></tr></table></figure>
-
-<p>  Alternatively, you can use <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... TABLESPACE</code></a> syntax to create an <code>InnoDB</code> table in a general tablespace. General tablespaces support all row formats. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
-<p>  另外, 你可以使用 CREATE TABLE … TABLESAPCE 语法在 general tablespace 创建 InnoDB 表. general tablespace 支持所有的行格式化</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>) <span class="keyword">TABLESPACE</span> ts1 ROW_FORMAT=DYNAMIC;</span><br></pre></td></tr></table></figure>
-
-<p>  <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... TABLESPACE</code></a> syntax can also be used to create <code>InnoDB</code> tables with a <code>Dynamic</code> row format in the system tablespace, alongside tables with a <code>Compact</code> or<code>Redundant</code> row format.</p>
-<p>  CREATE TABLE … TABLESPACE 语法也可以被用作在 system tablespace 中创建 Dynamic 格式化的表, 以及 Compacr 或 Redundant 格式化</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>) <span class="keyword">TABLESPACE</span> = innodb_system ROW_FORMAT=DYNAMIC;</span><br></pre></td></tr></table></figure>
-
-<p>  For more information about <code>InnoDB</code> row formats, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html" target="_blank" rel="noopener">Section 15.10, “InnoDB Row Formats”</a>. For how to determine the row format of an <code>InnoDB</code> table and the physical characteristics of <code>InnoDB</code> row formats, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html" target="_blank" rel="noopener">Section 15.10, “InnoDB Row Formats”</a>.</p>
-<h5 id="InnoDB-Tables-and-Primary-Keys"><a href="#InnoDB-Tables-and-Primary-Keys" class="headerlink" title="InnoDB Tables and Primary Keys"></a>InnoDB Tables and Primary Keys</h5><p>  Always define a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_primary_key" target="_blank" rel="noopener">primary key</a> for an <code>InnoDB</code> table, specifying the column or columns that:</p>
-<ul>
-<li><p>Are referenced by the most important queries.</p>
-</li>
-<li><p>Are never left blank.</p>
-</li>
-<li><p>Never have duplicate values.</p>
-</li>
-<li><p>Rarely if ever change value once inserted.</p>
-<p>通常会为 InnoDB 表定义一个主键, 说明列具有: 被最重要的查询引用, 永远不为空, 永远不重复, 一旦插入, 则很少改动</p>
-<p>For example, in a table containing information about people, you would not create a primary key on <code>(firstname, lastname)</code> because more than one person can have the same name, some people have blank last names, and sometimes people change their names. With so many constraints, often there is not an obvious set of columns to use as a primary key, so you create a new column with a numeric ID to serve as all or part of the primary key. You can declare an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_auto_increment" target="_blank" rel="noopener">auto-increment</a> column so that ascending values are filled in automatically as rows are inserted:</p>
-<p>比如, 在一个包含民众信息的表中, 不能创建以 (firstname, lastname) 组合的值为主键, 因为名字很可能重复, 一些人没有 lastname, 一些人会改变他们的名字. </p>
-<p>涉及到这么多的限制, 进程没有一个明显列的集合能作为主键. 所以可以创建一个新的数字列用作整个或部分主键, 声明为 auto-increament  可以使行在插入时自增</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The value of ID can act like a pointer between related items in different tables.</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t5 (<span class="keyword">id</span> <span class="built_in">INT</span> AUTO_INCREMENT, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment"># The primary key can consist of more than one column. Any autoinc column must come first.</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t6 (<span class="keyword">id</span> <span class="built_in">INT</span> AUTO_INCREMENT, a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>,a));</span><br></pre></td></tr></table></figure>
-
-<p>Although the table works correctly without defining a primary key, the primary key is involved with many aspects of performance and is a crucial design aspect for any large or frequently used table. It is recommended that you always specify a primary key in the <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statement. If you create the table, load data, and then run <a href="https://dev.mysql.com/doc/refman/8.0/en/alter-table.html" target="_blank" rel="noopener"><code>ALTER TABLE</code></a> to add a primary key later, that operation is much slower than defining the primary key when creating the table.</p>
-<p>尽管没有定义主键 表也可以正常运行, 但是主键包含了许多性能方面和重要的为大容量或频繁使用表做的设计, 建议你总是在表中指定一个主键. </p>
-<p>在创建和加载表之后使用 ALTER TABLE 语句增加主键, 速度会远慢于一开始创建时指定主键</p>
-</li>
-</ul>
-<h5 id="Viewing-InnoDB-Table-Properties"><a href="#Viewing-InnoDB-Table-Properties" class="headerlink" title="Viewing InnoDB Table Properties"></a>Viewing InnoDB Table Properties</h5><p>  To view the properties of an <code>InnoDB</code> table, issue a <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> statement:</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW TABLE STATUS FROM test LIKE 't%' \G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           Name: t1</span><br><span class="line">         Engine: InnoDB</span><br><span class="line">        Version: 10</span><br><span class="line">     Row_format: Compact</span><br><span class="line">           Rows: 0</span><br><span class="line"> Avg_row_length: 0</span><br><span class="line">    Data_length: 16384</span><br><span class="line">Max_data_length: 0</span><br><span class="line">   Index_length: 0</span><br><span class="line">      Data_free: 0</span><br><span class="line"> Auto_increment: NULL</span><br><span class="line">    Create_time: 2015-03-16 15:13:31</span><br><span class="line">    Update_time: NULL</span><br><span class="line">     Check_time: NULL</span><br><span class="line">      Collation: utf8mb4_0900_ai_ci</span><br><span class="line">       <span class="keyword">Checksum</span>: <span class="literal">NULL</span></span><br><span class="line"> Create_options:</span><br><span class="line">        <span class="keyword">Comment</span>:</span><br></pre></td></tr></table></figure>
-
-<p>  For information about <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> output, see <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener">Section 13.7.6.36, “SHOW TABLE STATUS Syntax”</a>.</p>
-<p>  <code>InnoDB</code> table properties may also be queried using the <code>InnoDB</code> Information Schema system tables:</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM INFORMATION_SCHEMA.INNODB_TABLES WHERE NAME='test/t1' \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     TABLE_ID: 45</span><br><span class="line">         NAME: test/t1</span><br><span class="line">         FLAG: 1</span><br><span class="line">       N_COLS: 5</span><br><span class="line">        SPACE: 35</span><br><span class="line">   ROW_FORMAT: Compact</span><br><span class="line">ZIP_PAGE_SIZE: 0</span><br><span class="line">   SPACE_TYPE: Single</span><br></pre></td></tr></table></figure>
-
-<p>  For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-information-schema-system-tables.html" target="_blank" rel="noopener">Section 15.14.3, “InnoDB INFORMATION_SCHEMA Schema Object Tables”</a>.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1855,7 +1870,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
