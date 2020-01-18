@@ -191,6 +191,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/45ZJumpGameII/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/45ZJumpGameII/" class="post-title-link" itemprop="url">leetcode/45ZJumpGameII</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="45-Jump-Game-II"><a href="#45-Jump-Game-II" class="headerlink" title="45. Jump Game II"></a>45. Jump Game II</h3><p><img src="https://imgur.com/i8ucDdk.png" alt=""></p>
+<p>给定一个非负整数的数字, 你开始在数组的第一个索引处</p>
+<p>每一个在数组中的元素代表你能够跳跃的最大距离  </p>
+<p>你的目标是找到到达最后一个索引的最小跳跃数</p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><p>要达到最小跳跃数的话, 那么只要保证每次跳跃的距离是最大的就可以了</p>
+<p>每个节点的跳跃距离是 节点距离起始节点的距离 + 节点自身值</p>
+<p>感觉比上一个 jump 简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">size</span> &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> route = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i + nums[i] &gt;= <span class="built_in">size</span> - <span class="number">1</span>)</span><br><span class="line">                <span class="keyword">return</span> ++route;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> maxn = nums[i] + nums[i + nums[i]];</span><br><span class="line">            <span class="keyword">int</span> <span class="built_in">step</span> = nums[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i2 = i + <span class="number">1</span>; i2 &lt;= (i + nums[i]); ++i2) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i2 - i + nums[i2] &gt; maxn) &#123;</span><br><span class="line">                    maxn = i2 - i + nums[i2];</span><br><span class="line">                    <span class="built_in">step</span> = i2 - i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            i += <span class="built_in">step</span>;</span><br><span class="line">            ++route;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/psf3MTs.png" alt=""></p>
+<p>结果还行, 看一下最好的算法</p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> fast_io = []() &#123;</span><br><span class="line"><span class="built_in">std</span>::ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;();	<span class="comment">// 我已经不会见到这个会觉得奇怪了!</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ans(n, n);</span><br><span class="line">        ans[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i]+i &gt;= n<span class="number">-1</span>) ans[n<span class="number">-1</span>] = <span class="built_in">min</span>(ans[n<span class="number">-1</span>], ans[i]+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">                <span class="keyword">while</span> (temp &gt; <span class="number">0</span> &amp;&amp; ans[i+temp] &gt; ans[i]+<span class="number">1</span>) ans[i+(temp--)] = ans[i]+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans[n<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>大致想法上好像差不多</p>
+<p>看不太懂, 但是我感觉好像差不多  </p>
+<p>它多了一个长度为 n 的数组, 并且循环是线性 n </p>
+<p>(我没有使用数组, 并且循环是以 step 为距离, 唯一会在速度上决胜负的应该是我for 中的 for 和他for中的while对比, 他的while可以提前退出的, 综合来说, 我觉得这次我的算法不输他! (有点膨胀 :) … ) )</p>
+<p>我将前面的 fast_io 添加进我的代码后, 也达到了最好的速度</p>
+<p><img src="https://imgur.com/s4fSkM2.png" alt=""></p>
+<p>emmm, 那就不花时间研究他的算法了~</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/46ZPermutations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -342,80 +419,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/56ZMergeIntervals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/56ZMergeIntervals/" class="post-title-link" itemprop="url">leetcode/56ZMergeIntervals</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Merge-Intervals"><a href="#Merge-Intervals" class="headerlink" title="Merge Intervals"></a>Merge Intervals</h3><p><img src="https://imgur.com/EpONkBi.png" alt=""></p>
-<p>给定一个区间的集合, 合并所有重复的区间</p>
-<h3 id="my-solution-12ms"><a href="#my-solution-12ms" class="headerlink" title="my solution (12ms)"></a>my solution (12ms)</h3><p>可以通过重新排序的形式来一步步合并, 比如:</p>
-<p>start:     1 2 8  15</p>
-<p>end:      3 6 10 18</p>
-<p>其中 start 和 end 是经排序后的数组  </p>
-<p>从 1 开始, 如果接下来的开始下标小于当前的结束下标 (2 &lt; 3)  </p>
-<p>那么, 就可以合并, 继续对比下一个. (8 &lt; 6) 不成立, 那么第一个区间就出现了, 1-6  </p>
-<p>接下来从 8 开始, 继续以上步骤, 直至数组尾部, 这样算法的复杂度就是 O(n)  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for an interval.</span></span><br><span class="line"><span class="comment"> * struct Interval &#123;</span></span><br><span class="line"><span class="comment"> *     int start;</span></span><br><span class="line"><span class="comment"> *     int end;</span></span><br><span class="line"><span class="comment"> *     Interval() : start(0), end(0) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     Interval(int s, int e) : start(s), end(e) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">vector</span>&lt;Interval&gt;&amp; intervals) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; start;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">end</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;Interval&gt; ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : intervals) &#123;</span><br><span class="line">            start.push_back(it.start);</span><br><span class="line">            <span class="built_in">end</span>.push_back(it.<span class="built_in">end</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sort(start.<span class="built_in">begin</span>(), start.<span class="built_in">end</span>());</span><br><span class="line">        sort(<span class="built_in">end</span>.<span class="built_in">begin</span>(), <span class="built_in">end</span>.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = start.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ) &#123;</span><br><span class="line">            <span class="keyword">int</span> ti = i;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i++; ;) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= <span class="built_in">size</span> || i &gt;= <span class="built_in">size</span>) &#123;	<span class="comment">// 这里应该可以少判断 j 的值</span></span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>.back()&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (start[i] &lt;= <span class="built_in">end</span>[j]) &#123;</span><br><span class="line">                    ++i, ++j;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>[j]&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>代码如上, 应该还有可以优化的地方 (比如说外围 for 循环, 他仅仅就是一个保留 i 的作用)</p>
-<p><img src="https://imgur.com/57NGf4L.png" alt=""></p>
-<p>结果还不错</p>
-<h3 id="the-best-solution-8ms"><a href="#the-best-solution-8ms" class="headerlink" title="the best solution (8ms)"></a>the best solution (8ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []()&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt;&amp; Intervals) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> IntervalNum = Intervals.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (IntervalNum &lt; <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> Intervals;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::sort(Intervals.<span class="built_in">begin</span>(), Intervals.<span class="built_in">end</span>(), </span><br><span class="line">                  [](<span class="keyword">const</span> Interval &amp;A, <span class="keyword">const</span> Interval &amp;B) &#123;</span><br><span class="line">                      <span class="keyword">return</span> A.start &lt; B.start;</span><br><span class="line">                  &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; Merged &#123;Intervals[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; IntervalNum; ++i) &#123;</span><br><span class="line">            <span class="keyword">const</span> Interval &amp;Curr = Intervals[i];</span><br><span class="line">            Interval &amp;LastMerged = Merged.back();</span><br><span class="line">            <span class="comment">// 完全被内含的区间会被跳过</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.<span class="built_in">end</span> &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">			<span class="comment">// 更新区间的最大值</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.start &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                LastMerged.<span class="built_in">end</span> = Curr.<span class="built_in">end</span>;</span><br><span class="line">            <span class="keyword">else</span>	<span class="comment">// 下一个区间完全不在当前区间内, 不能合并. 压入当前区间, 继续执行</span></span><br><span class="line">                Merged.push_back(Curr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Merged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>他的排序是直接在 Intervals 进行, 并且只比对 start  (也是, 我好像做了多余的比对)</p>
-<p>想法大致是一样的, 但是细节不够好</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/59ZSpiralMatrixII/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -473,6 +476,80 @@
 <p>结果没什么好说的</p>
 <h3 id="the-best-solution-4ms"><a href="#the-best-solution-4ms" class="headerlink" title="the best solution (4ms)"></a>the best solution (4ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; generateMatrix(<span class="keyword">int</span> n) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; result(n,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            result[<span class="number">0</span>][<span class="number">0</span>] = n;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> top = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> bottom = n<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = n<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> index = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(top&lt;=bottom)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                result[top][i]=index;</span><br><span class="line">                index++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=top+<span class="number">1</span>;i&lt;bottom;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                result[i][right]=index;</span><br><span class="line">                index++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(top&lt;bottom)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=right;i&gt;=left;i--)</span><br><span class="line">                &#123;</span><br><span class="line">                   result[bottom][i]=index;</span><br><span class="line">                    index++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(left&lt;right)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=bottom<span class="number">-1</span>;i&gt;top;i--)</span><br><span class="line">                &#123;</span><br><span class="line">                    result[i][left]=index;</span><br><span class="line">                    index++;</span><br><span class="line">                &#125; </span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            left++;</span><br><span class="line">            right--;</span><br><span class="line">            top++;</span><br><span class="line">            bottom--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>我不喜欢丑陋的 while for for for for :(  , 就不分析了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/56ZMergeIntervals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/56ZMergeIntervals/" class="post-title-link" itemprop="url">leetcode/56ZMergeIntervals</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Merge-Intervals"><a href="#Merge-Intervals" class="headerlink" title="Merge Intervals"></a>Merge Intervals</h3><p><img src="https://imgur.com/EpONkBi.png" alt=""></p>
+<p>给定一个区间的集合, 合并所有重复的区间</p>
+<h3 id="my-solution-12ms"><a href="#my-solution-12ms" class="headerlink" title="my solution (12ms)"></a>my solution (12ms)</h3><p>可以通过重新排序的形式来一步步合并, 比如:</p>
+<p>start:     1 2 8  15</p>
+<p>end:      3 6 10 18</p>
+<p>其中 start 和 end 是经排序后的数组  </p>
+<p>从 1 开始, 如果接下来的开始下标小于当前的结束下标 (2 &lt; 3)  </p>
+<p>那么, 就可以合并, 继续对比下一个. (8 &lt; 6) 不成立, 那么第一个区间就出现了, 1-6  </p>
+<p>接下来从 8 开始, 继续以上步骤, 直至数组尾部, 这样算法的复杂度就是 O(n)  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for an interval.</span></span><br><span class="line"><span class="comment"> * struct Interval &#123;</span></span><br><span class="line"><span class="comment"> *     int start;</span></span><br><span class="line"><span class="comment"> *     int end;</span></span><br><span class="line"><span class="comment"> *     Interval() : start(0), end(0) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     Interval(int s, int e) : start(s), end(e) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">vector</span>&lt;Interval&gt;&amp; intervals) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; start;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">end</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;Interval&gt; ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : intervals) &#123;</span><br><span class="line">            start.push_back(it.start);</span><br><span class="line">            <span class="built_in">end</span>.push_back(it.<span class="built_in">end</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sort(start.<span class="built_in">begin</span>(), start.<span class="built_in">end</span>());</span><br><span class="line">        sort(<span class="built_in">end</span>.<span class="built_in">begin</span>(), <span class="built_in">end</span>.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = start.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ) &#123;</span><br><span class="line">            <span class="keyword">int</span> ti = i;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i++; ;) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= <span class="built_in">size</span> || i &gt;= <span class="built_in">size</span>) &#123;	<span class="comment">// 这里应该可以少判断 j 的值</span></span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>.back()&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (start[i] &lt;= <span class="built_in">end</span>[j]) &#123;</span><br><span class="line">                    ++i, ++j;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>[j]&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>代码如上, 应该还有可以优化的地方 (比如说外围 for 循环, 他仅仅就是一个保留 i 的作用)</p>
+<p><img src="https://imgur.com/57NGf4L.png" alt=""></p>
+<p>结果还不错</p>
+<h3 id="the-best-solution-8ms"><a href="#the-best-solution-8ms" class="headerlink" title="the best solution (8ms)"></a>the best solution (8ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []()&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt;&amp; Intervals) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> IntervalNum = Intervals.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (IntervalNum &lt; <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> Intervals;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::sort(Intervals.<span class="built_in">begin</span>(), Intervals.<span class="built_in">end</span>(), </span><br><span class="line">                  [](<span class="keyword">const</span> Interval &amp;A, <span class="keyword">const</span> Interval &amp;B) &#123;</span><br><span class="line">                      <span class="keyword">return</span> A.start &lt; B.start;</span><br><span class="line">                  &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; Merged &#123;Intervals[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; IntervalNum; ++i) &#123;</span><br><span class="line">            <span class="keyword">const</span> Interval &amp;Curr = Intervals[i];</span><br><span class="line">            Interval &amp;LastMerged = Merged.back();</span><br><span class="line">            <span class="comment">// 完全被内含的区间会被跳过</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.<span class="built_in">end</span> &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">			<span class="comment">// 更新区间的最大值</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.start &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                LastMerged.<span class="built_in">end</span> = Curr.<span class="built_in">end</span>;</span><br><span class="line">            <span class="keyword">else</span>	<span class="comment">// 下一个区间完全不在当前区间内, 不能合并. 压入当前区间, 继续执行</span></span><br><span class="line">                Merged.push_back(Curr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Merged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>他的排序是直接在 Intervals 进行, 并且只比对 start  (也是, 我好像做了多余的比对)</p>
+<p>想法大致是一样的, 但是细节不够好</p>
 
       
     </div>
@@ -576,6 +653,71 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/820SortEncodingofWords/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/820SortEncodingofWords/" class="post-title-link" itemprop="url">leetcode/820SortEncodingofWords</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="820-Short-Encoding-of-Words"><a href="#820-Short-Encoding-of-Words" class="headerlink" title="820 Short Encoding of Words"></a>820 Short Encoding of Words</h2><p><img src="https://imgur.com/ycGcntf.png" alt=""></p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution = ="></a>my solution = =</h3><p>一开始先试着用 O(n2) 的方法, 之后用 O(n), 但是时间依旧很长</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumLengthEncoding</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span> </span>&#123;</span><br><span class="line">        sort(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>(), [](<span class="built_in">string</span> &amp;str1, <span class="built_in">string</span> &amp;str2) &#123;</span><br><span class="line">            <span class="keyword">return</span> str1.<span class="built_in">size</span>() &gt; str2.<span class="built_in">size</span>();</span><br><span class="line">        &#125;);</span><br><span class="line">           </span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; words.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> ( str.<span class="built_in">find</span>(words[i] + <span class="string">'#'</span>) == <span class="built_in">string</span>::npos ) &#123;</span><br><span class="line">                str.append(words[i] + <span class="string">'#'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> str.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>并且这个代码之前还踩了个坑 : <a href="https://www.boost.org/sgi/stl/StrictWeakOrdering.html" target="_blank" rel="noopener">https://www.boost.org/sgi/stl/StrictWeakOrdering.html</a></p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumLengthEncoding</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">string</span>&amp; s : words) &#123;</span><br><span class="line">            reverse(s.<span class="built_in">begin</span>(), s.<span class="built_in">end</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        sort(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((i + <span class="number">1</span>) &gt;= words.<span class="built_in">size</span>()) &#123;</span><br><span class="line">                length += words[i].length() + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (words[i+<span class="number">1</span>].compare(<span class="number">0</span>, words[i].length(), words[i]) != <span class="number">0</span>) &#123;</span><br><span class="line">                length += words[i].length() + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>em… 逻辑挺简单的 </p>
+<p>反序字符串, 字典序排序, 后再直接 compare</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/77ZCombinations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -651,71 +793,6 @@ n = 4, k = 3
 <p>当数组的长度到达 k 的时候, 就返回  </p>
 <p>值得一提的是, 他用索引的形式避免了那个会被多次修改的 item 以值形式传递  </p>
 <p>(我放弃使用递归的一部分原因就是因为暂时想不到什么方法避免那个临时的数组, 原来还可以这样…)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/820SortEncodingofWords/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/820SortEncodingofWords/" class="post-title-link" itemprop="url">leetcode/820SortEncodingofWords</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="820-Short-Encoding-of-Words"><a href="#820-Short-Encoding-of-Words" class="headerlink" title="820 Short Encoding of Words"></a>820 Short Encoding of Words</h2><p><img src="https://imgur.com/ycGcntf.png" alt=""></p>
-<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution = ="></a>my solution = =</h3><p>一开始先试着用 O(n2) 的方法, 之后用 O(n), 但是时间依旧很长</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumLengthEncoding</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span> </span>&#123;</span><br><span class="line">        sort(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>(), [](<span class="built_in">string</span> &amp;str1, <span class="built_in">string</span> &amp;str2) &#123;</span><br><span class="line">            <span class="keyword">return</span> str1.<span class="built_in">size</span>() &gt; str2.<span class="built_in">size</span>();</span><br><span class="line">        &#125;);</span><br><span class="line">           </span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; words.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> ( str.<span class="built_in">find</span>(words[i] + <span class="string">'#'</span>) == <span class="built_in">string</span>::npos ) &#123;</span><br><span class="line">                str.append(words[i] + <span class="string">'#'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> str.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>并且这个代码之前还踩了个坑 : <a href="https://www.boost.org/sgi/stl/StrictWeakOrdering.html" target="_blank" rel="noopener">https://www.boost.org/sgi/stl/StrictWeakOrdering.html</a></p>
-<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumLengthEncoding</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">string</span>&amp; s : words) &#123;</span><br><span class="line">            reverse(s.<span class="built_in">begin</span>(), s.<span class="built_in">end</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        sort(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((i + <span class="number">1</span>) &gt;= words.<span class="built_in">size</span>()) &#123;</span><br><span class="line">                length += words[i].length() + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (words[i+<span class="number">1</span>].compare(<span class="number">0</span>, words[i].length(), words[i]) != <span class="number">0</span>) &#123;</span><br><span class="line">                length += words[i].length() + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>em… 逻辑挺简单的 </p>
-<p>反序字符串, 字典序排序, 后再直接 compare</p>
 
       
     </div>
@@ -863,83 +940,6 @@ n = 4, k = 3
 <p>重复以上步骤, 很简单吧 (但是我当时为什么没有想出来呢 ? …)</p>
 <p>以同样的逻辑, 可以实现 leftorder, rightorder </p>
 <p>(如果没记错的话, 应该是这么叫的, 而且如果没估计错的话, 应该可以)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/R23._Merge_k_Sorted_Lists/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/R23._Merge_k_Sorted_Lists/" class="post-title-link" itemprop="url">leetcode/R23._Merge_k_Sorted_Lists</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://i.imgur.com/0yJznlI.png" alt=""></p>
-<p>排序多个链表</p>
-<p>思路:</p>
-<p>emmm… 采取上次的想法试试  </p>
-<p>一次只排序一个, 排序多次</p>
-<p>代码:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeKLists</span><span class="params">(<span class="built_in">vector</span>&lt;ListNode*&gt;&amp; lists)</span> </span>&#123;</span><br><span class="line">        ListNode *result = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode *backup = result;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> indexmin = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>(indexmin &lt; lists.<span class="built_in">size</span>() &amp;&amp; !lists[indexmin])</span><br><span class="line">                ++indexmin;</span><br><span class="line"></span><br><span class="line">            ListNode *<span class="built_in">min</span> = <span class="literal">nullptr</span>;</span><br><span class="line">            <span class="keyword">if</span> (indexmin &lt; lists.<span class="built_in">size</span>())</span><br><span class="line">                <span class="built_in">min</span> = lists[indexmin];</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (indexmin &gt; <span class="number">0</span> &amp;&amp; lists[indexmin - <span class="number">1</span>])</span><br><span class="line">                    backup-&gt;next = lists[indexmin];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; lists.<span class="built_in">size</span>(); ++i)</span><br><span class="line">                <span class="keyword">if</span> (lists[i] &amp;&amp; lists[i]-&gt;val &lt; <span class="built_in">min</span>-&gt;val) &#123;</span><br><span class="line">                    <span class="built_in">min</span> = lists[i];</span><br><span class="line">                    indexmin = i;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            backup-&gt;next = <span class="built_in">min</span>;</span><br><span class="line">            backup = backup-&gt;next;</span><br><span class="line">            lists[indexmin] = lists[indexmin]-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>一次循环内只思考得到最小的一个  </p>
-<p>代码的复杂度降低了, 码字速度和debug频率也明显好多了</p>
-<p>结果</p>
-<p><img src="https://i.imgur.com/86K7tLZ.png" alt=""></p>
-<p>emmmmmm…. , 这是我至今为止做的最差的一次leetcode…  </p>
-<p>难的, 想不出好方法的. 即使有想法也不做. 所以平均来说一直还算中游  </p>
-<p>不过差不多意料之中, 毕竟 hard 还是没那么容易的(除了那次用标准库偷鸡, 虽然说偷完就后悔了)</p>
-<p>那么, 要不要看一下dalao的代码?  </p>
-<p>算了吧, 这次没怎么仔细思考算法, 刚好想尝试一下降低循环复杂度</p>
-<p>(虽然说尝试炸了, 但还算有所收获. 在时间紧迫, 还有其他适当因素的情况下, 这种做法可以说是最有效率的)  </p>
-<p>没怎么思考就去看别人的答案, 那我还做leetcode干嘛…  </p>
-<p>但是好像又暂时想不出什么好方法, 留到以后来优化吧…</p>
 
       
     </div>

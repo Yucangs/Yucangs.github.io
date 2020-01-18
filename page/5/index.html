@@ -191,6 +191,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/headFirstGoAssembly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/headFirstGoAssembly/" class="post-title-link" itemprop="url">other/headFirstGoAssembly</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>下班忘把没读完的 inside the c++ object model 带回去</p>
+<p>还好包里有本备用的 go, 简单看了一下前面基础部分</p>
+<p>感觉就是, 很”新颖 + 轻巧”, 有很多新的概念和工具, 抛弃了一些沉重的”包袱”</p>
+<p>试了一下用例, 看了一下汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 package main</span><br><span class="line">2 </span><br><span class="line">3 import &quot;fmt&quot;</span><br><span class="line">4     </span><br><span class="line">5 func main() &#123;</span><br><span class="line">6     fmt.Printf(&quot;hello, world\n&quot;)</span><br><span class="line">7 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>汇编:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> 1 # command-line-arguments                                                                 </span><br><span class="line"> 2 &quot;&quot;.main STEXT size&#x3D;88 args&#x3D;0x0 locals&#x3D;0x48                                               </span><br><span class="line"> 3     0x0000 00000 (&#x2F;test&#x2F;go&#x2F;t.go:5)  TEXT    &quot;&quot;.main(SB), $72-0                           				&#x2F;&#x2F; 非常友好地给我加上了对应的源码信息</span><br><span class="line"> 4     0x0000 00000 (&#x2F;test&#x2F;go&#x2F;t.go:5)  MOVQ    (TLS), CX                                    </span><br><span class="line"> 5     0x0009 00009 (&#x2F;test&#x2F;go&#x2F;t.go:5)  CMPQ    SP, 16(CX)                                   </span><br><span class="line"> 6     0x000d 00013 (&#x2F;test&#x2F;go&#x2F;t.go:5)  JLS 81                                               </span><br><span class="line"> 7     0x000f 00015 (&#x2F;test&#x2F;go&#x2F;t.go:5)  SUBQ    $72, SP	&#x2F;&#x2F; 这里应该是在开辟栈帧                                     </span><br><span class="line"> 8     0x0013 00019 (&#x2F;test&#x2F;go&#x2F;t.go:5)  MOVQ    BP, 64(SP)	&#x2F;&#x2F; 栈顶保存了 bp 指针                                   </span><br><span class="line"> 9     0x0018 00024 (&#x2F;test&#x2F;go&#x2F;t.go:5)  LEAQ    64(SP), BP  &#x2F;&#x2F; 重置 bp                                 </span><br><span class="line">10     0x001d 00029 (&#x2F;test&#x2F;go&#x2F;t.go:5)  FUNCDATA    $0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)	&#x2F;&#x2F; gc ? garbage collection?</span><br><span class="line">11     0x001d 00029 (&#x2F;test&#x2F;go&#x2F;t.go:5)  FUNCDATA    $1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)</span><br><span class="line">12     0x001d 00029 (&#x2F;test&#x2F;go&#x2F;t.go:5)  FUNCDATA    $3, gclocals·9fb7f0986f647f17cb53dda1484e0f7a(SB)	&#x2F;&#x2F; 看不懂 &#x3D; &#x3D;</span><br><span class="line">13     0x001d 00029 (&#x2F;test&#x2F;go&#x2F;t.go:6)  PCDATA  $2, $1                                       </span><br><span class="line">14     0x001d 00029 (&#x2F;test&#x2F;go&#x2F;t.go:6)  PCDATA  $0, $0	&#x2F;&#x2F; 还是看不懂 &#x3D; &#x3D;</span><br><span class="line">15     0x001d 00029 (&#x2F;test&#x2F;go&#x2F;t.go:6)  LEAQ    go.string.&quot;hello, world\n&quot;(SB), AX           						&#x2F;&#x2F; 加载字符串文本, 者很方便, 我直接可以看到字符串</span><br><span class="line">16     0x0024 00036 (&#x2F;test&#x2F;go&#x2F;t.go:6)  PCDATA  $2, $0                                       </span><br><span class="line">17     0x0024 00036 (&#x2F;test&#x2F;go&#x2F;t.go:6)  MOVQ    AX, (SP)                                     </span><br><span class="line">18     0x0028 00040 (&#x2F;test&#x2F;go&#x2F;t.go:6)  MOVQ    $13, 8(SP)	&#x2F;&#x2F; 应该是指字符串长度</span><br><span class="line">19     0x0031 00049 (&#x2F;test&#x2F;go&#x2F;t.go:6)  MOVQ    $0, 16(SP)  &#x2F;&#x2F; 后续参数数量?                                 </span><br><span class="line">20     0x003a 00058 (&#x2F;test&#x2F;go&#x2F;t.go:6)  XORPS   X0, X0	&#x2F;&#x2F; 单精度异或?</span><br><span class="line">21     0x003d 00061 (&#x2F;test&#x2F;go&#x2F;t.go:6)  MOVUPS  X0, 24(SP)                                   						&#x2F;&#x2F; 代码中没有用到单精度浮点数, 为什么会有这个指令?</span><br><span class="line">22     0x0042 00066 (&#x2F;test&#x2F;go&#x2F;t.go:6)  CALL    fmt.Printf(SB) &#x2F;&#x2F; 调用                              					&#x2F;&#x2F; 这样的格式很清晰</span><br><span class="line">23     0x0047 00071 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    64(SP), BP  &#x2F;&#x2F; 返还 bp                                 </span><br><span class="line">24     0x004c 00076 (&#x2F;test&#x2F;go&#x2F;t.go:7)  ADDQ    $72, SP	&#x2F;&#x2F; 重置栈顶</span><br><span class="line">25     0x0050 00080 (&#x2F;test&#x2F;go&#x2F;t.go:7)  RET	&#x2F;&#x2F; 结束</span><br><span class="line">26     0x0051 00081 (&#x2F;test&#x2F;go&#x2F;t.go:7)  NOP</span><br><span class="line">27     0x0051 00081 (&#x2F;test&#x2F;go&#x2F;t.go:5)  PCDATA  $0, $-1                                      </span><br><span class="line">28     0x0051 00081 (&#x2F;test&#x2F;go&#x2F;t.go:5)  PCDATA  $2, $-1                                      </span><br><span class="line">29     0x0051 00081 (&#x2F;test&#x2F;go&#x2F;t.go:5)  CALL    runtime.morestack_noctxt(SB)                 								&#x2F;&#x2F; 运行时的什么?</span><br><span class="line">30     0x0056 00086 (&#x2F;test&#x2F;go&#x2F;t.go:5)  JMP 0</span><br></pre></td></tr></table></figure>
+
+<p>FUNCDATA 我怀疑和垃圾回收有关, PCDATA 意义不明 (网上查了一下, 都和垃圾回收有关)</p>
+<p>我尝试过添加一个参数, 以用作 fmt.Println(), 但是我并未在代码中找到任何有关参数的信息</p>
+<p>仅仅只有一句看起来和那个参数有关</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LEAQ    &quot;&quot;..autotmp_0+64(SP), AX	&#x2F;&#x2F; 就是这句话</span><br><span class="line">PCDATA  $2, $0                  </span><br><span class="line">MOVQ    AX, 16(SP)</span><br></pre></td></tr></table></figure>
+<p>而且我差点忽略的一点是, 这里参数的传递是用栈</p>
+<p>顺便, 我在文件的末尾找到了这些信息, 看起来像是某种标记</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">213 gclocals·69c1753bd5f81501d95132d08af04464 SRODATA dupok size&#x3D;8        </span><br><span class="line">214     0x0000 02 00 00 00 00 00 00 00                          ........  </span><br><span class="line">215 gclocals·568470801006e5c0dc3947ea998fe279 SRODATA dupok size&#x3D;10       </span><br><span class="line">216     0x0000 02 00 00 00 02 00 00 00 00 02                    ..........</span><br><span class="line">217 gclocals·9fb7f0986f647f17cb53dda1484e0f7a SRODATA dupok size&#x3D;10       </span><br><span class="line">218     0x0000 02 00 00 00 01 00 00 00 00 01                    ..........</span><br><span class="line">219 gclocals·33cdeccccebe80329f1fdbee7f5874cb SRODATA dupok size&#x3D;8        </span><br><span class="line">220     0x0000 01 00 00 00 00 00 00 00                          ........</span><br></pre></td></tr></table></figure>
+
+<p>我再次使用了变量存储值的形式, 然后我的数字能够正常看见了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">0x0034 00052 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    $100, 8(SP)	&#x2F;&#x2F; 我的数字在这里</span><br><span class="line">0x003d 00061 (&#x2F;test&#x2F;go&#x2F;t.go:7)  CALL    runtime.convT2E64(SB)</span><br><span class="line">0x0042 00066 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    16(SP), AX</span><br><span class="line">0x0047 00071 (&#x2F;test&#x2F;go&#x2F;t.go:7)  PCDATA  $2, $2</span><br><span class="line">0x0047 00071 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    24(SP), CX</span><br><span class="line">0x004c 00076 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    AX, &quot;&quot;..autotmp_1+64(SP)</span><br><span class="line">0x0051 00081 (&#x2F;test&#x2F;go&#x2F;t.go:7)  PCDATA  $2, $0</span><br><span class="line">0x0051 00081 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    CX, &quot;&quot;..autotmp_1+72(SP)</span><br><span class="line">0x0056 00086 (&#x2F;test&#x2F;go&#x2F;t.go:7)  PCDATA  $2, $1</span><br><span class="line">0x0056 00086 (&#x2F;test&#x2F;go&#x2F;t.go:7)  LEAQ    go.string.&quot;hello, world\n%d&quot;(SB), AX</span><br><span class="line">0x005d 00093 (&#x2F;test&#x2F;go&#x2F;t.go:7)  PCDATA  $2, $0</span><br><span class="line">0x005d 00093 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    AX, (SP)</span><br><span class="line">0x0061 00097 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    $15, 8(SP)</span><br><span class="line">0x006a 00106 (&#x2F;test&#x2F;go&#x2F;t.go:7)  PCDATA  $2, $1</span><br><span class="line">0x006a 00106 (&#x2F;test&#x2F;go&#x2F;t.go:7)  LEAQ    &quot;&quot;..autotmp_1+64(SP), AX</span><br><span class="line">0x006f 00111 (&#x2F;test&#x2F;go&#x2F;t.go:7)  PCDATA  $2, $0</span><br><span class="line">0x006f 00111 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    AX, 16(SP)</span><br><span class="line">0x0074 00116 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    $1, 24(SP)</span><br><span class="line">0x007d 00125 (&#x2F;test&#x2F;go&#x2F;t.go:7)  MOVQ    $1, 32(SP)</span><br><span class="line">0x0086 00134 (&#x2F;test&#x2F;go&#x2F;t.go:7)  CALL    fmt.Printf(SB)	</span><br><span class="line">						&#x2F;&#x2F; 但是在调用之前, 我并没看到我的数字被加载了, 为什么?</span><br><span class="line">						&#x2F;&#x2F; 我唯一比较怀疑的是那个 CALL runtime.convT2E64(SB)</span><br></pre></td></tr></table></figure>
+
+<p>好吧, 我的数据再度丢失了, 我甚至不知道它是如何被传过去的…</p>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p>go的汇编基于 plan 9(一个新的操作系统), 感觉到了新的技术和观点</p>
+<p>并且它也更加友好, 我明显觉得看它的汇编会更轻松一些</p>
+<p>(除了那个 PCDATA, FUNCDATA, 和那个已经被我跟丢的变量)</p>
+<p>emmm… 很不错, 觉得自己听了别人的建议, 去学新的语言</p>
+<p>而不学现在看起来很强大, 但是已经很老了的 java 是一个正确的决定</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/implementionThreadInUserAndKernelSpace/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1128,87 +1212,6 @@ public:
 <h3 id="Heap-sort"><a href="#Heap-sort" class="headerlink" title="Heap sort"></a>Heap sort</h3><p>Heap sort uses a structure called heap to sort the array. Heap is a complete binary tree.<br>left sub-tree index = 2 * root index + 1<br>right sub-tree index = 2 * root index + 2</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">heapify</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> n, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> largest = i;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">2</span> * i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> r = l + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (l &lt; n &amp;&amp; nums[l] &gt; nums[largest])</span><br><span class="line">        largest = l;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (r &lt; n &amp;&amp; nums[r] &gt; nums[largest])</span><br><span class="line">        largest = r;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (largest != i) &#123;</span><br><span class="line">        swap(nums[i], nums[largest]);</span><br><span class="line">        heapify(nums, n, largest);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;                </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = nums.<span class="built_in">size</span>() / <span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i)</span><br><span class="line">        heapify(nums, nums.<span class="built_in">size</span>(), i);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = nums.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        swap(nums[<span class="number">0</span>], nums[i]);</span><br><span class="line">        heapify(nums, i, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/sort2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/sort2/" class="post-title-link" itemprop="url">other/sort2</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>this is a follow-up to <a href="http://49.235.55.145/html_note/sort.html" target="_blank" rel="noopener">sort</a></p>
-<p>these sort algorithms based on &lt;Algorithms, 4th&gt;</p>
-<h2 id="shell-sort"><a href="#shell-sort" class="headerlink" title="shell sort"></a>shell sort</h2><p>shell sort is a better version sort algorithm based on insert sort.</p>
-<p>when a[0] is the biggest number but head of array, for move the number to the end of the array, need swap length(a) elements. </p>
-<p>shell sort 是基于插入排序的改良版本</p>
-<p>当 a[0] 是整个数组最大的元素时, 为了移动这个元素到数组的尾端, 需要交换 length(a) 次元素. </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (h &lt; v.<span class="built_in">size</span>() / <span class="number">3</span>) h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (h &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = h; j &lt; v.<span class="built_in">size</span>(); ++j) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = j; i &gt;= h &amp;&amp; v[i] &lt; v[i - h]; i -= h)</span><br><span class="line">                swap(v[i], v[i - h]);                         </span><br><span class="line">        &#125;</span><br><span class="line">        h /= <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="bottom-up-sort"><a href="#bottom-up-sort" class="headerlink" title="bottom-up sort"></a>bottom-up sort</h2><p>bottom-up sort is a down-top method based on merge sort.</p>
-<p>bottom-up sort 基于合并排序, 是一种从底至上的方法</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v, <span class="keyword">int</span> b, <span class="keyword">int</span> m, <span class="keyword">int</span> e)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2 = v;</span><br><span class="line">    <span class="keyword">int</span> mid = m++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = b; i &lt;= e; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (b &gt; mid)</span><br><span class="line">            v[i] = v2[m++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (m &gt; e)</span><br><span class="line">            v[i] = v2[b++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (v2[b] &lt; v2[m])</span><br><span class="line">            v[i] = v2[b++];</span><br><span class="line">        <span class="keyword">else</span>·</span><br><span class="line">            v[i] = v2[m++];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bottomupSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; v.<span class="built_in">size</span>(); i *= <span class="number">2</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; v.<span class="built_in">size</span>() - i; j = j + <span class="number">2</span> * i)</span><br><span class="line">			merge(v, j, j + i <span class="number">-1</span>, <span class="built_in">min</span>(<span class="keyword">int</span>(v.<span class="built_in">size</span>() - <span class="number">1</span>, j + <span class="number">2</span> * i - <span class="number">1</span>)));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="a-better-version-of-quick-sort"><a href="#a-better-version-of-quick-sort" class="headerlink" title="a better version of quick sort"></a>a better version of quick sort</h2><p>if an array with some duplicate numbers,  skip these numbers will be more effective</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> QS_MIN_LENGTH 7</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> b, <span class="keyword">int</span> e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (b &gt;= e) <span class="keyword">return</span>;                          </span><br><span class="line"></span><br><span class="line">    <span class="comment">// if element too little, insertSort more effective than quickSort</span></span><br><span class="line">    <span class="keyword">if</span> (e - b &lt; QS_MIN_LENGTH)</span><br><span class="line">        insertSort(nums, b, e);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// meduim of three can get more effetive pivot</span></span><br><span class="line">    <span class="keyword">int</span> m = (b + e) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums[b] &gt; nums[m])</span><br><span class="line">        swap(nums[b], nums[m]);</span><br><span class="line">    <span class="keyword">if</span> (nums[b] &gt; nums[e])</span><br><span class="line">        swap(nums[b], nums[e]);</span><br><span class="line">    <span class="keyword">if</span> (nums[m] &gt; nums[e])</span><br><span class="line">        swap(nums[m], nums[e]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> pivot = nums[m];</span><br><span class="line">    <span class="comment">// skip elements equal pivot</span></span><br><span class="line">    <span class="keyword">int</span> lt = b + <span class="number">1</span>, eq = lt, gt = e - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (eq &lt;= gt) &#123; </span><br><span class="line">        <span class="keyword">if</span> (nums[eq] &lt; pivot)</span><br><span class="line">            swap(nums[lt++], nums[eq++]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nums[eq] &gt; pivot)</span><br><span class="line">            swap(nums[eq], nums[gt--]);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            eq++;</span><br><span class="line">    &#125;       </span><br><span class="line"></span><br><span class="line">    quickSort(nums, b, lt - <span class="number">1</span>);</span><br><span class="line">    quickSort(nums, gt + <span class="number">1</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="a-sort-algorithm-without-compare"><a href="#a-sort-algorithm-without-compare" class="headerlink" title="a sort algorithm without compare"></a>a sort algorithm without compare</h3><p>I saw a string sort algorithm without compare in &lt;algorithm 4th&gt;. so take some notes</p>
-<p>I’m to lazy to write this code, please check the book…</p>
 
       
     </div>
