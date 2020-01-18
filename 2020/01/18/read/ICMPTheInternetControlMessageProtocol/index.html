@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="5.6 ICMP: The Internet Control Message ProtocolThe Internet Control Message Protocol (ICMP), specified in [RFC 792], is used byhosts and routers to communicate network-layer information to each other.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;ICMPTheInternetControlMessageProtocol">
+<meta property="og:url" content="http://yoursite.com/2020/01/18/read/ICMPTheInternetControlMessageProtocol/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="5.6 ICMP: The Internet Control Message ProtocolThe Internet Control Message Protocol (ICMP), specified in [RFC 792], is used byhosts and routers to communicate network-layer information to each other.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-18T06:34:58.429Z">
+<meta property="article:modified_time" content="2020-01-18T06:34:33.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/18/read/ICMPTheInternetControlMessageProtocol/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/ICMPTheInternetControlMessageProtocol | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/18/read/ICMPTheInternetControlMessageProtocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/ICMPTheInternetControlMessageProtocol
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-18 14:34:58 / Modified: 14:34:33" itemprop="dateCreated datePublished" datetime="2020-01-18T14:34:58+08:00">2020-01-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="5-6-ICMP-The-Internet-Control-Message-Protocol"><a href="#5-6-ICMP-The-Internet-Control-Message-Protocol" class="headerlink" title="5.6 ICMP: The Internet Control Message Protocol"></a>5.6 ICMP: The Internet Control Message Protocol</h3><p>The Internet Control Message Protocol (ICMP), specified in [RFC 792], is used by<br>hosts and routers to communicate network-layer information to each other. The most<br>typical use of ICMP is for error reporting. For example, when running an HTTP<br>session, you may have encountered an error message such as “Destination network<br>unreachable.” This message had its origins in ICMP. At some point, an IP router was<br>unable to find a path to the host specified in your HTTP request. That router created<br>and sent an ICMP message to your host indicating the error.</p>
+<p>ICMP 用于主机和路由彼此通讯, 传递网络层信息. 最典型的用法是错误报告. </p>
+<a id="more"></a>
+
+<p>ICMP is often considered part of IP, but architecturally it lies just above IP, as<br>ICMP messages are carried inside IP datagrams. That is, ICMP messages are carried<br>as IP payload, just as TCP or UDP segments are carried as IP payload. Similarly,<br>when a host receives an IP datagram with ICMP specified as the upper-layer protocol<br>(an upper-layer protocol number of 1), it demultiplexes the datagram’s contents to<br>ICMP, just as it would demultiplex a datagram’s content to TCP or UDP.</p>
+<p>ICMP 通常被认为是 IP 的一部分. 但是结构上它处于 IP 的上层. ICMP 信息位于 IP 数据包中. ICMP 信息作为 IP 的负载, 就像 TCP/UDP 段一样. 当主机接收到附带 ICMP, 并指定为上层协议的 IP 数据报时. 解复用数据报的内容给 ICMP. 就像解复用数据报内容给 TCP/UDP 一样.</p>
+<p>ICMP messages have a type and a code field, and contain the header and the first<br>8 bytes of the IP datagram that caused the ICMP message to be generated in the first<br>place (so that the sender can determine the datagram that caused the error). Selected<br>ICMP message types are shown in Figure 5.19. Note that ICMP messages are used<br>not only for signaling error conditions.</p>
+<p>ICMP 消息有一个类型和代码字段 (后面这段我读不通…). ICMP 不仅仅用于错误消息传递.</p>
+<p>The well-known ping program sends an ICMP type 8 code 0 message to the<br>specified host. The destination host, seeing the echo request, sends back a type 0<br>code 0 ICMP echo reply. Most TCP/IP implementations support the ping server<br>directly in the operating system; that is, the server is not a process. Chapter 11 of<br>[Stevens 1990] provides the source code for the ping client program. Note that the<br>client program needs to be able to instruct the operating system to generate an ICMP<br>message of type 8 code 0.</p>
+<p>ping 程序就是由 ICMP 实现的. ping 会发送一个类型为 8, 代码为 0 的消息给指定主机, 当指定主机看到这个回显消息时, 返回一个类型 0, 代码 0 的消息. 这通常实现于操作系统. 这意味这这个服务并不是一个过程.</p>
+<p>Another interesting ICMP message is the source quench message. This message<br>is seldom used in practice. Its original purpose was to perform congestion control—to<br>allow a congested router to send an ICMP source quench message to a host to force<br>that host to reduce its transmission rate. We have seen in Chapter 3 that TCP has its<br>own congestion-control mechanism that operates at the transport layer, without the<br>use of network-layer feedback such as the ICMP source quench message.</p>
+<p>另一个消息是 source quench (我不知道该怎么中文称呼它 :( … ) 消息, 它用于拥塞控制. 但是 TCP 已经有自己的拥塞控制方法了, 用不着它, 所以很少被使用.</p>
+<p>In Chapter 1 we introduced the Traceroute program, which allows us to trace a<br>route from a host to any other host in the world. Interestingly, Traceroute is imple-<br>mented with ICMP messages. To determine the names and addresses of the routers<br>between source and destination, Traceroute in the source sends a series of ordinary IP<br>datagrams to the destination. Each of these datagrams carries a UDP segment with an<br>unlikely UDP port number. The first of these datagrams has a TTL of 1, the second of 2,<br>the third of 3, and so on. The source also starts timers for each of the datagrams. When<br>the nth datagram arrives at the nth router, the nth router observes that the TTL of the<br>datagram has just expired. According to the rules of the IP protocol, the router discards<br>the datagram and sends an ICMP warning message to the source (type 11 code 0). This<br>warning message includes the name of the router and its IP address. When this ICMP<br>message arrives back at the source, the source obtains the round-trip time from the<br>timer and the name and IP address of the nth router from the ICMP message.</p>
+<p>第一章中我们提出了 Traceroute 程序. Traceroute 也是基于 ICMP 实现的. Traceroute 发送一系列原始 IP 数据报到目的地. 每个数据报携带一个不可能的 UDP 端口的 UDP 段 (???). 第一个数据报的 TTL 设置为 1, 第二个为 2, 依次循环. 源主机同时开启定时器, 当数据报到达第 n 个路由时, TTL 过期, 路由丢弃该数据报, 返回一个 ICMP 警告信息 (类型 11, 代码 0). 这个警告信息包含路由名及其 IP 地址. Traceroute 由此实现.</p>
+<p>How does a Traceroute source know when to stop sending UDP segments?<br>Recall that the source increments the TTL field for each datagram it sends. Thus, one<br>of the datagrams will eventually make it all the way to the destination host. Because<br>this datagram contains a UDP segment with an unlikely port number, the destination<br>host sends a port unreachable ICMP message (type 3 code 3) back to the source.</p>
+<p>Traceroute 何时停止发送 UDP 段呢? 因为 TTL 不断增加, 最终会到达目的地, 但是因为发送的 UDP 数据报的目的端口是一个不可能的端口, 所以目的主机返回一个 ICMP 端口不可达消息 (类型 3, 代码 3).</p>
+<p>When the source host receives this particular ICMP message, it knows it does not<br>need to send additional probe packets. (The standard Traceroute program actually<br>sends sets of three packets with the same TTL; thus the Traceroute output provides<br>three results for each TTL.)</p>
+<p>当源主机收到这个特殊的 ICMP 消息后, 就知晓已到达目的地.</p>
+<p>(我 google 了一下, 当中途路由变化会发生什么, 得到的答案是: 什么都不会发生, Traceroute 并不保证这个… )</p>
+<p>In this manner, the source host learns the number and the identities of routers<br>that lie between it and the destination host and the round-trip time between the two<br>hosts. Note that the Traceroute client program must be able to instruct the operating<br>system to generate UDP datagrams with specific TTL values and must also be able to<br>be notified by its operating system when ICMP messages arrive. Now that you under-<br>stand how Traceroute works, you may want to go back and play with it some more.</p>
+<p>A new version of ICMP has been defined for IPv6 in RFC 4443. In addition to<br>reorganizing the existing ICMP type and code definitions, ICMPv6 also added new<br>types and codes required by the new IPv6 functionality. These include the “Packet<br>Too Big” type and an “unrecognized IPv6 options” error code.</p>
+<p>为 IPv6 定义了新的 ICMP 规范. 包括 “包太大了”, “未识别 IPv6”.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/16/read/routingAlgorithms/" rel="prev" title="read/routingAlgorithms">
+      <i class="fa fa-chevron-left"></i> read/routingAlgorithms
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-ICMP-The-Internet-Control-Message-Protocol"><span class="nav-number">1.</span> <span class="nav-text">5.6 ICMP: The Internet Control Message Protocol</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

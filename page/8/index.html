@@ -40,8 +40,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
@@ -140,9 +140,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -162,6 +187,78 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/46ZPermutations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/46ZPermutations/" class="post-title-link" itemprop="url">leetcode/46ZPermutations</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="46ZPermutations"><a href="#46ZPermutations" class="headerlink" title="46ZPermutations"></a>46ZPermutations</h3><p><img src="https://imgur.com/qKQUxju.png" alt=""></p>
+<p>给定一个整数数组集合, 返回所有的数组排列可能</p>
+<h3 id="my-solution-16ms"><a href="#my-solution-16ms" class="headerlink" title="my solution (16ms)"></a>my solution (16ms)</h3><p>如果单纯想要做出来, 很简单, 递归就完事了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    <span class="built_in">std</span>::ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; permute(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v) &#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = v.<span class="built_in">size</span>(); </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">1</span>) <span class="keyword">return</span> &#123;v&#125;;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">0</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// asume size &gt;= 2;</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; temp = v;</span><br><span class="line">            temp.erase(temp.<span class="built_in">begin</span>() + i);</span><br><span class="line"></span><br><span class="line">            permute_do(&#123;v[i]&#125;, temp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">permute_do</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; curv, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = v.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            ret.push_back(curv);</span><br><span class="line">            ret.back().push_back(v.front());</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tempV = v;</span><br><span class="line">            tempV.erase(tempV.<span class="built_in">begin</span>() + i);</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tempCurv = curv;</span><br><span class="line">            tempCurv.push_back(v[i]);</span><br><span class="line"></span><br><span class="line">            permute_do(tempCurv, tempV);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ret;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>内存使用率应该很高, 因为每一次递归都会重新创建临时对象  </p>
+<p>但是想不到什么好的方式在不影响速度的情况下解决这个问题…</p>
+<p><img src="https://imgur.com/pu5YhhK.png" alt=""></p>
+<p>emmm, 内存使用果然很高…  </p>
+<p>(这个问题是几个月之前尝试过的, 试了 3 次没有成功, 今天一次就成功了, </p>
+<p>而且解题的时间也挺短的, 看来进步还不错)</p>
+<h3 id="the-best-solution-14ms"><a href="#the-best-solution-14ms" class="headerlink" title="the best solution (14ms)"></a>the best solution (14ms)</h3><p>看一下最好的算法是怎么解决这个问题的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; permute(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;num) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; result;</span><br><span class="line"></span><br><span class="line">        permuteRecursive(num, <span class="number">0</span>, result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// permute num[begin..end]</span></span><br><span class="line">    <span class="comment">// invariant: num[0..begin-1] have been fixed/permuted</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">permuteRecursive</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;num, <span class="keyword">int</span> <span class="built_in">begin</span>, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;result)</span>	</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">begin</span> &gt;= num.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="comment">// one permutation instance</span></span><br><span class="line">            result.push_back(num);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="built_in">begin</span>; i &lt; num.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            swap(num[<span class="built_in">begin</span>], num[i]);</span><br><span class="line">            permuteRecursive(num, <span class="built_in">begin</span> + <span class="number">1</span>, result);</span><br><span class="line">            <span class="comment">// reset</span></span><br><span class="line">            swap(num[<span class="built_in">begin</span>], num[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>他将 permute 中的循环合并到了 permuteRecursive 里面  </p>
+<p>核心在于 swap, 通过交换, 这样 result 就始终只有一个, 取而代之的是多了一个 int 参数传递</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -858,93 +955,11 @@ n = 4, k = 3
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/116PopulatingNextRightPointersInEachNode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/116PopulatingNextRightPointersInEachNode/" class="post-title-link" itemprop="url">leetcode/116PopulatingNextRightPointersInEachNode</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Populating-Next-Right-Pointers-in-Each-Node"><a href="#Populating-Next-Right-Pointers-in-Each-Node" class="headerlink" title="Populating Next Right Pointers in Each Node"></a>Populating Next Right Pointers in Each Node</h2><p><img src="https://imgur.com/db5dxSr.png" alt=""></p>
-<p>给了一个完美的二叉树, 填充其next节点</p>
-<h3 id="my-solution-60ms-90-37"><a href="#my-solution-60ms-90-37" class="headerlink" title="my solution (60ms, 90.37%)"></a>my solution (60ms, 90.37%)</h3><p>这道题我给出了两种方案, 递归和迭代  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = [] () &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; ();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Node* connect(Node* root) &#123;</span></span><br><span class="line">    <span class="comment">//     if (!root)</span></span><br><span class="line">    <span class="comment">//         return root;</span></span><br><span class="line">    <span class="comment">//     </span></span><br><span class="line">    <span class="comment">//     vector&lt;Node*&gt; lev;</span></span><br><span class="line">    <span class="comment">//     lev.push_back(root);</span></span><br><span class="line">    <span class="comment">//     </span></span><br><span class="line">    <span class="comment">//     while ( !lev.empty() ) &#123;</span></span><br><span class="line">    <span class="comment">//         vector&lt;Node*&gt; nlev;</span></span><br><span class="line">    <span class="comment">//         int size = lev.size();</span></span><br><span class="line">    <span class="comment">//         </span></span><br><span class="line">    <span class="comment">//         int i = 0, i2 = 1;</span></span><br><span class="line">    <span class="comment">//         for (; i2 &lt; size; ++i, ++i2) &#123;</span></span><br><span class="line">    <span class="comment">//             lev[i]-&gt;next = lev[i2];</span></span><br><span class="line">    <span class="comment">//             if ( lev[i]-&gt;left ) &#123;</span></span><br><span class="line">    <span class="comment">//                 nlev.push_back( lev[i]-&gt;left );</span></span><br><span class="line">    <span class="comment">//                 nlev.push_back( lev[i]-&gt;right );</span></span><br><span class="line">    <span class="comment">//             &#125;</span></span><br><span class="line">    <span class="comment">//         &#125;</span></span><br><span class="line">    <span class="comment">//         lev[i]-&gt;next = nullptr;</span></span><br><span class="line">    <span class="comment">//         if ( lev[i]-&gt;left ) &#123;</span></span><br><span class="line">    <span class="comment">//             nlev.push_back( lev[i]-&gt;left );</span></span><br><span class="line">    <span class="comment">//             nlev.push_back( lev[i]-&gt;right );</span></span><br><span class="line">    <span class="comment">//         &#125;</span></span><br><span class="line">    <span class="comment">//         </span></span><br><span class="line">    <span class="comment">//         swap(lev, nlev);</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line">    <span class="comment">//     </span></span><br><span class="line">    <span class="comment">//     return root;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="function">Node* <span class="title">connect</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line">        connect_two(root-&gt;left, root-&gt;right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">connect_two</span><span class="params">(Node* left, Node* right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!left) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        left-&gt;next = right;</span><br><span class="line">        <span class="keyword">if</span> (left-&gt;left)</span><br><span class="line">            connect_two(left-&gt;left, left-&gt;right);</span><br><span class="line">            connect_two(left-&gt;right, right-&gt;left);</span><br><span class="line">            connect_two(right-&gt;left, right-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>对于迭代, 我将每一级的元素都保留, 然后用作下一次迭代 </p>
-<p>递归的话, 因为如果只是单节点传参, 始终会面临有缝隙的情况, 所以用双节点传参</p>
-<p>递归的代码更加简洁, 我推荐使用递归</p>
-<p><img src="https://imgur.com/DbsUtql.png" alt=""></p>
-<p>emmmm… 速度上还好, 但是内存上就很不能接受了</p>
-<p>(我很好奇, 代码量已经很少了, 而且递归中也不会产生多余的操作)</p>
-<p>(难道是在 perfect binary tree 上能有什么绚丽的操作么?)</p>
-<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">connect</span><span class="params">(TreeLinkNode *root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeLinkNode*&gt; q;</span><br><span class="line">    <span class="keyword">if</span> (!root)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    q.push(root);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">size</span> = q.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">size</span>--)&#123;</span><br><span class="line">            TreeLinkNode* c = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                c-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                c-&gt;next = q.front();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (c-&gt;left)&#123;</span><br><span class="line">                q.push(c-&gt;left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (c-&gt;right)&#123;</span><br><span class="line">                q.push(c-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>哦哦哦, 用的是迭代的方式, 只不过他用了队列</p>
-<p>而且用了size, 这样也就不需要一个新的容器了, 很不错 -v-  </p>
-<p>不过既然题说了是 perfect binary tree, 而且next默认为空, 那么可以稍微改良一下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node* <span class="title">connect</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">queue</span>&lt;Node*&gt; q;</span><br><span class="line">    q.push(root);</span><br><span class="line">    <span class="keyword">while</span>( !q.empty() ) &#123;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">size</span> = q.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">size</span>--) &#123;</span><br><span class="line">            Node* cur = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">size</span>)</span><br><span class="line">                cur-&gt;next = q.front();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cur-&gt;left) &#123;</span><br><span class="line">                q.push(cur-&gt;left);</span><br><span class="line">                q.push(cur-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>细节在于:</p>
-<ol>
-<li>如果是空节点, 少了一个空 queue 的分配时间</li>
-<li>不用再去赋值 nullptr 了</li>
-<li>少了一个 cur-&gt;right 的判断, 因为题目说了是 perfect binary tree</li>
-</ol>
-<p>PS: 我最后用这个答案再试了一次, 发现结果和我用递归的结果相差无几…</p>
-<p>可能这是增加了测试用例或者改了题的结果? 毕竟 TreeLinkNode 变为了 Node</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1010,7 +1025,7 @@ n = 4, k = 3
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-count">81</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1082,6 +1097,10 @@ n = 4, k = 3
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
