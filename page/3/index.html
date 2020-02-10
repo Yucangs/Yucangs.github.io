@@ -191,6 +191,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/sort2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/sort2/" class="post-title-link" itemprop="url">read/sort2</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-16 10:02:16" itemprop="dateModified" datetime="2019-12-16T10:02:16+08:00">2019-12-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>this is a follow-up to <a href="http://49.235.55.145/html_note/sort.html" target="_blank" rel="noopener">sort</a></p>
+<p>these sort algorithms based on &lt;Algorithms, 4th&gt;</p>
+<h2 id="shell-sort"><a href="#shell-sort" class="headerlink" title="shell sort"></a>shell sort</h2><p>shell sort is a better version sort algorithm based on insert sort.</p>
+<p>when a[0] is the biggest number but head of array, for move the number to the end of the array, need swap length(a) elements. </p>
+<p>shell sort 是基于插入排序的改良版本</p>
+<p>当 a[0] 是整个数组最大的元素时, 为了移动这个元素到数组的尾端, 需要交换 length(a) 次元素. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (h &lt; v.<span class="built_in">size</span>() / <span class="number">3</span>) h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (h &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = h; j &lt; v.<span class="built_in">size</span>(); ++j) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = j; i &gt;= h &amp;&amp; v[i] &lt; v[i - h]; i -= h)</span><br><span class="line">                swap(v[i], v[i - h]);                         </span><br><span class="line">        &#125;</span><br><span class="line">        h /= <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="bottom-up-sort"><a href="#bottom-up-sort" class="headerlink" title="bottom-up sort"></a>bottom-up sort</h2><p>bottom-up sort is a down-top method based on merge sort.</p>
+<p>bottom-up sort 基于合并排序, 是一种从底至上的方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v, <span class="keyword">int</span> b, <span class="keyword">int</span> m, <span class="keyword">int</span> e)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2 = v;</span><br><span class="line">    <span class="keyword">int</span> mid = m++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = b; i &lt;= e; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (b &gt; mid)</span><br><span class="line">            v[i] = v2[m++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (m &gt; e)</span><br><span class="line">            v[i] = v2[b++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (v2[b] &lt; v2[m])</span><br><span class="line">            v[i] = v2[b++];</span><br><span class="line">        <span class="keyword">else</span>·</span><br><span class="line">            v[i] = v2[m++];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bottomupSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; v.<span class="built_in">size</span>(); i *= <span class="number">2</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; v.<span class="built_in">size</span>() - i; j = j + <span class="number">2</span> * i)</span><br><span class="line">			merge(v, j, j + i <span class="number">-1</span>, <span class="built_in">min</span>(<span class="keyword">int</span>(v.<span class="built_in">size</span>() - <span class="number">1</span>, j + <span class="number">2</span> * i - <span class="number">1</span>)));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="a-better-version-of-quick-sort"><a href="#a-better-version-of-quick-sort" class="headerlink" title="a better version of quick sort"></a>a better version of quick sort</h2><p>if an array with some duplicate numbers,  skip these numbers will be more effective</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> QS_MIN_LENGTH 7</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> b, <span class="keyword">int</span> e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (b &gt;= e) <span class="keyword">return</span>;                          </span><br><span class="line"></span><br><span class="line">    <span class="comment">// if element too little, insertSort more effective than quickSort</span></span><br><span class="line">    <span class="keyword">if</span> (e - b &lt; QS_MIN_LENGTH)</span><br><span class="line">        insertSort(nums, b, e);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// meduim of three can get more effetive pivot</span></span><br><span class="line">    <span class="keyword">int</span> m = (b + e) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums[b] &gt; nums[m])</span><br><span class="line">        swap(nums[b], nums[m]);</span><br><span class="line">    <span class="keyword">if</span> (nums[b] &gt; nums[e])</span><br><span class="line">        swap(nums[b], nums[e]);</span><br><span class="line">    <span class="keyword">if</span> (nums[m] &gt; nums[e])</span><br><span class="line">        swap(nums[m], nums[e]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> pivot = nums[m];</span><br><span class="line">    <span class="comment">// skip elements equal pivot</span></span><br><span class="line">    <span class="keyword">int</span> lt = b + <span class="number">1</span>, eq = lt, gt = e - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (eq &lt;= gt) &#123; </span><br><span class="line">        <span class="keyword">if</span> (nums[eq] &lt; pivot)</span><br><span class="line">            swap(nums[lt++], nums[eq++]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nums[eq] &gt; pivot)</span><br><span class="line">            swap(nums[eq], nums[gt--]);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            eq++;</span><br><span class="line">    &#125;       </span><br><span class="line"></span><br><span class="line">    quickSort(nums, b, lt - <span class="number">1</span>);</span><br><span class="line">    quickSort(nums, gt + <span class="number">1</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="a-sort-algorithm-without-compare"><a href="#a-sort-algorithm-without-compare" class="headerlink" title="a sort algorithm without compare"></a>a sort algorithm without compare</h3><p>I saw a string sort algorithm without compare in &lt;algorithm 4th&gt;. so take some notes</p>
+<p>I’m to lazy to write this code, please check the book…</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1630,135 +1717,6 @@ int main()
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/InnoDBRedoLog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/InnoDBRedoLog/" class="post-title-link" itemprop="url">read/InnoDBRedoLog</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:39" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:39+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-07 15:22:46" itemprop="dateModified" datetime="2019-08-07T15:22:46+08:00">2019-08-07</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="15-6-5-Redo-Log"><a href="#15-6-5-Redo-Log" class="headerlink" title="15.6.5 Redo Log"></a>15.6.5 Redo Log</h3><p>By default, the redo log is physically represented on disk by two files named <code>ib_logfile0</code> and <code>ib_logfile1</code>. MySQL writes to the redo log files in a circular fashion. Data in the redo log is encoded in terms of records affected; this data is collectively referred to as redo. The passage of data through the redo log is represented by an ever-increasing <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_lsn" target="_blank" rel="noopener">LSN</a> value.</p>
-<p>默认 redo 日志通过两个叫 ib_logfile0 和 ib_logfile1 的文件物理地记录在磁盘上. MySQL 以循环方式写入到文件中. redo 日志中的数据受记录影响编码. 这些数据统称为 redo. 数据通过 redo 日志的传递由一个不断增长的 LSN 值表示</p>
-<p>For related information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-init-startup-configuration.html#innodb-startup-log-file-configuration" target="_blank" rel="noopener">Redo Log File Configuration</a>, and <a href="https://dev.mysql.com/doc/refman/8.0/en/optimizing-innodb-logging.html" target="_blank" rel="noopener">Section 8.5.4, “Optimizing InnoDB Redo Logging”</a>.</p>
-<p>For information about data-at-rest encryption for redo logs, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-tablespace-encryption.html#innodb-tablespace-encryption-redo-log" target="_blank" rel="noopener">Redo Log Encryption</a>.</p>
-<h4 id="Changing-the-Number-or-Size-of-Redo-Log-Files"><a href="#Changing-the-Number-or-Size-of-Redo-Log-Files" class="headerlink" title="Changing the Number or Size of Redo Log Files"></a>Changing the Number or Size of Redo Log Files</h4><ol>
-<li>Stop the MySQL server and make sure that it shuts down without errors.</li>
-<li>Edit <code>my.cnf</code> to change the log file configuration. To change the log file size, configure <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_log_file_size" target="_blank" rel="noopener"><code>innodb_log_file_size</code></a>. To increase the number of log files, configure<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_log_files_in_group" target="_blank" rel="noopener"><code>innodb_log_files_in_group</code></a>.</li>
-<li>Start the MySQL server again.</li>
-</ol>
-<p>If <code>InnoDB</code> detects that the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_log_file_size" target="_blank" rel="noopener"><code>innodb_log_file_size</code></a> differs from the redo log file size, it writes a log checkpoint, closes and removes the old log files, creates new log files at the requested size, and opens the new log files.</p>
-<h4 id="Group-Commit-for-Redo-Log-Flushing"><a href="#Group-Commit-for-Redo-Log-Flushing" class="headerlink" title="Group Commit for Redo Log Flushing"></a>Group Commit for Redo Log Flushing</h4><p><code>InnoDB</code>, like any other <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_acid" target="_blank" rel="noopener">ACID</a>-compliant database engine, flushes the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_redo_log" target="_blank" rel="noopener">redo log</a> of a transaction before it is committed. <code>InnoDB</code> uses <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_group_commit" target="_blank" rel="noopener">group commit</a> functionality to group multiple such flush requests together to avoid one flush for each commit. With group commit, <code>InnoDB</code> issues a single write to the log file to perform the commit action for multiple user transactions that commit at about the same time, significantly improving throughput.</p>
-<p>InnoDB 像其他 ACID 数据引擎一样, 在事务提交前冲刷 redo 日志, InnoDB 使用组提交功能, 将多个提交请求分组, 避免每次提交都冲刷记录. 在组提交中, InnoDB 为在大约同一时间提交的多次用户事务执行单次文件写入, 显著提高了吞吐量</p>
-<p>For more information about performance of <code>COMMIT</code> and other transactional operations, see <a href="https://dev.mysql.com/doc/refman/8.0/en/optimizing-innodb-transaction-management.html" target="_blank" rel="noopener">Section 8.5.2, “Optimizing InnoDB Transaction Management”</a>.</p>
-<h4 id="Redo-Log-Archiving"><a href="#Redo-Log-Archiving" class="headerlink" title="Redo Log Archiving"></a>Redo Log Archiving</h4><p>Backup utilities that copy redo log records may sometimes fail to keep pace with redo log generation while a backup operation is in progress, resulting in lost redo log records due to those records being overwritten. This issue most often occurs when there is significant MySQL server activity during the backup operation, and the redo log file storage media operates at a faster speed than the backup storage media. The redo log archiving feature, introduced in MySQL 8.0.17, addresses this issue by sequentially writing redo log records to an archive file in addition to the redo log files. Backup utilities can copy redo log records from the archive file as necessary, thereby avoiding the potential loss of data.</p>
-<p>拷贝 redo 日志记录的备份工具可能有时会跟丢 redo 记录日志的生成速度, 当备份操作运行中, 因为这些记录被覆写而导致丢失 redo 日志记录</p>
-<p>当备份操作产生大量的 MySQL 服务器活动时这个问题经常发生, 此时 redo 日志文件存储媒介操作处于比备份存储媒介操作更快的速率. 在 MySQL 8.0.17 引进的 redo 日志归档功能, 通过除写入 redo 日志外, 还序列写入 redo 日志记录到归档文件解决这个问题. 备份工具尽可能从归档文件中拷贝 redo 日志记录, 从而规避潜在的数据丢失问题</p>
-<p>If redo log archiving is configured on the server, <a href="https://dev.mysql.com/doc/mysql-enterprise-backup/8.0/en/" target="_blank" rel="noopener">MySQL Enterprise Backup</a>, available with the <a href="https://www.mysql.com/products/enterprise/" target="_blank" rel="noopener">MySQL Enterprise Edition</a>, uses the redo log archiving feature when backing up a MySQL server. </p>
-<p>Enabling redo log archiving on the server requires setting a value for the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_redo_log_archive_dirs" target="_blank" rel="noopener"><code>innodb_redo_log_archive_dirs</code></a> system variable. The value is specified as a semicolon-separated list of labeled redo log archive directories. The <code>*label:directory*</code> pair is separated by a colon (<code>:</code>). For example:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET GLOBAL innodb_redo_log_archive_dirs='label1:directory_path1[;label2:directory_path2;…]';</span><br></pre></td></tr></table></figure>
-
-<p>The <em>label</em> is an arbitrary identifier for the archive directory. It can be any string of characters, with the exception of colons (:), which are not permitted. An empty label is also permitted, but the colon (:) is still required in this case. A <em>directory_path</em> must be specified. The directory that is selected for the redo log archive file must exist when redo log archiving is activated, or an error is returned. The path can contain colons (‘:’), but semicolons (;) are not permitted.</p>
-<p>The <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_redo_log_archive_dirs" target="_blank" rel="noopener"><code>innodb_redo_log_archive_dirs</code></a> variable must be configured before the redo log archiving can be activated. The default value is <code>NULL</code>, which does not permit activating redo log archiving.</p>
-<p>Notes</p>
-<p>The archive directories that you specify must satisfy the following requirements. (The requirements are enforced when redo log archiving is activated.):</p>
-<ul>
-<li><p>Directories must exist. Directories are not created by the redo log archive process. Otherwise, the following error is returned:</p>
-<p>ERROR 3844 (HY000): Redo log archive directory ‘<em>directory_path1</em>‘ does not exist or is not a directory</p>
-</li>
-<li><p>Directories must not be world-accessible. This is to prevent the redo log data from being exposed to unauthorized users on the system. Otherwise, the following error is returned:</p>
-<p>ERROR 3846 (HY000): Redo log archive directory ‘<em>directory_path1</em>‘ is accessible to all OS users</p>
-</li>
-<li><p>Directories cannot be those defined by <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_datadir" target="_blank" rel="noopener"><code>datadir</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_data_home_dir" target="_blank" rel="noopener"><code>innodb_data_home_dir</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_directories" target="_blank" rel="noopener"><code>innodb_directories</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_log_group_home_dir" target="_blank" rel="noopener"><code>innodb_log_group_home_dir</code></a>,<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_temp_tablespaces_dir" target="_blank" rel="noopener"><code>innodb_temp_tablespaces_dir</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_tmpdir" target="_blank" rel="noopener"><code>innodb_tmpdir</code></a> <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_undo_directory" target="_blank" rel="noopener"><code>innodb_undo_directory</code></a>, or <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_secure_file_priv" target="_blank" rel="noopener"><code>secure_file_priv</code></a>, nor can they be parent directories or subdirectories of those directories. Otherwise, an error similar to the following is returned:</p>
-<p>ERROR 3845 (HY000): Redo log archive directory ‘<em>directory_path1</em>‘ is in, under, or over server directory ‘datadir’ - ‘<em>/path/to/data_directory</em>‘</p>
-</li>
-</ul>
-<p>When a backup utility that supports redo log archiving initiates a backup, the backup utility activates redo log archiving by invoking the <code>innodb_redo_log_archive_start()</code> user-defined function.</p>
-<p>If you are not using a backup utility that supports redo log archiving, redo log archiving can also be activated manually, as shown:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT innodb_redo_log_archive_start('label', 'subdir');</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br><span class="line">| innodb_redo_log_archive_start('label') |</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br><span class="line">| 0                                        |</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br></pre></td></tr></table></figure>
-
-<p>Or:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; DO innodb_redo_log_archive_start('label', 'subdir');</span><br><span class="line">Query OK, 0 rows affected (0.09 sec)</span><br></pre></td></tr></table></figure>
-
-<p>Note</p>
-<p>The MySQL session that activates redo log archiving (using <code>innodb_redo_log_archive_start()</code>) must remain open for the duration of the archiving. The same session must deactivate redo log archiving (using <code>innodb_redo_log_archive_stop()</code>). If the session is terminated before the redo log archiving is explicitly deactivated, the server deactivates redo log archiving implicitly and removes the redo log archive file.</p>
-<p>where <em>label</em> is a label defined by <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_redo_log_archive_dirs" target="_blank" rel="noopener"><code>innodb_redo_log_archive_dirs</code></a>; <code>subdir</code> is an optional argument for specifying a subdirectory of the directory identified by <em>label</em> for saving the archive file; it must be a simple directory name (no slash (/), backslash (), or colon (:) is permitted). <code>subdir</code> can be empty, null, or it can be left out.</p>
-<p>Only users with the <a href="https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_innodb-redo-log-archive" target="_blank" rel="noopener"><code>INNODB_REDO_LOG_ARCHIVE</code></a> privilege can activate redo log archiving by invoking <code>innodb_redo_log_archive_start()</code>, or deactivate it using<code>innodb_redo_log_archive_stop()</code>. The MySQL user running the backup utility or the MySQL user activating and deactivating redo log archiving manually must have this privilege.</p>
-<p>The redo log archive file path is <code>*directory_identified_by_label*/[*subdir*/]archive.*serverUUID*.000001.log</code>, where <code>*directory_identified_by_label*</code> is the archive directory identified by the <code>*label*</code> argument for <code>innodb_redo_log_archive_start()</code>. <code>*subdir*</code> is the optional argument used for <code>innodb_redo_log_archive_start()</code>.</p>
-<p>For example, the full path and name for a redo log archive file appears similar to the following:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;directory_path&#x2F;subdirectory&#x2F;archive.e71a47dc-61f8-11e9-a3cb-080027154b4d.000001.log</span><br></pre></td></tr></table></figure>
-
-<p>After the backup utility finishes copying <code>InnoDB</code> data files, it deactivates redo log archiving by calling the <code>innodb_redo_log_archive_stop()</code> user-defined function.</p>
-<p>If you are not using a backup utility that supports redo log archiving, redo log archiving can also be deactivated manually, as shown:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT innodb_redo_log_archive_stop();</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br><span class="line">| innodb_redo_log_archive_stop() |</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br><span class="line">| 0                              |</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br></pre></td></tr></table></figure>
-
-<p>Or:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; DO innodb_redo_log_archive_stop();</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
-
-<p>After the stop function completes successfully, the backup utility looks for the relevant section of redo log data from the archive file and copies it into the backup.</p>
-<p>After the backup utility finishes copying the redo log data and no longer needs the redo log archive file, it deletes the archive file.</p>
-<p>Removal of the archive file is the responsibility of the backup utility in normal situations. However, if the redo log archiving operation quits unexpectedly before<code>innodb_redo_log_archive_stop()</code> is called, the MySQL server removes the file.</p>
-<h5 id="Performance-Considerations"><a href="#Performance-Considerations" class="headerlink" title="Performance Considerations"></a>Performance Considerations</h5><p>Activating redo log archiving typically has a minor performance cost due to the additional write activity.</p>
-<p>On Unix and Unix-like operating systems, the performance impact is typically minor, assuming there is not a sustained high rate of updates. On Windows, the performance impact is typically a bit higher, assuming the same.</p>
-<p>If there is a sustained high rate of updates and the redo log archive file is on the same storage media as the redo log files, the performance impact may be more significant due to compounded write activity.</p>
-<p>If there is a sustained high rate of updates and the redo log archive file is on slower storage media than the redo log files, performance is impacted arbitrarily.</p>
-<p>Writing to the redo log archive file does not impede normal transactional logging except in the case that the redo log archive file storage media operates at a much slower rate than the redo log file storage media, and there is a large backlog of persisted redo log blocks waiting to be written to the redo log archive file. In this case, the transactional logging rate is reduced to a level that can be managed by the slower storage media where the redo log archive file resides.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1829,7 +1787,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

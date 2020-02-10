@@ -191,6 +191,72 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/10/other/auto+const+pointer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/10/other/auto+const+pointer/" class="post-title-link" itemprop="url">other/auto+const+pointer</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-10 19:05:19" itemprop="dateCreated datePublished" datetime="2020-02-10T19:05:19+08:00">2020-02-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="auto-const-pointer"><a href="#auto-const-pointer" class="headerlink" title="auto+const+pointer"></a>auto+const+pointer</h2><p>在项目中遇到了需要使用auto的场景，那是一个复杂类型的指针。使用时出了一些疑问，所以有了这篇笔记。</p>
+<p>I’ve got a problem when I need to use the ‘auto’ keyword in a project. This’s why I wrote this note.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/10/other/auto+const+pointer/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/18/read/ICMPTheInternetControlMessageProtocol/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1214,134 +1280,6 @@ $19 = 200</code></pre><p>也可以用于对寄存器赋值!!!</p>
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/48RotateImage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/48RotateImage/" class="post-title-link" itemprop="url">leetcode/48RotateImage</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:20:51 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:20:51+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Rotate-Image"><a href="#Rotate-Image" class="headerlink" title="Rotate Image"></a>Rotate Image</h1><p><img src="https://i.imgur.com/7hLPAwu.png" alt="">  </p>
-<blockquote>
-<p>顺时针90度旋转矩阵<br>要求就地更改(不能创建另外一个矩阵)</p>
-</blockquote>
-<h2 id="我的做法"><a href="#我的做法" class="headerlink" title="我的做法"></a>我的做法</h2><p>思路:  </p>
-<blockquote>
-<p>使用下标来获取元素更方便<br>从外层到内层, 一层层旋转, 每次旋转n个, 每层旋转4次<br>不可避免需要保存一组数值  </p>
-</blockquote>
-<p>具体代码:  </p>
-<pre><code>class Solution {
-public:
-    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
-        int n = matrix.size();
-
-        for (int i = 0; i &lt; n / 2; ++i){
-            // backup first stream
-            vector&lt;int&gt; backup ((matrix.begin() + i)-&gt;begin() + i + 1, 
-                (matrix.begin() + i)-&gt;end() - i);
-
-                for (int col = i + 1, row = n - i - 2; col &lt; n - i; ++col, --row)
-                    matrix[i][col] = matrix[row][i];
-
-                for (int row = i, col = i; row &lt; n - i - 1; ++row, ++col)
-                    matrix[row][i] = matrix[n - 1 - i][col];
-
-                for (int col = i, row = n - i - 1; col &lt; n - i - 1; ++col, --row)
-                    matrix[n - 1 - i][col] = matrix[row][n - i - 1];
-
-                for (int row = n - 1 - i, t = backup.size() - 1; t &gt;= 0; --row, --t)
-                    matrix[row][n - i - 1] = backup[t];
-        }
-    }
-};</code></pre><p>最后结果:  </p>
-<p><img src="https://i.imgur.com/IgjHagZ.png" alt="">  </p>
-<h2 id="dalao的做法"><a href="#dalao的做法" class="headerlink" title="dalao的做法"></a>dalao的做法</h2><pre><code>class Solution {
-public:
-    void swapLR(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
-        int n = matrix.size();
-        for (int i = 0; i &lt; n; i++) {
-            int l = 0;
-            int r = n-1;
-            while(l&lt;r) {
-                int temp = matrix[i][l];
-                matrix[i][l++] = matrix[i][r];
-                matrix[i][r--] = temp;
-            }
-        }
-    }
-
-    void swapdig(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
-        int n = matrix.size();
-        for (int i = 0; i &lt; n-1; i++) {
-            for (int j = 0; j &lt; n-1-i; j++) {
-                int temp = matrix[i][j];
-                matrix[i][j] = matrix[n-1-j][n-1-i];
-                matrix[n-1-j][n-1-i] = temp;
-            }
-        }
-    }
-
-    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) {
-        swapLR(matrix);
-        swapdig(matrix);
-    }
-};</code></pre><p>首先分析 swapLR 函数:  </p>
-<blockquote>
-<p>emmmm, 它好像将左右的数据对换了<br><img src="https://i.imgur.com/6uc80iU.png" alt=""><br>emmm, 还是看不懂有什么规律, </p>
-</blockquote>
-<p><img src="https://i.imgur.com/fjWYKBX.png" alt="">  </p>
-<p>6啊…, 更改后的行就是最终结果的列, 只要遍历倒叙一遍就可以了<br>这种思路是如何得出的? 需要哪方面的知识么?<br>思路这种东西好难弥补, 我自认为不出意外的话, 是无法想到这一点的</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1412,7 +1350,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>other/auto+const+pointer</title>
+    <url>/2020/02/10/other/auto+const+pointer/</url>
+    <content><![CDATA[<h2 id="auto-const-pointer"><a href="#auto-const-pointer" class="headerlink" title="auto+const+pointer"></a>auto+const+pointer</h2><p>在项目中遇到了需要使用auto的场景，那是一个复杂类型的指针。使用时出了一些疑问，所以有了这篇笔记。</p>
+<p>I’ve got a problem when I need to use the ‘auto’ keyword in a project. This’s why I wrote this note.</p>
+<a id="more"></a>
+
+<p>参考以下代码：</p>
+<p>think flowing codes</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> *p = &amp;i;</span><br><span class="line"><span class="keyword">auto</span> p2 = p;</span><br></pre></td></tr></table></figure>
+<p>此时我想要 p2 安全一些，我不想改变 i 的值，那么或许可以这样做：</p>
+<p>if I want p2 to be safer and don’t want to change the value of ‘i’, maybe I can do this:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> <span class="keyword">const</span> p2 = p; <span class="comment">// or const auto p2 = p; ?</span></span><br></pre></td></tr></table></figure>
+
+<p>这里 consnt 在 auto 位置不影响其语义，p2 依旧可以改变 i 的值。（ps：双 const 会报错）</p>
+<p>The position of ‘const’ at ‘auto’ doesn’t affect anything. The value of ‘i’ still can be changed by ‘p2’. (PS: double-const will get an error)</p>
+<p>我想要的是一个双 const 的指针，如何实现呢？</p>
+<p>I want a double-const pointer, how can get it?</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> <span class="keyword">const</span>* <span class="keyword">const</span> p2 = p;</span><br></pre></td></tr></table></figure>
+
+<p>Emmm, 好像并不是很有意义写这篇笔记</p>
+<p>it seems doesn’t make sense to write this note…</p>
+]]></content>
+  </entry>
+  <entry>
     <title>read/ICMPTheInternetControlMessageProtocol</title>
     <url>/2020/01/18/read/ICMPTheInternetControlMessageProtocol/</url>
     <content><![CDATA[<h3 id="5-6-ICMP-The-Internet-Control-Message-Protocol"><a href="#5-6-ICMP-The-Internet-Control-Message-Protocol" class="headerlink" title="5.6 ICMP: The Internet Control Message Protocol"></a>5.6 ICMP: The Internet Control Message Protocol</h3><p>The Internet Control Message Protocol (ICMP), specified in [RFC 792], is used by<br>hosts and routers to communicate network-layer information to each other. The most<br>typical use of ICMP is for error reporting. For example, when running an HTTP<br>session, you may have encountered an error message such as “Destination network<br>unreachable.” This message had its origins in ICMP. At some point, an IP router was<br>unable to find a path to the host specified in your HTTP request. That router created<br>and sent an ICMP message to your host indicating the error.</p>
