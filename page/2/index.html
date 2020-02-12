@@ -191,6 +191,129 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/gdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/gdb/" class="post-title-link" itemprop="url">other/gdb</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:44:16" itemprop="dateCreated datePublished" datetime="2020-01-09T17:44:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h3><p>gdb是一个 c/c++ debug 工具</p>
+<p>没有一个教程和文档比 gdb 官方手册更加详细和准确</p>
+<p>这个文件只是简单地介绍其中一小部分频繁使用的功能, 具体需要结合 gdb<br>的官方文档使用</p>
+<p>(gdb非常强大, 其文档有400多页, 完全是一本参考书的规格)</p>
+<p>( 同时gdb也做到了透明, 大多数时候你使用它只需掌握极少的几条指令(基础功能中的指令) )</p>
+<h3 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h3><h4 id="n-next"><a href="#n-next" class="headerlink" title="n : next"></a>n : next</h4><p>用于跳转到下一条语句, 同时会先执行当前语句, 可配合 number 跳转多行</p>
+<h4 id="s-step"><a href="#s-step" class="headerlink" title="s : step"></a>s : step</h4><p>进入函数调用</p>
+<h4 id="b-break"><a href="#b-break" class="headerlink" title="b : break"></a>b : break</h4><p>断点</p>
+<h4 id="c-continue"><a href="#c-continue" class="headerlink" title="c : continue"></a>c : continue</h4><p>继续执行</p>
+<h4 id="p-print"><a href="#p-print" class="headerlink" title="p : print"></a>p : print</h4><p>打印变量信息, ptype 可以打印类型信息(用于类, 它会将类的所有成员都打印出来)</p>
+<h4 id="l-：list"><a href="#l-：list" class="headerlink" title="l ：list"></a>l ：list</h4><p>查看当前行附近的代码信息, 可以指定行号和函数, 可以用于跳转到指定文件</p>
+<h4 id="bt-backtrace"><a href="#bt-backtrace" class="headerlink" title="bt : backtrace"></a>bt : backtrace</h4><p>调用回溯, 查看当前调用栈</p>
+<h4 id="f-frame"><a href="#f-frame" class="headerlink" title="f : frame"></a>f : frame</h4><p>与 bt 的信息配合, 使用 number 指定跳转到某条函数调用之前</p>
+<h4 id="info"><a href="#info" class="headerlink" title="info"></a>info</h4><p>这条指令用于观察gdb指令的当前信息  </p>
+<p>例如: info breakpoints, info frame, info watchpoints, info record… </p>
+<h4 id="u-until"><a href="#u-until" class="headerlink" title="u : until"></a>u : until</h4><p>跳出当前循环, 或者配合 number 指定执行到何处</p>
+<h4 id="finish"><a href="#finish" class="headerlink" title="finish"></a>finish</h4><p>完成当前函数调用, 跳转到函数调用的最后一条语句</p>
+<h3 id="中级功能"><a href="#中级功能" class="headerlink" title="中级功能"></a>中级功能</h3><h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>观察点, 可以用来观察一个变量或者表达式的变化</p>
+<h4 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h4><p>检查点用来保存当前进度, 可以在执行若干语句之后回到当前检查点</p>
+<h4 id="record"><a href="#record" class="headerlink" title="record"></a>record</h4><p>记录命令的使用信息, 实用之处在于: 使用其中的 full 模式, 可以实现 reverse 操作</p>
+<p>比如 reverse-next, 这将会反向执行到上一个语句</p>
+<h4 id="forward-search-search"><a href="#forward-search-search" class="headerlink" title="forward-search/search"></a>forward-search/search</h4><p>前向搜索/搜索</p>
+<h4 id="inferior"><a href="#inferior" class="headerlink" title="inferior"></a>inferior</h4><p>gdb支持debug多个进程</p>
+<h4 id="thread"><a href="#thread" class="headerlink" title="thread"></a>thread</h4><p>gdb支持debug多线程程序</p>
+<h4 id="catch"><a href="#catch" class="headerlink" title="catch"></a>catch</h4><p>捕获一个事件</p>
+<h4 id="singal"><a href="#singal" class="headerlink" title="singal"></a>singal</h4><p>捕获一个信号</p>
+<h4 id="win-winheight"><a href="#win-winheight" class="headerlink" title="win  : winheight"></a>win  : winheight</h4><p>进入可视化模式, 简单来说就是代码界面拥有了窗口, 同时一系列信息也会显示在上面</p>
+<p>(不过这个模式实际上会出现会显示错误, 比如会显示删除符号, 显示tab键之类的问题, 我不知道这算不算bug…)</p>
+<p>(或许我使用方式不对? )</p>
+<h4 id="e-edit"><a href="#e-edit" class="headerlink" title="e : edit"></a>e : edit</h4><p>你可以在 gdb 中直接更改源文件, 不过这好像有点鸡肋…</p>
+<h4 id="disassemble"><a href="#disassemble" class="headerlink" title="disassemble"></a>disassemble</h4><p>反编译代码, 显示 machine code</p>
+<h4 id="diaplay"><a href="#diaplay" class="headerlink" title="diaplay"></a>diaplay</h4><p>自动显示变量</p>
+<h4 id="set-convenience-variable"><a href="#set-convenience-variable" class="headerlink" title="set (convenience variable)"></a>set (convenience variable)</h4><p>使用该指令可以保存变量, 之后你可以用在任何命令的表达式里面, 记得前面加美元($)前缀</p>
+<pre><code>(gdb) set {int}0x604010 = 4
+(gdb) p v[0]
+$16 = (__gnu_cxx::__alloc_traits&lt;std::allocator&lt;int&gt; &gt;::value_type &amp;) @0x604010: 4
+(gdb) set {int}0x604010 = 5
+(gdb) p v[0]
+$17 = (__gnu_cxx::__alloc_traits&lt;std::allocator&lt;int&gt; &gt;::value_type &amp;) @0x604010: 5</code></pre><p>它可以用于对内存赋值!!!</p>
+<pre><code>(gdb) p $rbx
+$18 = 1
+(gdb) set $rbx = 200
+(gdb) p $rbx
+$19 = 200</code></pre><p>也可以用于对寄存器赋值!!!</p>
+<h4 id="convenience-function-10-12"><a href="#convenience-function-10-12" class="headerlink" title="convenience function (10.12)"></a>convenience function (10.12)</h4><p>gdb提供了一系列的函数以供使用, 例如:</p>
+<pre><code>$_strlen(str)     $_streq(str1, str2)      $_regex(str, regex) </code></pre><p>前面依旧要加 ‘$’ 符号</p>
+<h4 id="register-这个我超喜欢的-10-13"><a href="#register-这个我超喜欢的-10-13" class="headerlink" title="register (这个我超喜欢的) (10.13)"></a>register (这个我超喜欢的) (10.13)</h4><p>这个指令支持你查看寄存器的内容, 使用方法是</p>
+<pre><code>p $register</code></pre><p>(这个或许应该放在 p 中, 不过我觉得这应该放在高级内容中)</p>
+<p>我依稀记得之前我曾经因为无法在运行时看内存内容而苦恼  </p>
+<p>现在这个问题随着gdb的深入学习而解决了, 以后我分析汇编的时候, 可以更加深入了</p>
+<p>并且支持使用 set 来改变内容!!</p>
+<h4 id="info-os-args"><a href="#info-os-args" class="headerlink" title="info os [args]"></a>info os [args]</h4><p>查看系统相关信息, 比如:</p>
+<pre><code>info os files</code></pre><p>将会查看系统使用文件描述符的信息</p>
+<h4 id="trace-13"><a href="#trace-13" class="headerlink" title="trace (13)"></a>trace (13)</h4><p>按照 gdb 官方文档的描述, 这个指令是用来调试那些对于实时性有要求的程序  </p>
+<p>但是我也没能理解这个指令是如何使用的, 同时有这么一句话</p>
+<pre><code>The tracepoint facility is currently available only for remote targets
+追溯点当前只对远程目标有效</code></pre><p>这个指令的内容占了整个 13 章节, 应该相当重要. 所以这里仅仅记录一下, 或许以后会用到</p>
+<pre><code>14 Debugging Programs That Use Overlays</code></pre><p>=========</p>
+<p>后续内容(从 13 章往后)是一些高级内容(以置于我不得不将这段主题的标题改成中级功能…)</p>
+<p>比如大型程序, 远程调试 … </p>
+<p>暂不研究</p>
+<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><p>源自<a href="http://www.waider.ie/music/lyrics/gdb.html" target="_blank" rel="noopener">http://www.waider.ie/music/lyrics/gdb.html</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">GDB!</span><br><span class="line">based on _Tragedy_ by Barry, Robin <span class="keyword">and</span> Maurice Gibb</span><br><span class="line"></span><br><span class="line">Here<span class="number">'</span>s vi</span><br><span class="line">In a lost <span class="keyword">and</span> lonely part of code</span><br><span class="line">Held in time</span><br><span class="line">In a world of bugs my head explodes</span><br><span class="line">Goin<span class="number">'</span> <span class="built_in">home</span></span><br><span class="line">I just can<span class="number">'</span>t make it all alone</span><br><span class="line">I really should be coding you, coding you</span><br><span class="line"><span class="built_in">running</span> you, <span class="built_in">running</span> you</span><br><span class="line"></span><br><span class="line">CHORUS:</span><br><span class="line">GDB when the program<span class="number">'</span>s wrong <span class="keyword">and</span> the debug<span class="number">'</span>s on</span><br><span class="line">It<span class="number">'</span>s GDB when the system dies <span class="keyword">and</span> you don<span class="number">'</span>t know why</span><br><span class="line">It<span class="number">'</span>s hard to bear</span><br><span class="line">With no one to help you</span><br><span class="line">You're going nowhere</span><br><span class="line">GDB when you <span class="built_in">press</span> control <span class="keyword">and</span> the box just rolls</span><br><span class="line">It<span class="number">'</span>s GDB when the system dies <span class="keyword">and</span> you don<span class="number">'</span>t know why</span><br><span class="line">It<span class="number">'</span>s hard to bear</span><br><span class="line">With no one beside you</span><br><span class="line">You're going nowhere</span><br><span class="line"></span><br><span class="line">Night <span class="keyword">and</span> Day</span><br><span class="line">There<span class="number">'</span>s a burning down inside of me</span><br><span class="line">Burning code</span><br><span class="line">And a kernel that won<span class="number">'</span>t let me be</span><br><span class="line">Down it goes</span><br><span class="line"><span class="keyword">and</span> I just can<span class="number">'</span>t take it all alone</span><br><span class="line">I really should be coding you, coding you</span><br><span class="line">Running you, <span class="built_in">running</span> you</span><br><span class="line"></span><br><span class="line">REPEAT CHORUS</span><br><span class="line"></span><br><span class="line"><span class="function">REPEAT <span class="title">CHORUS</span><span class="params">(fade)</span></span></span><br></pre></td></tr></table></figure>
+<p>源自<a href="https://www.gnu.org/music/gdb-song.html" target="_blank" rel="noopener">https://www.gnu.org/music/gdb-song.html</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Let<span class="number">'</span>s start at the very beginning, a very good place to start,</span><br><span class="line">When you're learning to sing, its Do, Re, Mi; </span><br><span class="line">When you're learning to code, its G, D, B. </span><br><span class="line">(<span class="built_in">background</span>) G, D, B.</span><br><span class="line"></span><br><span class="line">The first three letters just happen to be, G, D, B.</span><br><span class="line"></span><br><span class="line">(<span class="built_in">background</span>) G, D, B.</span><br><span class="line"></span><br><span class="line">(Chorus)</span><br><span class="line"></span><br><span class="line">G!,</span><br><span class="line">GNU!, it<span class="number">'</span>s Stallman<span class="number">'</span>s hope,</span><br><span class="line">D,</span><br><span class="line">a <span class="keyword">break</span> I <span class="built_in">set</span> myself.</span><br><span class="line">B,</span><br><span class="line">debug that rotten code,</span><br><span class="line">Run,</span><br><span class="line">a far, far way to go.</span><br><span class="line">Print,</span><br><span class="line">to see what you have done,</span><br><span class="line">Set,</span><br><span class="line">a patch that follows <span class="built_in">print</span>.</span><br><span class="line">Quit,</span><br><span class="line"><span class="keyword">and</span> recompile your code - - -</span><br><span class="line">That will bring it back to G,</span><br><span class="line">                              D,</span><br><span class="line">                                 B,</span><br><span class="line">                                    &lt;link&gt;</span><br><span class="line">(Resume from the Chorus)</span><br></pre></td></tr></table></figure>
+<p>感觉, 嗯, 很有气势</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/48RotateImage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1134,90 +1257,6 @@ public:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/SortedIndexBuilds/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/SortedIndexBuilds/" class="post-title-link" itemprop="url">read/SortedIndexBuilds</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-06 17:23:10" itemprop="dateModified" datetime="2019-08-06T17:23:10+08:00">2019-08-06</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="15-6-2-3-Sorted-Index-Builds"><a href="#15-6-2-3-Sorted-Index-Builds" class="headerlink" title="15.6.2.3 Sorted Index Builds"></a>15.6.2.3 Sorted Index Builds</h4><p>There are three phases to an index build. In the first phase, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_clustered_index" target="_blank" rel="noopener">clustered index</a> is scanned, and index entries are generated and added to the sort buffer. When the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_sort_buffer" target="_blank" rel="noopener">sort buffer</a> becomes full, entries are sorted and written out to a temporary intermediate file. This process is also known as a “run”. In the second phase, with one or more runs written to the temporary intermediate file, a merge sort is performed on all entries in the file. In the third and final phase, the sorted entries are inserted into the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_b_tree" target="_blank" rel="noopener">B-tree</a>.</p>
-<p>索引构建有三个阶段, 第一阶段, 扫描聚簇索引, 生成索引条目, 添加到排序缓存中. 当排序缓存被填满时, 条目数据排序并存储到临时的中间文件. 这个过程也被成为 ‘run’, 第二阶段, 随着 ‘runs’ 写入到临时中间文件, 对所有文件中的条目数据执行合并排序, 第三阶段, 排序好的条目数据插入到 B-tree 中.</p>
-<p>Prior to the introduction of sorted index builds, index entries were inserted into the B-tree one record at a time using insert APIs. This method involved opening a B-tree<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_cursor" target="_blank" rel="noopener">cursor</a> to find the insert position and then inserting entries into a B-tree page using an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimistic" target="_blank" rel="noopener">optimistic</a> insert. If an insert failed due to a page being full, a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_pessimistic" target="_blank" rel="noopener">pessimistic</a> insert would be performed, which involves opening a B-tree cursor and splitting and merging B-tree nodes as necessary to find space for the entry. The drawbacks of this “top-down”method of building an index are the cost of searching for an insert position and the constant splitting and merging of B-tree nodes.</p>
-<p>在引进有序索引构建之前, 使用插入 APIs 一次一条, 将索引条目插入到 B-tree 中. 这个方法包括打开 B-tree 光标, 查找插入位置, 然后使用 optimistic 插入数据到 B-tree 页中.</p>
-<p>如果因为页面已满而插入失败, 执行 pessimistic 插入, 包括打开 B-tree 光标, 并根据需要分裂合并 B-tree 节点, 以便为条目找到空间. </p>
-<p>Sorted index builds use a “bottom-up” approach to building an index. With this approach, a reference to the right-most leaf page is held at all levels of the B-tree. The right-most leaf page at the necessary B-tree depth is allocated and entries are inserted according to their sorted order. Once a leaf page is full, a node pointer is appended to the parent page and a sibling leaf page is allocated for the next insert. This process continues until all entries are inserted, which may result in inserts up to the root level. When a sibling page is allocated, the reference to the previously pinned leaf page is released, and the newly allocated leaf page becomes the right-most leaf page and new default insert location.</p>
-<p>有序索引使用自底向上方法构建索引, 使用这种方法, 所有 B-tree 层级都有一个指向最右叶子页的引用. 最右叶子页在必要的 B-tree 深度分配, 条目根据他们有序顺序插入. 当叶子节点满了, 父节点增加一个节点指针, 为下一次插入分配一个 sibling 叶子页. 这个过程持续到所有的条目插入为止, 可能导致插入到根层级.</p>
-<p>当 sibling 页分配后, 指向之前固定的叶子页的引用被释放, 新分配的叶子页成为最右叶子页和新的插入位置</p>
-<p>(PS. 和自平衡二叉树类似, 插入节点到尾端节点, 不断上溢到适当的位置)</p>
-<h5 id="Reserving-B-tree-Page-Space-for-Future-Index-Growth"><a href="#Reserving-B-tree-Page-Space-for-Future-Index-Growth" class="headerlink" title="Reserving B-tree Page Space for Future Index Growth"></a>Reserving B-tree Page Space for Future Index Growth</h5><p>To set aside space for future index growth, you can use the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> configuration option to reserve a percentage of B-tree page space. For example, setting <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> to 80 reserves 20 percent of the space in B-tree pages during a sorted index build. This setting applies to both B-tree leaf and non-leaf pages. It does not apply to external pages used for <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> entries. The amount of space that is reserved may not be exactly as configured, as the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_fill_factor" target="_blank" rel="noopener"><code>innodb_fill_factor</code></a> value is interpreted as a hint rather than a hard limit.</p>
-<p>为了设置空间为以后的索引增长做准备, 可以使用 innodb_fill_factor 设置存储百分比 B-tree 页空间, 比如, 设置 innodb_fill_factor 为 80, 存储 20% 的空间. 这个设置引用于所有 B-tree 叶和非叶页, 不适用于 TEXT / BLOB 条目的页. </p>
-<p>存储的页面大小不一定精准, innodb_fill_factor 是一个提示, 而并不是硬限制</p>
-<h5 id="Sorted-Index-Builds-and-Full-Text-Index-Support"><a href="#Sorted-Index-Builds-and-Full-Text-Index-Support" class="headerlink" title="Sorted Index Builds and Full-Text Index Support"></a>Sorted Index Builds and Full-Text Index Support</h5><p>Sorted index builds are supported for <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_fulltext_index" target="_blank" rel="noopener">fulltext indexes</a>. Previously, SQL was used to insert entries into a fulltext index.</p>
-<p>有序索引构建支持 fulltext index.</p>
-<h5 id="Sorted-Index-Builds-and-Compressed-Tables"><a href="#Sorted-Index-Builds-and-Compressed-Tables" class="headerlink" title="Sorted Index Builds and Compressed Tables"></a>Sorted Index Builds and Compressed Tables</h5><p>For <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_compression" target="_blank" rel="noopener">compressed tables</a>, the previous index creation method appended entries to both compressed and uncompressed pages. When the modification log (representing free space on the compressed page) became full, the compressed page would be recompressed. If compression failed due to a lack of space, the page would be split. With sorted index builds, entries are only appended to uncompressed pages. When an uncompressed page becomes full, it is compressed. Adaptive padding is used to ensure that compression succeeds in most cases, but if compression fails, the page is split and compression is attempted again. This process continues until compression is successful. For more information about compression of B-Tree pages, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-compression-internals.html" target="_blank" rel="noopener">Section 15.9.1.5, “How Compression Works for InnoDB Tables”</a>.</p>
-<p>对压缩表, 之前创建索引的方法将条目添加到压缩/未压缩页面, 当更改日志逐渐增多, 压缩页需要重压缩. 如果因为空间不足而压缩失败, 也需要被分割, 在有序构建中, 条目仅仅添加到未压缩页. 当未压缩页逐渐填满, 压缩该页.</p>
-<p>在大多数情况下适应的填充用作确保压缩成功, 如果压缩失败, 页被分隔, 然后再次尝试压缩. 这个过程直到压缩成功为止.</p>
-<h5 id="Sorted-Index-Builds-and-Redo-Logging"><a href="#Sorted-Index-Builds-and-Redo-Logging" class="headerlink" title="Sorted Index Builds and Redo Logging"></a>Sorted Index Builds and Redo Logging</h5><p><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_redo_log" target="_blank" rel="noopener">Redo logging</a> is disabled during a sorted index build. Instead, there is a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_checkpoint" target="_blank" rel="noopener">checkpoint</a> to ensure that the index build can withstand a crash or failure. The checkpoint forces a write of all dirty pages to disk. During a sorted index build, the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_cleaner" target="_blank" rel="noopener">page cleaner</a> thread is signaled periodically to flush <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_dirty_page" target="_blank" rel="noopener">dirty pages</a> to ensure that the checkpoint operation can be processed quickly. Normally, the page cleaner thread flushes dirty pages when the number of clean pages falls below a set threshold. For sorted index builds, dirty pages are flushed promptly to reduce checkpoint overhead and to parallelize I/O and CPU activity.</p>
-<p>在有序索引构建期间, redo logging 不可用. 代替其的是 checkpoint, 它确保索引构建禁得住错误和崩溃. checkpoint 强制脏页写回缓存. </p>
-<h5 id="Sorted-Index-Builds-and-Optimizer-Statistics"><a href="#Sorted-Index-Builds-and-Optimizer-Statistics" class="headerlink" title="Sorted Index Builds and Optimizer Statistics"></a>Sorted Index Builds and Optimizer Statistics</h5><p>Sorted index builds may result in <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_optimizer" target="_blank" rel="noopener">optimizer</a> statistics that differ from those generated by the previous method of index creation. The difference in statistics, which is not expected to affect workload performance, is due to the different algorithm used to populate the index.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1288,7 +1327,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
