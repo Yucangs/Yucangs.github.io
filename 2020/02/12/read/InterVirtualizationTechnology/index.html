@@ -59,7 +59,7 @@
 <meta property="og:image" content="https://s3.amazonaws.com/hs-wordpress/wp-content/uploads/2017/12/12214536/263_041.gif">
 <meta property="og:image" content="https://s3.amazonaws.com/hs-wordpress/wp-content/uploads/2017/12/12214518/263_051.gif">
 <meta property="article:published_time" content="2020-02-12T10:04:27.465Z">
-<meta property="article:modified_time" content="2020-02-12T10:04:27.466Z">
+<meta property="article:modified_time" content="2020-02-14T14:56:58.562Z">
 <meta property="article:author" content="cas">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s3.amazonaws.com/hs-wordpress/wp-content/uploads/2017/12/12214556/263_011.gif">
@@ -226,6 +226,13 @@
 
               <time title="Created: 2020-02-12 18:04:27" itemprop="dateCreated datePublished" datetime="2020-02-12T18:04:27+08:00">2020-02-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-14 22:56:58" itemprop="dateModified" datetime="2020-02-14T22:56:58+08:00">2020-02-14</time>
+              </span>
 
           
 
@@ -272,6 +279,24 @@
 <p>处理器有额外的 EPT (扩展页表)功能，可以使“访客”拥有自己的页表，以用于追踪内存地址。如果没有这个额外扩展，VMM 必须退出虚拟机执行地址转换，这会影响性能/</p>
 <p>Even though the Intel Virtualization Technology was released in 2005, not all current processors from Intel support this technology. The easiest way to verify if your CPU supports this technology is to run the <a href="https://downloadcenter.intel.com/Detail_Desc.aspx?DwnldID=7838" target="_blank" rel="noopener">Intel Processor Identification Utility</a>. After you download and install this program, run it and go to the “CPU Technologies” tab. There you will see, besides “Intel (R) Virtualization Technology,” whether your CPU supports it or not. Also, you can see whether your CPU supports the Extended Page Tables (EPT), besides “Intel VT-x with Extended Page Tables.” See Figure 5.</p>
 <p><a href="https://s3.amazonaws.com/hs-wordpress/wp-content/uploads/2017/12/12214518/263_051.gif" target="_blank" rel="noopener"><img src="https://s3.amazonaws.com/hs-wordpress/wp-content/uploads/2017/12/12214518/263_051.gif" alt="Detecting support for the Intel Virtualization Technology"></a><strong>Figure 5:</strong> Detecting support for the Intel Virtualization Technology</p>
+<p>最后再补充一下 Intel 官方虚拟化技术文档 <a href="https://www.intel.com/content/www/us/en/virtualization/virtualization-technology/intel-virtualization-technology.html" target="_blank" rel="noopener">InterVitrualizationTechnololy</a></p>
+<p>Virtualization abstracts hardware that allows multiple workloads to share a common set of resources. On shared virtualized hardware, a variety of workloads can co-locate while maintaining full isolation from each other, freely migrate across infrastructures, and scale as needed.o</p>
+<p>虚拟化抽象硬件，使多个工作站共享同一份资源。在共享虚拟硬件上，多个工作站可以在保证其完全隔离的情况下协作，自由地在架构中迁移资源，按其所需自适应。</p>
+<p>Businesses tend to gain significant capital and operational efficiencies through virtualization because it leads to improved server utilization and consolidation, dynamic resource allocation and management, workload isolation, security, and automation. Virtualization makes on-demand self-provisioning of services and software-defined orchestration of resources possible, scaling anywhere in a hybrid cloud on-premise or off-premise per specific business needs.</p>
+<p>企业期望通过虚拟化减少支出，提高效率。</p>
+<p>Intel® Virtualization Technology (Intel® VT) represents a growing portfolio of technologies and features that make virtualization practical by eliminating performance overheads and improving security. Intel® Virtualization Technology (Intel® VT) provides hardware assist to the virtualization software, reducing its size, cost, and complexity. Special attention is also given to reduce the virtualization overheads occurring in cache, I/O, and memory. Over the last decade or so, a significant number of hypervisor vendors, solution developers, and users have been enabled with Intel® Virtualization Technology<br>(Intel® VT), which is now serving a broad range of customers in the consumer, enterprise, cloud, communication, technical computing, and many more sectors.</p>
+<p>Intel® Virtualization Technology (Intel® VT) portfolio currently includes (but not limited to):</p>
+<p><strong>CPU virtualization</strong> features enable faithful abstraction of the full prowess of Intel® CPU to a virtual machine (VM). All software in the VM can run without any performance or compatibility hit, as if it was running natively on a dedicated CPU. Live migration from one Intel® CPU generation to another, as well as nested virtualization, is possible.</p>
+<p>CPU 虚拟化：为 VM 提供了 CPU 的抽象。所有 VM 运行的软件不会带来性能或兼容性的缺失。就像使用专有的 CPU 一样。</p>
+<p><strong>Memory virtualization</strong> features allow abstraction isolation and monitoring of memory on a per virtual machine (VM) basis. These features may also make live migration of VMs possible, add to fault tolerance, and enhance security. Example features include direct memory access (DMA) remapping and <a href="https://software.intel.com/en-us/articles/best-practices-for-paravirtualization-enhancements-from-intel-virtualization-technology-ept-and-vt-d" target="_blank" rel="noopener">extended page tables</a> (EPT), including their extensions: accessed and dirty bits, and fast switching of EPT contexts.</p>
+<p>内存 虚拟化：提供基于每个虚拟机的抽象隔离和内存监视。这些特性可能使 VMs 的实时迁移可实现。增加容错力和安全性。比如直接内存访问(DMA)，重映射和扩展页表(EPT)，包括他们的扩展：访问和脏位，快速切换 EPT 上下文。</p>
+<p>I/O virtualization** features facilitate offloading of multi-core packet processing to network adapters as well as direct assignment of virtual machines to virtual functions, including disk I/O. Examples include Intel® Virtualization Technology for Directed I/O (VT-d), Virtual Machine Device Queues (VMDQ), <a href="https://cdrdv2.intel.com/v1/dl/getcontent/321211" target="_blank" rel="noopener">Single Root I/O Virtualization</a> (SR-IOV, a PCI-SIG standard), and <a href="https://www.intel.com/content/www/us/en/io/data-direct-i-o-technology.html" target="_blank" rel="noopener">Intel® Data Direct I/O Technology (Intel® DDIO) enhancements</a>.</p>
+<p><strong>Intel® Graphics Virtualization Technology</strong> (<a href="https://01.org/blogs/skjain/2014/intel®-graphics-virtualization-update" target="_blank" rel="noopener">Intel® GVT</a>) allows VMs to have full and/or shared assignment of the graphics processing units (GPU) as well as the video transcode accelerator engines integrated in Intel <a href="http://ark.intel.com/products/65732/Intel-Xeon-Processor-E3-1230V2-8M-Cache-3_30-GHz" target="_blank" rel="noopener">system-on-chip products</a>. It enables usages such as workstation remoting, desktop-as-a-service, media streaming, and online gaming.</p>
+<p>Intel® Graphics Virtualization Technology</p>
+<p><strong>Virtualization of Security and Network functions</strong> enables transformation of traditional network and security workloads into compute. Virtual functions can be deployed on standard high volume servers anywhere in the data center, network nodes, or cloud, and smartly co-located with business workloads. Examples of technologies making it happen include <a href="https://www.intel.com/content/www/us/en/architecture-and-technology/intel-quick-assist-technology-overview.html" target="_blank" rel="noopener">Intel® QuickAssist Technology (Intel® QAT) </a>and the <a href="https://www.intel.com/content/www/us/en/communications/data-plane-development-kit.html" target="_blank" rel="noopener">Data Plane Development Kit (DPDK)</a>.</p>
+<p>其他有关 Intel VT 的信息：</p>
+<p><a href="https://www.youtube.com/watch?v=XItj08D5KPk" target="_blank" rel="noopener">video</a></p>
+<p><a href="https://itpeernetwork.intel.com/a-peek-into-extended-page-tables/#gs.waxaq1" target="_blank" rel="noopener">EPT</a></p>
 
     </div>
 
