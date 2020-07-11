@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="aboutProcess记录一下关于进程的一些信息 take note something about process">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;aboutProcess">
+<meta property="og:url" content="http://yoursite.com/2020/03/11/other/aboutProcess/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="aboutProcess记录一下关于进程的一些信息 take note something about process">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-11T02:09:33.000Z">
+<meta property="article:modified_time" content="2020-03-11T02:09:33.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/11/other/aboutProcess/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/aboutProcess | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/11/other/aboutProcess/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/aboutProcess
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-11 10:09:33" itemprop="dateCreated datePublished" datetime="2020-03-11T10:09:33+08:00">2020-03-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="aboutProcess"><a href="#aboutProcess" class="headerlink" title="aboutProcess"></a>aboutProcess</h1><p>记录一下关于进程的一些信息</p>
+<p>take note something about process</p>
+<a id="more"></a>
+
+
+
+<h2 id="definition"><a href="#definition" class="headerlink" title="definition"></a>definition</h2><p>进程是运行中的程序, 一个可执行程序可以简单看作一个结构体, 其包含运行程序所需的几个段. 以及一些可选的 dbeug 信息, 和其他如链接信息 …</p>
+<h2 id="structure-wiki"><a href="#structure-wiki" class="headerlink" title="structure wiki"></a>structure <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener">wiki</a></h2><h3 id="File-layout"><a href="#File-layout" class="headerlink" title="File layout"></a>File layout</h3><p><a href="https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png" target="_blank" rel="noopener">picture</a></p>
+<p>Each ELF file is made up of one ELF header, followed by file data. The data can include:</p>
+<ul>
+<li><p>Program header table, describing zero or more <a href="https://en.wikipedia.org/wiki/Memory_segmentation" target="_blank" rel="noopener">memory segments</a> </p>
+<p>程序头表, 零或多个内存段</p>
+</li>
+<li><p>Section header table, describing zero or more sections</p>
+<p>段头表, 零个或多个段</p>
+</li>
+<li><p>Data referred to by entries in the program header table or section header table</p>
+<p>通过在程序头表和段头表的入口引用的数据</p>
+</li>
+</ul>
+<h3 id="File-header"><a href="#File-header" class="headerlink" title="File header"></a>File header</h3><p>The ELF header defines whether to use <a href="https://en.wikipedia.org/wiki/32-bit" target="_blank" rel="noopener">32-</a> or <a href="https://en.wikipedia.org/wiki/64-bit_computing" target="_blank" rel="noopener">64-bit</a> addresses. The header contains three fields that are affected by this setting and offset other fields that follow them. The ELF header is 52 or 64 bytes long for 32-bit and 64-bit binaries respectively.</p>
+<p>ELF ( excutable linkable format ) 头定义了是 32 位还是 64 位寻址. 分别位 52 字节 和 64 字节大小.</p>
+<p>(数据结构表实在是太大了😨, 这里不方便展示, 有需要请去 wiki. )</p>
+<pre><code>Section Headers:
+[Nr] Name              Type             Address           Offset
+       Size              EntSize          Flags  Link  Info  Align
+[ 0]                   NULL             0000000000000000  00000000
+   0000000000000000  0000000000000000           0     0     0</code></pre><p>其中我还发现了 align, 其数值 1, 4, 8, 16 不等, 我这是 64 位的执行程序. 数据段是 8, 代码段为 16.</p>
+<p>(PS: 关于其数据结构, 可以通过 readelf 这个指令来查看, 我还是太小看段的数量了, 有 35 个, 其中包含重要的 .text .rodata .data .bss .debug_info .debug_info. 其中我尝试使用 obkcopy 删除 debug 信息, 发现原先的段数量变少了, 35 -&gt; 30. 也就是数, 如果由需要的话, 可以继续增加段的数量, 这可能由一个类似 TCP/IP header lenth 的东西来指定.</p>
+<h3 id="Program-header"><a href="#Program-header" class="headerlink" title="Program header"></a>Program header</h3><p>The program header table tells the system how to create a process image. It is found at file offset <code>e_phoff</code>, and consists of <code>e_phnum</code> entries, each with size <code>e_phentsize</code>. The layout is slightly different in <a href="https://en.wikipedia.org/wiki/32-bit" target="_blank" rel="noopener">32-bit</a> ELF vs <a href="https://en.wikipedia.org/wiki/64-bit" target="_blank" rel="noopener">64-bit</a> ELF, because the <code>p_flags</code> are in a different structure location for alignment reasons. Each entry is structured as:</p>
+<p>程序头表告诉系统如何创建程序映像.</p>
+<p>(数据结构表实在是太大了😨, 这里不方便展示, 有需要请去 wiki. )</p>
+<pre><code>Program Headers:
+Type           Offset             VirtAddr           PhysAddr
+               FileSiz            MemSiz              Flags  Align</code></pre><p>其中的 flags 字段和文件一样也是有三个: RWX, 我突然有了大胆的想法😎.</p>
+<p>这里也有 align 字段, 一些字段都和我之前学过的东西有挂钩, 比如 虚拟地址内存大小(我很好奇为什么 Size 没写全)</p>
+<p>还有一些关于动态链接, 映射 和一些我也不知道的信息. readelf 及 elf 结构是值得学习的知识.</p>
+<h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><h3 id="get-stat"><a href="#get-stat" class="headerlink" title="get stat"></a>get stat</h3><p>the pimary command in linux to get process status is ‘ps’.  </p>
+<p>ps 有两种格式, 一种是标准的, 使用的指令都需要带 dash. 一种是 BSD 语法. 不带 dash. 但是兼容. 所以你带 dash 也不会出错, 不过会给你个警告.</p>
+<p>(PS: 个人比较推荐的指令是 ps -elyjf, 其中 e 意为所有进程, ly 经常联用可以看到更多的信息, 比如 RSS PRI. j 意为 jobs, 可以看到组 ID 和 session ID 方便 kill. f 好像可以显示更多的东西, 文档的解释是 Do full-format, 表现上最重要的是会将命令行完全展开.)</p>
+<pre><code>This version of ps accepts several kinds of options:
+1   UNIX options, which may be grouped and must be preceded by a dash.
+2   BSD options, which may be grouped and must not be used with a dash.
+3   GNU long options, which are preceded by two dashes.</code></pre><h4 id="fileds"><a href="#fileds" class="headerlink" title="fileds"></a>fileds</h4><p>其中我经常看到以下字段:</p>
+<ul>
+<li><p>S </p>
+<p>status, 状态, 通常为 R(running or runable) 和 S(interruptible sleep). 在这方面标准不如 BSD 好, BSD 还会显示其他的状态.</p>
+</li>
+<li><p>UID        </p>
+<p>用户 ID. 通常是字符串, 如 root</p>
+</li>
+<li><p>PID  </p>
+<p>process ID. 很常用的用于辨别进程的 ID</p>
+</li>
+<li><p>PPID  </p>
+<p>parent process ID. 父进程进程 ID.</p>
+</li>
+<li><p>PGID   </p>
+<p>process group ID. 用户组 ID.</p>
+</li>
+<li><p>SID  </p>
+<p>session ID, 会话 ID.</p>
+</li>
+<li><p>C </p>
+<p>CPU 利用率, 很多都是 0. 文档中的描述是: cpu utilization of the process in “##.#” format.  Currently, it is the CPU time used divided by the time the process has been running  (cputime/realtime ratio), expressed as a percentage.  It will not add up to 100% unless you are lucky.  (alias pcpu). (哈哈, 意思是 CPU 超过 100% 效率就很值么? 我观察这个值都非常低, 但是内存使用率居高不下, 果然 I/O 才是服务器的瓶颈所在)</p>
+</li>
+<li><p>PRI  </p>
+<p>priority 优先级, 这个值应该是越小越好, 通常的进程都是 80. renice 可以赋予新的 nice 调整, 可调整范围是 19 ~ -20. </p>
+</li>
+<li><p>NI   </p>
+<p>这个 和 PRI 对应. 是调整的优先级, 比如 PRI 为 60, NI 为 -20. 意味原始进程 PRI 为 80, 经调整 -20 = 60.</p>
+</li>
+<li><p>RSS    </p>
+<p>resident set size. 意味有多少内存被分配给了这个进程. (很重要的指令)</p>
+</li>
+<li><p>SZ </p>
+<p>进程核心映像大小. size in physical pages of the core image of the process.  This includes text, data, and stack space.  Device mappings are currently excluded; this is subject to change.  See vsz and rss.</p>
+</li>
+<li><p>WCHAN  </p>
+<p>address of the kernel function where the process is sleeping (use wchan if you want the kernel function name).  Running tasks will display a dash (‘-‘) in this column.</p>
+<p>正在等待的内核事件, 可以查看 /boot/System.map (有7w多个…)</p>
+</li>
+<li><p>STIME </p>
+<p>start time, 进程开始事件</p>
+</li>
+<li><p>TTY          </p>
+<p>伪 tty 设备文件</p>
+</li>
+<li><p>TIME </p>
+<p>累计 CPU 时间.</p>
+</li>
+<li><p>CMD</p>
+<p>执行程序时所用的指令. 通过 -f 选项可以查看完整的.</p>
+</li>
+</ul>
+<p>还有其他的 ps 指令, 例如 pgrep.</p>
+<h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h3><p>kill 用来给进程发送信号, 其默认行为为 SIG_TERM. 终止进程, 我觉得这可能就是为什么叫 kill 的原因.</p>
+<p>其指令本身没有什么特别的, 关键是指令的种类:</p>
+<pre><code> 1) SIGHUP         2) SIGINT         3) SIGQUIT         4) SIGILL         5) SIGTRAP
+ 6) SIGABRT         7) SIGBUS         8) SIGFPE         9) SIGKILL        10) SIGUSR1
+11) SIGSEGV        12) SIGUSR2        13) SIGPIPE        14) SIGALRM        15) SIGTERM
+16) SIGSTKFLT    17) SIGCHLD        18) SIGCONT        19) SIGSTOP        20) SIGTSTP
+21) SIGTTIN        22) SIGTTOU        23) SIGURG        24) SIGXCPU        25) SIGXFSZ
+26) SIGVTALRM    27) SIGPROF        28) SIGWINCH    29) SIGIO        30) SIGPWR
+31) SIGSYS        34) SIGRTMIN    35) SIGRTMIN+1    36) SIGRTMIN+2    37) SIGRTMIN+3
+38) SIGRTMIN+4    39) SIGRTMIN+5    40) SIGRTMIN+6    41) SIGRTMIN+7    42) SIGRTMIN+8
+43) SIGRTMIN+9    44) SIGRTMIN+10    45) SIGRTMIN+11    46) SIGRTMIN+12    47) SIGRTMIN+13
+48) SIGRTMIN+14    49) SIGRTMIN+15    50) SIGRTMAX-14    51) SIGRTMAX-13    52) SIGRTMAX-12
+53) SIGRTMAX-11    54) SIGRTMAX-10    55) SIGRTMAX-9    56) SIGRTMAX-8    57) SIGRTMAX-7
+58) SIGRTMAX-6    59) SIGRTMAX-5    60) SIGRTMAX-4    61) SIGRTMAX-3    62) SIGRTMAX-2
+63) SIGRTMAX-1    64) SIGRTMAX</code></pre><p>关于其描述, 可以 <a href="https://www.bogotobogo.com/Linux/linux_process_and_signals.php#signals" target="_blank" rel="noopener">参考</a> .</p>
+<h2 id="about-proc"><a href="#about-proc" class="headerlink" title="about /proc"></a>about /proc</h2><p>/proc 是一个虚拟挂载目录, 里面包括了一些系统信息, 以及以 PID 为名的进程信息. </p>
+<p>我记得我之前看过, 这里就不做笔记了, 详细 <a href="https://www.tecmint.com/exploring-proc-file-system-in-linux/" target="_blank" rel="noopener">参考</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/10/other/somethingAboutBackspace/" rel="prev" title="other/somethingAboutBackspace">
+      <i class="fa fa-chevron-left"></i> other/somethingAboutBackspace
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/12/other/aboutUseServiceToControlMysqld/" rel="next" title="other/aboutUseServiceToControlMysqld">
+      other/aboutUseServiceToControlMysqld <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#aboutProcess"><span class="nav-number">1.</span> <span class="nav-text">aboutProcess</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#definition"><span class="nav-number">1.1.</span> <span class="nav-text">definition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#structure-wiki"><span class="nav-number">1.2.</span> <span class="nav-text">structure wiki</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#File-layout"><span class="nav-number">1.2.1.</span> <span class="nav-text">File layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File-header"><span class="nav-number">1.2.2.</span> <span class="nav-text">File header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Program-header"><span class="nav-number">1.2.3.</span> <span class="nav-text">Program header</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#command"><span class="nav-number">1.3.</span> <span class="nav-text">command</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get-stat"><span class="nav-number">1.3.1.</span> <span class="nav-text">get stat</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fileds"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">fileds</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kill"><span class="nav-number">1.3.2.</span> <span class="nav-text">kill</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#about-proc"><span class="nav-number">1.4.</span> <span class="nav-text">about &#x2F;proc</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

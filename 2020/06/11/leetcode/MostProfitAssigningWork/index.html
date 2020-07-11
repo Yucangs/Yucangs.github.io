@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Most Profit Assigning Work摸了两个月鱼的胡汉三我又回来了! ( •̀ ω •́ )✧ (其实也不算摸鱼, 只是懒得写笔记了而已)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode&#x2F;MostProfitAssigningWork">
+<meta property="og:url" content="http://yoursite.com/2020/06/11/leetcode/MostProfitAssigningWork/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Most Profit Assigning Work摸了两个月鱼的胡汉三我又回来了! ( •̀ ω •́ )✧ (其实也不算摸鱼, 只是懒得写笔记了而已)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/cm6DHwt.png">
+<meta property="og:image" content="https://imgur.com/rleXObP.png">
+<meta property="og:image" content="https://imgur.com/kfJgo5e.png">
+<meta property="article:published_time" content="2020-06-11T03:51:42.000Z">
+<meta property="article:modified_time" content="2020-06-11T03:51:42.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/cm6DHwt.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/11/leetcode/MostProfitAssigningWork/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>leetcode/MostProfitAssigningWork | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/leetcode/MostProfitAssigningWork/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode/MostProfitAssigningWork
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-11 11:51:42" itemprop="dateCreated datePublished" datetime="2020-06-11T11:51:42+08:00">2020-06-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Most-Profit-Assigning-Work"><a href="#Most-Profit-Assigning-Work" class="headerlink" title="Most Profit Assigning Work"></a>Most Profit Assigning Work</h2><p>摸了两个月鱼的胡汉三我又回来了! ( •̀ ω •́ )✧ (其实也不算摸鱼, 只是懒得写笔记了而已)</p>
+<a id="more"></a>
+
+
+<p><img src="https://imgur.com/cm6DHwt.png" alt=""></p>
+<p>任务难度, 任务报酬, 工作能力, 求出最大工作利益.</p>
+<h3 id="my-solutions"><a href="#my-solutions" class="headerlink" title="my solutions"></a>my solutions</h3><p>worker 可以排个序, 可以节省效率. 问题是 dif(difficulty) 和 pro(profit) 如何处理. 他们是想对于的东西, 直接排序会出错. 而不处理的话效率无法提高. :( </p>
+<p>一种直接的方法是 map. 很适用于这种关联型数据结构. 于是乎, 简单实现了一种 map 的解法.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfitAssignment</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; difficulty, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; profit, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; worker)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; prof;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; profit.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            prof[difficulty[i]] = <span class="built_in">max</span>(</span><br><span class="line">                prof[difficulty[i]], profit[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sort(difficulty.<span class="built_in">begin</span>(), difficulty.<span class="built_in">end</span>());</span><br><span class="line">        sort(worker.<span class="built_in">begin</span>(), worker.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = <span class="number">0</span>, lbp = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> abi : worker) &#123;</span><br><span class="line">            <span class="keyword">while</span> (e &lt; difficulty.<span class="built_in">size</span>() &amp;&amp; abi &gt;= difficulty[e]) &#123;</span><br><span class="line">                ++e;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = b; i &lt; e; ++i) &#123;</span><br><span class="line">                lbp = <span class="built_in">max</span>(prof[difficulty[i]], lbp);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// printf("%d ", lbp);</span></span><br><span class="line">            sum += lbp;</span><br><span class="line">            b = e;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/rleXObP.png" alt=""></p>
+<p>老夫已经不是以前的老夫了. map 其实也并不高效. 即使是红黑树, 元素的搜索也是有很大消耗的 :( </p>
+<p>(那么有没有那么一种优美的数据结构, 其有媲美 vector 的线性迭代, 又去除了 vector 的巨大消耗呢? 有的! 理论上完美的 hash ! 但是要达到完美, 其要解决的首要问题就是碰撞 （；´д｀）ゞ 但这真的不是一个可以完美解决的问题)</p>
+<p>所以, 老夫悟到了一个道理! 复杂的数据结构可以解决复杂的问题, 但其效率远比不上简单的数据结构. 如果一个问题可以用简单的数据结构来解决, 那么这个解法必然很优越. 数据结构的本质是用一种特性去模拟你所需要的特性. 而这种特性实现上的不同带来了数据结构的复杂程度的不同. 比如现在我所需要的 pro 和 dif 的关联性. 所以我用到了 map. (当然你也可以用一个 pair 的 vector 来实现, 其重心又转向了 pair)</p>
+<p>那么, 如何用简单的数据结构解决复杂的问题呢? 好问题! 在下也并不是很清楚 (っ °Д °;)っ !. 不过有一些心得. 如果硬要说的话, 是逻辑! 就拿递归和迭代来距离, 递归的实现往往会比迭代简单很多, 而迭代为了追踪元素的改变, 会用到一些较为复杂的数据结构. (但是问题是, 迭代往往比递归更高效, 因为迭代本身的函数调用和元素传递就是一种巨大的消耗 〒▽〒) 所以, 对于这个问题, 在下还在摸索中! </p>
+<p>好了, 说回来, 最后在下想到的能够不使用额外的复杂数据结构的方法是: 修改 pro 和 fit (颇有点解决不了问题, 解决提问题的人的意思… 或者说好听点, 从源头解决问题?) </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfitAssignment</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; difficulty, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; profit, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; worker)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pro &#123; profit[<span class="number">0</span>] &#125;;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dif &#123; difficulty[<span class="number">0</span>] &#125;;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = profit.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>, s = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> d = difficulty[i];</span><br><span class="line">            <span class="keyword">int</span> p = profit[i];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (s &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (p &gt; pro[s]) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (d &lt; dif[s]) &#123;</span><br><span class="line">                        pro.erase(pro.<span class="built_in">begin</span>() + s);</span><br><span class="line">                        dif.erase(dif.<span class="built_in">begin</span>() + s);</span><br><span class="line">                        --s;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        pro.insert(pro.<span class="built_in">begin</span>() + s + <span class="number">1</span>, p);</span><br><span class="line">                        dif.insert(dif.<span class="built_in">begin</span>() + s + <span class="number">1</span>, d);</span><br><span class="line">                        s = dif.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (d &lt; dif[s]) &#123;</span><br><span class="line">                        --s;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        s = dif.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (s == <span class="number">-1</span>) &#123;</span><br><span class="line">                pro.insert(pro.<span class="built_in">begin</span>(), p);</span><br><span class="line">                dif.insert(dif.<span class="built_in">begin</span>(), d);</span><br><span class="line">                s = dif.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sort(worker.<span class="built_in">begin</span>(), worker.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = <span class="number">0</span>, lbp = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> abi : worker) &#123;</span><br><span class="line">            <span class="keyword">while</span> (e &lt; dif.<span class="built_in">size</span>() &amp;&amp; abi &gt;= dif[e]) &#123;</span><br><span class="line">                ++e;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = b; i &lt; e; ++i) &#123;</span><br><span class="line">                lbp = <span class="built_in">max</span>(pro[i], lbp);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sum += lbp;</span><br><span class="line">            b = e;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/kfJgo5e.png" alt=""></p>
+<p>在下虽然对这种量级的代码并不满意, 但是好像暂时想不到什么不用到复杂数据结构, 又能比较高效解决问题的办法了… （；´д｀）ゞ 在下还是太菜了… </p>
+<p>第二个循环几乎没变, 核心是第一个循环对于数据的处理, 大概是这么一个逻辑:</p>
+<ol>
+<li><p>当前 profit 大于对比元素的 profit</p>
+<ol>
+<li><p>当前 difficulty 小于对比元素的 difficulty</p>
+<p>这种情况的话, 对比元素就没有存在的意义了. 删除</p>
+</li>
+<li><p>当前 difficulty 大于等于对比元素的 difficulty</p>
+<p>插入!</p>
+</li>
+</ol>
+</li>
+<li><p>当前 profit 小于等于对比元素的 profit </p>
+<ol>
+<li><p>当前 difficulty 小于对比元素的 difficulty</p>
+<p>对比元素有存在的价值, 继续便利其他的对比元素</p>
+</li>
+<li><p>当前 difficulty 大于等于对比元素的 difficulty</p>
+<p>当前元素无存在价值, 跳过.</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>经过这些修改之后, 元素的量会大大减少(其中一个案例好像直接少了一倍以上) </p>
+<p>但是, … 这个循环的消耗还是比较大的, 整体的代码量太多了. 这个循环的理解难度也比较大. 所以并不是一个满意的解法…</p>
+<h3 id="the-best-solutions"><a href="#the-best-solutions" class="headerlink" title="the best solutions"></a>the best solutions</h3><p>不贴了, 他是用 pair + sort 解决的. 毫无新意! (虽然的确比较好…)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/21/other/vector/" rel="prev" title="other/vector">
+      <i class="fa fa-chevron-left"></i> other/vector
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/25/leetcode/onMy.../" rel="next" title="leetcode/onMy...">
+      leetcode/onMy... <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Most-Profit-Assigning-Work"><span class="nav-number">1.</span> <span class="nav-text">Most Profit Assigning Work</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#my-solutions"><span class="nav-number">1.1.</span> <span class="nav-text">my solutions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-best-solutions"><span class="nav-number">1.2.</span> <span class="nav-text">the best solutions</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="聊一下大概半年前的一次误操作导致的整个服务器数据丢失的问题. 单纯分享一下, 就当看戏.(之所以现在才说, 是怕被逮个现行… 那就尴尬了…)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;funnyThings">
+<meta property="og:url" content="http://yoursite.com/2020/03/31/other/funnyThings/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="聊一下大概半年前的一次误操作导致的整个服务器数据丢失的问题. 单纯分享一下, 就当看戏.(之所以现在才说, 是怕被逮个现行… 那就尴尬了…)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/JGzIDMA.png">
+<meta property="og:image" content="https://imgur.com/taxmpv7.png">
+<meta property="og:image" content="https://imgur.com/u4nEsKg.png">
+<meta property="og:image" content="https://imgur.com/iFBtw0B.png">
+<meta property="og:image" content="https://imgur.com/lg1l2Vz.png">
+<meta property="og:image" content="https://imgur.com/d6j3QXi.png">
+<meta property="og:image" content="https://imgur.com/cqQAFFW.png">
+<meta property="og:image" content="https://imgur.com/KS9TZk2.png">
+<meta property="og:image" content="https://imgur.com/NEwh4DL.png">
+<meta property="og:image" content="https://imgur.com/4yUa4zW.png">
+<meta property="og:image" content="https://imgur.com/cY7ux06.png">
+<meta property="og:image" content="https://imgur.com/iFBtw0B.png">
+<meta property="og:image" content="https://imgur.com/lg1l2Vz.png">
+<meta property="og:image" content="https://imgur.com/FKcBB4Y.png">
+<meta property="og:image" content="https://imgur.com/r3QpOw9.png">
+<meta property="og:image" content="https://imgur.com/FhTyJMk.png">
+<meta property="og:image" content="https://imgur.com/tRtuVf4.png">
+<meta property="og:image" content="https://imgur.com/n671WzG.png">
+<meta property="og:image" content="https://imgur.com/MRQpKkV.png">
+<meta property="og:image" content="https://imgur.com/yVT26JL.png">
+<meta property="article:published_time" content="2020-03-31T11:41:05.000Z">
+<meta property="article:modified_time" content="2020-03-31T11:41:05.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/JGzIDMA.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/31/other/funnyThings/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/funnyThings | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/other/funnyThings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/funnyThings
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-31 19:41:05" itemprop="dateCreated datePublished" datetime="2020-03-31T19:41:05+08:00">2020-03-31</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>聊一下大概半年前的一次误操作导致的整个服务器数据丢失的问题. 单纯分享一下, 就当看戏.<br>(之所以现在才说, 是怕被逮个现行… 那就尴尬了…)  </p>
+<a id="more"></a>
+
+<p>开始正题:<br>那是一个阳光明媚的下午, 忙完手上的东西, 刚享受着清闲时光的 LZ 突然接到了一个合作方运营发来的需求.   </p>
+<pre><code>亲😙 这边看服务器 xxx 流水已经比较少了呢, 为了节约成本, 将于 xxx 对服务器进行降配. 希望配合一下 🤝</code></pre><p>哦哦, 原来是扣13甲方又想节约成本 <img src="https://imgur.com/JGzIDMA.png" alt=""></p>
+<p>彳亍口巴, 把这台服务器的服都关了, 刷一下外网服务器状态, 等待他们操作.  </p>
+<pre><code>好的, 服务器已经关闭了, 麻烦降配之后告知一下 🤝</code></pre><p>.</p>
+<pre><code>服务器怎么进不去呢? @我</code></pre><p>然后问题来了, 合作方操作重启之后服务器进不去… <img src="https://imgur.com/taxmpv7.png" alt="">  </p>
+<pre><code>我看看</code></pre><p>小事小事, 待老夫登录看看 <img src="https://imgur.com/u4nEsKg.png" alt="">    </p>
+<p>然后我 ssh 登录发现, 分区没了…!!!  Σ(っ°Д °;)っ <img src="https://imgur.com/iFBtw0B.png" alt="">    </p>
+<p>仔细看看, 没错, 老夫的 ‘/dev/vdb1’ , 挂载在 ‘/data’ (所有数据的主目录) 的分区没了!!! <img src="https://imgur.com/lg1l2Vz.png" alt="">  </p>
+<p>emm… 慌个p, 反正不关我事, 反手就把问题丢给了对面 <img src="https://imgur.com/d6j3QXi.png" alt="">   </p>
+<p>本来事情可能到此为止, 与我已无关, 找不找回来锅都不是我的. 但是事情出现了转机… <img src="https://imgur.com/cqQAFFW.png" alt=""></p>
+<p>因为已经处理了一段时间了, 我亲切地问候了一下合作方的运维小哥: </p>
+<pre><code>您好, 请问问题进展怎么样了? 😊</code></pre><p>可能因为事情的确比较大, 刚好刺激到他了, 他回复:</p>
+<pre><code>急什么? 这不正在看么? </code></pre><p>中途又说了几句诸如 “我这边没问题, 你确定你那边没做什么操作?” 之类想甩锅的话. 总之我也被刺激到了</p>
+<p>行! 老夫就找证据!!! <img src="https://imgur.com/KS9TZk2.png" alt=""> </p>
+<p>(然而事实证明就不该多事…) <img src="https://imgur.com/NEwh4DL.png" alt=""> </p>
+<p>从 history 找起, df -h 截图, vim /etc/fstab  …<br>本当我已经卯足力气发挥我在祖安多年学来的技术要怼人的时候  <img src="https://imgur.com/4yUa4zW.png" alt="">  <img src="https://imgur.com/cY7ux06.png" alt=""> </p>
+<p>突然发现了我的一个迷之操作… <img src="https://imgur.com/iFBtw0B.png" alt="">  </p>
+<pre><code>fdisk /dev/vdb
+mkfs.ext3 /dev/vdb
+...
+mount /dev/vdb1 /data</code></pre><p>这一刻, 老夫似乎明白了什么…<br>简单来说, 我分区了 /dev/vdb1. 但是却在格式化的时候格式化了 /dev/vdb !!! <img src="https://imgur.com/lg1l2Vz.png" alt=""> 1 没了!!!</p>
+<p>我抓我自己, 这种操作没想到出现在自己身上了 <img src="https://imgur.com/FKcBB4Y.png" alt="">  </p>
+<p>怎么办, 完了, 大清完了. 怎么办, 难道现在就要细软跑了么 <img src="https://imgur.com/r3QpOw9.png" alt="">   </p>
+<p>本来想自己擦屁股, 看有没有办法将数据恢复的<br>但是我看到了一条让我打消想法的指令 <img src="https://imgur.com/FhTyJMk.png" alt="">   </p>
+<p>(指令应该是对面运维尝试修复而执行的, 具体是啥已经忘了, 不过看了 man 手册, 大概意思是重新扫描修复磁盘, 我在我的测试机上试了试, emm… 是的, 很干净)  <img src="https://imgur.com/tRtuVf4.png" alt=""></p>
+<p>彳亍口巴, 看来铁定要回去卖煎蛋饼了…  </p>
+<p>犹豫再三, 想了想对面运维小哥, 想了想自己, 想了想还未表白的美术妹子.<br>我还是毅然地走向了老大… <img src="https://imgur.com/n671WzG.png" alt=""></p>
+<p>// ———————————–  </p>
+<p>后续:<br>老大不愧是老江湖! 叫我不要声张 <img src="https://imgur.com/MRQpKkV.png" alt=""><br>我的最后一点良心也给他们留下了罪证, 没有删 history.</p>
+<p>最后, 事情还是没被发现, 事情不了了之 (运维小哥怎么样我就不知道了, 毕竟那是整台服务器的数据, 玩家可能已经炸锅了…)<br><img src="https://imgur.com/yVT26JL.png" alt="">  </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/27/leetcode/PermutationInString/" rel="prev" title="leetcode/PermutationInString">
+      <i class="fa fa-chevron-left"></i> leetcode/PermutationInString
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/31/other/TopLevelDirectoriesMeansInLinux/" rel="next" title="other/TopLevelDirectoriesMeansInLinux">
+      other/TopLevelDirectoriesMeansInLinux <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Optimization and IndexesIndexes are used to find rows with specific column values quickly. Without an index, MySQL mustbegin with the first row and then read through the entire table to find the relev">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;OptimizationAndIndexes">
+<meta property="og:url" content="http://yoursite.com/2020/03/23/read/OptimizationAndIndexes/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Optimization and IndexesIndexes are used to find rows with specific column values quickly. Without an index, MySQL mustbegin with the first row and then read through the entire table to find the relev">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-23T07:10:39.000Z">
+<meta property="article:modified_time" content="2020-03-23T07:10:39.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/23/read/OptimizationAndIndexes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/OptimizationAndIndexes | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/23/read/OptimizationAndIndexes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/OptimizationAndIndexes
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-23 15:10:39" itemprop="dateCreated datePublished" datetime="2020-03-23T15:10:39+08:00">2020-03-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Optimization-and-Indexes"><a href="#Optimization-and-Indexes" class="headerlink" title="Optimization and Indexes"></a>Optimization and Indexes</h1><p>Indexes are used to find rows with specific column values quickly. Without an index, MySQL must<br>begin with the first row and then read through the entire table to find the relevant rows. The larger the<br>table, the more this costs. If the table has an index for the columns in question, MySQL can quickly<br>determine the position to seek to in the middle of the data file without having to look at all the data. This<br>is much faster than reading every row sequentially.</p>
+<p>index 用于加速查询. </p>
+<p>(PS: 就最简单来说, 索引相当于一个人的特征. 查询数据时不一定需要完全匹配, 也不一定一开始就需要完全匹配搜索, 这时候使用索引就相当于找人时使用年龄, 性别等特征来寻找一样, 是一个很简单也很重要的概念. 如何寻找并规定 index 是极其重要的一环)</p>
+<a id="more"></a>
+
+
+
+<p>Most MySQL indexes (PRIMARY KEY, UNIQUE, INDEX, and FULLTEXT) are stored in B-trees.<br>Exceptions: Indexes on spatial data types use R-trees; MEMORY tables also support hash indexes;<br>InnoDB uses inverted lists for FULLTEXT indexes.</p>
+<p>大多数 MySQL 索引类型为 B-trees. 除了某些特殊案例: 特殊数据类型使用 R-trees. 内存表支持 hash 索引. InnoDB 对全文索引使用倒排序表. </p>
+<p>In general, indexes are used as described in the following discussion. Characteristics specific to hash<br>indexes (as used in MEMORY tables) are described in Section 8.3.9, “Comparison of B-Tree and Hash<br>Indexes”.<br>MySQL uses indexes for these operations:<br>• To find the rows matching a WHERE clause quickly.</p>
+<ul>
+<li>加速查询</li>
+</ul>
+<p>• To eliminate rows from consideration. If there is a choice between multiple indexes, MySQL normally<br>uses the index that finds the smallest number of rows (the most selective index).<br>• If the table has a multiple-column index, any leftmost prefix of the index can be used by the<br>optimizer to look up rows. For example, if you have a three-column index on (col1, col2,<br>col3), you have indexed search capabilities on (col1), (col1, col2), and (col1, col2,<br>col3).</p>
+<p>• To retrieve rows from other tables when performing joins. MySQL can use indexes on columns<br>more efficiently if they are declared as the same type and size. In this context, VARCHAR and CHAR<br>are considered the same if they are declared as the same size. For example, VARCHAR(10) and<br>CHAR(10) are the same size, but VARCHAR(10) and CHAR(15) are not.<br>For comparisons between nonbinary string columns, both columns should use the same character<br>set. For example, comparing a utf8 column with a latin1 column precludes use of an index.<br>Comparison of dissimilar columns (comparing a string column to a temporal or numeric column, for<br>example) may prevent use of indexes if values cannot be compared directly without conversion. For<br>a given value such as 1 in the numeric column, it might compare equal to any number of values in<br>the string column such as ‘1’, ‘ 1’, ‘00001’, or ‘01.e1’. This rules out use of any indexes for<br>the string column.</p>
+<p>同样长度和类型的索引在多表查询时可以提高效率. 类型不一致, 长度不一致, 字符集不一致 等都会造成无法使用索引的情况. </p>
+<p>• To find the MIN() or MAX() value for a specific indexed column key_col. This is optimized by a<br>preprocessor that checks whether you are using WHERE key_part_N = constant on all key<br>parts that occur before key_col in the index. In this case, MySQL does a single key lookup for each<br>MIN() or MAX() expression and replaces it with a constant. If all expressions are replaced with<br>constants, the query returns at once. For example:<br>SELECT MIN(key_part2),MAX(key_part2)<br>FROM tbl_name WHERE key_part1=10;<br>• To sort or group a table if the sorting or grouping is done on a leftmost prefix of a usable index (for<br>example, ORDER BY key_part1, key_part2). If all key parts are followed by DESC, the key<br>is read in reverse order. (Or, if the index is a descending index, the key is read in forward order.)</p>
+<ul>
+<li>加速 ORDER BY</li>
+</ul>
+<p>• In some cases, a query can be optimized to retrieve values without consulting the data rows. (An<br>index that provides all the necessary results for a query is called a covering index.) If a query uses<br>from a table only columns that are included in some index, the selected values can be retrieved from<br>the index tree for greater speed:<br>SELECT key_part3 FROM tbl_name<br>WHERE key_part1=1<br>Indexes are less important for queries on small tables, or big tables where report queries process most<br>or all of the rows. When a query needs to access most of the rows, reading sequentially is faster than<br>working through an index. Sequential reads minimize disk seeks, even if not all the rows are needed for<br>the query. See Section 8.2.1.23, “Avoiding Full Table Scans” for details.</p>
+<p>索引存在两种不适用的情况 : 一种是对于数据少的表查询. 另外一种是需要访问大部分表数据的查询, 这种情况下的顺序读取要比索引快, 即使大部分数据都不需要. </p>
+<h3 id="Primary-Key-Optimization"><a href="#Primary-Key-Optimization" class="headerlink" title="Primary Key Optimization"></a>Primary Key Optimization</h3><p>The primary key for a table represents the column or set of columns that you use in your most vital<br>queries. It has an associated index, for fast query performance. Query performance benefits from<br>the NOT NULL optimization, because it cannot include any NULL values. With the InnoDB storage<br>engine, the table data is physically organized to do ultra-fast lookups and sorts based on the primary<br>key column or columns.</p>
+<p>表的主键是查询中使用的列. 主键有相关的索引, 用于加速查询. </p>
+<p>If your table is big and important, but does not have an obvious column or set of columns to use as a<br>primary key, you might create a separate column with auto-increment values to use as the primary key.<br>These unique IDs can serve as pointers to corresponding rows in other tables when you join tables<br>using foreign keys.</p>
+<p>如果没有明显的列作为主键, 可以创建一个自增列作为主键. 唯一 ID 可作为外键.</p>
+<h3 id="Multiple-Column-Indexes"><a href="#Multiple-Column-Indexes" class="headerlink" title="Multiple-Column Indexes"></a>Multiple-Column Indexes</h3><p>多列索引是由多个列组从的索引(= = 废话)… 其使用方式必须从左到右, 比如索引 (i1, i2, i3), 则使用 (i1), (i1, i2), (i1, i2, i3) 查询时可使用索引, 其余情况均不可使用索引 (与顺序无关, 与存在有关).</p>
+<h3 id="Hash-Index-Characteristics"><a href="#Hash-Index-Characteristics" class="headerlink" title="Hash Index Characteristics"></a>Hash Index Characteristics</h3><p>Hash indexes have somewhat different characteristics from those just discussed:<br>• They are used only for equality comparisons that use the = or &lt;=&gt; operators (but are very fast). They<br>are not used for comparison operators such as &lt; that find a range of values. Systems that rely on<br>this type of single-value lookup are known as “key-value stores”; to use MySQL for such applications,<br>use hash indexes wherever possible.</p>
+<p>只能用于等式/不等式. (PS: 意料之中, hash 并没有任何比较)</p>
+<p>• The optimizer cannot use a hash index to speed up ORDER BY operations. (This type of index cannot<br>be used to search for the next entry in order.)</p>
+<p>不能用于 ORDER BY 优化 (PS: 同理)</p>
+<p>• MySQL cannot determine approximately how many rows there are between two values (this is used<br>by the range optimizer to decide which index to use). This may affect some queries if you change a<br>MyISAM or InnoDB table to a hash-indexed MEMORY table.</p>
+<p>不能得知两值之间存在多少行/ </p>
+<p>• Only whole keys can be used to search for a row. (With a B-tree index, any leftmost prefix of the key<br>can be used to find rows.)</p>
+<p>只支持全值匹配. </p>
+<p>(PS: 这些限制和特性的根源就是 hash 自身的特性)</p>
+<h3 id="Use-of-Index-Extensions"><a href="#Use-of-Index-Extensions" class="headerlink" title="Use of Index Extensions"></a>Use of Index Extensions</h3><p>InnoDB automatically extends each secondary index by appending the primary key columns to it.</p>
+<pre><code>Consider this table definition:
+CREATE TABLE t1 (
+i1 INT NOT NULL DEFAULT 0,
+i2 INT NOT NULL DEFAULT 0,
+d DATE DEFAULT NULL,
+PRIMARY KEY (i1, i2),
+INDEX k_d (d)
+) ENGINE = InnoDB;</code></pre><p>This table defines the primary key on columns (i1, i2). It also defines a secondary index k_d on<br>column (d), but internally InnoDB extends this index and treats it as columns (d, i1, i2).<br>The optimizer takes into account the primary key columns of the extended secondary index when<br>determining how and whether to use that index. This can result in more efficient query execution plans<br>and better performance.<br>The optimizer can use extended secondary indexes for ref, range, and index_merge index access,<br>for Loose Index Scan access, for join and sorting optimization, and for MIN()/MAX() optimization.<br>The following example shows how execution plans are affected by whether the optimizer uses<br>extended secondary indexes. Suppose that t1 is populated with these rows:</p>
+<p>MySQL 自动扩展次级索引. </p>
+<h3 id="Optimizer-Use-of-Generated-Column-Indexes"><a href="#Optimizer-Use-of-Generated-Column-Indexes" class="headerlink" title="Optimizer Use of Generated Column Indexes"></a>Optimizer Use of Generated Column Indexes</h3><p>MySQL supports indexes on generated columns. For example:</p>
+<pre><code>CREATE TABLE t1 (f1 INT, gc INT AS (f1 + 1) STORED, INDEX (gc));</code></pre><p>The generated column, gc, is defined as the expression f1 + 1. The column is also indexed and the<br>optimizer can take that index into account during execution plan construction. In the following query,<br>the WHERE clause refers to gc and the optimizer considers whether the index on that column yields a<br>more efficient plan:</p>
+<pre><code>SELECT * FROM t1 WHERE gc &gt; 9;</code></pre><p>The optimizer can use indexes on generated columns to generate execution plans, even in the<br>absence of direct references in queries to those columns by name. This occurs if the WHERE, ORDER<br>BY, or GROUP BY clause refers to an expression that matches the definition of some indexed generated<br>column. The following query does not refer directly to gc but does use an expression that matches the<br>definition of gc:</p>
+<pre><code>SELECT * FROM t1 WHERE f1 + 1 &gt; 9;</code></pre><p>The optimizer recognizes that the expression f1 + 1 matches the definition of gc and that gc<br>is indexed, so it considers that index during execution plan construction. You can see this using<br>EXPLAIN:</p>
+<pre><code>mysql&gt; EXPLAIN SELECT * FROM t1 WHERE f1 + 1 &gt; 9\G
+*************************** 1. row ***************************
+id: 1
+select_type: SIMPLE
+table: t1
+partitions: NULL
+type: range
+possible_keys: gc
+key: gc
+key_len: 5
+ref: NULL
+rows: 1
+filtered: 100.00
+Extra: Using index condition</code></pre><p>generated column 指的是一个包含其他字段的表达式. </p>
+<h3 id="Descending-Indexes"><a href="#Descending-Indexes" class="headerlink" title="Descending Indexes"></a>Descending Indexes</h3><p>MySQL supports descending indexes: DESC in an index definition is no longer ignored but causes<br>storage of key values in descending order. Previously, indexes could be scanned in reverse order but<br>at a performance penalty. A descending index can be scanned in forward order, which is more efficient.<br>Descending indexes also make it possible for the optimizer to use multiple-column indexes when the<br>most efficient scan order mixes ascending order for some columns and descending order for others.<br>Consider the following table definition, which contains two columns and four two-column index<br>definitions for the various combinations of ascending and descending indexes on the columns:</p>
+<pre><code>CREATE TABLE t (
+c1 INT, c2 INT,
+INDEX idx1 (c1 ASC, c2 ASC),
+INDEX idx2 (c1 ASC, c2 DESC),
+INDEX idx3 (c1 DESC, c2 ASC),
+INDEX idx4 (c1 DESC, c2 DESC)
+);</code></pre><p>The table definition results in four distinct indexes. The optimizer can perform a forward index scan for<br>each of the ORDER BY clauses and need not use a filesort operation:</p>
+<pre><code>ORDER BY c1 ASC, c2 ASC -- optimizer can use idx1
+ORDER BY c1 DESC, c2 DESC -- optimizer can use idx4
+ORDER BY c1 ASC, c2 DESC -- optimizer can use idx2
+ORDER BY c1 DESC, c2 ASC -- optimizer can use idx3</code></pre><p>可以指定索引列的顺序, 以用于 ORDER BY 优化.</p>
+<h3 id="Indexed-Lookups-from-TIMESTAMP-Columns"><a href="#Indexed-Lookups-from-TIMESTAMP-Columns" class="headerlink" title="Indexed Lookups from TIMESTAMP Columns"></a>Indexed Lookups from TIMESTAMP Columns</h3><p>Temporal values are stored in TIMESTAMP columns as UTC values, and values inserted into and<br>retrieved from TIMESTAMP columns are converted between the session time zone and UTC. (This is<br>the same type of conversion performed by the CONVERT_TZ() function. If the session time zone is<br>UTC, there is effectively no time zone conversion.)</p>
+<p>在 TIMESTAMP 中的值以 UTC 规范存储. 读取和写入在会话时区和 UTC 之间转换. (效果和使用 CONVERT_TZ 函数一样. 如果时区已经是 UTC 了, 那么不需要转换)</p>
+<p>Due to conventions for local time zone changes such as Daylight Saving Time (DST), conversions<br>between UTC and non-UTC time zones are not one-to-one in both directions. UTC values that are<br>distinct may not be distinct in another time zone. The following example shows distinct UTC values that<br>become identical in a non-UTC time zone:</p>
+<pre><code>mysql&gt; CREATE TABLE tstable (ts TIMESTAMP);
+mysql&gt; SET time_zone = &apos;UTC&apos;; -- insert UTC values
+mysql&gt; INSERT INTO tstable VALUES
+(&apos;2018-10-28 00:30:00&apos;),
+(&apos;2018-10-28 01:30:00&apos;);
+mysql&gt; SELECT ts FROM tstable;
++---------------------+
+| ts |
++---------------------+
+| 2018-10-28 00:30:00 |
+| 2018-10-28 01:30:00 |
++---------------------+
+mysql&gt; SET time_zone = &apos;MET&apos;; -- retrieve non-UTC values
+mysql&gt; SELECT ts FROM tstable;
++---------------------+
+| ts |
++---------------------+
+| 2018-10-28 02:30:00 |
+| 2018-10-28 02:30:00 |
++---------------------+</code></pre><h1 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h1><h2 id="why-b-trees"><a href="#why-b-trees" class="headerlink" title="why b-trees ?"></a>why b-trees ?</h2><p>很好奇为什么是 b 树, 到底优势在哪里? <a href="https://stackoverflow.com/questions/6211118/b-trees-vs-binary-trees" target="_blank" rel="noopener">answer</a></p>
+<p>Algorithmic complexity is the same, since O(logb n) = O(c log n) = O(log n) but the constant factors, which are hidden in big-O notation, could vary noticeably, depending on implementation and hardware.</p>
+<p>算法的复杂度是一样的.</p>
+<p>B-trees were designed for platter hard disks, which have a large access time (moving the head into position) after which an entire physical sector is read. Making the B-tree nodes as large as the sector minimizes the number of access times and maximizes the useful data out of each read operation.</p>
+<p>B-trees 为硬盘而设计, 将其节点设置为最小扇区大小可以减少访问时间, 最大化利用每个读取出的数据.</p>
+<p>But if you are working out of memory you have a negligible access time, therefore a better comparison is to count the number of single words accessed by your algorithm.</p>
+<p>如果用完了内存, 将会有轻微的消耗. 一个对比点是计算算法访问的单个字符数.</p>
+<p>For example, let’s plan a data structure to store 220 keys of 1 word each, for a total of 4MiB of raw data on a 32bit machine.</p>
+<p>A binary search tree will have 220 nodes, each holding one key and two pointers (3 words). Depth will be log2(220) = 20. The average search will have to read the key and one of the pointers from each node in its path, from the root all the way down = <strong>40 words</strong>.</p>
+<p>A B-tree made for hard disks will have 4kB nodes. Each node could be stored internally as a sorted array of key and pointer couples, between 256 and 512 of them. What is the average search going to look like? Considering an average 3/4 fill, each node will contain 384 entries, and its internal binary search will have to visit on average log2(384) = 5.95 keys. The average depth will be log384(220) = 2.33, so our search will have to read on average 2.33 times 5.95 keys, or about <strong>14 words</strong>.</p>
+<p>(PS: 这里因为格式的问题, 220 的含义是 2的 20次方. 这里想表达的是: 如果是 bst 存储, 每个节点可能分布在不同的扇区上, 一次磁盘访问得到的有用信息最坏的情况是只能使用一次, 而 B-trees 将其尽可能最大化, 为 s(扇区大小) / n(单个节点大小) 次, 所以虽然搜索的效率是基本一致的, 但是其每次 I/O 所得的有效率是完全不同的. 这是 B-trees 广泛应用于数据库的根源所在.)</p>
+<p>In the case of a low-fanout (branching factor) B-tree, with each node holding between 16 and 32 keys, the average fill will be 24 keys, the average depth log24(220) = 4.36, the binary search in each node will make log2(24) = 4.58 comparisons, and the overall average search will have to read about <strong>20 words</strong>.</p>
+<p>Keep in mind that the last two data structures achieve a better result than binary trees because they <strong>optimize read operations</strong> over modifications. To insert a key into one of these B-trees you would have to rewrite on average an entire 384-word or 24-word node, if not more than one, while in the binary-tree case a write operation would still only need to touch up to 40 words.</p>
+<p>(PS: 这里说的是关于数据插入, B-trees 可能存在最坏情况, 虽然存在的最好情况优于 bst)</p>
+<h2 id="R-trees"><a href="#R-trees" class="headerlink" title="R-trees"></a><a href="https://en.wikipedia.org/wiki/R-tree" target="_blank" rel="noopener">R-trees</a></h2><p>R-trees 是专用于空间存储的数据结构. 其结构和 B-trees 类似, 专用于存储空间信息, 子节点和父节点的关系为相交. 父节点包含子节点(但不一定完全)</p>
+<p><strong>R-trees</strong> are tree data structures used for spatial access methods, i.e., for indexing multi-dimensional information such as geographical coordinates, rectangles or polygons.</p>
+<p>R-trees 是用于索引多维信息, 如地理坐标, 矩阵, 或多边形的数据结构.</p>
+<p>(PS: 我这里再次深思, 什么是数据结构? 数据的组织方式. 数据的组织方式由其访问方式及存储方式决定. 不同的数据结构就是为了不同的目的而生的. 例如 B-trees 它针对访问做了优化. 尽可能减少其 I/O, 以提高效率. 变量的前后, 热点. 都是很重要的点. 再考虑一下 B+tree, 他的优点是叶子节点包含所有数据, 当进行全表访问时, 就是一个线性的时间, 同时, 可以使用二分. 可能是处于这样的目的, 才有了优化版本的 B+trees. 而 R-trees , 用于多维信息. 其父子节点的关系变成了类似包含/被包含的关系. 可以处理一些例如 xx 离 xx 多远. xx 附近有哪些建筑… 广泛来说, 是 “组织”. 身边的事物都有组织, 公司的管理级. 省市区的划分. 电脑的构成… )</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/12/other/aboutUseServiceToControlMysqld/" rel="prev" title="other/aboutUseServiceToControlMysqld">
+      <i class="fa fa-chevron-left"></i> other/aboutUseServiceToControlMysqld
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/24/leetcode/SubarraySumEqualsk/" rel="next" title="leetcode/SubarraySumEqualsk">
+      leetcode/SubarraySumEqualsk <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Optimization-and-Indexes"><span class="nav-number">1.</span> <span class="nav-text">Optimization and Indexes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-Key-Optimization"><span class="nav-number">1.0.1.</span> <span class="nav-text">Primary Key Optimization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multiple-Column-Indexes"><span class="nav-number">1.0.2.</span> <span class="nav-text">Multiple-Column Indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash-Index-Characteristics"><span class="nav-number">1.0.3.</span> <span class="nav-text">Hash Index Characteristics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-of-Index-Extensions"><span class="nav-number">1.0.4.</span> <span class="nav-text">Use of Index Extensions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Optimizer-Use-of-Generated-Column-Indexes"><span class="nav-number">1.0.5.</span> <span class="nav-text">Optimizer Use of Generated Column Indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Descending-Indexes"><span class="nav-number">1.0.6.</span> <span class="nav-text">Descending Indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Indexed-Lookups-from-TIMESTAMP-Columns"><span class="nav-number">1.0.7.</span> <span class="nav-text">Indexed Lookups from TIMESTAMP Columns</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Other"><span class="nav-number">2.</span> <span class="nav-text">Other</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#why-b-trees"><span class="nav-number">2.1.</span> <span class="nav-text">why b-trees ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-trees"><span class="nav-number">2.2.</span> <span class="nav-text">R-trees</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

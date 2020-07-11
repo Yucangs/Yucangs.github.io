@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Top Level Directories Means In LinuxIt looks like I haven’t written some notes about Linux top-level directories. so do it now! 我好像还没写过关于 Linux 顶层文件含义的笔记, 那就现在写吧!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;TopLevelDirectoriesMeansInLinux">
+<meta property="og:url" content="http://yoursite.com/2020/03/31/other/TopLevelDirectoriesMeansInLinux/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Top Level Directories Means In LinuxIt looks like I haven’t written some notes about Linux top-level directories. so do it now! 我好像还没写过关于 Linux 顶层文件含义的笔记, 那就现在写吧!">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-31T12:58:33.000Z">
+<meta property="article:modified_time" content="2020-03-31T12:58:33.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/31/other/TopLevelDirectoriesMeansInLinux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/TopLevelDirectoriesMeansInLinux | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/other/TopLevelDirectoriesMeansInLinux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/TopLevelDirectoriesMeansInLinux
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-31 20:58:33" itemprop="dateCreated datePublished" datetime="2020-03-31T20:58:33+08:00">2020-03-31</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Top-Level-Directories-Means-In-Linux"><a href="#Top-Level-Directories-Means-In-Linux" class="headerlink" title="Top Level Directories Means In Linux"></a>Top Level Directories Means In Linux</h1><p>It looks like I haven’t written some notes about Linux top-level directories. so do it now!</p>
+<p>我好像还没写过关于 Linux 顶层文件含义的笔记, 那就现在写吧!</p>
+<a id="more"></a>
+
+
+
+<p><a href="https://www.granneman.com/tech/linux/thelinuxenvironment/topleveldirectories" target="_blank" rel="noopener">FROM</a></p>
+<p><code>/</code>: The top level directory in your system. It’s called the root directory, because it’s the root of the system: all the rest of the directory structure emanates from it like branches from the root of a tree. Don’t get confused by the /root directory, by the way; that’s a different ‘root’.</p>
+<p>根节点, 叫 root 目录的时候, 有两种根据上下文不同而含义不同的选项: 根目录(/), root 用户根目录(/root)</p>
+<p><code>/bin</code>: Contains binaries for your system. The /bin directory is, by default, in your PATH, meaning that any executable file in this directory can be executed just by entering the file name at the command line.</p>
+<p>二进制可执行文件目录. 通常会在 PATH 环境变量中, 执行的时候只需提供可执行文件名.</p>
+<p>(PS: 所以有种直接执行当前目录而不带 ./ 前缀的方法是在 PATH 中加 . )</p>
+<p>(我猜的, 实测可行!  <code>export PATH=$PATH:.</code>)</p>
+<p><code>/boot</code>: Contains files necessary to boot your system, including the kernel.</p>
+<p>包含启动系统必须的文件, 包括内核.</p>
+<p><code>/dev</code>: An abstracted directory which contains all your system devices: hard drives, CD-ROMs, sound cards, and much, much more. When devices are mounted, it occurs here.</p>
+<p>虚拟文件目录, 所有可挂载设备都在这里.</p>
+<p><code>/etc</code>: Contains most of the system and application configuration files your Linux machine uses. Back this directory up regularly.</p>
+<p>应用和系统的配置文件. 很重要, 所以请周期性保存它.</p>
+<p>(PS: 为什么叫 etc 呢? etc 是等等的意思. 我记得之前查过, 最后得到的答案是, 历史原因…  (╯▔皿▔)╯ )</p>
+<p><code>/etc/skel</code>: “skeleton” files used to create user accounts.</p>
+<p>创建用户所需的文件?</p>
+<p>( PS: 看了看, 包括三个文件 <code>.profile</code> <code>.bashrc</code> <code>.bash_logout</code> )</p>
+<p><code>/home</code>: Contains the home directory for each system user.</p>
+<p>包含系统用户的 home 目录. </p>
+<p>(PS: 不包含 root)</p>
+<p><code>/lib</code>: System modules, software libraries, &amp; information databases, shared by various applications &amp; the system itself.</p>
+<p>系统模块, 软件/信息库. </p>
+<p><code>/opt</code>: Optional software that you installed.</p>
+<p>可选软件安装目录.</p>
+<p><code>/proc</code>: Another abstracted directory which is created when the system boots. Contains information about the processes on your system.</p>
+<p>系统运行创建的虚拟目录. 包含进程信息.</p>
+<p><code>/root</code>: The home directory of the root user.</p>
+<p>root 的 home.</p>
+<p><code>/sbin</code>: Contains additional system binaries that are only available to root. Mostly admin tools.</p>
+<p>admin 工具. 只对 root 开放.</p>
+<p><code>/tmp</code>: The temporary directory. Any user can place stuff in here, but be forewarned: your system periodically cleans out this directory, and anything you leave in here will be deleted.</p>
+<p>临时文件目录</p>
+<p><code>/usr</code>: Contains subdirectories that will be used system-wide by all users, including binaries, libraries, man files, and other things.</p>
+<p>包含所有用户使用的子目录, 包括二进制, 库, man 文件, 以及其他.</p>
+<p><code>/usr/doc</code>: Program documentation.</p>
+<p>程序文档</p>
+<p><code>/usr/info</code>: Program documentation.</p>
+<p>程序文档</p>
+<p><code>/usr/lib</code>: Program libraries (shareable system program modules).</p>
+<p>程序库</p>
+<p><code>/usr/man</code>: Manual pages.</p>
+<p>man 手册</p>
+<p><code>/var</code>: Contains variable data that changes in size as the system runs. For instance, log files, mail directories, databases, and printing spools.</p>
+<p>随系统运行而改变的各种数据. 包括, 日志文件, 邮件目录, 数据库.</p>
+<p>2020年3月31日</p>
+<p>好像还有些遗漏, 不完全的, 补一下</p>
+<p><a href="https://www.howtogeek.com/117435/htg-explains-the-linux-directory-structure-explained/" target="_blank" rel="noopener">FROM</a></p>
+<p><code>/lost+found</code> – Recovered Files</p>
+<p>Each Linux file system has a lost+found directory. If the file system crashes, a file system check will be performed at next boot. Any corrupted files found will be placed in the lost+found directory, so you can attempt to recover as much data as possible.</p>
+<p>每个文件系统都包含一个 lost+found 目录. 如果文件系统崩溃, 下次重启时会检查这个文件. 任何被发现的损坏文件都会放在这个目录下.</p>
+<p>(PS: 部分不会, 比如 tmpfs 和 udev)</p>
+<p><code>/mnt</code> – Temporary Mount Points</p>
+<p>Historically speaking, the /mnt directory is where system administrators mounted temporary file systems while using them. For example, if you’re mounting a Windows partition to perform some file recovery operations, you might mount it at /mnt/windows. However, you can mount other file systems anywhere on the system.</p>
+<p>历史上来说, /mnt 目录包含系统管理员使用时挂载的临时文件系统. 比如, 如果你挂载一个 windows 分区执行一些文件恢复操作, 你应该挂载在 /mnt/windows 上. 然而, 你可以在系统任何地方挂载文件.</p>
+<p><code>/opt</code> – Optional Packages</p>
+<p>The /opt directory contains subdirectories for optional software packages. It’s commonly used by proprietary software that doesn’t obey the standard file system hierarchy – for example, a proprietary program might dump its files in /opt/application when you install it.</p>
+<p>包含可选软件包. 这通常用于不遵循标准文件系统层次的专有软件. 比如, 将会在安装时下载其文件到 /opt/application 的专有程序. </p>
+<p><code>/run</code> – Application State Files</p>
+<p>The /run directory is fairly new, and gives applications a standard place to store transient files they require like sockets and process IDs. These files can’t be stored in /tmp because files in /tmp may be deleted.</p>
+<p>一个程序存储其临时文件的地方, 这些文件不能存储到 /tmp, 因为里面的文件会被删除.</p>
+<p><code>/srv</code> – Service Data</p>
+<p>The /srv directory contains “data for services provided by the system.” If you were using the Apache HTTP server to serve a website, you’d likely store your website’s files in a directory inside the /srv directory.</p>
+<p>系统服务文件数据目录. 如果使用了 Apache HTTP 服务, 那么你应该把文件存储在这里.</p>
+<p>(PS: Apache 默认目录是 ‘/var/www/html’ , 怎么更改? 还记得 /etc 的用处么?)</p>
+<p><code>/usr</code> – User Binaries &amp; Read-Only Data</p>
+<p>The /usr directory contains applications and files used by users, as opposed to applications and files used by the system. For example, non-essential applications are located inside the /usr/bin directory instead of the /bin directory and non-essential system administration binaries are located in the /usr/sbin directory instead of the /sbin directory. Libraries for each are located inside the /usr/lib directory. The /usr directory also contains other directories – for example, architecture-independent files like graphics are located in /usr/share.</p>
+<p>包含用户使用的应用和文件, 而不是系统所使用的应用和文件. </p>
+<p>The /usr/local directory is where locally compiled applications install to by default – this prevents them from mucking up the rest of the system.</p>
+<p><code>/var</code> – Variable Data Files</p>
+<p>The /var directory is the writable counterpart to the /usr directory, which must be read-only in normal operation. Log files and everything else that would normally be written to /usr during normal operation are written to the /var directory. For example, you’ll find log files in /var/log.</p>
+<p>与 /usr 相比, 是一个可写入的目录. 日志及其他通常会写入 /usr 的数据都会写入到 /var 目录. </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/31/other/funnyThings/" rel="prev" title="other/funnyThings">
+      <i class="fa fa-chevron-left"></i> other/funnyThings
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/21/other/vector/" rel="next" title="other/vector">
+      other/vector <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Top-Level-Directories-Means-In-Linux"><span class="nav-number">1.</span> <span class="nav-text">Top Level Directories Means In Linux</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

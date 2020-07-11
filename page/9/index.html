@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/820SortEncodingofWords/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/190EReverseBits/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -205,7 +205,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/leetcode/820SortEncodingofWords/" class="post-title-link" itemprop="url">leetcode/820SortEncodingofWords</a>
+            <a href="/2020/01/09/leetcode/190EReverseBits/" class="post-title-link" itemprop="url">leetcode/190EReverseBits</a>
         </h1>
 
         <div class="post-meta">
@@ -230,13 +230,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="820-Short-Encoding-of-Words"><a href="#820-Short-Encoding-of-Words" class="headerlink" title="820 Short Encoding of Words"></a>820 Short Encoding of Words</h2><p><img src="https://imgur.com/ycGcntf.png" alt=""></p>
-<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution = ="></a>my solution = =</h3><p>一开始先试着用 O(n2) 的方法, 之后用 O(n), 但是时间依旧很长</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumLengthEncoding</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span> </span>&#123;</span><br><span class="line">        sort(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>(), [](<span class="built_in">string</span> &amp;str1, <span class="built_in">string</span> &amp;str2) &#123;</span><br><span class="line">            <span class="keyword">return</span> str1.<span class="built_in">size</span>() &gt; str2.<span class="built_in">size</span>();</span><br><span class="line">        &#125;);</span><br><span class="line">           </span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; words.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> ( str.<span class="built_in">find</span>(words[i] + <span class="string">'#'</span>) == <span class="built_in">string</span>::npos ) &#123;</span><br><span class="line">                str.append(words[i] + <span class="string">'#'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> str.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>并且这个代码之前还踩了个坑 : <a href="https://www.boost.org/sgi/stl/StrictWeakOrdering.html" target="_blank" rel="noopener">https://www.boost.org/sgi/stl/StrictWeakOrdering.html</a></p>
-<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumLengthEncoding</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">string</span>&amp; s : words) &#123;</span><br><span class="line">            reverse(s.<span class="built_in">begin</span>(), s.<span class="built_in">end</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        sort(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((i + <span class="number">1</span>) &gt;= words.<span class="built_in">size</span>()) &#123;</span><br><span class="line">                length += words[i].length() + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (words[i+<span class="number">1</span>].compare(<span class="number">0</span>, words[i].length(), words[i]) != <span class="number">0</span>) &#123;</span><br><span class="line">                length += words[i].length() + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>em… 逻辑挺简单的 </p>
-<p>反序字符串, 字典序排序, 后再直接 compare</p>
+          <p><img src="https://imgur.com/194AzQQ.png" alt=""></p>
+<p>反转二进制</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>我选的方法是直接调用 bits.Reverse 函数来解决, 如果自己写的话, 应该会循环获取每一位, 重新构造一个数字</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> bits.Reverse32(num)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><p>这也是为什么一道 easy 的题会单独做笔记的原因, 因为这道题的解法很有意思</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">    constNums := []<span class="keyword">uint32</span>&#123;<span class="number">0xAAAAAAAA</span>, <span class="number">0x55555555</span>, <span class="number">0xCCCCCCCC</span>, <span class="number">0x33333333</span>, <span class="number">0xF0F0F0F0</span>, <span class="number">0x0F0F0F0F</span>, <span class="number">0xFF00FF00</span>, <span class="number">0x00FF00FF</span>, <span class="number">0xFFFF0000</span>, <span class="number">0x0000FFFF</span>&#125;</span><br><span class="line">    <span class="keyword">var</span> index, power <span class="keyword">uint32</span></span><br><span class="line">    <span class="keyword">for</span> index, power = <span class="number">0</span>, <span class="number">0</span>; index &lt;= <span class="number">8</span>; index, power = index+<span class="number">2</span>, power+<span class="number">1</span> &#123;</span><br><span class="line">        num = ((num &amp; constNums[index]) &gt;&gt; (<span class="number">1</span> &lt;&lt; power)) | ((num &amp; constNums[index+<span class="number">1</span>]) &lt;&lt; (<span class="number">1</span> &lt;&lt; power))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> num</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乍看之下理解不了, 特别是循环中的那句代码, 先给个例子来展示一下 :</p>
+<pre><code>原二进制:       00000010100101000001111010011100
+第一次循环后:       00000001011010000010110101101100
+第二次循环后:       00000100100100101000011110010011
+第三次循环后:       01000000001010010111100000111001
+第四次循环后:       00101001010000000011100101111000
+第五次循环后:       00111001011110000010100101000000</code></pre><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((num &amp; constNums[index]) &gt;&gt; (<span class="number">1</span> &lt;&lt; power)) | ((num &amp; constNums[index+<span class="number">1</span>]) &lt;&lt; (<span class="number">1</span> &lt;&lt; power))</span><br></pre></td></tr></table></figure>
+
+<p>代码的含义是这样的(诶… 我想想怎么解释一下 = =)</p>
+<p>emmm, 先看一个最简单的例子, 那么就能理解了, 首先, 取二进制 01, 只执行一次循环, 看看效果</p>
+<p>num &amp; constNums[index]  = 0, (num &amp; constNums[index+1]) = 1, power = 0, 所以结果是 10, 我们得到了反转字符串</p>
+<p>那么再来难点的例子, 1101, 这样需要执行两次循环</p>
+<p>num &amp; constNums[index]  = 1000,  (num &amp; constNums[index+1]) = 0101, power = 0, 所以第一次循环的结果是 0100 | 1010 = 1110</p>
+<p>num &amp; constNums[index]  = 1100, (num &amp; constNums[index+1]) = 0010, power = 1, 所以结果是 0011 | 1000 = 1011</p>
+<p>这样大概就能了解了吧, 第一次循环是两位为一组交换位置, 第二次循环是四位为一组交换位置, 所以第一次的二进制是 0xAAAAAAAA, 0x55555555 类似与 101010… 010101… 这样的, 他们的二进制位是相反的, 同理直到达到足够的位数为止, 这道题的复杂度是 O(logn) 级别的, 其中 s = 数字的位数, s = 2 的 n 次方</p>
+<p>真是个不错的算法 :)</p>
+<p>这个算法能见到 二分 和 递归 的影子, 理解了就会非常简单</p>
+<p>看了 go 对于该算法的实现, 也是这样的</p>
+<p>顺便, 看了 go 的源码, 其实句子可以更简单 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">constNums[index] &amp; num &gt;&gt; (<span class="number">1</span> &lt;&lt; power) | constNums[index+<span class="number">1</span>] &amp; num &lt;&lt; (<span class="number">1</span> &lt;&lt; power)</span><br></pre></td></tr></table></figure>
+
+<p>整个代码也可以重构</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(n <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> m0 <span class="keyword">uint32</span> = <span class="number">0x55555555</span></span><br><span class="line">    <span class="keyword">var</span> m1 <span class="keyword">uint32</span> = <span class="number">0x33333333</span></span><br><span class="line">    <span class="keyword">var</span> m2 <span class="keyword">uint32</span> = <span class="number">0x0F0F0F0F</span></span><br><span class="line">    <span class="keyword">var</span> m3 <span class="keyword">uint32</span> = <span class="number">0x00FF00FF</span></span><br><span class="line"></span><br><span class="line">    n = n &gt;&gt; <span class="number">1</span> &amp; m0 | n &amp; m0 &lt;&lt; <span class="number">1</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">2</span> &amp; m1 | n &amp; m1 &lt;&lt; <span class="number">2</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">4</span> &amp; m2 | n &amp; m2 &lt;&lt; <span class="number">4</span></span><br><span class="line">    n = n &gt;&gt; <span class="number">8</span> &amp; m3 | n &amp; m3 &lt;&lt; <span class="number">8</span></span><br><span class="line">    <span class="keyword">return</span> n &gt;&gt; <span class="number">16</span> | n &lt;&lt; <span class="number">16</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这基本与 go 的 reverse32 源码一致, 不愧是源码啊…  </p>
+<p>这个版本的代码进一步减少了变量和常量, 其中那 index 所代表的一对本就可以用移位来代替</p>
 
       
     </div>
@@ -256,7 +283,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/77ZCombinations/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/209MininumSizeSubarraySum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -270,7 +297,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/leetcode/77ZCombinations/" class="post-title-link" itemprop="url">leetcode/77ZCombinations</a>
+            <a href="/2020/01/09/leetcode/209MininumSizeSubarraySum/" class="post-title-link" itemprop="url">leetcode/209MininumSizeSubarraySum</a>
         </h1>
 
         <div class="post-meta">
@@ -295,42 +322,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Combinations"><a href="#Combinations" class="headerlink" title="Combinations"></a>Combinations</h3><p><img src="https://imgur.com/UHtnUvF.png" alt=""></p>
-<p>找到 n 中所有 长度为 k 的不重复的组合</p>
-<h3 id="my-solution-60ms-top-99-97"><a href="#my-solution-60ms-top-99-97" class="headerlink" title="my solution (60ms, top 99.97%)"></a>my solution (60ms, top 99.97%)</h3><p>通过问题代换, 可以转换成一种很好理解并易于编写的问题  </p>
-<p>将问题看做 <strong>找出范围 n 中所有满足 p(x) 的整数 x</strong></p>
-<p>(和 31. Next Permutation 类似, 我是从中得到的启发)</p>
-<p>其中 x 一开始为  ∑k &lt;&lt; (n - k); [k=1], 即 n = 4, x = 1234</p>
-<pre><code>n = 4, k = 2
-1 2 3 4
-[1,2],
-[1,3],
-[1,4],
-[2,3],
-[2,4],
-[3,4],
-
-n = 4, k = 3
-1 2 3 4
-[1,2,3],
-[1,2,4],
-[1,3,4],
-[2,3,4]</code></pre><p>他们都按照一定规律, 满足下一个数比上一个数大</p>
-<p>这个规则 p(x) 用语言描述, 就是:</p>
-<pre><code>从后往前找一个当前下标小于当前下标的最大值的数
-如果找到了, 当前下标存储的值自增, 后续下标以当前下标为基准, 顺序 +1
-如果没找到, 返回所有已找到的</code></pre><p>代码描述如下:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; n) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        _n = n, _k = k;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= k; ++i) &#123;</span><br><span class="line">            _cur.push_back(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ret;</span><br><span class="line">        ret.emplace_back(_cur);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            getNextNums();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (_cur.<span class="built_in">size</span>() != <span class="number">0</span>)</span><br><span class="line">                ret.emplace_back(_cur);</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getNextNums</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = _k - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">if</span> ( _cur[i] &lt; _n - _k + i + <span class="number">1</span> ) &#123;</span><br><span class="line">                _cur[i] += <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>, s = _cur[i] + <span class="number">1</span>; j &lt; _k; ++j) </span><br><span class="line">                    _cur[j] = s++;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        _cur.<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; _cur;</span><br><span class="line">    <span class="keyword">int</span> _n, _k;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>combine 和 getNextNums 的逻辑都相当简单, 写起来很容易</p>
-<p><img src="https://imgur.com/rQ2ZGIM.png" alt=""></p>
-<h3 id="best-solution-56ms"><a href="#best-solution-56ms" class="headerlink" title="best solution (56ms)"></a>best solution (56ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">combine</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; &amp;result, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;item, <span class="keyword">int</span> beg, <span class="keyword">int</span> <span class="built_in">end</span>, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> k = item.<span class="built_in">size</span>() - index;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">0</span>) &#123;</span><br><span class="line">            result.push_back(item);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = beg; i &lt;= <span class="built_in">end</span> - k + <span class="number">1</span>; ++i) &#123;</span><br><span class="line">            item[index] = i;</span><br><span class="line">            combine(result, item, i + <span class="number">1</span>, <span class="built_in">end</span>, index + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">0</span> || k &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; item(k);</span><br><span class="line">        item[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        combine(result, item, <span class="number">1</span>, n, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>emmm, 好奇怪啊, 逻辑上来说想的都是一样的, 为什么他少 4ms 呢… ( 或许是因为通过 this 指针获取变量的锅? )</p>
-<p>他用递归的形式来实现, 每次递归中会从当前起始索引循环到结束索引</p>
-<p>当数组的长度到达 k 的时候, 就返回  </p>
-<p>值得一提的是, 他用索引的形式避免了那个会被多次修改的 item 以值形式传递  </p>
-<p>(我放弃使用递归的一部分原因就是因为暂时想不到什么方法避免那个临时的数组, 原来还可以这样…)</p>
+          <h2 id="Minimun-Size-Subarray-Sum"><a href="#Minimun-Size-Subarray-Sum" class="headerlink" title="Minimun Size Subarray Sum"></a>Minimun Size Subarray Sum</h2><p><img src="https://imgur.com/HJmyh7Q.png" alt=""></p>
+<p>不想解释…</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>简单思考了一下, 以每个元素为起点, 循环往右找到满足条件的数 </p>
+<p>最终做比较, 就可以得出答案</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">minSubArrayLen</span><span class="params">(s <span class="keyword">int</span>, nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    size := <span class="built_in">len</span>(nums)</span><br><span class="line">    ret := size</span><br><span class="line">    <span class="keyword">var</span> sum <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span>(nums) &#123;</span><br><span class="line">        sum += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (sum &lt; s) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, v := <span class="keyword">range</span>(nums) &#123;</span><br><span class="line">        sum = v</span><br><span class="line">        counter := <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i2 := i + <span class="number">1</span>; i2 &lt; size &amp;&amp; sum &lt; s; i2++ &#123;</span><br><span class="line">            sum += nums[i2]</span><br><span class="line">            counter++</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sum &gt;= s &amp;&amp; counter &lt; ret &#123;</span><br><span class="line">            ret = counter</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的复杂度大概是 O(n2), 同时为了区别特殊情况, 还做了一次… </p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">minSubArrayLen</span><span class="params">(s <span class="keyword">int</span>, nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    size := <span class="built_in">len</span>(nums)</span><br><span class="line">    ret := size + <span class="number">1</span></span><br><span class="line">    start := <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> sum <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, v := <span class="keyword">range</span>(nums) &#123;</span><br><span class="line">        sum += v</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> sum &gt;= s &amp;&amp; sum - nums[start] &gt;= s &#123;</span><br><span class="line">            sum -= nums[start]</span><br><span class="line">            start++</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sum &gt;= s &amp;&amp; i - start + <span class="number">1</span> &lt; ret &#123;</span><br><span class="line">            ret = i - start + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ret == size + <span class="number">1</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实这是我将算法思想重写后的代码…</p>
+<p>简单来说, 就是先找到匹配的 sum, 然后没加一次, 就尝试减少前面的数  </p>
+<p>这样遍历之后, 得到的数同样也是最短的</p>
+<p>(我很好奇没有是否没有人对数级的解决方案…)</p>
 
       
     </div>
@@ -350,7 +352,7 @@ n = 4, k = 3
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/92ReverseLinkedListII/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/222CountCompleteTreeNodes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -364,7 +366,7 @@ n = 4, k = 3
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/leetcode/92ReverseLinkedListII/" class="post-title-link" itemprop="url">leetcode/92ReverseLinkedListII</a>
+            <a href="/2020/01/09/leetcode/222CountCompleteTreeNodes/" class="post-title-link" itemprop="url">leetcode/222CountCompleteTreeNodes</a>
         </h1>
 
         <div class="post-meta">
@@ -375,7 +377,7 @@ n = 4, k = 3
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 16:55:14" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
             </span>
 
           
@@ -389,95 +391,50 @@ n = 4, k = 3
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Reverse-Linked-List-II"><a href="#Reverse-Linked-List-II" class="headerlink" title="Reverse Linked List II"></a>Reverse Linked List II</h2><p><img src="https://imgur.com/qHJVvfn.png" alt=""></p>
-<p>给定一个单向链表, 按照距离 m, n 旋转单向链表</p>
-<h3 id="my-solution-4ms-100"><a href="#my-solution-4ms-100" class="headerlink" title="my solution (4ms, 100%)"></a>my solution (4ms, 100%)</h3><p>其实这个题没什么好写的, 主要是这个题之前做过.</p>
-<p>当时的代码量很大不说, 最后还没做出来…  </p>
-<h4 id="old-solution"><a href="#old-solution" class="headerlink" title="old solution"></a>old solution</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">moth</span><span class="params">(ListNode* head, <span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (m == n)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// don't need replace</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">replace_far</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        pmptrv-&gt;next = pn;</span><br><span class="line">        pm-&gt;next = pnnext;</span><br><span class="line">        pnptrv-&gt;next = pm;</span><br><span class="line">        pn-&gt;next = pmnext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">replace_close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        pmptrv ? pmptrv-&gt;next = pn : <span class="literal">nullptr</span>;</span><br><span class="line">        pm-&gt;next = pnnext;</span><br><span class="line">        pn-&gt;next = pm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setpoint</span><span class="params">(ListNode* pcursor, <span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; ; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == m - <span class="number">1</span>) </span><br><span class="line">                pmptrv = pcursor;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i == m) </span><br><span class="line">                pm = pcursor;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i == m + <span class="number">1</span>) &#123;</span><br><span class="line">                pmnext = pcursor;</span><br><span class="line">                <span class="keyword">if</span> (i == n - <span class="number">1</span>)</span><br><span class="line">                    pnptrv = pcursor;</span><br><span class="line">                <span class="keyword">if</span> (i == n)</span><br><span class="line">                    pn = pcursor;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i == n - <span class="number">1</span>)</span><br><span class="line">                pnptrv = pcursor;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i == n) </span><br><span class="line">                pn = pcursor;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i == n + <span class="number">1</span>) </span><br><span class="line">                pnnext = pcursor;</span><br><span class="line"></span><br><span class="line">            pcursor = pcursor-&gt;next;</span><br><span class="line">            <span class="keyword">if</span> (!pcursor)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseBetween</span><span class="params">(ListNode* head, <span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (moth(head, m, n)) </span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ListNode* pcursor = head;</span></span><br><span class="line">        setpoint(head, m, n);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (n - m &gt;= <span class="number">2</span>)</span><br><span class="line">            replace_far();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (n - m == <span class="number">1</span>)</span><br><span class="line">            replace_close();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (m == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> pn;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    ListNode* pm = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* pn = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* pmptrv = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* pmnext = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* pnptrv = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* pnnext = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>…  天知道我 4 个月前脑子里面装的是什么, 会写出这样的代码. </p>
-<p>关键是错了十几次, 然后还是没做出来…</p>
-<h4 id="new-solution"><a href="#new-solution" class="headerlink" title="new solution"></a>new solution</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseBetween</span><span class="params">(ListNode* head, <span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (m == n || head == <span class="literal">nullptr</span>) </span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="function">ListNode <span class="title">temp</span><span class="params">(<span class="number">-1</span>)</span></span>;</span><br><span class="line">        temp.next = head;</span><br><span class="line">        ListNode* p1 = &amp;temp;</span><br><span class="line">        ListNode* sta;</span><br><span class="line">        <span class="keyword">int</span> ax = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (++ax &gt;= m) &#123;</span><br><span class="line">                sta = p1;</span><br><span class="line">                p1 = p1-&gt;next;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            p1 = p1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ListNode* prev = p1;</span><br><span class="line">        ListNode* cur = p1-&gt;next;</span><br><span class="line">        ListNode* <span class="built_in">end</span> = p1;</span><br><span class="line">        <span class="keyword">while</span> (ax++ &lt; n) &#123;</span><br><span class="line">            ListNode* sav = cur-&gt;next;</span><br><span class="line">            cur-&gt;next = prev;</span><br><span class="line">            prev = cur;</span><br><span class="line">            cur = sav;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sta-&gt;next = prev;</span><br><span class="line">        <span class="built_in">end</span>-&gt;next = cur;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> temp.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>我采用了多放置一个头结点的方式来处理头结点也会被旋转的情况</p>
-<p>先找到 m 的位置, 然后顺序旋转至 n 的位置, 最后将头尾衔接一下</p>
-<p><img src="https://imgur.com/SgupRQT.png" alt=""></p>
-<p>最后的几次是我的尝试, 一开始的时候是 8ms, 但是我观察了 best solution, 发现区别不大  </p>
-<p>遂又尝试了一下, 然后是 4ms, 但是有时候不稳定, 总之在 4ms - 8ms 之间跳 (= =…)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/94BinaryTreeInorderTraversal/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/94BinaryTreeInorderTraversal/" class="post-title-link" itemprop="url">leetcode/94BinaryTreeInorderTraversal</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Binary-Tree-Inorder-Traversal"><a href="#Binary-Tree-Inorder-Traversal" class="headerlink" title="Binary Tree Inorder Traversal"></a>Binary Tree Inorder Traversal</h2><p><img src="https://imgur.com/vlChItp.png" alt=""></p>
-<p>这个问题用递归非常好解决, 但是作者要求使用迭代</p>
-<p>这是一个以迭代实现子树遍历的做法, 值得做一下笔记</p>
-<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>一开始我没看到 follow up, 然后用递归解决了  </p>
-<p>之后看到的时候没什么好的思路</p>
-<p>(有部分是受了答案的影响, 因为这时候我已经解决了, 可以看别人的答案了)</p>
-<p>(不得不说答案真是害人啊…  如果我独立思考的话, 花一部分时间也能想通的)</p>
-<p>后面借鉴了答案的思想, 自己实现了, 所以这里就不贴出来了</p>
-<h3 id="best-solution-4ms"><a href="#best-solution-4ms" class="headerlink" title="best solution (4ms)"></a>best solution (4ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        TreeNode *curr; </span><br><span class="line">        <span class="built_in">stack</span>&lt;TreeNode*&gt; st; </span><br><span class="line">        curr = root;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res; </span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( !st.empty() || curr )&#123;</span><br><span class="line">            <span class="keyword">while</span> ( curr ) &#123; st.push(curr); curr = curr-&gt;left; &#125;</span><br><span class="line">            curr = st.top();</span><br><span class="line">            st.pop();</span><br><span class="line">            res.push_back(curr-&gt;val);</span><br><span class="line">            curr=curr-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>简单来说</p>
+          <h2 id="222-Count-Complete-Tree-Nodes"><a href="#222-Count-Complete-Tree-Nodes" class="headerlink" title="222. Count Complete Tree Nodes"></a>222. Count Complete Tree Nodes</h2><p><img src="https://imgur.com/7DA2TjB.png" alt=""></p>
+<p>统计 complete tree 节点数量</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>首先说说我的做法, 我首先想到的是用栈来保存其数据结构, 跟踪路径, 从右至左, 直到找到一条能到达底层的路</p>
+<p>first.  my idea  is use stack to save the data structure, trace the route, from right to left, until find a way to bottom node</p>
+<p>(前些天被一个 13 说我 leetcode 从不写注释, 我怨念到了现在 = =)</p>
+<p>(I was told by a 13 the other day that i never write comments in leetcode. I remember it till now :(  )</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;pair&lt;TreeNode*, <span class="keyword">bool</span>&gt;&gt; nodes;</span><br><span class="line">        </span><br><span class="line">        TreeNode* <span class="built_in">cursor</span> = root;</span><br><span class="line">        <span class="keyword">int</span> ldeep = <span class="number">0</span>, rdeep = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">            <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;left;</span><br><span class="line">            ++ldeep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cursor</span> = root;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">            <span class="comment">// 1 means next is a right node</span></span><br><span class="line">            nodes.push(make_pair(<span class="built_in">cursor</span>, <span class="number">1</span>));</span><br><span class="line">            <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;right;</span><br><span class="line">            ++rdeep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ret = (<span class="number">1</span> &lt;&lt; ldeep) - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// is a full binary tree</span></span><br><span class="line">        <span class="keyword">if</span> (ldeep == rdeep) </span><br><span class="line">            <span class="keyword">return</span> ret;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!nodes.empty()) &#123;</span><br><span class="line">            <span class="built_in">cursor</span> = nodes.top().first;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">cursor</span>-&gt;right) --ret;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">cursor</span>-&gt;left) --ret;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cursor</span>-&gt;left || <span class="built_in">cursor</span>-&gt;right)</span><br><span class="line">                <span class="keyword">return</span> ret;</span><br><span class="line">            </span><br><span class="line">            nodes.pop();</span><br><span class="line">            --rdeep;</span><br><span class="line">            <span class="comment">// current node is right node, so next node is left node</span></span><br><span class="line">            <span class="keyword">if</span> (!nodes.empty() &amp;&amp; nodes.top().second) &#123;</span><br><span class="line">                nodes.top().second = <span class="number">0</span>;</span><br><span class="line">                nodes.push(make_pair(nodes.top().first-&gt;left, <span class="number">1</span>));</span><br><span class="line">                ++rdeep;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// find next node with next node is right node</span></span><br><span class="line">            <span class="keyword">while</span> (!nodes.empty() &amp;&amp; !nodes.top().second) &#123;</span><br><span class="line">                nodes.pop();</span><br><span class="line">                --rdeep;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// means some errors occur</span></span><br><span class="line">            <span class="keyword">if</span> (nodes.empty()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            nodes.top().second = <span class="number">0</span>;</span><br><span class="line">            <span class="built_in">cursor</span> = nodes.top().first-&gt;left;</span><br><span class="line">            <span class="keyword">while</span> (<span class="built_in">cursor</span>) &#123;</span><br><span class="line">                nodes.push(make_pair(<span class="built_in">cursor</span>, <span class="number">1</span>));</span><br><span class="line">                <span class="built_in">cursor</span> = <span class="built_in">cursor</span>-&gt;right;</span><br><span class="line">                ++rdeep;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// get the bottom element</span></span><br><span class="line">            <span class="keyword">if</span> (ldeep == rdeep) <span class="keyword">return</span> ret;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// means some errors occur</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最不理想的情况下, 最左边只有一个节点, 会遍历掉所有节点 = =. stack 容量应该不会超过 31 个元素. </p>
+<p>代码不够整洁, 不够易懂. 勉强算个解法.</p>
+<p><img src="https://imgur.com/ST4TQfP.png" alt=""></p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">is_high</span> <span class="params">(TreeNode* root, <span class="keyword">int</span> path, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    high--;</span><br><span class="line">    <span class="keyword">while</span> (high &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">bool</span> flag = path &amp; (<span class="number">1</span> &lt;&lt; high);</span><br><span class="line">        <span class="keyword">if</span> (flag &amp;&amp; root-&gt;right) &#123;</span><br><span class="line">            root = root-&gt;right;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!flag &amp;&amp; root-&gt;left) &#123;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        high--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span> <span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> high = <span class="number">0</span>;</span><br><span class="line">        TreeNode* node = root-&gt;left;</span><br><span class="line">        <span class="keyword">while</span> (node) &#123;</span><br><span class="line">            high++;</span><br><span class="line">            node = node-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> first = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> last = <span class="number">1</span> &lt;&lt; high;</span><br><span class="line">        <span class="keyword">while</span> (first &lt; last) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (first + last) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (is_high(root, mid, high)) &#123;</span><br><span class="line">                first = mid + <span class="number">1</span>;        </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                last = mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (<span class="number">1</span> &lt;&lt; high) - <span class="number">1</span> + last;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最后的 return 里面, 用 first 和 last 都可以, 我觉得 last 语义可能更好, 所以换成了 last.</p>
+<p>on the end of return, use both first and last. i think ‘last’ more make sence, so i use ‘last’</p>
+<p>他的计算是 full tree 节点数 + 底层节点数. 从这个算法中我学到了一些东西, 二进制和 binary tree, 真的有很大可操作空间.</p>
+<p>the algorithm is a number of full tree nodes plus bottom nodes. I study something from the algorithm. it’s a lot of skill can use between binary system and binary tree.</p>
+<p>在分析算法前, 我先总结一下我从这个算法中看到的规律. </p>
+<p>before profiling this algorithm, summarize  some rules of complete tree that I saw in this algorithm</p>
+<p>首先, 将树节点排序, root 为 1, 从左到右, 从上到下,  依次递进. 得到类似的图 : </p>
+<p>first, sort tree nodes. root is number 1, from left to right, up to down, get this map:</p>
+<pre><code>                            1
+            2                                3
+    4                5                6                7
+8(1)    9(2)    10(3)    11(4)    12(5)    13(6)    14(7)    15(8)</code></pre><p>假设一个数, 5, 其二进制为 101, 已知是 binary tree, 所以每个节点的 2 倍就是当前数字右移 1 位, 右尾置 0. 所以 0 代表向左下前进, 1 则代表向右下前进. 分为两种情况.</p>
+<p>assume a number, for example 5, it’s binary expression is 101.</p>
 <ol>
-<li>遍历所有左子树</li>
-<li>获得栈顶, 存值, 然后以其右子树继续遍历</li>
+<li><p>将首位看做无效位, 则 101 = 01, 代表从根向左-&gt;向右, 则得到了数字 5.</p>
+<p>treat the first digit as an invalid bit. 101 means left -&gt; right. get the number 5.</p>
+</li>
+<li><p>将首位看做有效位, 则 101 = 101, 代表从根向右-&gt;向左-&gt;向右, 得到数字 13, 而这个数字, 刚好是底部从左往右的第 5 个数字 + 1 = 第 6 个数字. </p>
+<p>treat the first digit as an valid bit. 101 means right -&gt; left -&gt; right. get the number 13. the number sorted by bottom level is the the original number plus one. </p>
+<p>(为什么呢? 为什么刚好是 + 1? 因为恒定的, 因为这是 complete tree, 每一层到下一层的相对应那个数的步数都是恒定的. 都是 (2 &lt;&lt; n) - 1, 而 + 1 就刚好是 2 &lt;&lt; n, 这和刚才将首位看做有效位对应上了, 其实将首位看做有效位也就是增加了 2 &lt;&lt; n 而已.)</p>
+</li>
 </ol>
-<p>重复以上步骤, 很简单吧 (但是我当时为什么没有想出来呢 ? …)</p>
-<p>以同样的逻辑, 可以实现 leftorder, rightorder </p>
-<p>(如果没记错的话, 应该是这么叫的, 而且如果没估计错的话, 应该可以)</p>
+<p>将一些规律总结后, 就变简单了许多</p>
+<p>after summarize some rules, things more simple. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (first &lt; last) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (first + last) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (is_high(root, mid, high)) &#123;</span><br><span class="line">        first = mid + <span class="number">1</span>;        </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        last = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码就是在首位间不断逼近, 求得的最大的数字, 也就是最后一排. </p>
+<p>this code just get more close between ‘first’ and ‘last’. get biggest number, also is the result.</p>
+<p>is_high(root, mid, high) 实则是在判断, 最后一排有没有 mid + 1 这个数字, 如果有, 则 first = mid + 1, 意味着这个数字是存在的, 继续不断逼近. 直到最后 last == first, 因为 first = mid + 1, 而 mid = (first + last) / 2, 所以 first 最大不会超过 last. </p>
+<p>‘is_higt’ judge is there a number ‘mid + 1’. if is, then ‘first = mid + 1’. means this number is exist.</p>
+<p>所以这个解法是利用了 complete tree 的特性. 相当简洁, 也没有使用额外的空间, 时间复杂度是 O(logn), 很不错的解法.</p>
+<p>I’m tired… :(     </p>
+<p>thanks for browsing :)</p>
 
       
     </div>
@@ -497,7 +454,7 @@ n = 4, k = 3
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/116PopulatingNextRightPointersInEachNode/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/230KthSmallestElementInaBST/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -511,7 +468,7 @@ n = 4, k = 3
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/09/leetcode/116PopulatingNextRightPointersInEachNode/" class="post-title-link" itemprop="url">leetcode/116PopulatingNextRightPointersInEachNode</a>
+            <a href="/2020/01/09/leetcode/230KthSmallestElementInaBST/" class="post-title-link" itemprop="url">leetcode/230KthSmallestElementInaBST</a>
         </h1>
 
         <div class="post-meta">
@@ -536,30 +493,460 @@ n = 4, k = 3
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Populating-Next-Right-Pointers-in-Each-Node"><a href="#Populating-Next-Right-Pointers-in-Each-Node" class="headerlink" title="Populating Next Right Pointers in Each Node"></a>Populating Next Right Pointers in Each Node</h2><p><img src="https://imgur.com/db5dxSr.png" alt=""></p>
-<p>给了一个完美的二叉树, 填充其next节点</p>
-<h3 id="my-solution-60ms-90-37"><a href="#my-solution-60ms-90-37" class="headerlink" title="my solution (60ms, 90.37%)"></a>my solution (60ms, 90.37%)</h3><p>这道题我给出了两种方案, 递归和迭代  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = [] () &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; ();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Node* connect(Node* root) &#123;</span></span><br><span class="line">    <span class="comment">//     if (!root)</span></span><br><span class="line">    <span class="comment">//         return root;</span></span><br><span class="line">    <span class="comment">//     </span></span><br><span class="line">    <span class="comment">//     vector&lt;Node*&gt; lev;</span></span><br><span class="line">    <span class="comment">//     lev.push_back(root);</span></span><br><span class="line">    <span class="comment">//     </span></span><br><span class="line">    <span class="comment">//     while ( !lev.empty() ) &#123;</span></span><br><span class="line">    <span class="comment">//         vector&lt;Node*&gt; nlev;</span></span><br><span class="line">    <span class="comment">//         int size = lev.size();</span></span><br><span class="line">    <span class="comment">//         </span></span><br><span class="line">    <span class="comment">//         int i = 0, i2 = 1;</span></span><br><span class="line">    <span class="comment">//         for (; i2 &lt; size; ++i, ++i2) &#123;</span></span><br><span class="line">    <span class="comment">//             lev[i]-&gt;next = lev[i2];</span></span><br><span class="line">    <span class="comment">//             if ( lev[i]-&gt;left ) &#123;</span></span><br><span class="line">    <span class="comment">//                 nlev.push_back( lev[i]-&gt;left );</span></span><br><span class="line">    <span class="comment">//                 nlev.push_back( lev[i]-&gt;right );</span></span><br><span class="line">    <span class="comment">//             &#125;</span></span><br><span class="line">    <span class="comment">//         &#125;</span></span><br><span class="line">    <span class="comment">//         lev[i]-&gt;next = nullptr;</span></span><br><span class="line">    <span class="comment">//         if ( lev[i]-&gt;left ) &#123;</span></span><br><span class="line">    <span class="comment">//             nlev.push_back( lev[i]-&gt;left );</span></span><br><span class="line">    <span class="comment">//             nlev.push_back( lev[i]-&gt;right );</span></span><br><span class="line">    <span class="comment">//         &#125;</span></span><br><span class="line">    <span class="comment">//         </span></span><br><span class="line">    <span class="comment">//         swap(lev, nlev);</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line">    <span class="comment">//     </span></span><br><span class="line">    <span class="comment">//     return root;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="function">Node* <span class="title">connect</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line">        connect_two(root-&gt;left, root-&gt;right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">connect_two</span><span class="params">(Node* left, Node* right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!left) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        left-&gt;next = right;</span><br><span class="line">        <span class="keyword">if</span> (left-&gt;left)</span><br><span class="line">            connect_two(left-&gt;left, left-&gt;right);</span><br><span class="line">            connect_two(left-&gt;right, right-&gt;left);</span><br><span class="line">            connect_two(right-&gt;left, right-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>对于迭代, 我将每一级的元素都保留, 然后用作下一次迭代 </p>
-<p>递归的话, 因为如果只是单节点传参, 始终会面临有缝隙的情况, 所以用双节点传参</p>
-<p>递归的代码更加简洁, 我推荐使用递归</p>
-<p><img src="https://imgur.com/DbsUtql.png" alt=""></p>
-<p>emmmm… 速度上还好, 但是内存上就很不能接受了</p>
-<p>(我很好奇, 代码量已经很少了, 而且递归中也不会产生多余的操作)</p>
-<p>(难道是在 perfect binary tree 上能有什么绚丽的操作么?)</p>
-<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">connect</span><span class="params">(TreeLinkNode *root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeLinkNode*&gt; q;</span><br><span class="line">    <span class="keyword">if</span> (!root)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    q.push(root);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">size</span> = q.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">size</span>--)&#123;</span><br><span class="line">            TreeLinkNode* c = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                c-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                c-&gt;next = q.front();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (c-&gt;left)&#123;</span><br><span class="line">                q.push(c-&gt;left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (c-&gt;right)&#123;</span><br><span class="line">                q.push(c-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>哦哦哦, 用的是迭代的方式, 只不过他用了队列</p>
-<p>而且用了size, 这样也就不需要一个新的容器了, 很不错 -v-  </p>
-<p>不过既然题说了是 perfect binary tree, 而且next默认为空, 那么可以稍微改良一下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node* <span class="title">connect</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">queue</span>&lt;Node*&gt; q;</span><br><span class="line">    q.push(root);</span><br><span class="line">    <span class="keyword">while</span>( !q.empty() ) &#123;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">size</span> = q.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">size</span>--) &#123;</span><br><span class="line">            Node* cur = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">size</span>)</span><br><span class="line">                cur-&gt;next = q.front();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cur-&gt;left) &#123;</span><br><span class="line">                q.push(cur-&gt;left);</span><br><span class="line">                q.push(cur-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>细节在于:</p>
-<ol>
-<li>如果是空节点, 少了一个空 queue 的分配时间</li>
-<li>不用再去赋值 nullptr 了</li>
-<li>少了一个 cur-&gt;right 的判断, 因为题目说了是 perfect binary tree</li>
-</ol>
-<p>PS: 我最后用这个答案再试了一次, 发现结果和我用递归的结果相差无几…</p>
-<p>可能这是增加了测试用例或者改了题的结果? 毕竟 TreeLinkNode 变为了 Node</p>
+          <h2 id="Kth-Smallest-Element-In-a-BST"><a href="#Kth-Smallest-Element-In-a-BST" class="headerlink" title="Kth Smallest Element In a BST"></a>Kth Smallest Element In a BST</h2><p><img src="https://imgur.com/bstQOJh.png" alt=""></p>
+<p>找到二叉树中, 第 n 个最小的节点</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>可以一步一步找它的最小节点, 追踪的问题, 可以交给 stack</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">kthSmallest</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="comment">// if root == nil &#123;</span></span><br><span class="line">    <span class="comment">//     return 0</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    stack := []*TreeNode&#123;root&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> root.Left != <span class="literal">nil</span> &#123;</span><br><span class="line">        stack = <span class="built_in">append</span>(stack, root.Left)</span><br><span class="line">        root = root.Left</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pos := <span class="built_in">len</span>(stack) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> foot := <span class="number">1</span>; foot != k; foot++ &#123;</span><br><span class="line">        <span class="comment">// if cur.Right != nil then next is cur.Right.Left(bottom)</span></span><br><span class="line">        <span class="keyword">if</span> stack[pos].Right != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="comment">// i really need stack...</span></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(stack) &gt; pos + <span class="number">1</span> &#123;</span><br><span class="line">                stack[pos + <span class="number">1</span>] = stack[pos].Right</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                stack = <span class="built_in">append</span>(stack, stack[pos].Right)</span><br><span class="line">            &#125;</span><br><span class="line">            pos++</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> stack[pos].Left != <span class="literal">nil</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(stack) &gt; pos + <span class="number">1</span> &#123;</span><br><span class="line">                    stack[pos + <span class="number">1</span>] = stack[pos].Left</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    stack = <span class="built_in">append</span>(stack, stack[pos].Left)</span><br><span class="line">                &#125;</span><br><span class="line">                pos++</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// if cur.Right == nil then next is last biger value</span></span><br><span class="line">            old := stack[pos].Val</span><br><span class="line"></span><br><span class="line">            <span class="comment">// hope BST don't have repetitive value... </span></span><br><span class="line">            <span class="keyword">for</span> stack[pos].Val &lt;= old &#123;</span><br><span class="line">                pos--</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> stack[pos].Val</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查找下一节点 (next) 可以这么描述:</p>
+<p>如果当前节点 (cur) 有右子节点, 则 next 为右子节点的左根节点</p>
+<p>否则, next 为上一个大于当前节点值的节点</p>
+<p>这是用递归来实现的, 为了追踪, 使用了 stack </p>
+<p>(我好希望 go 能提供一个标准的 stack, 这样代码可以更加简洁. 或许是提供了, 但我不知道?)</p>
+<p><img src="https://imgur.com/2mIMNZl.png" alt=""></p>
+<p>一次成功, 真好</p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">kthSmallest</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    helper(root,k,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> res <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">helper</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>, i <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    cur := <span class="number">0</span> </span><br><span class="line">    <span class="keyword">if</span> root.Left != <span class="literal">nil</span> &#123;</span><br><span class="line">        prev := helper(root.Left, k, i)</span><br><span class="line">        cur = prev + <span class="number">1</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cur = i</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> cur == k &#123;</span><br><span class="line">        res = root.Val</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> root.Right != <span class="literal">nil</span> &amp;&amp; cur &lt; k &#123;</span><br><span class="line">        <span class="keyword">return</span> helper(root.Right, k, cur+<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cur</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>emm, 他使用了递归, 用递归来追踪, 可以不用显式追踪数据了, 挺好</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/25ZReverse_Nodes_in_k-Group/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/25ZReverse_Nodes_in_k-Group/" class="post-title-link" itemprop="url">leetcode/25ZReverse_Nodes_in_k-Group</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="25-Reverse-Nodes-in-k-Group"><a href="#25-Reverse-Nodes-in-k-Group" class="headerlink" title="25. Reverse Nodes in k-Group"></a>25. Reverse Nodes in k-Group</h3><p><img src="https://imgur.com/sancVDL.png" alt=""></p>
+<p>给定一个链表, 每次反转链表数量为k的节点, 然后返回更改后的链表</p>
+<p>k是一个正整数, 小于等于链表的长度, 如果链表的长度不是k的整数倍, 最后遗漏的节点保持原样</p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!head) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">        ListNode* ret = head;</span><br><span class="line">        <span class="keyword">while</span> (head &amp;&amp; head-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">int</span> kt = k;</span><br><span class="line">            ListNode* headt = head;</span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line"></span><br><span class="line">            vec.push_back(headt-&gt;val);</span><br><span class="line">            <span class="keyword">while</span> (--kt &amp;&amp; head-&gt;next) &#123;</span><br><span class="line">                head = head-&gt;next;</span><br><span class="line">                vec.push_back(head-&gt;val);</span><br><span class="line">            &#125;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (kt) <span class="keyword">break</span>;</span><br><span class="line">            reverse(headt, vec);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(ListNode* head, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; vec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) &#123;</span><br><span class="line">            head-&gt;val = *it;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这道题的思路很清晰, 感觉不应该是hard难度的题  </p>
+<p>简单地将链表每一部分分开, 然后调用反序函数就可以了</p>
+<p>可以优化的点是 while 那里, 以及我可以不用在 while 中判断, reverse 应该能够正常处理元素数量不同的情况  </p>
+<p>那么我在最后做一次判断, 将最后一次不用修改的还原就可以了, 这样可以省去 while 中的判断逻辑</p>
+<p><img src="https://imgur.com/8QPzS1D.png" alt=""></p>
+<p>速度上来说还算不错, 但是资源使用率上就很堪忧了</p>
+<h3 id="dalao’s-code"><a href="#dalao’s-code" class="headerlink" title="dalao’s code"></a>dalao’s code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverse</span><span class="params">(ListNode* first, ListNode* last)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ListNode* prev = last;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( first != last )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> tmp = first-&gt;next;</span><br><span class="line">            first-&gt;next = prev;</span><br><span class="line">            prev = first;</span><br><span class="line">            first = tmp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> node=head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ( ! node  )</span><br><span class="line">                <span class="keyword">return</span> head; <span class="comment">// nothing to do list too sort</span></span><br><span class="line">            node = node-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> new_head = reverse( head, node);</span><br><span class="line">        head-&gt;next = reverseKGroup( node, k);</span><br><span class="line">        <span class="keyword">return</span> new_head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个做法和我的想法基本相同, 但是在细节上的处理很好</p>
+<p>首先, 他采用的递归, 这样代码更加简洁易懂</p>
+<p>其次循环中是更改链表的指向, 而不是赋值, 这样功能性更强</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/300LongestIncreasingSubsequence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/300LongestIncreasingSubsequence/" class="post-title-link" itemprop="url">leetcode/300LongestIncreasingSubsequence</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="300-Longest-Increasing-Subsequence"><a href="#300-Longest-Increasing-Subsequence" class="headerlink" title="300 Longest Increasing Subsequence"></a>300 Longest Increasing Subsequence</h2><p><img src="https://imgur.com/Pn1zsFZ.png" alt=""></p>
+<p>找出数组中最大的增长数量</p>
+<h3 id="my-solution-8ms-66-89"><a href="#my-solution-8ms-66-89" class="headerlink" title="my solution (8ms, 66.89%)"></a>my solution (8ms, 66.89%)</h3><p>emm… 考虑将每一个下降的 slice 视为一个数组, 因为这些数组只可能产生一个值  </p>
+<p>而再将这些 slice 循环, 每次从当前节点选择最小的数字, 每次前进时选择一个最小的比上一个节点大的数字  </p>
+<p>然后计数, 一次遍历下来就得到了最大增长序列的长度</p>
+<p>复杂度是一次 O(n) 的遍历  + 切片之后数组长度的遍历, 接近 O(n2)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">lengthOfLIS</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(nums) == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    stairs := [][]<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    temp := []<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    prev := <span class="number">0x7fffffff</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        <span class="keyword">if</span> v &lt; prev &#123;</span><br><span class="line">            temp = <span class="built_in">append</span>(temp, v)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            sort.Ints(temp)</span><br><span class="line">            stairs = <span class="built_in">append</span>(stairs, temp)</span><br><span class="line">            temp = []<span class="keyword">int</span>&#123;v&#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        prev = v</span><br><span class="line">    &#125;</span><br><span class="line">    sort.Ints(temp)</span><br><span class="line">    stairs = <span class="built_in">append</span>(stairs, temp)</span><br><span class="line"></span><br><span class="line">    size := <span class="built_in">len</span>(stairs)</span><br><span class="line">    count, ret := <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">        prev = stairs[i][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i2 := i + <span class="number">1</span>; i2 &lt; size; i2++ &#123;</span><br><span class="line">            ind, size2 := <span class="number">0</span>, <span class="built_in">len</span>(stairs[i2])</span><br><span class="line">            <span class="keyword">for</span> ind &lt; size2 &amp;&amp; stairs[i2][ind] &lt;= prev &#123;</span><br><span class="line">                ind++</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ind &gt;= size2 || stairs[i2][ind] &lt;= prev &#123;</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            &#125;</span><br><span class="line">            count++</span><br><span class="line">            prev = stairs[i2][ind]</span><br><span class="line">        &#125;</span><br><span class="line">        ret = max(ret, count)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ret &gt;= size - i &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        count = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>emm… 代码有点长</p>
+<p><img src="https://imgur.com/AqBweht.png" alt=""></p>
+<p>8ms 那个是我做的, 0 不是</p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">binsearch</span><span class="params">(stack []<span class="keyword">int</span>, x <span class="keyword">int</span>)</span> <span class="params">(r <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    l, r := <span class="number">0</span>, <span class="built_in">len</span>(stack)</span><br><span class="line">    <span class="keyword">for</span> l &lt; r &#123;</span><br><span class="line">        m := l + (r - l) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> stack[m] &gt;= x &#123;</span><br><span class="line">            r = m</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l = m + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">lengthOfLIS</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="params">(r <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    stack := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        r := binsearch(stack, num)</span><br><span class="line">        <span class="keyword">if</span> r &lt; <span class="number">0</span> &#123;</span><br><span class="line">            stack[<span class="number">0</span>] = num</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> r == <span class="built_in">len</span>(stack) &#123;</span><br><span class="line">            stack = <span class="built_in">append</span>(stack, num)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            stack[r] = num</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(stack)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单来说就是通过不断将数组按照升序添加到 slice 里面  (我将其称作 slice, 因为它的行为不太像 stack)</p>
+<p>slice 的元素只有两种情况会变更:  </p>
+<p>要么有更小的元素覆盖, 要么比 slice 中所有元素都大, 然后 append</p>
+<p>因为题目要求的只要长度, 所以即使 slice 里面元素可能是错误的, 也没关系, 长度是对的</p>
+<p>这样的复杂度是 O(n), 其实原理还是挺容易理解的, 为什么我就没想到呢 = =</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/31ZNextPermutation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/31ZNextPermutation/" class="post-title-link" itemprop="url">leetcode/31ZNextPermutation</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="31-Next-Permutation"><a href="#31-Next-Permutation" class="headerlink" title="31 Next Permutation"></a>31 Next Permutation</h3><p><img src="https://imgur.com/bSdV2cb.png" alt=""></p>
+<p>简单来说就是找下一个比当前数字更大的数, 如果没有, 就重新排序</p>
+<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = nums.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="built_in">size</span> - <span class="number">1</span>; i &gt; <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt; nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">int</span> i2 = nums[i - <span class="number">1</span>];</span><br><span class="line">                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it = nums.<span class="built_in">end</span>();</span><br><span class="line">                <span class="keyword">while</span> ( ++i2 &lt; <span class="built_in">size</span> ) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ( ( it = <span class="built_in">find</span>(nums.<span class="built_in">begin</span>() + i + <span class="number">1</span>, nums.<span class="built_in">end</span>(), i2) ) != nums.<span class="built_in">end</span>() )</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> ( it != nums.<span class="built_in">end</span>() ) &#123;</span><br><span class="line">                    *it ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                    nums[i - <span class="number">1</span>] ^= *it;</span><br><span class="line">                    *it ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    nums[i] ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                    nums[i - <span class="number">1</span>] ^= nums[i];</span><br><span class="line">                    nums[i] ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                sort(nums.<span class="built_in">begin</span>() + i, nums.<span class="built_in">end</span>());</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>思路很简单, 从右到左找到第一个”不和谐”的点B (该点数字比前面的数字A大)  </p>
+<p>然后拿A, 从这个不和谐的点B往右找下一个比A大的数, 交换  </p>
+<p>之后重排序B右边的数字(包括B)</p>
+<p><img src="https://imgur.com/rdDSHLJ.png" alt=""></p>
+<p>emmmm… 结果不太好呢… </p>
+<h3 id="dalao’s-code"><a href="#dalao’s-code" class="headerlink" title="dalao’s code"></a>dalao’s code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"><span class="comment">// 很 6 啊, 这里实际是一个值, 全局的 static 变量, 他的执行会在 main 之前 </span></span><br><span class="line"><span class="comment">// 会求值 lambda 表达式中的内容, 而值并不是主要的目的, 甚至不是目的  </span></span><br><span class="line"><span class="comment">// 他是想调用其中的加速流操作的函数, 所以lambda最后有个()运算符, 果然我是条咸鱼...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        next_permutation(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>()); <span class="comment">// emm. 这是标准库函数...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>里面有一些我看不懂的东西, 涉及到 c++ 的流</p>
+<pre><code>ios::sync_with_stdio(false);    // 是否兼容printf
+cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout 的 flushing</code></pre><p>网上查了一下, 加速流的输入输出…</p>
+<p><a href="http://www.hankcs.com/program/cpp/cin-tie-with-sync_with_stdio-acceleration-input-and-output.html" target="_blank" rel="noopener">http://www.hankcs.com/program/cpp/cin-tie-with-sync_with_stdio-acceleration-input-and-output.html</a></p>
+<p><a href="https://www.geeksforgeeks.org/fast-io-for-competitive-programming/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/fast-io-for-competitive-programming/</a></p>
+<p>dalao 就是 dalao… </p>
+<p>我是怎么在不知道这一对函数的情况下活到今天的<img src="http://img.baidu.com/hi/jx2/j_0012.gif" alt="img"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/334IncreasingTripletSubsequence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/334IncreasingTripletSubsequence/" class="post-title-link" itemprop="url">leetcode/334IncreasingTripletSubsequence</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="334-Increasing-Triplet-Subsequence"><a href="#334-Increasing-Triplet-Subsequence" class="headerlink" title="334 Increasing Triplet Subsequence"></a>334 Increasing Triplet Subsequence</h2><p><img src="https://imgur.com/InKKTPj.png" alt=""></p>
+<p>找出数组中是否存在n个连续增长数列</p>
+<h3 id="my-solution-0ms-100"><a href="#my-solution-0ms-100" class="headerlink" title="my solution (0ms, 100%)"></a>my solution (0ms, 100%)</h3><p>这道题的解法来自于在做完另一道题后, 观察最佳算法时获得的技巧</p>
+<p>简单来说, 这可以用一个可覆写的数组来实现</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">increasingTriplet</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    vec := []<span class="keyword">int</span>&#123;<span class="number">1</span> &lt;&lt; <span class="number">63</span> - <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        <span class="keyword">if</span> v &gt; vec[<span class="built_in">len</span>(vec) - <span class="number">1</span>] &#123;</span><br><span class="line">            vec = <span class="built_in">append</span>(vec, v)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(vec) &gt; <span class="number">2</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i, v2 := <span class="keyword">range</span> vec &#123;</span><br><span class="line">            <span class="keyword">if</span> v &lt;= v2 &#123;</span><br><span class="line">                vec[i] = v</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为答案仅仅需要一个 bool 值, 所以可以这么做  </p>
+<p>不过, 有时候, vec 的值会是错误的, 同时这个解可以用于 n 个数字, 也可用于递减数组</p>
+<p>(同时, 如果我在讨论中, 没有看到相应语言完全比我好的解法, 我会开始分享自己的解法)</p>
+<p>(<a href="https://leetcode.com/problems/increasing-triplet-subsequence/discuss/298228/go-simple-solution-O(n)-100" target="_blank" rel="noopener">https://leetcode.com/problems/increasing-triplet-subsequence/discuss/298228/go-simple-solution-O(n)-100</a>)</p>
+<p><img src="https://imgur.com/jg6NqJV.png" alt=""></p>
+<p>开始没想到, 尝试了几次之后想到的</p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">increasingTriplet</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    min1,min2:= <span class="number">2</span>&lt;&lt;<span class="number">32</span><span class="number">-1</span>,<span class="number">2</span>&lt;&lt;<span class="number">32</span><span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> _,v:=<span class="keyword">range</span> nums&#123;</span><br><span class="line">        <span class="keyword">if</span> v&lt;=min1&#123;</span><br><span class="line">            min1=v</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> v&lt;=min2&#123;</span><br><span class="line">            min2=v</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>EHM… 我好像又把问题复杂化了…  </p>
+<p>不过没关系, 我的解可以用于 n 个序列 (我如此安慰自己)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/338CountingBits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/338CountingBits/" class="post-title-link" itemprop="url">leetcode/338CountingBits</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="338-Counting-Bits"><a href="#338-Counting-Bits" class="headerlink" title="338 Counting Bits"></a>338 Counting Bits</h2><p><img src="https://imgur.com/319pMc1.png" alt=""></p>
+<p>不想解释</p>
+<h3 id="my-solution-没脸说…"><a href="#my-solution-没脸说…" class="headerlink" title="my solution  (没脸说…)"></a>my solution  (没脸说…)</h3><p>这样的东西必定有规律, 找出来就好了</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">countBits</span><span class="params">(num <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    ret := []<span class="keyword">int</span>&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line">    last := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, size := <span class="number">3</span>, <span class="number">16</span>; size &lt;= num; i++ &#123;</span><br><span class="line">        beg := size - size / <span class="number">4</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> beg + <span class="number">4</span> &lt;= size &#123;</span><br><span class="line">            last = <span class="built_in">append</span>(last[:], ret[beg:]...)</span><br><span class="line">            beg = beg + (size - beg) / <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        last = <span class="built_in">append</span>(last[:], []<span class="keyword">int</span>&#123;i, i + <span class="number">1</span>, i + <span class="number">1</span>, i + <span class="number">2</span>&#125;...)</span><br><span class="line">        ret = <span class="built_in">append</span>(ret[:], last[:]...)</span><br><span class="line">        size *= <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ret = ret[:num + <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>规律如下, 每次的增加都是上次的一半的递归 (我不知道怎么解释这种规律, 感觉语言很苍白…)</p>
+<pre><code>0,1,1,2,
+1,2,2,3,
+1,2,2,3, 2,3,3,4,
+1,2,2,3, 2,3,3,4, 2,3,3,4, 3,4,4,5,
+1,2,2,3, 2,3,3,4, 2,3,3,4, 3,4,4,5, 2,3,3,4, 3,4,4,5, 3,4,4,5, 2,3,3,4, 3,4,4,5, 4,5,5,6</code></pre><p>仔细观察一下就发现了</p>
+<p>我本来以为我的解法很不错, 计算次数很少, 几乎没有, 大部分的运算都是 append, 应该会很快, 然而…</p>
+<p><img src="https://imgur.com/DpNioZ0.png" alt=""></p>
+<p>那个几十毫秒的不是我的, 800/900 的才是 = =</p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">countBits</span><span class="params">(num <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    result := <span class="built_in">make</span>([]<span class="keyword">int</span>, num+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= num; i++ &#123;</span><br><span class="line">        result[i] = result[i &amp; (i<span class="number">-1</span>)] + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>他是通过计算出来的, 比我好在于, 他不会计算多余的, 然后需要裁剪</p>
+<p>(BTW 这个算法与我原算法的速度相差无几, 但是等价的 C++ 代码却只需要几十毫秒)</p>
+<p>(加上 tie 和 sync_with_stdio, 可能速度能更快, 我不禁陷入了沉思…)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/377CombinationSumIV/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/377CombinationSumIV/" class="post-title-link" itemprop="url">leetcode/377CombinationSumIV</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Combination-Sum-IV"><a href="#Combination-Sum-IV" class="headerlink" title="Combination Sum IV"></a>Combination Sum IV</h2><p><img src="https://imgur.com/9bn22To.png" alt=""></p>
+<p>找出满足条件组合的次数</p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><p>没脸写出来 </p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">combinationSum4</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> target &lt;= <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    dp := <span class="built_in">make</span>([]<span class="keyword">int</span>, target+<span class="number">1</span>)</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt;= target; i++ &#123;</span><br><span class="line">        <span class="keyword">for</span> _, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">            <span class="keyword">if</span> i-num &gt;= <span class="number">0</span> &#123;</span><br><span class="line">                dp[i] += dp[i-num]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[target]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>0 1 = 1
+1 1 = 1
+2 1 1 = 2
+3 2 1 1 = 4
+4 4 2 1 = 7</code></pre><p>不太好描述这个规律, 有点类似于 “万丈高楼平地起”, 简单来说就是一个迭代/包含的过程</p>
+<p>比较关键的地方在于循环中的 if (感觉是废话 = = )</p>
+<p>我想过, 是否会出现一种情况, 这种情况通过了判断, 但是实际上不正确  </p>
+<p>比如 当 i = 3 的时候, num = 2, 通过了判断, 但是此时没有 1 那么就无法组成 4 </p>
+<p>这种情况成立么? 答案是否定的, 因为 2 中的次数就包含了有 1, 如果没有 1, 2 也将会是 0 </p>
+<p>假设 P(x) 为 x 所包含的次数, 上述解法就是 P(x) = P(x - 1) + … + P(1) (等式右侧每项参数都位于nums中)</p>
+<p>(感觉越描越黑了 - - )  </p>
 
       
     </div>
@@ -579,7 +966,7 @@ n = 4, k = 3
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -645,7 +1032,7 @@ n = 4, k = 3
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

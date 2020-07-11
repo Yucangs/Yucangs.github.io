@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="emm…   网络看过了, 多线程看过了, 操作系统看过了, mysql看过了, linux看过了, 数据结构和算法也看过了…   大多需要的东西我都有看过 (虽然还需大量训练💪), 想了想, 是时候看源码了.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="other&#x2F;vector">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/other/vector/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="emm…   网络看过了, 多线程看过了, 操作系统看过了, mysql看过了, linux看过了, 数据结构和算法也看过了…   大多需要的东西我都有看过 (虽然还需大量训练💪), 想了想, 是时候看源码了.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/hiPhoqN.png">
+<meta property="og:image" content="https://imgur.com/RzQNqTM.png">
+<meta property="og:image" content="https://imgur.com/plUq8uw.png">
+<meta property="og:image" content="https://imgur.com/1fq6OUm.png">
+<meta property="og:image" content="https://imgur.com/ZfvVlB6.png">
+<meta property="og:image" content="https://imgur.com/ELEQXYC.png">
+<meta property="og:image" content="https://imgur.com/7zJA0Nk.png">
+<meta property="og:image" content="https://imgur.com/HN2Wujx.png">
+<meta property="og:image" content="https://imgur.com/lil0XBq.png">
+<meta property="og:image" content="https://imgur.com/QLzGeyR.png">
+<meta property="article:published_time" content="2020-04-21T09:09:39.000Z">
+<meta property="article:modified_time" content="2020-04-21T09:09:39.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/hiPhoqN.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/21/other/vector/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>other/vector | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/other/vector/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          other/vector
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-21 17:09:39" itemprop="dateCreated datePublished" datetime="2020-04-21T17:09:39+08:00">2020-04-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>emm…  </p>
+<p>网络看过了, 多线程看过了, 操作系统看过了, mysql看过了, linux看过了, 数据结构和算法也看过了…  </p>
+<p>大多需要的东西我都有看过 (虽然还需大量训练💪), 想了想, 是时候看源码了.</p>
+<a id="more"></a>
+
+
+
+<p>第一次看源码应该是在一年前, 当时结合&lt;STL源码剖析&gt;, 没看几页就歇气了, 不知道那里去找源码. 也不知道怎么入手. 随着自己不断进步, 这些问题也变得可以解决了. </p>
+<h1 id="prepare"><a href="#prepare" class="headerlink" title="prepare"></a>prepare</h1><p>首先, 源码选用哪套呢? 想了想还是 boost 好了. </p>
+<p>然后, 书籍的话, 就不读之前那本书了, 网上搜了相关书籍, 很少, 看了看感觉并不适合. 所以选用了 boost 的官方文档. </p>
+<p>一开始就遇到了之前的问题: 不知道从哪里开始. 想去看看 vector 的实现. 但是一搜文档, 有很多出都有 vector 关键字. </p>
+<p><img src="https://imgur.com/hiPhoqN.png" alt=""></p>
+<p>脑壳疼… </p>
+<p>好在这个问题可以通过官方文档上来解决:</p>
+<p><img src="https://imgur.com/RzQNqTM.png" alt=""></p>
+<p>找到相关的位置就好了, 所以, 就先从 vector 开始吧 :)</p>
+<h1 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h1><p><img src="https://imgur.com/plUq8uw.png" alt=""></p>
+<p>按照文档记载, vector 的默认容器类型是 unbounded_array.  这点 boost 做得不太友好. 因为这个默认类型在 fwd.hpp 文件中才能看到. (在文件中有这么一行 “fwd.hpp is essentially used to forward declare the main types” 应该在很多地方都会有)</p>
+<p><img src="https://imgur.com/1fq6OUm.png" alt=""></p>
+<p>vector 所继承的父类经查看, 并无太大的实质改变.</p>
+<p><img src="https://imgur.com/ZfvVlB6.png" alt=""></p>
+<p>它的名字或许有歧义, 因为容器是由 A 决定的, 其父类提供的是一些功能性函数, 并无实际数据成员.</p>
+<p>一开始是一些类型的定义:</p>
+<p><img src="https://imgur.com/ELEQXYC.png" alt=""></p>
+<p>其中比较令人在意的是:</p>
+<ul>
+<li><p>difference_type</p>
+   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BOOST_UBLAS_INLINE</span><br><span class="line">     reference <span class="keyword">operator</span> [] (difference_type n) <span class="keyword">const</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> *(it_ + n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   这个类型实际是元素距离类型? 那不应该叫 distance_type 么? 好奇怪的命名…</p>
+</li>
+<li><p>type_traits</p>
+<p>   应该是一些类型特性相关的东西.</p>
+</li>
+<li><p>vector_reference, closure_type, const_closure_type</p>
+<p>   <img src="https://imgur.com/7zJA0Nk.png" alt=""></p>
+<p>   这貌似是一个封装了自身内部容器类型的类.</p>
+</li>
+<li><p>storage_category</p>
+<p>   <img src="https://imgur.com/HN2Wujx.png" alt=""></p>
+<p>   这好像是一个以类类型为识别的标识, emm… 用 enum 会不会好点? </p>
+</li>
+</ul>
+<p>接下来就是一些普通的成员函数, 其中几个比较在意的: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">AE</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">BOOST_UBLAS_INLINE</span></span></span><br><span class="line"><span class="class"><span class="title">vector</span> (<span class="title">const</span> <span class="title">vector_expression</span>&lt;AE&gt; &amp;<span class="title">ae</span>):</span></span><br><span class="line">	vector_container&lt;self_type&gt; (),</span><br><span class="line">	data_ (ae ().<span class="built_in">size</span> ()) &#123;</span><br><span class="line">    vector_assign&lt;scalar_assign&gt; (*<span class="keyword">this</span>, ae);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// vector_expression 就是 vector 表达式, 其包含 + - * / 四则运算等等</span></span><br><span class="line"><span class="comment">// 可以参考 vector_expression.hpp 文件.</span></span><br><span class="line"><span class="comment">// 我也不是十分清楚这是啥玩意 = = , 看起来是封装了一些列运算的类.</span></span><br></pre></td></tr></table></figure>
+<p>还有一个比较奇怪的 resize</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">BOOST_UBLAS_INLINE</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">resize</span> <span class="params">(size_type <span class="built_in">size</span>, <span class="keyword">bool</span> preserve = <span class="literal">true</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (preserve)</span><br><span class="line">		data ().resize (<span class="built_in">size</span>, <span class="keyword">typename</span> A::value_type ());</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		data ().resize (<span class="built_in">size</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// preserve 决定了数据是否保留, 不保留的话会截断. </span></span><br><span class="line"><span class="comment">// 很多函数都只有2, 3行, vector 可以理解为一个包装, 底层数据的控制在其 container 内.</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://imgur.com/lil0XBq.png" alt=""></p>
+<p>比较好奇 data 哪里来的, vector 只有 data_ 这一个成员. 结果看到 = =</p>
+<p>data 是 public 的, 这里加 data() 感觉有点多余. 或者说, 存在它说的 “very specific case” ?</p>
+<p>在其他地方也有看到调用的是 data(), 而并非 data_ . 或许是为了功能性? </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BOOST_UBLAS_INLINE</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">fill</span> (data ().<span class="built_in">begin</span> (), data ().<span class="built_in">end</span> (), value_type<span class="comment">/*zero*/</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 它调用的是 std 的 fill 函数, 其自身也实现了一个 std 的 fill, 不过是一个比较普通的 fill</span></span><br><span class="line"><span class="comment">// memset 是否会更好?</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">C</span>&gt;          // <span class="title">Container</span> <span class="title">assignment</span> <span class="title">without</span> <span class="title">temporary</span></span></span><br><span class="line"><span class="class"><span class="title">BOOST_UBLAS_INLINE</span></span></span><br><span class="line"><span class="class"><span class="title">vector</span> &amp;<span class="title">operator</span> = (<span class="title">const</span> <span class="title">vector_container</span>&lt;C&gt; &amp;<span class="title">v</span>) &#123;</span></span><br><span class="line">    resize (v ().<span class="built_in">size</span> (), <span class="literal">false</span>);</span><br><span class="line">    assign (v);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">AE</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">BOOST_UBLAS_INLINE</span></span></span><br><span class="line"><span class="class"><span class="title">vector</span> &amp;<span class="title">operator</span> = (<span class="title">const</span> <span class="title">vector_expression</span>&lt;AE&gt; &amp;<span class="title">ae</span>) &#123;</span></span><br><span class="line">    <span class="function">self_type <span class="title">temporary</span> <span class="params">(ae)</span></span>;</span><br><span class="line">    <span class="keyword">return</span> assign_temporary (temporary);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是个赋值操作符重载, 但是, 问题是</span></span><br><span class="line"><span class="comment">// 是否可以规避部分 resize 操作? 比如 v 长度为 10, 那么至多 10 个元素不需要 resize</span></span><br><span class="line"><span class="comment">// 交给后续的 assign 就好了</span></span><br><span class="line"><span class="comment">// 还要注意的是, expression 的赋值有临时值, 但 container 没有, 虽然这很正常.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">AE</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">BOOST_UBLAS_INLINE</span></span></span><br><span class="line"><span class="class"><span class="title">vector</span> &amp;<span class="title">assign</span> (<span class="title">const</span> <span class="title">vector_expression</span>&lt;AE&gt; &amp;<span class="title">ae</span>) &#123;</span></span><br><span class="line">	vector_assign&lt;scalar_assign&gt; (*<span class="keyword">this</span>, ae);</span><br><span class="line">	<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 啊啊啊 绕来绕去, 要吐了 = =</span></span><br><span class="line"><span class="comment">// 不过这里有一个收获就是, 之前为什么用类类型当 tag, 明明只是一个空数据结构</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://imgur.com/QLzGeyR.png" alt=""></p>
+<p>请看这里! 它使用了这个类类型来重载模板. </p>
+<p>不过… 我记得有用值来指定的方式 = =. </p>
+<p>我突然发现一个很严肃的问题, 上述的部分函数中, 返回值直接是 vector, 而并非 vector&lt;T, A&gt; … </p>
+<p>而我试了一下, 发现是可以编译通过的 = =, 而 google 上几乎示例都告诉我要加 <T>, 我是不是该再看一下模板?</p>
+<h2 id="iterator"><a href="#iterator" class="headerlink" title="iterator"></a>iterator</h2><p>boost 将 vector 的 iterator 实现为内部类的形式.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Use the storage array iterator</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">typename</span> A::const_iterator const_subiterator_type;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">typename</span> A::iterator subiterator_type;</span><br></pre></td></tr></table></figure>
+<p>它使用的是底层容器的 iterator, 它和 vector 类似, 也是一个包装类. 看来一切的核心在底层容器中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Serialize a vector into and archive as defined in Boost</span></span><br><span class="line"><span class="comment">/// \param ar Archive object. Can be a flat file, an XML file or any other stream</span></span><br><span class="line"><span class="comment">/// \param file_version Optional file version (not yet used)</span></span><br><span class="line">     <span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">Archive</span>&gt;</span></span><br><span class="line"><span class="class">     <span class="title">void</span> <span class="title">serialize</span>(<span class="title">Archive</span> &amp; <span class="title">ar</span>, <span class="title">const</span> <span class="title">unsigned</span> <span class="title">int</span> /* <span class="title">file_version</span> */)&#123;</span></span><br><span class="line">         ar &amp; serialization::make_nvp(<span class="string">"data"</span>,data_);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>哦哦哦, 不愧是 boost, 很方便嘛.</p>
+<h2 id="unbounded-array"><a href="#unbounded-array" class="headerlink" title="unbounded_array"></a>unbounded_array</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Storage types</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">ALLOC</span> = <span class="title">std</span>:</span>:allocator&lt;T&gt; &gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">unbounded_array</span>;</span></span><br></pre></td></tr></table></figure>
+<p>(ノ｀Д)ノ 你… </p>
+<p>(顺便, 在这段期间我折腾了一下 IDE, Clion, xcode, visual studio. 最后还是 vs 好. 对于这种源码级别的符号解析, 其他 IDE 好像都不怎么聪明. 但是很可惜 vs mac 的支持并不好. 而且没有 vs 插件)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">const</span> T *const_pointer;</span><br><span class="line"><span class="keyword">typedef</span> T *pointer;</span><br><span class="line"><span class="keyword">typedef</span> const_pointer const_iterator;</span><br><span class="line"><span class="keyword">typedef</span> pointer iterator</span><br></pre></td></tr></table></figure>
+<p>所以迭代器只是一种概念, 一种机制, 其内部还是指针.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALLOC alloc_;</span><br><span class="line">size_type size_;</span><br><span class="line">pointer data_</span><br></pre></td></tr></table></figure>
+<p>data_ 应该就是数据存储所在.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BOOST_UBLAS_INLINE</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span> <span class="params">(unbounded_array &amp;a)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;a) &#123;</span><br><span class="line">	<span class="built_in">std</span>::swap (size_, a.size_);</span><br><span class="line">	<span class="built_in">std</span>::swap (data_, a.data_);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以, swap 是轻量级的, 只有内部元素交换.</p>
+<p>老夫突然发现一件很要命的事情…</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">BOOST_UBLAS_INLINE</span><br><span class="line"><span class="function">reference <span class="title">insert_element</span> <span class="params">(size_type i, const_reference t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (data () [i] = t);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOST_UBLAS_INLINE</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">erase_element</span> <span class="params">(size_type i)</span> </span>&#123;</span><br><span class="line">	data () [i] = value_type<span class="comment">/*zero*/</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">reference <span class="keyword">operator</span> [] (size_type i) &#123;</span><br><span class="line">    BOOST_UBLAS_CHECK (i &lt; size_, bad_index ());</span><br><span class="line">    <span class="keyword">return</span> data_ [i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是 vector 的插入和删除元素, 以及插入元素内部 [] 的重载… 这… </p>
+<p>boost 的 vector 就是数组… 还是不会自动变长的那种… </p>
+<p>是的, 再三对比文档和源码, 插入只有 insert_element 一处. 而插入时会先进行界限判定, 如果越界, 则直接报错… </p>
+<p>想不到你是这样的 boost. 我看错你了! </p>
+<p>啊, 不知不觉这个文档已经要初次结尾了呢 :) 虽然后续应该有很多补充内容, 比如标准的 vector 是如何做的. 底层其他容器的特性… </p>
+<p>现在还剩的是: 内存是怎么分配的. 其实, 比意料之中的还要简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">_NODISCARD _DECLSPEC_ALLOCATOR _<span class="function">Ty* <span class="title">allocate</span><span class="params">(_CRT_GUARDOVERFLOW <span class="keyword">const</span> <span class="keyword">size_t</span> _Count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;_Ty*&gt;(_Allocate&lt;_New_alignof&lt;_Ty&gt;&gt;(_Get_size_of_n&lt;<span class="keyword">sizeof</span>(_Ty)&gt;(_Count)));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用了 _Allocate </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">size_t</span> _Align, <span class="class"><span class="keyword">class</span> _<span class="title">Traits</span> = _<span class="title">Default_allocate_traits</span>,</span></span><br><span class="line"><span class="class">    <span class="title">enable_if_t</span>&lt;(!_HAS_ALIGNED_NEW || _Align &lt;= __STDCPP_DEFAULT_NEW_ALIGNMENT__), int&gt; = 0&gt;</span></span><br><span class="line"><span class="class">_<span class="title">DECLSPEC_ALLOCATOR</span> <span class="title">void</span>* _<span class="title">Allocate</span>(<span class="title">const</span> <span class="title">size_t</span> _<span class="title">Bytes</span>) &#123;</span></span><br><span class="line">    <span class="comment">// allocate _Bytes when !_HAS_ALIGNED_NEW || _Align &lt;= __STDCPP_DEFAULT_NEW_ALIGNMENT__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(_M_IX86) || defined(_M_X64)</span></span><br><span class="line">    <span class="keyword">if</span> (_Bytes &gt;= _Big_allocation_threshold) &#123; <span class="comment">// boost the alignment of big allocations to help autovectorization</span></span><br><span class="line">        <span class="keyword">return</span> _Allocate_manually_vector_aligned&lt;_Traits&gt;(_Bytes);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// defined(_M_IX86) || defined(_M_X64)</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_Bytes != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _Traits::_Allocate(_Bytes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 要么执行优化版本的分配, 要么直接分配, 我们看看直接分配的就好</span></span><br><span class="line"><span class="comment">// 在 _Default_allocate_traits 下: </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Default_allocate_traits</span> &#123;</span></span><br><span class="line">    _DECLSPEC_ALLOCATOR <span class="keyword">static</span> <span class="keyword">void</span>* _Allocate(<span class="keyword">const</span> <span class="keyword">size_t</span> _Bytes) &#123;</span><br><span class="line">        <span class="keyword">return</span> ::<span class="keyword">operator</span> <span class="keyword">new</span>(_Bytes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cpp_aligned_new</span></span><br><span class="line">    _DECLSPEC_ALLOCATOR <span class="keyword">static</span> <span class="keyword">void</span>* _Allocate_aligned(<span class="keyword">const</span> <span class="keyword">size_t</span> _Bytes, <span class="keyword">const</span> <span class="keyword">size_t</span> _Align) &#123;</span><br><span class="line">        <span class="keyword">return</span> ::<span class="keyword">operator</span> <span class="keyword">new</span> (_Bytes, <span class="keyword">align_val_t</span>&#123;_Align&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// __cpp_aligned_new</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(_M_IX86) || defined(_M_X64)</span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">size_t</span> _Big_allocation_threshold = <span class="number">4096</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">size_t</span> _Big_allocation_alignment = <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 意料之外的简单(当然, 再看 new 底部就不那么简单了)</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/31/other/TopLevelDirectoriesMeansInLinux/" rel="prev" title="other/TopLevelDirectoriesMeansInLinux">
+      <i class="fa fa-chevron-left"></i> other/TopLevelDirectoriesMeansInLinux
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/11/leetcode/MostProfitAssigningWork/" rel="next" title="leetcode/MostProfitAssigningWork">
+      leetcode/MostProfitAssigningWork <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#prepare"><span class="nav-number">1.</span> <span class="nav-text">prepare</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vector"><span class="nav-number">2.</span> <span class="nav-text">vector</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iterator"><span class="nav-number">2.1.</span> <span class="nav-text">iterator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unbounded-array"><span class="nav-number">2.2.</span> <span class="nav-text">unbounded_array</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
