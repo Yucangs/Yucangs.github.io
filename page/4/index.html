@@ -191,6 +191,212 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/JVM-Memory-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/JVM-Memory-model/" class="post-title-link" itemprop="url">read/JVM-Memory-model</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-24 10:45:34" itemprop="dateModified" datetime="2019-09-24T10:45:34+08:00">2019-09-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://www.journaldev.com/2856/java-jvm-memory-model-memory-management-in-java" target="_blank" rel="noopener">source link</a></p>
+<h1 id="Java-JVM-Memory-Model-Memory-Management-in-Java"><a href="#Java-JVM-Memory-Model-Memory-Management-in-Java" class="headerlink" title="Java (JVM) Memory Model - Memory Management in Java"></a>Java (JVM) Memory Model - Memory Management in Java</h1><h2 id="Java-JVM-Memory-Model"><a href="#Java-JVM-Memory-Model" class="headerlink" title="Java (JVM) Memory Model"></a>Java (JVM) Memory Model</h2><p><a href="https://cdn.journaldev.com/wp-content/uploads/2014/05/Java-Memory-Model.png" target="_blank" rel="noopener"><img src="https://cdn.journaldev.com/wp-content/uploads/2014/05/Java-Memory-Model-450x186.png" alt="Java Memory Model, JVM Memory Model, Memory Management in Java, Java Memory Management"></a></p>
+<p>As you can see in the above image, JVM memory is divided into separate parts. At broad level, JVM Heap memory is physically divided into two parts – <strong>Young Generation</strong> and <strong>Old Generation</strong>.</p>
+<p>如上图所示, JVM 被分为了多个部分. JVM 堆物理性被分为两部分, Young Generation 和 Old Generation</p>
+<h2 id="Memory-Management-in-Java-–-Young-Generation"><a href="#Memory-Management-in-Java-–-Young-Generation" class="headerlink" title="Memory Management in Java – Young Generation"></a>Memory Management in Java – Young Generation</h2><p>The young generation is the place where all the new objects are created. When the young generation is filled, garbage collection is performed. This garbage collection is called <strong>Minor GC</strong>. Young Generation is divided into three parts – <strong>Eden Memory</strong> and two <strong>Survivor Memory</strong> spaces.</p>
+<p>所有新创建的对象一开始都在 young generation 中. GC 在 young generation 被填满时执行. 这个 GC 被称为 Minor GC. Young Generation 被分为三部分, Eden Memory 和两个 Survivor Memory 空间 </p>
+<p>Important Points about Young Generation Spaces:</p>
+<ul>
+<li><p>Most of the newly created objects are located in the Eden memory space.</p>
+</li>
+<li><p>大部分新创建的对象位于 Eden memory 空间</p>
+</li>
+<li><p>When Eden space is filled with objects, Minor GC is performed and all the survivor objects are moved to one of the survivor spaces.</p>
+</li>
+<li><p>Minor GC 在 Eden space 被对象填充时执行, 所有的 survivor 对象被移动到其中一个 survivor 空间</p>
+</li>
+<li><p>Minor GC also checks the survivor objects and move them to the other survivor space. So at a time, one of the survivor space is always empty.</p>
+</li>
+<li><p>Minor GC 元入会检查 survivor 对象, 将其移动到其他的 survivor 空间. 所以在同一时刻, 有一个 survivor 空间一直是空的</p>
+</li>
+<li><p>Objects that are survived after many cycles of GC, are moved to the Old generation memory space. Usually, it’s done by setting a threshold for the age of the young generation objects before they become eligible to promote to Old generation.</p>
+</li>
+<li><p>在多次 GC 循环后仍幸存的对象将会被移动到 Old generation 内存空间. </p>
+<p>通常, 是通过给 young generation 对象设置一个年龄的阈值来实现的 (超过这个阈值的对象将会被移动到 Old Generation 中)</p>
+</li>
+</ul>
+<h2 id="Memory-Management-in-Java-–-Old-Generation"><a href="#Memory-Management-in-Java-–-Old-Generation" class="headerlink" title="Memory Management in Java – Old Generation"></a>Memory Management in Java – Old Generation</h2><p>Old Generation memory contains the objects that are long-lived and survived after many rounds of Minor GC. Usually, garbage collection is performed in Old Generation memory when it’s full. Old Generation Garbage Collection is called <strong>Major GC</strong> and usually takes a longer time.</p>
+<p>Old Generation 内存包含在多次 Minor GC 循环后仍幸存的对象. 通常, GC 在 Old Generation 被填满时执行.</p>
+<p>Old Generation GC 被成为 Major GC, 通常花费更长的时间</p>
+<h3 id="Stop-the-World-Event"><a href="#Stop-the-World-Event" class="headerlink" title="Stop the World Event"></a>Stop the World Event</h3><p>All the Garbage Collections are “Stop the World” events because all application threads are stopped until the operation completes.</p>
+<p>所有的 GC 都是 “Stop the World” 事件. 因为所有的应用线程阻塞直到操作完成</p>
+<p>Since Young generation keeps short-lived objects, Minor GC is very fast and the application doesn’t get affected by this.</p>
+<p>因为 Young generation 保持短期存活对象, Minor GC 相当快, 应用不会受此影响</p>
+<p>However, Major GC takes a long time because it checks all the live objects. Major GC should be minimized because it will make your application unresponsive for the garbage collection duration. So if you have a responsive application and there are a lot of Major Garbage Collection happening, you will notice timeout errors.</p>
+<p>然而, Major GC 花费较长的时间, 因为它会检查所有的存活对象, Major GC 应该尽量少使用. 因为它会在 GC 期间, 使你的程序无相应. 所以如果你有一个响应应用, 同时在应用中存在大量 Major GC 发生时, 你应该注意是否会产生超时错误</p>
+<p>The duration taken by garbage collector depends on the strategy used for garbage collection. That’s why it’s necessary to monitor and tune the garbage collector to avoid timeouts in the highly responsive applications.</p>
+<p>GC 占用时间取决于 GC 策略, 这就是为什么要在高响应应用程序中需要监控和调整 GC 策略的原因</p>
+<h3 id="Java-Memory-Model-–-Permanent-Generation"><a href="#Java-Memory-Model-–-Permanent-Generation" class="headerlink" title="Java Memory Model – Permanent Generation"></a>Java Memory Model – Permanent Generation</h3><p>Permanent Generation or “Perm Gen” contains the application metadata required by the JVM to describe the classes and methods used in the application. Note that Perm Gen is not part of <a href="https://www.journaldev.com/4098/java-heap-space-vs-stack-memory" target="_blank" rel="noopener">Java Heap memory</a>.</p>
+<p>Permanent Generation 或 “Perm Gen” 包含 JVM 所需的应用元数据, 描述应用于应用中的类和方法. 注意, Perm Gen 不是 Java Heap memory 的一部分</p>
+<p>Perm Gen is populated by JVM at runtime based on the classes used by the application. Perm Gen also contains Java SE library classes and methods. Perm Gen objects are garbage collected in a full garbage collection.</p>
+<p>Perm Gen 由 JVM 在运行时填充, 基于被应用程序使用的类. Perm Gen 也包含 Java SE 库类以及方法. Perm Gen 对象在完整的 GC 中被回收</p>
+<h3 id="Java-Memory-Model-–-Method-Area"><a href="#Java-Memory-Model-–-Method-Area" class="headerlink" title="Java Memory Model – Method Area"></a>Java Memory Model – Method Area</h3><p>Method Area is part of space in the Perm Gen and used to store class structure (runtime constants and static variables) and code for methods and constructors.</p>
+<p>Method Area 是 Perm Gen 空间的一部分. 用于存储类数据结构 (运行时常量和静态变量) 以及 方法的代码和结构</p>
+<h3 id="Java-Memory-Model-–-Memory-Pool"><a href="#Java-Memory-Model-–-Memory-Pool" class="headerlink" title="Java Memory Model – Memory Pool"></a>Java Memory Model – Memory Pool</h3><p>Memory Pools are created by JVM memory managers to create a pool of <a href="https://www.journaldev.com/129/how-to-create-immutable-class-in-java" target="_blank" rel="noopener">immutable</a> objects if the implementation supports it. String Pool is a good example of this kind of memory pool. Memory Pool can belong to Heap or Perm Gen, depending on the JVM memory manager implementation.</p>
+<p>内存池由 JVM 内存管理器创建, 创建一个不变量对象池 (如果实现支持的话). String 池是这种内存池的一个很好的例子. 内存池可以属于 Heap 或 Perm Gen, 取决于 JVM 内存管理器的实现</p>
+<h3 id="Java-Memory-Model-–-Runtime-Constant-Pool"><a href="#Java-Memory-Model-–-Runtime-Constant-Pool" class="headerlink" title="Java Memory Model – Runtime Constant Pool"></a>Java Memory Model – Runtime Constant Pool</h3><p>Runtime constant pool is per-class runtime representation of constant pool in a class. It contains class runtime constants and static methods. Runtime constant pool is part of the method area.</p>
+<p>运行时常量池是类中常量池的每个类的运行时表示. 包含类运行时常量和静态方法. 运行时常量池是 method 区域的一部分</p>
+<h3 id="Java-Memory-Model-–-Java-Stack-Memory"><a href="#Java-Memory-Model-–-Java-Stack-Memory" class="headerlink" title="Java Memory Model – Java Stack Memory"></a>Java Memory Model – Java Stack Memory</h3><p>Java Stack memory is used for execution of a thread. They contain method specific values that are short-lived and references to other objects in the heap that is getting referred from the method. You should read <a href="https://www.journaldev.com/4098/java-heap-space-vs-stack-memory" target="_blank" rel="noopener">Difference between Stack and Heap Memory</a>.</p>
+<p>Java 栈内存用户执行线程. 它们包含方法指定值 (生命周期短, 指向堆中的对象)</p>
+<h3 id="Memory-Management-in-Java-–-Java-Heap-Memory-Switches"><a href="#Memory-Management-in-Java-–-Java-Heap-Memory-Switches" class="headerlink" title="Memory Management in Java – Java Heap Memory Switches"></a>Memory Management in Java – Java Heap Memory Switches</h3><p>Java provides a lot of memory switches that we can use to set the memory sizes and their ratios. Some of the commonly used memory switches are:</p>
+<p>Java 提供了大量的内存开关, 用于设置内存大小和比例. 一些常用的内存开关有: </p>
+<table>
+<thead>
+<tr>
+<th align="left">VM Switch</th>
+<th align="left">VM Switch Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-Xms</td>
+<td align="left">For setting the initial heap size when JVM starts</td>
+</tr>
+<tr>
+<td align="left">-Xmx</td>
+<td align="left">For setting the maximum heap size.</td>
+</tr>
+<tr>
+<td align="left">-Xmn</td>
+<td align="left">For setting the size of the Young Generation, rest of the space goes for Old Generation.</td>
+</tr>
+<tr>
+<td align="left">-XX:PermGen</td>
+<td align="left">For setting the initial size of the Permanent Generation memory</td>
+</tr>
+<tr>
+<td align="left">-XX:MaxPermGen</td>
+<td align="left">For setting the maximum size of Perm Gen</td>
+</tr>
+<tr>
+<td align="left">-XX:SurvivorRatio</td>
+<td align="left">For providing ratio of Eden space and Survivor Space, for example if Young Generation size is 10m and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces. The default value is 8.</td>
+</tr>
+<tr>
+<td align="left">-XX:NewRatio</td>
+<td align="left">For providing ratio of old/new generation sizes. The default value is 2.</td>
+</tr>
+</tbody></table>
+<p>Most of the times, above options are sufficient, but if you want to check out other options too then please check <a href="https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html" target="_blank" rel="noopener">JVM Options Official Page</a>.</p>
+<p>大多数时候, 上面的选项就足够了, 其他选项可以参见… </p>
+<h3 id="Memory-Management-in-Java-–-Java-Garbage-Collection"><a href="#Memory-Management-in-Java-–-Java-Garbage-Collection" class="headerlink" title="Memory Management in Java – Java Garbage Collection"></a>Memory Management in Java – Java Garbage Collection</h3><p>Java Garbage Collection is the process to identify and remove the unused objects from the memory and free space to be allocated to objects created in future processing. One of the best features of Java programming language is the <strong>automatic garbage collection</strong>, unlike other programming languages such as C where memory allocation and deallocation is a manual process.</p>
+<p>Java GC 是用于从内存中确定和移除未使用对象的进程, 释放内存, 以用于将来创建的对象. Java 的特性之一是自动垃圾回收, 不像其他语言需要手动处理 (其实也不是啦, 栈是不需要管的, 也就是 heap 需要手动释放)</p>
+<p><strong>Garbage Collector</strong> is the program running in the background that looks into all the objects in the memory and find out objects that are not referenced by any part of the program. All these unreferenced objects are deleted and space is reclaimed for allocation to other objects.</p>
+<p>GC 是一个运行于后台的程序, 查看在内容中的所有对象, 找到没有被程序中任何部分引用的对象. 所有这些未引用对象都会被删除, 空间会回收利用, 以用于其他对象的分配</p>
+<p>One of the basic ways of garbage collection involves three steps:</p>
+<ol>
+<li><p><strong>Marking</strong>: This is the first step where garbage collector identifies which objects are in use and which ones are not in use.</p>
+<p>Marking: 这是 GC 用于确定对象是否被使用的第一步</p>
+</li>
+<li><p><strong>Normal Deletion</strong>: Garbage Collector removes the unused objects and reclaim the free space to be allocated to other objects.</p>
+<p>Normal Deletion: GC 移除未使用对象, 回收资源</p>
+</li>
+<li><p><strong>Deletion with Compacting</strong>: For better performance, after deleting unused objects, all the survived objects can be moved to be together. This will increase the performance of allocation of memory to newer objects.</p>
+<p>Deletion with Compacting: 为了获得更好的性能, 在删除未使用对象后, 所有幸存对象可以移到一起, 这可以增加分配新对象的性能</p>
+</li>
+</ol>
+<p>There are two problems with a simple mark and delete approach.</p>
+<ol>
+<li><p>First one is that it’s not efficient because most of the newly created objects will become unused</p>
+<p>首先, 这并不高效, 因为大部分新创建的对象将会变成未使用</p>
+</li>
+<li><p>Secondly objects that are in-use for multiple garbage collection cycle are most likely to be in-use for future cycles too.</p>
+<p>其次, 多个 GC 循环后仍使用的对象在将来也可能是使用的</p>
+</li>
+</ol>
+<p>(总结来说就是, 大多数对象是创建后就失效的, 维护起来有一定成为. 其次, 一个多次 GC 后存在的对象在以后也大概率不会被移除, 这又会产生额外的性能损失)</p>
+<p>The above shortcomings with the simple approach is the reason that <strong>Java Garbage Collection is Generational</strong> and we have <strong>Young Generation</strong> and <strong>Old Generation</strong> spaces in the heap memory. I have already explained above how objects are scanned and moved from one generational space to another based on the Minor GC and Major GC.</p>
+<p>以上简单方法的缺点是 Java GC 是在堆内存中分代, 使用 Young Generation 和 Old Generation 空间的原因</p>
+<h3 id="Memory-Management-in-Java-–-Java-Garbage-Collection-Types"><a href="#Memory-Management-in-Java-–-Java-Garbage-Collection-Types" class="headerlink" title="Memory Management in Java – Java Garbage Collection Types"></a>Memory Management in Java – Java Garbage Collection Types</h3><p>There are five types of garbage collection types that we can use in our applications. We just need to use the JVM switch to enable the garbage collection strategy for the application. Let’s look at each of them one by one.</p>
+<p>我们可以在我们的应用中使用五种 GC, 仅需使用 JVM 开关就可使 GC 策略应用于应用. </p>
+<ol>
+<li><p><strong>Serial GC (-XX:+UseSerialGC)</strong>: Serial GC uses the simple <strong>mark-sweep-compact</strong> approach for young and old generations garbage collection i.e Minor and Major GC.</p>
+<p>Serial GC is useful in client machines such as our simple stand-alone applications and machines with smaller CPU. It is good for small applications with low memory footprint.</p>
+<p>Serial GC: Serial GC 使用最简单的 <strong>mark-sweep-compact</strong> 方法用于 young 和 old generations GC. 比如, Minor 和 Major GC.</p>
+<p>Serial GC 在如我们简单的, 独立的应用和小的 CPU 上很有用, 适用于低内存占用的小型应用</p>
+</li>
+<li><p><strong>Parallel GC (-XX:+UseParallelGC)</strong>: Parallel GC is same as Serial GC except that is spawns N threads for young generation garbage collection where N is the number of CPU cores in the system. We can control the number of threads using <code>-XX:ParallelGCThreads=n</code> JVM option.</p>
+<p>Parallel GC: Parallel GC 类似于 Serial GC, 除了为 young generation GC 产生 N 个线程 (N 是CPU核心数). 可以使用 JVM 选项控制线程的数量</p>
+<p>Parallel Garbage Collector is also called throughput collector because it uses multiple CPUs to speed up the GC performance. Parallel GC uses a single thread for Old Generation garbage collection.</p>
+<p>Parallel GC 也被称为吞吐量收集器, 因为它使用多个CPU提升GC性能. Parallel GC为Old Generation GC 单独分配一个线程</p>
+</li>
+<li><p><strong>Parallel Old GC (-XX:+UseParallelOldGC)</strong>: This is same as Parallel GC except that it uses multiple threads for both Young Generation and Old Generation garbage collection.</p>
+<p>和Parallel GC相同, 但它对 Young GC 和 Old GC 都使用多线程</p>
+</li>
+<li><p><strong>Concurrent Mark Sweep (CMS) Collector (-XX:+UseConcMarkSweepGC)</strong>: CMS Collector is also referred as concurrent low pause collector. It does the garbage collection for the Old generation. CMS collector tries to minimize the pauses due to garbage collection by doing most of the garbage collection work concurrently with the application threads.</p>
+<p>CMS 收集器也被称为并发低暂停收集器. 它为 Old generation 做 GC 操作. CMS 收集器尝试使用应用线程, 通过并发执行大部分 GC 操作来尽可能减低 GC 的暂停</p>
+<p>CMS collector on the young generation uses the same algorithm as that of the parallel collector. This garbage collector is suitable for responsive applications where we can’t afford longer pause times. We can limit the number of threads in CMS collector using <code>-XX:ParallelCMSThreads=n</code> JVM option.</p>
+<p>CMS 在 young generation 上像 parallel 收集器一样使用同样的算法, 这个算法适用于不能承担长时间暂停的响应程序, 可以使用选项限制 CMS 收集器使用的线程数</p>
+</li>
+<li><p><strong>G1 Garbage Collector (-XX:+UseG1GC)</strong>: The Garbage First or G1 garbage collector is available from Java 7 and its long term goal is to replace the CMS collector. The G1 collector is a parallel, concurrent, and incrementally compacting low-pause garbage collector.Garbage First Collector doesn’t work like other collectors and there is no concept of Young and Old generation space. It divides the heap space into multiple equal-sized heap regions. When a garbage collection is invoked, it first collects the region with lesser live data, hence “Garbage First”. You can find more details about it at Garbage-First Collector Oracle Documentation.</p>
+<p>G1 GC 从 Java 7 开始支持, 它长期的目标是取代 CMS 收集器. G1 是一个并行, 并发以及递增压紧的低暂停 GC. G1 不像其他收集器, 它没有 Young 和 Old generation 的概念. 它将 heap 空间分为多个相同的 heap 区域. 当GC 执行时, 它首先清理较少存留数据的 heap 区域, 因此成为”Garbage  First”. 你可以在 Oracle 的文档中找到更多关于 G1 收集器的信息.</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/IteratorsandReverseIterators/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1448,94 +1654,6 @@ int main()
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/O(n)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/O(n)/" class="post-title-link" itemprop="url">other/O(n)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>时间复杂度用于描述算法的效率, 是衡量算法优劣的重要指标  </p>
-<h3 id="O-1"><a href="#O-1" class="headerlink" title="O(1)"></a>O(1)</h3><pre><code>void func(int n){
-    std::cout &lt;&lt; n &lt;&lt; std::cout;
-}</code></pre><p>将自变量视作n, n在此情景下为传入的参数<br>将因变量视作t, t在此情景下为函数执行的指令次数(这个就是时间复杂度)<br>上述算法中, 无论n是多少, t都为1, 则此算法复杂度记做: O(1)</p>
-<p>O(1)复杂度的算法效率不因外界因素而改变  </p>
-<p>PS: 也称作常量级复杂度, 是最理想的复杂度  </p>
-<h3 id="O-2n"><a href="#O-2n" class="headerlink" title="O(2n)"></a>O(2n)</h3><p>略</p>
-<p>PS: 其中O(2n)就是呈2倍复杂度增加, 而O(nn)则意为n倍增加  </p>
-<h3 id="O-n"><a href="#O-n" class="headerlink" title="O(n)"></a>O(n)</h3><pre><code>void func(int n){
-    for(int i = 0; i &lt; n; ++i){
-        std::cout &lt;&lt; i &lt;&lt; std::endl;
-    }
-}</code></pre><p>上述算法中 t = n + 1(其中的1为最后一次的失败), 算法复杂度为O(n)</p>
-<p>O(n)复杂度的算法效率会因外界因素而改变, 其规律为: 复杂度呈1:1形式增加    </p>
-<p>PS: O(n)是比较常见的复杂度, 效率一般  </p>
-<h3 id="O-n-2-O-n-n"><a href="#O-n-2-O-n-n" class="headerlink" title="O(n^2)/O(n^n)"></a>O(n^2)/O(n^n)</h3><pre><code>void func(int n){
-    for(int i = 0; i &lt; n; ++i){
-        for(int j = 0; j &lt; n; ++i){
-            std::cout &lt;&lt; i &lt;&lt; std::endl;
-        }
-    }
-}</code></pre><p>上述算法中 t = n * n + 1, 记做: O(n^2)  </p>
-<p>O(n^2)复杂度的算法效率会随外界的影响平方倍变化<br>同理, 则O(n^n)复杂度的算法效率会随外界的影响呈n次方倍增加 </p>
-<p>PS: 出现这种复杂度的代码, 则需要考虑优化</p>
-<h3 id="O-log-n"><a href="#O-log-n" class="headerlink" title="O(log n)"></a>O(log n)</h3><p>要想明白O(log n)时间复杂度, 则先得复习<a href="https://zh.wikipedia.org/wiki/%E5%AF%B9%E6%95%B0" target="_blank" rel="noopener">对数</a><br>(如果你还没把数学还给数学老师的话, 就不必了)</p>
-<p>这东西我也不大说得清楚, 就直接粘贴网上的案例了:</p>
-<p><img src="https://i.imgur.com/JGXST7I.png" alt=""></p>
-<p>PS: O(log n)的复杂度计算好像不太容易, 一般人还不一定计算得出来… </p>
-<p>RET: 总的来说时间复杂度就是一个随着计算数据增加, 算法效率呈何种形式增加的一种规律<br>了解一下时间复杂度是很有必要的<br>以后别人问你 你的算法效率如何的时候. 就可以回答: 我的算法时间复杂度是O(1)!  </p>
-<p>以上经验参照自<a href="https://www.jianshu.com/p/f4cca5ce055a" target="_blank" rel="noopener">简书</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1606,7 +1724,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

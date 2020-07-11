@@ -191,6 +191,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/other/CreatesoFileinLinux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/10/other/CreatesoFileinLinux/" class="post-title-link" itemprop="url">other/CreatesoFileinLinux</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-10 19:12:23" itemprop="dateCreated datePublished" datetime="2020-01-10T19:12:23+08:00">2020-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-09 17:13:54" itemprop="dateModified" datetime="2020-01-09T17:13:54+08:00">2020-01-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h3><ol>
+<li>编写动态库源文件  </li>
+<li>将动态库源文件编译链接生成动态库文件  </li>
+<li>在执行源文件中添加头文件声明  </li>
+<li>使用动态库文件  </li>
+</ol>
+<hr>
+<h4 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h4><p>…</p>
+<h4 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h4><pre><code>gcc/g++ -fPIC -shared -o [libname].so [sourcefile]</code></pre><p>example:  </p>
+<pre><code>gcc -fPIC -shared -o tlib.so tlib.c</code></pre><p>这样就会生成一个<code>tlib.so</code>的动态库文件<br>其中<code>-fPIC</code>的含义是: Position Independent Code (位置无关代码)</p>
+<h4 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h4><p>添加声明可以在单独的头文件中添加, 也可以直接在使用的源文件内添加  </p>
+<h4 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h4><pre><code>gcc t.c -L. tlib.so  </code></pre><p>会生成一个默认的<code>a.out</code>可执行文件  </p>
+<p>此时还有一个问题就是直接运行的话会报错:<br>应用程序找不到<code>.so</code>文件<br>解决方法有两种, 一种是改系统文件, 另外一种是临时告诉shell动态库的路径<br>因为这个是测试用例, 介绍第二种  </p>
+<pre><code>LD_LIBRARY_PATH=. ./a.out  </code></pre><p>执行此命令可以解决报错问题, 其中<code>LD_LIBRARY_PATH=.</code>的含义是:<br>告诉shell, 库的路径在当前路径下(如果库放在别的路径, 将<code>.</code>替换即可)  </p>
+<p>以上经验来自<a href="https://www.cnblogs.com/jiqingwu/p/linux_dynamic_lib_create.html" target="_blank" rel="noopener">博客园</a>  </p>
+<hr>
+<p>顺便: 第一次写了<code>makefile</code>, 用作上述的动态库管理  </p>
+<blockquote>
+<p>make build: 生成动态库, 可执行文件<br>make doit: 执行程序(如果文件并不存在, 先生成文件)<br>make clean: 清除生成的文件</p>
+</blockquote>
+<pre><code> 1 build: tlib.so a.out
+ 2 
+ 3 tlib.so: tlib.c
+ 4           gcc -fPIC -shared -o $@ $&lt;
+ 5 
+ 6 a.out: t1.c
+ 7           gcc $&lt; -L. tlib.so
+ 8 
+ 9 doit: build 
+10           LD_LIBRARY_PATH=. ./a.out
+11 
+12 file = tlib.so a.out
+13 clean: 
+14           rm $(file)</code></pre><p>书写makedile和核心就是搞清楚依赖关系<br>其中<code>build</code>为创建动态库和可执行文件, 所以依赖于<code>tlib.so</code>和<code>a.out</code><br>而<code>tlib.so</code>依赖于<code>tlib.c</code>, <code>a.out</code>依赖于<code>t1.c</code><br>…</p>
+<p>有一份<a href="https://www.kancloud.cn/kancloud/make-command/45593" target="_blank" rel="noopener">make教程</a></p>
+<p>上述所用到的基础makefile规则并不难理解, 这里不做赘述  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/leetcode/234PalindromeLinkedList/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1159,90 +1259,6 @@ public:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/studyNoteOfGo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/studyNoteOfGo/" class="post-title-link" itemprop="url">read/studyNoteOfGo</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-05-16 14:04:41" itemprop="dateModified" datetime="2019-05-16T14:04:41+08:00">2019-05-16</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="brief"><a href="#brief" class="headerlink" title="brief"></a>brief</h2><h4 id="短变量声明"><a href="#短变量声明" class="headerlink" title="短变量声明"></a>短变量声明</h4><p>go可以使用形如 := 的方式定义变量, 这样的用法仅允许在函数内使用</p>
-<p>( 同时, 在一个 := 的使用中可以定义, 也可以赋值, 不过我不建议也不会使用这样歧义的用法)</p>
-<p>(同样的, := 支持变量的类型不同, 不过这也是比较歧义的用法, 不推荐)</p>
-<h4 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h4><p>go的指针并没有什么不同. 为了安全性, 它抛弃了一些灵活性</p>
-<p>它不支持指针运算, 相当于一个引用 ( 我不开心 :( )</p>
-<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i := <span class="number">0</span></span><br><span class="line">p := &amp;i</span><br><span class="line"></span><br><span class="line">p := <span class="built_in">new</span>(i)</span><br></pre></td></tr></table></figure>
-
-<p>new 在 go 中的作用很小, 它的作用就相当于少了一个名字被占用</p>
-<h4 id="多重赋值"><a href="#多重赋值" class="headerlink" title="多重赋值"></a>多重赋值</h4><p>go 会先对右边的表达式一次性求值</p>
-<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>go 采用垃圾回收, 三色标记</p>
-<h4 id="slice"><a href="#slice" class="headerlink" title="slice"></a>slice</h4><p>slice 相当于 vector, 但他必须依赖于另一个容器, 比如数组</p>
-<p>可以挑战 slice 指向数组的那些区间, 同时可以动态增长</p>
-<p>增长的区间一旦超过原容器的容量, 会在不更改原容器的情况下 重新分配并拷贝元素</p>
-<h3 id="json-xml…"><a href="#json-xml…" class="headerlink" title="json, xml…"></a>json, xml…</h3><p>go 提供了这些格式的转换支持</p>
-<p>emmmm…, 感觉 go 使用起来很方便</p>
-<p>安全的指针, 方便的变量命名, 垃圾回收, 多重赋值, 多返回值, for衍生while …  </p>
-<h3 id="method"><a href="#method" class="headerlink" title="method"></a>method</h3><p>go 的方法声明和定义独立与对象本身  </p>
-<p>go 的方法就像一个指定了目标的函数</p>
-<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>go 以其不能随意命名为代价(这样的代价仅仅是不能随意首字母大小写)换来了简洁的封装规范</p>
-<p>首字母大写的, 即为 public 成员, 而首字母小写的, 即为 private 成员. 这相当容易判断</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1313,7 +1329,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
