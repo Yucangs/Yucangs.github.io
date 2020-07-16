@@ -191,6 +191,212 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/crontab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/crontab/" class="post-title-link" itemprop="url">other/crontab</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h3><p>设计一个定时关机的工具  </p>
+<p>该工具使用lua语言, 通过PLINK链接服务器  </p>
+<p>接收用户输入, 使用crontab/at设置定时器</p>
+<h3 id="详细代码"><a href="#详细代码" class="headerlink" title="详细代码"></a>详细代码</h3><h4 id="timer-table"><a href="#timer-table" class="headerlink" title="timer table"></a>timer table</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">package</span>.<span class="built_in">path</span> = <span class="built_in">package</span>.<span class="built_in">path</span> .. <span class="string">";../../script/?.lua"</span></span><br><span class="line"><span class="comment">-- inc是工具类</span></span><br><span class="line"><span class="keyword">local</span> inc = <span class="built_in">require</span>(<span class="string">"inc"</span>)</span><br><span class="line"><span class="comment">-- config记录了服务器的配置信息</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">config</span> = <span class="built_in">require</span>(<span class="string">"config"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- timer用于处理整个定时任务</span></span><br><span class="line"><span class="keyword">local</span> timer = &#123;&#125;</span><br><span class="line">timer.file = <span class="string">"crontabtask.sh"</span>			<span class="comment">-- 文件名, 因为使用 crontab [file]形式添加任务</span></span><br><span class="line">timer.<span class="built_in">path</span> = <span class="string">"/tmp/"</span>					<span class="comment">-- 文件位于服务器那个路径下</span></span><br><span class="line">timer.fullName = timer.<span class="built_in">path</span>..timer.file	<span class="comment">-- 路径+文件名, 当前为: /tmp/crontabtask.sh</span></span><br><span class="line">timer.filenamemask = <span class="string">"CRONTAB_TASK_"</span>	<span class="comment">-- 掩码, 用于区分任务</span></span><br><span class="line">timer.servername = <span class="literal">nil</span>					<span class="comment">-- 服务器名称, 这里仅仅占位, 会在之后设置</span></span><br></pre></td></tr></table></figure>
+
+<p>timer是任务处理表(类), 因为bash下, 没有办法直接使用vim编辑(或者说我不知道有什么办法能这么做)  </p>
+<p>所以 crontab -e 的方式被舍弃了, 使用 crontab [filename] 的形式来添加任务 </p>
+<p>(这样的好处是统一使用某一文件作为任务文件,  后续可以使用某种手段(比如修改配置), 来重新定义crontab -e)</p>
+<p>(坏处就是动到了系统的东西, 这并不一定是好事)</p>
+<h4 id="lobby"><a href="#lobby" class="headerlink" title="lobby"></a>lobby</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 大厅</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.lobby</span><span class="params">()</span></span></span><br><span class="line">    inc.p(<span class="string">"请输入要操作的服务器ID"</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> serverID = <span class="built_in">tonumber</span>(<span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>())</span><br><span class="line">    <span class="keyword">local</span> scfg, servercfg = inc.getserverinfo(serverID)</span><br><span class="line"></span><br><span class="line">    inc.confirm_oper_server(scfg, &#123;servercfg&#125;, <span class="string">"即将操作该服务器"</span>)</span><br><span class="line">    <span class="comment">-- 检查文件是否存在</span></span><br><span class="line">    timer.checkFileExists(scfg, servercfg)</span><br><span class="line">    <span class="keyword">local</span> sFolder = <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">"%s%d.p%d"</span>, </span><br><span class="line">        <span class="built_in">config</span>.gamename, servercfg.id, servercfg.port)</span><br><span class="line">    timer.servername = sFolder</span><br><span class="line">    <span class="comment">-- 根据用户的选项, 我们重新设置了文件掩码, 加上了当前服务器名</span></span><br><span class="line">    <span class="comment">-- 这样更加安全, 也可以筛选统一主机下, 不同服务器任务了</span></span><br><span class="line">    timer.filenamemask = timer.filenamemask..timer.servername</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        inc.p(<span class="string">"\n选择操作类型[1: 增加, 2: 删除, 4:查询]"</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="keyword">local</span> operatetype = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">        <span class="keyword">if</span> operatetype == <span class="string">'1'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 增加定时器</span></span><br><span class="line">            timer.addTimerTask(scfg, servercfg)</span><br><span class="line">            <span class="comment">-- 判断是否增加成功</span></span><br><span class="line">            timer.isAddSuccess(scfg, servercfg)</span><br><span class="line">            <span class="comment">-- 自动刷新定时器列表</span></span><br><span class="line">            timer.searchTimerTask(scfg, servercfg)</span><br><span class="line">        <span class="keyword">elseif</span> operatetype == <span class="string">'2'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 删除定时器</span></span><br><span class="line">            timer.deleteTimerTask(scfg, servercfg)</span><br><span class="line">            <span class="comment">-- 自动刷新定时器列表</span></span><br><span class="line">            timer.searchTimerTask(scfg, servercfg)</span><br><span class="line">        <span class="keyword">elseif</span> operatetype == <span class="string">'3'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 预留</span></span><br><span class="line">        <span class="keyword">elseif</span> operatetype == <span class="string">'4'</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 刷新定时器列表</span></span><br><span class="line">            timer.searchTimerTask(scfg, servercfg)</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            inc.p(<span class="string">"操作码异常"</span>, <span class="number">14</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>大厅界面, 先让用户选择一个操作的服务器, 设置相应的参数, 然后让用户一直操作该服务器</p>
+<h4 id="checkFileExists"><a href="#checkFileExists" class="headerlink" title="checkFileExists"></a>checkFileExists</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查文件是否存在</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.checkFileExists</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="comment">-- 看一下目录下是否存配置文件</span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cd "</span>..timer.<span class="built_in">path</span>)</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"ls crontab*"</span>);</span><br><span class="line">    <span class="keyword">local</span> filename;</span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        <span class="comment">-- 因为某些原因, 不用在意这行代码. 它的作用是获取文件名</span></span><br><span class="line">        filename = res[<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">string</span>.<span class="built_in">find</span>(filename, <span class="string">"crontab"</span>) == <span class="literal">nil</span>) <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 没找到配置文件, 就新建一个</span></span><br><span class="line">        inc.p(<span class="string">"未找到文件, 即将创建空文件: "</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">        <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"touch "</span>..timer.fullName)</span><br><span class="line">        inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">        inc.p(<span class="string">"创建成功: "</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        <span class="comment">-- 如果配置文件已经存在了, 那么就直接使用当前文件</span></span><br><span class="line">        inc.p(<span class="string">"已找到文件: "</span>..filename, <span class="number">10</span>)</span><br><span class="line">        timer.file = filename</span><br><span class="line">        timer.fullName = timer.<span class="built_in">path</span>..timer.file</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>检查配置文件是否已存在, 存在则世界使用它, 不存在, 则创建一个</p>
+<h4 id="addTimerTask"><a href="#addTimerTask" class="headerlink" title="addTimerTask"></a>addTimerTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 增加定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.addTimerTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="comment">-- 设置时间</span></span><br><span class="line">    <span class="keyword">local</span> timetab = &#123;&#125;</span><br><span class="line">    inc.p(<span class="string">"请输入任务名"</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> taskname = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    <span class="keyword">local</span> ttaskname = taskname..timer.filenamemask</span><br><span class="line">    <span class="comment">-- 检测任务名是否存在, 任务名用于删, 查任务</span></span><br><span class="line">    <span class="keyword">while</span> (timer.checkTaskName(scfg, servercfg, ttaskname) == <span class="literal">true</span>) <span class="keyword">do</span></span><br><span class="line">        inc.p(<span class="string">"任务重名, 请重新输入"</span>, <span class="number">14</span>)</span><br><span class="line">        taskname = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">        ttaskname = taskname..timer.filenamemask</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 设置定时器触发时间</span></span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(月)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.month = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(日)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.day = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(时)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.hour = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"请输入服务器关闭时间(分)"</span>, <span class="number">10</span>)</span><br><span class="line">    timetab.minute = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    inc.p(<span class="string">"服务器将计划于 "</span>..timetab.month..<span class="string">"月"</span>..timetab.day..<span class="string">"日"</span>..</span><br><span class="line">        timetab.hour..<span class="string">"时"</span>..timetab.minute..<span class="string">"分 关闭, 确定? [输入y继续]"</span>, <span class="number">12</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>() ~= <span class="string">'y'</span> <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 这里构造了一条命令, 这条命令实现了添加一个定时器</span></span><br><span class="line">    <span class="comment">-- 这个定时器会到指定的服务器下, 调用 kill.net 来关闭服务器</span></span><br><span class="line">    <span class="comment">-- 关闭之后, 再使用 sed 命令, 将定时器删除, 然后重置定时器</span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;;</span><br><span class="line">    <span class="keyword">local</span> dir = timer.getFullPath(servercfg)</span><br><span class="line">    <span class="keyword">local</span> timestamp = timetab.minute..<span class="string">' '</span>..timetab.hour..<span class="string">' '</span>..timetab.day..<span class="string">' '</span>..</span><br><span class="line">        timetab.month..<span class="string">' '</span>..<span class="string">'*'</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"echo \""</span>..timestamp..<span class="string">" echo \""</span>..ttaskname..<span class="string">"\""</span></span><br><span class="line">        ..<span class="string">';cd '</span>..dir..<span class="string">';./kill.net'</span>..</span><br><span class="line">        <span class="string">";sed -i \"/"</span>..ttaskname..<span class="string">"/d\" "</span>..timer.fullName..</span><br><span class="line">        <span class="string">";crontab "</span>..timer.fullName..<span class="string">"\" &gt;&gt; "</span>..timer.fullName)</span><br><span class="line">    <span class="built_in">print</span> (cmds[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">-- 这是一个外部工具类中的函数, 主要是使用PLINK携带用户信息和验证, 链接服务器</span></span><br><span class="line">    <span class="comment">-- 然后执行 cmds 中保存的命令</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">    <span class="comment">-- 保存当前任务名, 用于判断任务是否成功</span></span><br><span class="line">    timer.lastTask = ttaskname;</span><br><span class="line">    timer.syncTask(scfg, servercfg)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="checkTaskName"><a href="#checkTaskName" class="headerlink" title="checkTaskName"></a>checkTaskName</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查文件名</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.checkTaskName</span><span class="params">(scfg, servercfg, ttaskname)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab -l"</span>)</span><br><span class="line">    <span class="keyword">local</span> dupname = <span class="literal">false</span></span><br><span class="line">    <span class="comment">-- 第三个参数是回调函数, res中存储了执行 cmds 后, 服务器的输出</span></span><br><span class="line">    <span class="comment">-- 使用 crontab -l 查看了当前已有的任务, 如果找到了任务名, 则说明任务名重复</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">pairs</span>(res) <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">string</span>.<span class="built_in">find</span>(v, ttaskname)) <span class="keyword">then</span></span><br><span class="line">                dupname = <span class="literal">true</span></span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dupname</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="syncTask"><a href="#syncTask" class="headerlink" title="syncTask"></a>syncTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 同步任务</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.syncTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cd "</span>..timer.<span class="built_in">path</span>)</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab "</span>..<span class="string">'./'</span>..timer.file);</span><br><span class="line">    <span class="comment">-- 其实就是执行 crontab [filename], 这里可以合为一句的</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="isAddSuccess"><a href="#isAddSuccess" class="headerlink" title="isAddSuccess"></a>isAddSuccess</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 是否增加成功</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.isAddSuccess</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cat "</span>..timer.fullName);</span><br><span class="line">    <span class="keyword">local</span> size1 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">-- 获取文件中的行数</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        size1 = #res</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab -l"</span>);</span><br><span class="line">    <span class="keyword">local</span> size2 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">-- 获取实际 crontab 任务的行数</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        size2 = #res</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 如果行数不一致, 那么就说明加入失败</span></span><br><span class="line">    <span class="comment">-- 加入失败一般只有一种原因: 时间格式错误</span></span><br><span class="line">    <span class="comment">-- 我们也可以编写代码在执行加入前就判断, 但是判断时间的话, 涉及到平年和润年, 还涉及大小月</span></span><br><span class="line">    <span class="comment">-- 并且是服务器的时间, 所以也不能直接在windows上调用函数处理</span></span><br><span class="line">    <span class="comment">-- 考虑到这些原因, 就让linux帮我们做了这件事(反正行数不一致, 肯定是失败了)</span></span><br><span class="line">    <span class="keyword">if</span> size1 ~= size2 <span class="keyword">then</span> </span><br><span class="line">        <span class="comment">-- 添加失败就回滚一次任务</span></span><br><span class="line">        timer.rollBack(scfg, servercfg)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        inc.p(<span class="string">"添加定时任务成功"</span>, <span class="number">14</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="rollBack"><a href="#rollBack" class="headerlink" title="rollBack"></a>rollBack</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 回滚一次任务</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.rollBack</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="comment">-- 这里使用了 sed 来处理, 其中用到了我们之前记录的 lastTask</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"sed -i "</span>..<span class="string">'/'</span>..timer.lastTask..<span class="string">"/d"</span>..</span><br><span class="line">        <span class="string">' '</span>..timer.fullName);</span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">    inc.p(<span class="string">"时间格式错误, 已回滚"</span>, <span class="number">12</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="searchTimerTask"><a href="#searchTimerTask" class="headerlink" title="searchTimerTask"></a>searchTimerTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.searchTimerTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"crontab -l"</span>)</span><br><span class="line">    inc.p(<span class="string">"\n当前已有任务: "</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> orisrc = &#123;&#125;</span><br><span class="line">    <span class="comment">-- 查看当前已有的任务</span></span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="function"><span class="keyword">function</span> <span class="params">(res)</span></span></span><br><span class="line">        orisrc = res</span><br><span class="line">    <span class="keyword">end</span>, <span class="literal">true</span>)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">-- 这里是为了将数据格式化成方便看懂的格式</span></span><br><span class="line">    timer.regex(orisrc, servercfg)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="regex"><a href="#regex" class="headerlink" title="regex"></a>regex</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检测记录, 筛选信息</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.regex</span><span class="params">(orisrc, servercfg)</span></span></span><br><span class="line">    <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">pairs</span>(orisrc) <span class="keyword">do</span></span><br><span class="line">        <span class="comment">-- 获取任务时间戳</span></span><br><span class="line">        <span class="keyword">local</span> taskstamp;</span><br><span class="line">        <span class="keyword">for</span> v2 <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(v, <span class="string">"%d+%s%d+%s%d+%s%d+"</span>) <span class="keyword">do</span> </span><br><span class="line">            taskstamp = v2</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 获取任务名</span></span><br><span class="line">        <span class="keyword">local</span> taskname;</span><br><span class="line">        <span class="keyword">for</span> v3 <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(v, <span class="string">"echo.*"</span>..timer.filenamemask..<span class="string">';'</span>) <span class="keyword">do</span> </span><br><span class="line">            v3 = <span class="built_in">string</span>.<span class="built_in">sub</span>(v3, <span class="number">6</span>, #v3 - #timer.filenamemask - <span class="number">1</span>)</span><br><span class="line">            taskname = v3 </span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 获取服务器名</span></span><br><span class="line">        <span class="keyword">local</span> hostname;</span><br><span class="line">        <span class="keyword">for</span> v4 <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(v, <span class="string">"CRONTAB_TASK.*;cd%s/data/server/"</span>) <span class="keyword">do</span> </span><br><span class="line">            v4 = <span class="built_in">string</span>.<span class="built_in">sub</span>(v4, <span class="number">14</span>, #v4 - <span class="number">17</span>)</span><br><span class="line">            hostname = v4 </span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 如果这条信息是任务信息, 格式化打印出来</span></span><br><span class="line">        <span class="keyword">if</span> (taskstamp ~= <span class="literal">nil</span> <span class="keyword">and</span> taskname ~= <span class="literal">nil</span> <span class="keyword">and</span> hostname == timer.servername) <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">local</span> timetab = &#123;&#125;</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(taskstamp, <span class="string">"%d+"</span>) <span class="keyword">do</span></span><br><span class="line">                <span class="built_in">table</span>.<span class="built_in">insert</span>(timetab, i);</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">            inc.p(<span class="string">"服务器: "</span>..hostname..<span class="string">"  ========  任务名: "</span>..taskname..</span><br><span class="line">                <span class="string">"  ========  时间: "</span>..</span><br><span class="line">                timetab[<span class="number">4</span>]..<span class="string">"月"</span>..timetab[<span class="number">3</span>]..<span class="string">"日"</span>..</span><br><span class="line">                timetab[<span class="number">2</span>]..<span class="string">"时"</span>..timetab[<span class="number">1</span>]..<span class="string">"分"</span>, <span class="number">14</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="deleteTimerTask"><a href="#deleteTimerTask" class="headerlink" title="deleteTimerTask"></a>deleteTimerTask</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer.deleteTimerTask</span><span class="params">(scfg, servercfg)</span></span></span><br><span class="line">    inc.p(<span class="string">"请输入任务名(暂不支持中文)"</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">local</span> taskname = <span class="built_in">io</span>.<span class="built_in">stdin</span>:<span class="built_in">read</span>()</span><br><span class="line">    <span class="keyword">local</span> dir = timer.getFullPath(servercfg)</span><br><span class="line">    <span class="keyword">local</span> cmds = &#123;&#125;</span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"cd "</span>..dir)</span><br><span class="line">    <span class="keyword">local</span> ttaskname = taskname..timer.filenamemask</span><br><span class="line">    <span class="comment">-- 执行一条 sed 命令, 删除一个任务</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(cmds, <span class="string">"sed -i "</span>..<span class="string">'/'</span>..ttaskname..<span class="string">"/d"</span>..</span><br><span class="line">        <span class="string">' '</span>..timer.fullName);</span><br><span class="line">    inc.popen_server_cmds(scfg, cmds, <span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">    <span class="comment">-- 同步一次</span></span><br><span class="line">    timer.syncTask(scfg, servercfg)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p>那么代码就这些了, 其中主要就是使用lua编写程序, 通过PLINK传递命令行信息</p>
+<p>以此达到远程控制服务器定时器的效果</p>
+<p>其中最主要的技术是: </p>
+<p>lua语言基础, lua正则表达式  </p>
+<p>{ crontab, sed } 命令行, 数据流重定向  </p>
+<p>(emmmmmm… 看起来好像没什么厉害的…)</p>
+<p>以及从&lt;重构&gt;中学到的代码技术  </p>
+<p>(一开始看重构这本书的时候, 本来对里面一些降低效率的做法不太满意)</p>
+<p>(但是真的使用了之后, 发现代码的确好多了, 无论是易读, 编写, 调试, 增加/删除方面, 都有明显提升)</p>
+<p>(不过可惜没有运用到&lt;设计模式&gt;中的东西(或许我用到了, 只是没注意到?) )</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/firstClassValue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/firstClassValue/" class="post-title-link" itemprop="url">other/firstClassValue</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="第一级值"><a href="#第一级值" class="headerlink" title="第一级值"></a>第一级值</h4><p>长久以来一直不太明白之前在 lua 一本书中提到的 “第一类值”   </p>
+<p>直到今天在一本书上看到类似的解释:</p>
+<pre><code>一般而言, 程序设计语言总会对计算元素的可能使用方式强加上某些限制  
+带有最少限制的元素具有&quot;第一级&quot;的状态, 第一级元素的某些特权包括:
+* 可以用变量命名
+* 可以提供给过程作为参数
+* 可以由过程作为结果返回
+* 可以包含在数据结构中</code></pre><p>上述说的是第一级值, 猜想应该是第一类值拥有第一级特权</p>
+<h4 id="第一类函数"><a href="#第一类函数" class="headerlink" title="第一类函数"></a>第一类函数</h4><p>以下摘自 wiki 对第一类函数(first-class function)的解释</p>
+<pre><code>In computer science, a programming language is said to have first-    class functions if it treats functions as first-class citizens. This means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures
+在计算机科学中, 一个编程语言如果对他函数就像第一类公民(??)一样, 那么就说他有第一类函数
+这意味着语言支持将函数作为参数传递给其他函数
+从其他函数中将其作为值返回
+将其复制给变量, 或者保存到数据结构中</code></pre><h4 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h4><p>顺便 wiki 说了一下什么是高阶函数</p>
+<pre><code>First-class functions are a necessity for the functional programming style, in which the use of higher-order functions is a standard practice. A simple example of a higher-ordered function is the map function, which takes, as its arguments, a function and a list, and returns the list formed by applying the function to each member of the list. For a language to support map, it must support passing a function as an argument.
+第一类函数对于函数化编程是必要的
+其中使用高阶函数就是一个标准的实践
+一个高阶函数的简单案例就是map函数
+(...能意会, 但没法翻译...)
+它必须支持传递函数作为参数</code></pre><h4 id="lambda-是如何工作的"><a href="#lambda-是如何工作的" class="headerlink" title="lambda 是如何工作的"></a>lambda 是如何工作的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int main() &#123;                                    </span><br><span class="line">    auto f &#x3D; [](int x, int y) &#123; return x + y; &#125;;</span><br><span class="line">    printf(&quot;%d\n&quot;,  f(1, 2) );                                                        </span><br><span class="line">    return 0;                                   </span><br><span class="line">&#125;                                               </span><br><span class="line">...</span><br><span class="line">_ZZ4mainENKUliiE_clEii:         </span><br><span class="line">.LFB3999:                       </span><br><span class="line">▹   .cfi_startproc              </span><br><span class="line">▹   pushq▹  %rbp                </span><br><span class="line">▹   .cfi_def_cfa_offset 16      </span><br><span class="line">▹   .cfi_offset 6, -16          </span><br><span class="line">▹   movq▹   %rsp, %rbp          </span><br><span class="line">▹   .cfi_def_cfa_register 6     </span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)      &#x2F;&#x2F; 唯一的区别在于, 多传了一个&quot;this&quot;</span><br><span class="line">▹   movl▹   %esi, -12(%rbp)     </span><br><span class="line">▹   movl▹   %edx, -16(%rbp)     </span><br><span class="line">▹   movl▹   -16(%rbp), %eax     </span><br><span class="line">▹   movl▹   -12(%rbp), %edx     </span><br><span class="line">▹   addl▹   %edx, %eax          </span><br><span class="line">▹   popq▹   %rbp                </span><br><span class="line">▹   .cfi_def_cfa 7, 8           </span><br><span class="line">▹   ret                         </span><br><span class="line">...</span><br><span class="line">▹   subq▹   $16, %rsp</span><br><span class="line">▹   leaq▹   -1(%rbp), %rax	&#x2F;&#x2F; 这个 this 指向了当前栈帧, 但是这里为什么要 -1 ?</span><br><span class="line">▹   movl▹   $2, %edx</span><br><span class="line">▹   movl▹   $1, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi            </span><br><span class="line">▹   call▹   _ZZ4mainENKUliiE_clEii</span><br></pre></td></tr></table></figure>
+
+<p>在上面基础上, 让 lambda 捕获局部变量和全局变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">int gi &#x3D; 11;</span><br><span class="line">int main() &#123;</span><br><span class="line">    int i &#x3D; 10;</span><br><span class="line">    auto f &#x3D; [i, gi](int x, int y) &#123; return i + gi + x + y; &#125;;</span><br><span class="line">    printf(&quot;%d\n&quot;,  f(1, 2) );</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">_ZZ4mainENKUliiE_clEii:     </span><br><span class="line">.LFB3999:                   </span><br><span class="line">▹   .cfi_startproc          </span><br><span class="line">▹   pushq▹  %rbp            </span><br><span class="line">▹   .cfi_def_cfa_offset 16  </span><br><span class="line">▹   .cfi_offset 6, -16      </span><br><span class="line">▹   movq▹   %rsp, %rbp      </span><br><span class="line">▹   .cfi_def_cfa_register 6 </span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)  </span><br><span class="line">▹   movl▹   %esi, -12(%rbp) </span><br><span class="line">▹   movl▹   %edx, -16(%rbp) </span><br><span class="line">▹   movq▹   -8(%rbp), %rax  </span><br><span class="line">▹   movl▹   (%rax), %edx    </span><br><span class="line">▹   movl▹   gi(%rip), %eax  	&#x2F;&#x2F; @warning 即使是按值捕获, 全局变量也并未产生复制</span><br><span class="line">▹   addl▹   %eax, %edx      </span><br><span class="line">▹   movl▹   -12(%rbp), %eax </span><br><span class="line">▹   addl▹   %eax, %edx      </span><br><span class="line">▹   movl▹   -16(%rbp), %eax </span><br><span class="line">▹   addl▹   %edx, %eax      </span><br><span class="line">▹   popq▹   %rbp            </span><br><span class="line">▹   .cfi_def_cfa 7, 8       </span><br><span class="line">▹   ret                    </span><br><span class="line">...</span><br><span class="line">▹   subq▹   $16, %rsp             </span><br><span class="line">▹   movl▹   $10, -4(%rbp)         </span><br><span class="line">▹   movl▹   -4(%rbp), %eax        </span><br><span class="line">▹   movl▹   %eax, -16(%rbp)       &#x2F;&#x2F; 复制了一份 i</span><br><span class="line">▹   leaq▹   -16(%rbp), %rax       </span><br><span class="line">▹   movl▹   $2, %edx              </span><br><span class="line">▹   movl▹   $1, %esi              </span><br><span class="line">▹   movq▹   %rax, %rdi            </span><br><span class="line">▹   call▹   _ZZ4mainENKUliiE_clEii</span><br></pre></td></tr></table></figure>
+
+<p>其中关键之处在于对待全局变量的方式, 这有可能产生错误, 事实也的确错了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  f(<span class="number">1</span>, <span class="number">2</span>) );</span><br><span class="line">gi = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  f(<span class="number">1</span>, <span class="number">2</span>) );</span><br><span class="line">...</span><br><span class="line"><span class="number">24</span></span><br><span class="line"><span class="number">113</span> <span class="comment">// gi 的值改变后, 输出结果也随之改变, 这不应该是按值捕获的结果</span></span><br></pre></td></tr></table></figure>
+
+<p>那么如果我加上 mutable 去更改这个 gi 呢?</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> f = [i, gi](<span class="keyword">int</span> x, <span class="keyword">int</span> y) <span class="keyword">mutable</span> &#123; gi = <span class="number">110</span>; <span class="keyword">return</span> i + gi + x + y; &#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  gi);      </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  f(<span class="number">1</span>, <span class="number">2</span>) );</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,  gi);</span><br><span class="line">...</span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">123</span></span><br><span class="line"><span class="number">110</span>	<span class="comment">// 改变了! 这可是很重要的细节</span></span><br></pre></td></tr></table></figure>
+
+<p>上述结果, 编译器(gcc 4.8.5)只有一个警告</p>
+<p>但是如果不注意这个细节, 去捕获全局变量, 可能会有很严重的错误</p>
+<p>接下来专注一下类类型变量, 他会如何捕获 (这里的代码就有点头疼了)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">int main() &#123;                                   </span><br><span class="line">    vector&lt;int&gt; v &#123;1, 2, 3, 4&#125;;                </span><br><span class="line">    int i &#x3D; 10;                                </span><br><span class="line">    auto f &#x3D; [i, gi, v](int x, int y) mutable &#123;</span><br><span class="line">        v[2] &#x3D; 10; gi &#x3D; 110;·                  </span><br><span class="line">        return i + gi + x + y; &#125;;              </span><br><span class="line">    printf(&quot;%d\n&quot;,  gi);                       </span><br><span class="line">    printf(&quot;%d\n&quot;,  f(1, 2) );                 </span><br><span class="line">    printf(&quot;%d\n&quot;,  v[2]);                     </span><br><span class="line"></span><br><span class="line">    return 0;                                  </span><br><span class="line">&#125;                                           </span><br><span class="line">...</span><br><span class="line">main:                                                          </span><br><span class="line">.LFB3998:          </span><br><span class="line">▹   pushq▹  %rbp                                                                       </span><br><span class="line">▹   movq▹   %rsp, %rbp                                         </span><br><span class="line">▹   pushq▹  %r13                                               </span><br><span class="line">▹   pushq▹  %r12                                               </span><br><span class="line">▹   pushq▹  %rbx                                               </span><br><span class="line">▹   subq▹   $72, %rsp                                          </span><br><span class="line">▹   leaq▹   -37(%rbp), %rax                                    </span><br><span class="line">▹   movq▹   %rax, %rdi                                         </span><br><span class="line">▹   call▹   _ZNSaIiEC1Ev                                       </span><br><span class="line">▹   movl▹   $._91, %r12d                                       </span><br><span class="line">▹   movl▹   $4, %r13d           &#x2F;&#x2F; 这里的 4 是告诉 vector, 有 4 个元素 (猜的)</span><br><span class="line">▹   leaq▹   -37(%rbp), %rdi                                    </span><br><span class="line">▹   movq▹   %r12, %rcx                                         </span><br><span class="line">▹   movq▹   %r13, %rbx                                         </span><br><span class="line">▹   movq▹   %r12, %rax                                         </span><br><span class="line">▹   movq▹   %r13, %rdx                                         </span><br><span class="line">▹   movq▹   %rcx, %rsi                                         </span><br><span class="line">▹   leaq▹   -64(%rbp), %rax     &#x2F;&#x2F; 按照上下文理解, 这应该就是 vector 的 this 指针   </span><br><span class="line">▹   movq▹   %rdi, %rcx                                         </span><br><span class="line">▹   movq▹   %rax, %rdi                                         </span><br><span class="line">.LEHB0:                                                        </span><br><span class="line">▹   call▹   _ZNSt6vectorIiSaIiEEC1ESt16initializer_listIiERKS0_ &#x2F;&#x2F; 真是个丑陋的小东西 &#x3D; &#x3D; </span><br><span class="line">.LEHE0:                                                        </span><br><span class="line">▹   leaq▹   -37(%rbp), %rax                                    </span><br><span class="line">▹   movq▹   %rax, %rdi                                         </span><br><span class="line">▹   call▹   _ZNSaIiED1Ev                                       </span><br><span class="line">▹   movl▹   $10, -36(%rbp)                                     </span><br><span class="line">▹   movl▹   -36(%rbp), %eax                                    </span><br><span class="line">▹   movl▹   %eax, -96(%rbp)       &#x2F;&#x2F; 上面的 10 是路标, 这个应该就是 lambda 的 this 指针</span><br><span class="line">▹   leaq▹   -64(%rbp), %rax       </span><br><span class="line">▹   leaq▹   -96(%rbp), %rdx</span><br><span class="line">▹   addq▹   $8, %rdx                                           </span><br><span class="line">▹   movq▹   %rax, %rsi                                         </span><br><span class="line">▹   movq▹   %rdx, %rdi                                         </span><br><span class="line">.LEHB1:                                                        </span><br><span class="line">▹   call▹   _ZNSt6vectorIiSaIiEEC1ERKS1_      &#x2F;&#x2F; 上面那句最长的应该是列表初始化, 而这一句                 								&#x2F;&#x2F; 可能是拷贝或者构造? </span><br><span class="line">.LEHE1:                               </span><br><span class="line">▹   movl▹   gi(%rip), %eax       </span><br><span class="line">▹   movl▹   %eax, %esi</span><br><span class="line">▹   movl▹   $.LC0, %edi</span><br><span class="line">▹   movl▹   $0, %eax</span><br><span class="line">.LEHB2:</span><br><span class="line">▹   call▹   printf</span><br><span class="line">▹   leaq▹   -96(%rbp), %rax</span><br><span class="line">▹   movl▹   $2, %edx</span><br><span class="line">▹   movl▹   $1, %esi</span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZZ4mainENUliiE_clEii</span><br><span class="line">...</span><br><span class="line">_ZZ4mainENUliiE_clEii:              </span><br><span class="line">.LFB4000:                           </span><br><span class="line">▹   .cfi_startproc                  </span><br><span class="line">▹   pushq▹  %rbp                    </span><br><span class="line">▹   .cfi_def_cfa_offset 16          </span><br><span class="line">▹   .cfi_offset 6, -16              </span><br><span class="line">▹   movq▹   %rsp, %rbp              </span><br><span class="line">▹   .cfi_def_cfa_register 6         </span><br><span class="line">▹   subq▹   $16, %rsp               </span><br><span class="line">▹   movq▹   %rdi, -8(%rbp)        &#x2F;&#x2F; this 指针  </span><br><span class="line">▹   movl▹   %esi, -12(%rbp)         </span><br><span class="line">▹   movl▹   %edx, -16(%rbp)         </span><br><span class="line">▹   movq▹   -8(%rbp), %rax          </span><br><span class="line">▹   addq▹   $8, %rax                </span><br><span class="line">▹   movl▹   $2, %esi                </span><br><span class="line">▹   movq▹   %rax, %rdi</span><br><span class="line">▹   call▹   _ZNSt6vectorIiSaIiEEixEm</span><br><span class="line">▹   movl▹   $10, (%rax)             &#x2F;&#x2F; 赋值</span><br><span class="line">▹   movl▹   $110, gi(%rip)</span><br><span class="line">▹   movq▹   -8(%rbp), %rax</span><br><span class="line">▹   movl▹   (%rax), %edx</span><br><span class="line">▹   movl▹   gi(%rip), %eax</span><br><span class="line">▹   addl▹   %eax, %edx</span><br><span class="line">▹   movl▹   -12(%rbp), %eax</span><br><span class="line">▹   addl▹   %eax, %edx</span><br><span class="line">▹   movl▹   -16(%rbp), %eax</span><br><span class="line">▹   addl▹   %edx, %eax</span><br><span class="line">▹   leave</span><br><span class="line">▹   .cfi_def_cfa 7, 8</span><br><span class="line">▹   ret</span><br></pre></td></tr></table></figure>
+<p>值拷贝类的时候, 会将整个类拷贝一次, 并没有什么特殊的</p>
+<p><strong>匿名函数与其说是函数, 不如说是类</strong> 他就像一个重载了调用运算符的类一样</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/float/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1112,169 +1318,6 @@ set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: �
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/some%20useful%20define/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/some%20useful%20define/" class="post-title-link" itemprop="url">other/some useful define</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="保留条件表达式的第一个值"><a href="#保留条件表达式的第一个值" class="headerlink" title="保留条件表达式的第一个值"></a>保留条件表达式的第一个值</h2><pre><code>// CE: condition expression, RETAIN: 保持
-#define CE_RETAIN1(a, b) ((a) ? (a) : (b))</code></pre><p>考虑一个情况, 当一个值有效时, 使用它, 否则使用另外一个数<br>如果直接写的话, 不太容易理解  </p>
-<pre><code>(exp) ? (exp) : -1;</code></pre><p>当exp非常长的时候(或许可以保存成变量, 但是某些情况下, 不知道该用什么名字<br>而自己比较常用变量名差不多用光了, 或者这只是个只用一次的值), 如  </p>
-<pre><code>val = func(a) * i + 10 ? func(a) * i + 10 : -1;</code></pre><p>而如果用宏定义的话就比较清晰了</p>
-<pre><code>val = CE_RETAIN1(func(a) * i + 10, -1);</code></pre><p>PS: 但是如果的确出现表达式过长的情况, 可能考虑优化代码是最好的解决方案</p>
-<h2 id="直接面向结果的函数"><a href="#直接面向结果的函数" class="headerlink" title="直接面向结果的函数"></a>直接面向结果的函数</h2><pre><code>void show() { setvisible(true); }    
-void hide() { setvisible(false); }</code></pre><p>使用show(), hide()的情况下, 一目了然, 而通过参数的话, 理解会稍麻烦一些</p>
-<h2 id="getInstance"><a href="#getInstance" class="headerlink" title="getInstance"></a>getInstance</h2><p>getInstance多数情况下作为一个类的公有接口, 用于获得一个实例<br>普通的书写方案如下        </p>
-<pre><code>class A{
-    int i; // 不仅仅是数据, 也可能是一个类
-public:
-    int&amp; getInstance() { return i; }
-};</code></pre><p>使用这种方式的情况会存在两个问题  </p>
-<ol>
-<li>即使我从不使用i, 也从未掉用过getInstance这个函数, 但依旧给i分配了空间  </li>
-<li>i依旧能在其他接口中被访问  </li>
-</ol>
-<p>上述两种情况并不一定会造成影响, 但可以考虑排除这种隐藏问题  </p>
-<pre><code>int&amp; getInstance() {
-    static int i;
-
-    return i;
-}</code></pre><p>静态变量在未被访问过的情况下, 不会分配空间<br>并且只存在于当前作用域, 有良好的安全性</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/some%20useful%20skill/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/some%20useful%20skill/" class="post-title-link" itemprop="url">other/some useful skill</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:31" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="保留条件表达式的第一个值"><a href="#保留条件表达式的第一个值" class="headerlink" title="保留条件表达式的第一个值"></a>保留条件表达式的第一个值</h2><pre><code>// CE: condition expression, RETAIN: 保持
-#define CE_RETAIN1(a, b) ((a) ? (a) : (b))</code></pre><p>考虑一个情况, 当一个值有效时, 使用它, 否则使用另外一个数<br>如果直接写的话, 不太容易理解  </p>
-<pre><code>(exp) ? (exp) : -1;</code></pre><p>当exp非常长的时候(或许可以保存成变量, 但是某些情况下, 不知道该用什么名字<br>而自己比较常用变量名差不多用光了, 或者这只是个只用一次的值), 如  </p>
-<pre><code>val = func(a) * i + 10 ? func(a) * i + 10 : -1;</code></pre><p>而如果用宏定义的话就比较清晰了</p>
-<pre><code>val = CE_RETAIN1(func(a) * i + 10, -1);</code></pre><p>PS: 但是如果的确出现表达式过长的情况, 可能考虑优化代码是最好的解决方案</p>
-<h2 id="直接面向结果的函数"><a href="#直接面向结果的函数" class="headerlink" title="直接面向结果的函数"></a>直接面向结果的函数</h2><pre><code>void show() { setvisible(true); }    
-void hide() { setvisible(false); }</code></pre><p>使用show(), hide()的情况下, 一目了然, 而通过参数的话, 理解会稍麻烦一些</p>
-<h2 id="getInstance"><a href="#getInstance" class="headerlink" title="getInstance"></a>getInstance</h2><p>getInstance多数情况下作为一个类的公有接口, 用于获得一个实例<br>普通的书写方案如下        </p>
-<pre><code>class A{
-    int i; // 不仅仅是数据, 也可能是一个类
-public:
-    int&amp; getInstance() { return i; }
-};</code></pre><p>使用这种方式的情况会存在两个问题  </p>
-<ol>
-<li>即使我从不使用i, 也从未掉用过getInstance这个函数, 但依旧给i分配了空间  </li>
-<li>i依旧能在其他接口中被访问  </li>
-</ol>
-<p>上述两种情况并不一定会造成影响, 但可以考虑排除这种隐藏问题  </p>
-<pre><code>int&amp; getInstance() {
-    static int i;
-
-    return i;
-}</code></pre><p>静态变量在未被访问过的情况下, 不会分配空间<br>并且只存在于当前作用域, 有良好的安全性</p>
-<h2 id="保存变量"><a href="#保存变量" class="headerlink" title="保存变量"></a>保存变量</h2><p>局部变量速度优于函数调用, 类似如果频繁用到数组的长度, 可以使用变量保存.size()的值</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1345,7 +1388,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-count">104</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

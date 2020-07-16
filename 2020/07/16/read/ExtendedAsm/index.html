@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Extended Asm 今天在脉脉上看到了一个很有趣的东西 ( •̀ ω •́ )✧ 哦哦, 在连续看了一段时间令人头晕的文档后, 看看这个真是提神呢!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;ExtendedAsm">
+<meta property="og:url" content="http://yoursite.com/2020/07/16/read/ExtendedAsm/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Extended Asm 今天在脉脉上看到了一个很有趣的东西 ( •̀ ω •́ )✧ 哦哦, 在连续看了一段时间令人头晕的文档后, 看看这个真是提神呢!">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/w0fOmUW.png">
+<meta property="article:published_time" content="2020-07-16T13:19:50.000Z">
+<meta property="article:modified_time" content="2020-07-16T13:19:50.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/w0fOmUW.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/16/read/ExtendedAsm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/ExtendedAsm | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/16/read/ExtendedAsm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/ExtendedAsm
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-16 21:19:50" itemprop="dateCreated datePublished" datetime="2020-07-16T21:19:50+08:00">2020-07-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Extended-Asm"><a href="#Extended-Asm" class="headerlink" title="Extended Asm"></a>Extended Asm</h2><p><img src="https://imgur.com/w0fOmUW.png" alt=""></p>
+<p>今天在脉脉上看到了一个很有趣的东西 ( •̀ ω •́ )✧</p>
+<p>哦哦, 在连续看了一段时间令人头晕的文档后, 看看这个真是提神呢!</p>
+<a id="more"></a>
+
+
+
+<p>首先, google 了一下, 这个是 gcc 对于汇编指令使用的扩展. <a href="https://stackoverflow.com/questions/14449141/the-difference-between-asm-asm-volatile-and-clobbering-memory" target="_blank" rel="noopener">参见</a></p>
+<p>链接里面的文档版本比较过时了, 新的文档请看<a href="https://gcc.gnu.org/onlinedocs/gcc-10.1.0/gcc/Extended-Asm.html#Extended-Asm" target="_blank" rel="noopener">这个</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">With extended asm you can read and write C variables from assembler and perform jumps from assembler code to C labels. Extended asm syntax uses colons (‘:’) to delimit the operand parameters after the assembler template:</span><br><span class="line">使用 asm扩展, 可以让你从汇编读取和写入 C 变量, 执行 jump 指令从汇编跳转到 C 标签. asm扩展使用冒号在 assembler模板后分隔操作参数.</span><br><span class="line"></span><br><span class="line">asm asm-qualifiers ( AssemblerTemplate </span><br><span class="line">                 : OutputOperands </span><br><span class="line">                 [ : InputOperands</span><br><span class="line">                 [ : Clobbers ] ])</span><br><span class="line"></span><br><span class="line">asm asm-qualifiers ( AssemblerTemplate </span><br><span class="line">                      : </span><br><span class="line">                      : InputOperands</span><br><span class="line">                      : Clobbers</span><br><span class="line">                      : GotoLabels)</span><br><span class="line">where in the last form, asm-qualifiers contains goto (and in the first form, not).</span><br><span class="line">最后一个案例中, asm限定符包含 goto(而在第一个案例中, 没有).</span><br><span class="line"></span><br><span class="line">The asm keyword is a GNU extension. When writing code that can be compiled with -ansi and the various -std options, use __asm__ instead of asm (see Alternate Keywords).</span><br><span class="line"></span><br><span class="line">Qualifiers</span><br><span class="line"></span><br><span class="line">volatile</span><br><span class="line">The typical use of extended asm statements is to manipulate input values to produce output values. However, your asm statements may also produce side effects. If so, you may need to use the volatile qualifier to disable certain optimizations. See Volatile.</span><br><span class="line">这个类型的 asm扩展语句用于管理输入值, 产生输出值. 然而, 你的 asm语句可能产生 side-effects. 你可以使用 volatile限定符取消优化.(简单来说, 就是不允许指令优化, 因为可能造成副作用)</span><br><span class="line"></span><br><span class="line">inline</span><br><span class="line">If you use the inline qualifier, then for inlining purposes the size of the asm statement is taken as the smallest size possible (see Size of an asm).</span><br><span class="line">内联(优化指令, 尽可能最短?)</span><br><span class="line"></span><br><span class="line">goto</span><br><span class="line">This qualifier informs the compiler that the asm statement may perform a jump to one of the labels listed in the GotoLabels. See GotoLabels.</span><br><span class="line">之前提到的 goto. 可以跳转到外界.</span><br><span class="line"></span><br><span class="line">Parameters	(结合一下这里的链接描述, 上述代码就很好理解了)</span><br><span class="line">AssemblerTemplate</span><br><span class="line">This is a literal string that is the template for the assembler code. It is a combination of fixed text and tokens that refer to the input, output, and goto parameters. See AssemblerTemplate.</span><br><span class="line"></span><br><span class="line">OutputOperands</span><br><span class="line">A comma-separated list of the C variables modified by the instructions in the AssemblerTemplate. An empty list is permitted. See OutputOperands.</span><br><span class="line"></span><br><span class="line">InputOperands</span><br><span class="line">A comma-separated list of C expressions read by the instructions in the AssemblerTemplate. An empty list is permitted. See InputOperands.</span><br><span class="line"></span><br><span class="line">Clobbers</span><br><span class="line">A comma-separated list of registers or other values changed by the AssemblerTemplate, beyond those listed as outputs. An empty list is permitted. See Clobbers and Scratch Registers.</span><br><span class="line"></span><br><span class="line">GotoLabels</span><br><span class="line">When you are using the goto form of asm, this section contains the list of all C labels to which the code in the AssemblerTemplate may jump. See GotoLabels.</span><br><span class="line"></span><br><span class="line">asm statements may not perform jumps into other asm statements, only to the listed GotoLabels. GCC’s optimizers do not know about other jumps; therefore they cannot take account of them when deciding how to optimize.</span><br><span class="line"></span><br><span class="line">The total number of input + output + goto operands is limited to 30.</span><br></pre></td></tr></table></figure>
+
+
+
+<p>那么. 来说说上述代码的含义吧.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">asm</span> <span class="title">volatile</span><span class="params">(<span class="string">"0:\n"</span>	<span class="comment">// 标准的起始, volatile标志了, 我们不想指令优化, 并且可能会有输出.</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"ldrex %[newValue], [%[_q_value]]\n"</span>	<span class="comment">// 加载寄存器, _q_value 是一个地址, 其值解													// 引用, 放入 newValue 中.</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"add %[newValue], %[newValue], #1\n"</span>		<span class="comment">// newValue 增加 1.</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"strex %[result], %[newValue], [%[_q_value]]\n"</span>	<span class="comment">// 将其存入 _q_value. 并获取													// 操作状态.</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"teq %[result], #0\n"</span>	<span class="comment">// 测试结果</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"bne 0b"</span>	<span class="comment">// bne: branch not equal, b是一个标识符, 语句的意义是, 不同的话, 就跳转到 						// "0", 也就是最开始的那个标签. try again! </span></span></span></span><br><span class="line"><span class="function"><span class="params">             : [newValue] <span class="string">"=&amp;r"</span> (newValue), <span class="comment">// 这里是输出参数的传递.</span></span></span></span><br><span class="line"><span class="function"><span class="params">               [result] <span class="string">"=&amp;r"</span> (result), </span></span></span><br><span class="line"><span class="function"><span class="params">             	<span class="string">"+m"</span> (_q_value)	<span class="comment">// '+'意味着输入输出参数 汇编代码中已经改变了值, 没必要 '=' 写出. </span></span></span></span><br><span class="line"><span class="function"><span class="params">             : [_q_value] <span class="string">"r"</span> (&amp;_q_value)	<span class="comment">// 输入参数的传递</span></span></span></span><br><span class="line"><span class="function"><span class="params">             : <span class="string">"cc"</span>, <span class="string">"memory"</span>)</span></span>;	<span class="comment">// 我将其理解为特性!.</span></span><br><span class="line">那么说一下参数符号的意义, 好的, 先盲猜, r 意味着 <span class="keyword">register</span>!.</span><br><span class="line">‘m’</span><br><span class="line">A memory operand is allowed, with any kind of address that the machine supports in general. Note that the letter used <span class="keyword">for</span> the general memory constraint can be re-defined by a back <span class="built_in">end</span> <span class="keyword">using</span> the TARGET_MEM_CONSTRAINT macro.</span><br><span class="line">支持内存操作.(以及一个注意事项)</span><br><span class="line"></span><br><span class="line">‘r’</span><br><span class="line">A <span class="keyword">register</span> operand is allowed provided that it is in a general <span class="keyword">register</span>.</span><br><span class="line">是的, 寄存器操作!.</span><br><span class="line">    </span><br><span class="line">‘=’</span><br><span class="line">Means that <span class="keyword">this</span> operand is written to by <span class="keyword">this</span> instruction: the previous value is discarded <span class="keyword">and</span> replaced by <span class="keyword">new</span> data.</span><br><span class="line">替换, 写入新的值. 也就是说 [newValue] 写入到 (newValue). 标识符写入到参数.</span><br><span class="line">(如果没有这个的话, 上述代码的 result 和 newValue, 不会生效, 不过好像也没用 result = =)</span><br><span class="line">(@warning, 那么, 这是一个可以优化的点)</span><br><span class="line"> </span><br><span class="line">‘&amp;’</span><br><span class="line">Means (in a particular alternative) that <span class="keyword">this</span> operand is an earlyclobber operand, which is written before the instruction is finished <span class="keyword">using</span> the input operands. Therefore, <span class="keyword">this</span> operand may <span class="keyword">not</span> lie in a <span class="keyword">register</span> that is <span class="built_in">read</span> by the instruction <span class="keyword">or</span> as part of any memory address.</span><br><span class="line"></span><br><span class="line">‘&amp;’ applies only to the alternative in which it is written. In constraints with multiple alternatives, sometimes one alternative <span class="keyword">requires</span> ‘&amp;’ <span class="keyword">while</span> others <span class="keyword">do</span> <span class="keyword">not</span>. See, <span class="keyword">for</span> example, the ‘movdf’ insn of the <span class="number">68000.</span></span><br><span class="line"></span><br><span class="line">A operand which is <span class="built_in">read</span> by the instruction can be tied to an earlyclobber operand <span class="keyword">if</span> its only use as an input occurs before the early result is written. Adding alternatives of <span class="keyword">this</span> form often allows GCC to produce better code when only some of the <span class="built_in">read</span> operands can be affected by the earlyclobber. See, <span class="keyword">for</span> example, the ‘mulsi3’ insn of the ARM.</span><br><span class="line"></span><br><span class="line">Furthermore, <span class="keyword">if</span> the earlyclobber operand is also a <span class="built_in">read</span>/<span class="built_in">write</span> operand, then that operand is written only after it’s used.</span><br><span class="line"></span><br><span class="line">‘&amp;’ does <span class="keyword">not</span> obviate the need to <span class="built_in">write</span> ‘=’ <span class="keyword">or</span> ‘+’. As earlyclobber operands are always written, a <span class="built_in">read</span>-only earlyclobber operand is ill-formed <span class="keyword">and</span> will be rejected by the compiler.</span><br><span class="line">(emm... 就算翻译出来可能也很涩... 我用自己的话简单说一下, 这个标识意味着<span class="string">"早期易变"</span>, 也就是, 在输出之前可能会改变, 联想一下 newValue, 他的值+<span class="number">1</span>了. 简单来书哦就是这样, 有兴趣可以自己理解一下.)</span><br><span class="line">    </span><br><span class="line"><span class="string">"cc"</span></span><br><span class="line">The <span class="string">"cc"</span> clobber indicates that the assembler code modifies the flags <span class="keyword">register</span>. On some machines, GCC represents the condition codes as a specific hardware <span class="keyword">register</span>; <span class="string">"cc"</span> serves to name <span class="keyword">this</span> <span class="keyword">register</span>. On other machines, condition code handling is different, <span class="keyword">and</span> specifying <span class="string">"cc"</span> has no effect. But it is valid no matter what the target.</span><br><span class="line">会改变 flag 寄存器.</span><br><span class="line">    </span><br><span class="line"><span class="string">"memory"</span></span><br><span class="line">The "memory" clobber tells the compiler that the assembly code performs memory reads or writes to items other than those listed in the input and output operands (for example, accessing the memory pointed to by one of the input parameters). To ensure memory contains correct values, GCC may need to flush specific register values to memory before executing the asm. Further, the compiler does not assume that any values read from memory before an asm remain unchanged after that asm; it reloads them as needed. Using the "memory" clobber effectively forms a read/write memory barrier for the compiler.</span><br><span class="line">代码会执行内存操作.</span><br><span class="line">    </span><br><span class="line">Note that <span class="keyword">this</span> clobber does <span class="keyword">not</span> prevent the processor from doing speculative reads past the <span class="keyword">asm</span> statement. To prevent that, you need processor-specific fence instructions.</span><br></pre></td></tr></table></figure>
+
+<p>而第二段代码与其基本一致, 也就是 add 换成了 sub. ヾ(≧▽≦*)o easy!</p>
+<p>老夫打算将 gcc 完整看一遍了 （；´д｀）ゞ 请祝我好运!</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/15/read/DecodedStringatIndex/" rel="prev" title="read/DecodedStringatIndex">
+      <i class="fa fa-chevron-left"></i> read/DecodedStringatIndex
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Extended-Asm"><span class="nav-number">1.</span> <span class="nav-text">Extended Asm</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">104</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
