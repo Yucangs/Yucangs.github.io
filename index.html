@@ -191,6 +191,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/02/leetcode/PartitionArrayintoDisjointintervals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/02/leetcode/PartitionArrayintoDisjointintervals/" class="post-title-link" itemprop="url">leetcode/PartitionArrayintoDisjointintervals</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-02 23:15:01" itemprop="dateCreated datePublished" datetime="2020-09-02T23:15:01+08:00">2020-09-02</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Partition-Array-into-Disjoint-intervals"><a href="#Partition-Array-into-Disjoint-intervals" class="headerlink" title="Partition Array into Disjoint intervals"></a>Partition Array into Disjoint intervals</h1><p><img src="https://imgur.com/wLfJcaC.png" alt=""></p>
+<p>我的思维好像固定了 = =…</p>
+<h2 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">partitionDisjoint</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> lx = A[b];</span><br><span class="line">        <span class="keyword">while</span> (b &lt; e) &#123;</span><br><span class="line">            <span class="keyword">while</span> (e &gt; b &amp;&amp; A[e] &gt;= lx) &#123; --e; &#125;</span><br><span class="line">            <span class="comment">// A[e] will less than lx</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> olx = lx;</span><br><span class="line">            <span class="keyword">while</span> (b &lt; e) &#123;</span><br><span class="line">                lx = <span class="built_in">max</span>(lx, A[++b]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// lx is max[A[0] - A[e]]</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (olx != lx) &#123;</span><br><span class="line">                <span class="comment">// recalculate</span></span><br><span class="line">                e = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> b + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>lx 是左边已遍历最大值. e 在每次遍历后将会指向一个从右往左第一个小于这个值的下标. </p>
+<p>b 的迭代不会重复, 而 e 的迭代是可能重复的, 这是这个解法的瓶颈.</p>
+<h2 id="other-solution"><a href="#other-solution" class="headerlink" title="other solution"></a>other solution</h2><p>PS: 以后没有 the best solution 了. 因为很难说一个算法是 best 的. 因为实际的输入不定. 适用于输入的算法也不定. 并且提交里面往往并不是最好的算法. Discuss 里面才有.    </p>
+<p><a href="https://leetcode.com/problems/partition-array-into-disjoint-intervals/discuss/178156/Cpp-O(n)-solution-one-pass-with-explanation" target="_blank" rel="noopener">参照</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">partitionDisjoint</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> lx = A[b], rlx = lx;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (A[i] &lt; lx) &#123;</span><br><span class="line">                e = i;</span><br><span class="line">                lx = rlx;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (A[i] &gt; rlx) &#123;</span><br><span class="line">                rlx = A[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//printf("rlx: %d, lx: %d", rlx, lx);</span></span><br><span class="line">        <span class="keyword">return</span> e + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>毫无疑问是比我更好的解法. </p>
+<p>唯一可能的疑问是每次迭代所使用的条件有些许复杂. 极端条件如: A {1, 2, 3 … } 下. 这个算法会赋值多次. </p>
+<p>而我的解法相对会少很多. (这也是我说大多数情况下不存在 best 的原因)</p>
+<p>让我反思的是, 我的思维可能出现了僵化. 一开始我想的办法就是首尾逼近的方式. 所以最后的解法也是类似的结构.</p>
+<p>这不禁让我想起之前好像在某个视频中看到的片段. 大意是说: 一个侦探在侦破案件时会让自己忘记一些常识性的东西. 因为这常常会误导自己而忽视重要线索. 或许解法也是如此. 经验同时也可能成为阻止你创新的障碍.  </p>
+<p>所以有时会有”砍掉重学”这种概念. 我应该想办法规避这种情况. 毕竟”不要让你已获得的东西成为你获取其他东西的障碍”是我坚持的理念.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/read/ExtendedAsm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -783,71 +856,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/other/funnyThings/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/31/other/funnyThings/" class="post-title-link" itemprop="url">other/funnyThings</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-31 19:41:05" itemprop="dateCreated datePublished" datetime="2020-03-31T19:41:05+08:00">2020-03-31</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>聊一下大概半年前的一次误操作导致的整个服务器数据丢失的问题. 单纯分享一下, 就当看戏.<br>(之所以现在才说, 是怕被逮个现行… 那就尴尬了…)  </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/31/other/funnyThings/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -918,7 +926,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">104</span>
+          <span class="site-state-item-count">105</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
