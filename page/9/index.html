@@ -191,6 +191,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/152MaximumProductSubarray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/152MaximumProductSubarray/" class="post-title-link" itemprop="url">leetcode/152MaximumProductSubarray</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="152-Maximum-Product-Subarray"><a href="#152-Maximum-Product-Subarray" class="headerlink" title="152 Maximum Product Subarray"></a>152 Maximum Product Subarray</h2><p><img src="https://imgur.com/soCfHk6.png" alt=""></p>
+<p>找到数组中最大的连续乘积</p>
+<h3 id="my-solution-8ms-100"><a href="#my-solution-8ms-100" class="headerlink" title="my solution (8ms, 100%)"></a>my solution (8ms, 100%)</h3><p>先将乘积以 0 为分界线分开, 这样得到的就是一段段最大的乘积(暂时无视正负)</p>
+<p>而如果得到的数是负数, 那么分为 4 种情况 </p>
+<ol>
+<li>从左到右, 找到第一个负数, 用当前乘积除以它</li>
+<li>从左到右, 找到第一个负数, 以该负数为界限, 获取左边的乘积</li>
+<li>从右到左, 找到第一个负数, 用当前乘积除以它</li>
+<li>从右到左,, 找到第一个负数, 以该负数为界限, 获取右边的乘积</li>
+</ol>
+<p>这四种情况最大者, 视为这一段的最大值, 而所有这些段再做比较, 就得到了整个数组连续乘积的最大值</p>
+<p>代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = [] () &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; ();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> ( !<span class="built_in">size</span> ) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> e = <span class="built_in">size</span>;</span><br><span class="line">        <span class="keyword">int</span> ret = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">while</span> (b &lt; e) &#123;</span><br><span class="line">            <span class="keyword">int</span> tb = b;</span><br><span class="line">            <span class="keyword">while</span> (b &lt; e &amp;&amp; nums[b] != <span class="number">0</span>) ++b;</span><br><span class="line">            <span class="keyword">if</span> (b - tb &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, nums[tb]);</span><br><span class="line">                <span class="keyword">if</span> (b &lt; e)</span><br><span class="line">                    ret = <span class="built_in">max</span>(ret, nums[b]);</span><br><span class="line">                b += <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> sum = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> tb2 = tb;</span><br><span class="line">            <span class="keyword">while</span> (tb2 &lt; b) sum *= nums[tb2++];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> sumneg1 = <span class="number">1</span>;</span><br><span class="line">                tb2 = tb;</span><br><span class="line">                <span class="keyword">while</span> (tb2 &lt; b) &#123; </span><br><span class="line">                    sumneg1 *= nums[tb2];</span><br><span class="line">                    <span class="keyword">if</span> (nums[tb2] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">                    ++tb2;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> sum1 = sumneg1 / nums[tb2] == <span class="number">1</span> ? sumneg1 : </span><br><span class="line">                    sumneg1 / nums[tb2];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> sumneg2 = <span class="number">1</span>;</span><br><span class="line">                tb2 = b - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">while</span> (tb2 &gt;= tb) &#123;</span><br><span class="line">                    sumneg2 *= nums[tb2];</span><br><span class="line">                    <span class="keyword">if</span> (nums[tb2] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">                    --tb2;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> sum2 = sumneg2 / nums[tb2] == <span class="number">1</span> ? sumneg2 : </span><br><span class="line">                    sumneg2 / nums[tb2];</span><br><span class="line"></span><br><span class="line">                sum /= <span class="built_in">max</span>(sumneg1, sumneg2);</span><br><span class="line">                sum = <span class="built_in">max</span>(sum, sum1);</span><br><span class="line">                sum = <span class="built_in">max</span>(sum, sum2);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ret = <span class="built_in">max</span>(ret, sum);</span><br><span class="line">            b += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>不太满意, 代码有点过长了…</p>
+<p><img src="https://imgur.com/KGRgySn.png" alt=""></p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> max_num[len] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> min_num[len] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">max</span> = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">min</span> = nums[<span class="number">0</span>];</span><br><span class="line">        max_num[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        min_num[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> tmp1 = max_num[i<span class="number">-1</span>] * nums[i];</span><br><span class="line">            <span class="keyword">int</span> tmp2 = min_num[i<span class="number">-1</span>] * nums[i];</span><br><span class="line">            <span class="keyword">int</span> cur_max_num = tmp1 &gt; tmp2 ? tmp1 : tmp2;</span><br><span class="line">            <span class="keyword">int</span> cur_min_num = tmp1 &lt; tmp2 ? tmp1 : tmp2;</span><br><span class="line">            max_num[i] = cur_max_num &gt;= nums[i] ? cur_max_num : nums[i];</span><br><span class="line">            min_num[i] = cur_min_num &lt;= nums[i] ? cur_min_num : nums[i];</span><br><span class="line">            <span class="built_in">max</span> = <span class="built_in">max</span> &gt; max_num[i] ? <span class="built_in">max</span> : max_num[i];</span><br><span class="line">            <span class="built_in">min</span> = <span class="built_in">min</span> &lt; min_num[i] ? <span class="built_in">min</span> : min_num[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>啊. 简洁的小东西</p>
+<p>不过, 我不是太懂这个代码的含义…  </p>
+<p>不过我觉得我的想法会好点, 虽然代码实现起来有点困难  </p>
+<p>但是它能一次性跳过很大一片区域, 对于连续整数很多的情况, 能够很快地计算出来  </p>
+<p>而这种的话会完完整整的遍历一次</p>
+<p>emmm. 是的, 我觉得我的想法会好一点 :)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/135Candy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -881,81 +961,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/31ZNextPermutation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/31ZNextPermutation/" class="post-title-link" itemprop="url">leetcode/31ZNextPermutation</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="31-Next-Permutation"><a href="#31-Next-Permutation" class="headerlink" title="31 Next Permutation"></a>31 Next Permutation</h3><p><img src="https://imgur.com/bSdV2cb.png" alt=""></p>
-<p>简单来说就是找下一个比当前数字更大的数, 如果没有, 就重新排序</p>
-<h3 id="my-code"><a href="#my-code" class="headerlink" title="my code"></a>my code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = nums.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="built_in">size</span> - <span class="number">1</span>; i &gt; <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt; nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">int</span> i2 = nums[i - <span class="number">1</span>];</span><br><span class="line">                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it = nums.<span class="built_in">end</span>();</span><br><span class="line">                <span class="keyword">while</span> ( ++i2 &lt; <span class="built_in">size</span> ) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ( ( it = <span class="built_in">find</span>(nums.<span class="built_in">begin</span>() + i + <span class="number">1</span>, nums.<span class="built_in">end</span>(), i2) ) != nums.<span class="built_in">end</span>() )</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> ( it != nums.<span class="built_in">end</span>() ) &#123;</span><br><span class="line">                    *it ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                    nums[i - <span class="number">1</span>] ^= *it;</span><br><span class="line">                    *it ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    nums[i] ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                    nums[i - <span class="number">1</span>] ^= nums[i];</span><br><span class="line">                    nums[i] ^= nums[i - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                sort(nums.<span class="built_in">begin</span>() + i, nums.<span class="built_in">end</span>());</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>思路很简单, 从右到左找到第一个”不和谐”的点B (该点数字比前面的数字A大)  </p>
-<p>然后拿A, 从这个不和谐的点B往右找下一个比A大的数, 交换  </p>
-<p>之后重排序B右边的数字(包括B)</p>
-<p><img src="https://imgur.com/rdDSHLJ.png" alt=""></p>
-<p>emmmm… 结果不太好呢… </p>
-<h3 id="dalao’s-code"><a href="#dalao’s-code" class="headerlink" title="dalao’s code"></a>dalao’s code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"><span class="comment">// 很 6 啊, 这里实际是一个值, 全局的 static 变量, 他的执行会在 main 之前 </span></span><br><span class="line"><span class="comment">// 会求值 lambda 表达式中的内容, 而值并不是主要的目的, 甚至不是目的  </span></span><br><span class="line"><span class="comment">// 他是想调用其中的加速流操作的函数, 所以lambda最后有个()运算符, 果然我是条咸鱼...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        next_permutation(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>()); <span class="comment">// emm. 这是标准库函数...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>里面有一些我看不懂的东西, 涉及到 c++ 的流</p>
-<pre><code>ios::sync_with_stdio(false);    // 是否兼容printf
-cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout 的 flushing</code></pre><p>网上查了一下, 加速流的输入输出…</p>
-<p><a href="http://www.hankcs.com/program/cpp/cin-tie-with-sync_with_stdio-acceleration-input-and-output.html" target="_blank" rel="noopener">http://www.hankcs.com/program/cpp/cin-tie-with-sync_with_stdio-acceleration-input-and-output.html</a></p>
-<p><a href="https://www.geeksforgeeks.org/fast-io-for-competitive-programming/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/fast-io-for-competitive-programming/</a></p>
-<p>dalao 就是 dalao… </p>
-<p>我是怎么在不知道这一对函数的情况下活到今天的<img src="http://img.baidu.com/hi/jx2/j_0012.gif" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1026,7 +1031,7 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-count">106</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

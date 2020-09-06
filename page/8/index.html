@@ -191,6 +191,155 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/pointAndRefrence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/other/pointAndRefrence/" class="post-title-link" itemprop="url">other/pointAndRefrence</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:12:51" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近看了&lt;现代操作系统&gt;, 从内存管理那一章中获得了一些东西: 分页和分段  </p>
+<p>其中分页的概念让我对内存的管理有了更加清晰的认知</p>
+<h3 id="什么是分页"><a href="#什么是分页" class="headerlink" title="什么是分页?"></a>什么是分页?</h3><p>就是将内存分为一个个小的页面(以4k为例). </p>
+<p>在将磁盘数据加载进内存时, 以页为单位, 而将内存中的数据换出到磁盘中时, 也以页为单位. </p>
+<p>对此, 一个具体的虚拟地址可以分为两部分:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">页号 + 地址</span><br></pre></td></tr></table></figure>
+
+<p>其中, 页号会被替换, 而地址会被保留:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">真实的地址 + 地址</span><br></pre></td></tr></table></figure>
+
+<p>真实的地址存放到进程虚拟地址映射表中  </p>
+<p>emmm… 也就是说, <strong>虚拟地址中, 有部分的地址是真实的</strong></p>
+<p>(如果我能知道那部分假的地址, 是否就有办法操作真实磁盘中的数据呢? 我突然有了不太好的想法 :) )</p>
+<h3 id="指针中是否会保留原始变量的地址"><a href="#指针中是否会保留原始变量的地址" class="headerlink" title="指针中是否会保留原始变量的地址?"></a>指针中是否会保留原始变量的地址?</h3><p>指针中存放了数据, 而这样的数据能够找到指针所指向的变量  </p>
+<p>那么, 这样的数据是什么呢? 最直接的, 那么应该是地址, 考虑以下程序:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="number">11</span>     <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="number">12</span>     <span class="keyword">int</span> *p = &amp;i;</span><br><span class="line"><span class="number">13</span>     <span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;i);</span><br><span class="line"><span class="number">14</span>     <span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;p);</span><br><span class="line"><span class="number">15</span>     <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, *((<span class="keyword">int</span> *)&amp;p));</span><br><span class="line"><span class="number">16</span> </span><br><span class="line"><span class="number">17</span>     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">18</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>15打印的是指针本身内存中所指向的东西, 将它与变量i的地址做以下对比, 会相同么?  以下是输出结果:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0x7fff12ca4efc</span><br><span class="line">0x7fff12ca4ef0</span><br><span class="line">315248380</span><br></pre></td></tr></table></figure>
+
+<p>i的地址是 0x7fff12ca4efc, 而p中保存的值(我将它解释为整数)是: 315248380  </p>
+<p>整型数字不怎么直观, 将它转为hex试试?  =&gt; 0x12ca4efc </p>
+<p>有没有觉得熟悉?  0x7fff12ca4efc —– 0x12ca4efc   </p>
+<p>除前面的 0x7fff, 后面的数字是一样的, 所以我们可以说指针保存了变量的地址, 但是并不准确  </p>
+<p>那么 0x7fff 就是那个页号么? 指针中只会存放真是地址? 好像不那么对…</p>
+<p>emmm… 好像可以继续尝试, 因为当前环境是32位的, 这个地址数字明显超出了32位的表现范围</p>
+<p>(我居然忽略了这一点 = =…)</p>
+<p>或许我能获得更多的数据? 在代码中加入了下面一行:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">16</span>     <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ((<span class="keyword">int</span> *)&amp;p)[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>得到了数据: 32767 =&gt; 0x7fff  </p>
+<p>所以指针中直接保存了变量的地址(我们之前并没有拿到完全的数据, 地址超过了int的大小)  </p>
+<p><strong>指针就是地址</strong></p>
+<p>emmm… 好像这个笔记不是那么有意义做了…</p>
+<p>我是不是太慢了? 这些东西应该是初学者就可以去钻研的内容</p>
+<p>(@btw: 为什么是[1] 而不是 [-1])</p>
+<h3 id="是否有办法知道哪些数据是与页号有关的"><a href="#是否有办法知道哪些数据是与页号有关的" class="headerlink" title="是否有办法知道哪些数据是与页号有关的?"></a>是否有办法知道哪些数据是与页号有关的?</h3><p>emmm… 那些东西与内核有关, 我现在没有办法获得</p>
+<h3 id="其他的耦合知识-volatile"><a href="#其他的耦合知识-volatile" class="headerlink" title="其他的耦合知识: volatile"></a>其他的耦合知识: volatile</h3><p>在书中我还读到了一个非常有趣的知识, 那就是进程表项有一个<strong>是否缓存标志位</strong></p>
+<p>这个标志位的意思是, 如果该位是1, 表示该页不被缓存  </p>
+<p>意思是什么呢? 如果要访问的数据是在该页中的, 那么访问时会去访问磁盘  </p>
+<p>而写入的时候, 也会直接往磁盘中写入, 因为内存中不缓存该页的数据</p>
+<p>仔细想想和什么东西有关? 嗯, c++的 volatile 关键字</p>
+<p>我打赌, volatile的实现一定与这东西有关(至少实现类似) 不过我现在的能力暂时无法证实</p>
+<p>同时还有一个疑问, volatile 修饰一个变量, 而一个页是4k的, 如何将这两个东西分开呢? </p>
+<h3 id="为什么是-1-而不是-1"><a href="#为什么是-1-而不是-1" class="headerlink" title="为什么是[1] 而不是 [-1]"></a>为什么是[1] 而不是 [-1]</h3><p>上面的例子中, 我继续访问数据, 使用的是 [1] 而不是 [-1]</p>
+<p>我一开始是用 [-1], 因为栈是往下增长的, 之后发现 [1] 是正确的, 为什么?</p>
+<p>的确实际上应该是 [1], 不然局部数组的访问就要乱套了 </p>
+<p>但是栈的确是向下增长的, 从 fc 和 f0 中可以看出来 </p>
+<p>那么底层到底对我的代码做了什么? 或许可以从汇编中得到答案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">12 main:</span><br><span class="line">13 .LFB1079:</span><br><span class="line">14     .cfi_startproc</span><br><span class="line">15     .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">16     pushq   %rbp</span><br><span class="line">17     .cfi_def_cfa_offset 16</span><br><span class="line">18     .cfi_offset 6, -16</span><br><span class="line">19     movq    %rsp, %rbp		&#x2F;&#x2F; 保存了栈底指针</span><br><span class="line">20     .cfi_def_cfa_register 6</span><br><span class="line">21     subq    $16, %rsp		&#x2F;&#x2F; 开拓栈帧, 16个字节</span><br><span class="line">22     movl    $1, -4(%rbp)		&#x2F;&#x2F; 嗯, 我们的数字1被放入内存了</span><br><span class="line">23     leaq    -4(%rbp), %rax	&#x2F;&#x2F; 将变量1的地址放入rax</span><br><span class="line">24     movq    %rax, -16(%rbp)	&#x2F;&#x2F; 将rax的值放入了栈... 栈顶?(因为这里是-16)</span><br><span class="line">25     leaq    -4(%rbp), %rax	&#x2F;&#x2F; 又将变量1的地址放入rax</span><br><span class="line">26     movq    %rax, %rsi		</span><br><span class="line">27     movl    $.LC0, %edi		&#x2F;&#x2F; .LC0:.string &quot;%p\n&quot;</span><br><span class="line">28     movl    $0, %eax			</span><br><span class="line">29     call    printf			&#x2F;&#x2F; rax存了变量1的地址, 这里应该对应: printf(&quot;%p\n&quot;, &amp;i);</span><br><span class="line">30     leaq    -16(%rbp), %rax	&#x2F;&#x2F; 将栈顶的地址放入了rax</span><br><span class="line">31     movq    %rax, %rsi		</span><br><span class="line">32     movl    $.LC0, %edi</span><br><span class="line">33     movl    $0, %eax</span><br><span class="line">34     call    printf			&#x2F;&#x2F; 现在rax是栈顶, 所以对应这一句: printf(&quot;%p\n&quot;, &amp;p);</span><br><span class="line">35     leaq    -16(%rbp), %rax	&#x2F;&#x2F; 把p的地址放入rax</span><br><span class="line">36     movl    (%rax), %eax		&#x2F;&#x2F; 又移动到eax</span><br><span class="line">37     movl    %eax, %esi		&#x2F;&#x2F; 还移动 &#x3D; &#x3D;</span><br><span class="line">38     movl    $.LC1, %edi		&#x2F;&#x2F; .LC1:.string &quot;%d\n&quot;</span><br><span class="line">39     movl    $0, %eax</span><br><span class="line">40     call    printf			&#x2F;&#x2F; 对应: printf(&quot;%d\n&quot;, ((int *)&amp;p)[0]);</span><br><span class="line">41     leaq    -16(%rbp), %rax	</span><br><span class="line">42     addq    $4, %rax			&#x2F;&#x2F; *将rax+4, 也就是往栈顶移动的</span><br><span class="line">43     movl    (%rax), %eax</span><br><span class="line">44     movl    %eax, %esi</span><br><span class="line">45     movl    $.LC1, %edi</span><br><span class="line">46     movl    $0, %eax</span><br><span class="line">47     call    printf			&#x2F;&#x2F; 对应: printf(&quot;%d\n&quot;, ((int *)&amp;p)[1]);</span><br><span class="line">48     movl    $0, %eax</span><br><span class="line">49     leave</span><br><span class="line">50     .cfi_def_cfa 7, 8</span><br><span class="line">51     ret</span><br><span class="line">52     .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>那么了解了, 虽然栈是往下移动的, 分配栈帧时也是往下移动的  </p>
+<p>但是 [1] 这种位移时, 是往上移动的, 也就是往高地址移动的</p>
+<p>因为变量本身的地址开始是在栈的低地址, 是往上移动的  </p>
+<p>没有问题, 是正常的 :)</p>
+<p>但是我又发现一个问题, 这里指针所占用的空间为8字节!</p>
+<p>不过又想了一下, 这好像也正常的, 毕竟64位嘛…</p>
+<h3 id="引用呢-引用又是什么样子的呢"><a href="#引用呢-引用又是什么样子的呢" class="headerlink" title="引用呢? 引用又是什么样子的呢?"></a>引用呢? 引用又是什么样子的呢?</h3><p>时隔几天, 突然想到了这个东西, 引用又是什么样子的呢? 它和指针实质的区别?</p>
+<p>参考以下代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;i2 = i;</span><br><span class="line"><span class="keyword">int</span> *pi = &amp;i;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;i);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;i2);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;pi);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i2);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, *pi);</span><br></pre></td></tr></table></figure>
+
+<p>emmm… 这很简单, 分别打印地址和值</p>
+<p>我们来看看汇编:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1084:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    subq    $32, %rsp			&#x2F;&#x2F; 32字节的栈帧</span><br><span class="line">    movl    $100, -12(%rbp)		&#x2F;&#x2F; i</span><br><span class="line">    leaq    -12(%rbp), %rax		&#x2F;&#x2F; i 的地址放入了rax</span><br><span class="line">    movq    %rax, -8(%rbp)		&#x2F;&#x2F; 直接将 rax 的值放入了 i2, 也就是说, 引用也保存了变量的地址</span><br><span class="line">    leaq    -12(%rbp), %rax		&#x2F;&#x2F; 这是一个完全可以优化掉的操作</span><br><span class="line">    movq    %rax, -24(%rbp)		&#x2F;&#x2F; pi </span><br><span class="line">    leaq    -12(%rbp), %rax		&#x2F;&#x2F; 你家 rax 都没变过, 你怎么还来 (눈_눈)</span><br><span class="line">    movq    %rax, %rsi</span><br><span class="line">    movl    $.LC0, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf				&#x2F;&#x2F; &amp;i</span><br><span class="line">    movq    -8(%rbp), %rax		&#x2F;&#x2F; 这里直接将栈中的值放进入了</span><br><span class="line">    movq    %rax, %rsi</span><br><span class="line">    movl    $.LC0, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf				&#x2F;&#x2F; &amp;i2</span><br><span class="line">    leaq    -24(%rbp), %rax		&#x2F;&#x2F; 注意, 这是 lea</span><br><span class="line">    movq    %rax, %rsi</span><br><span class="line">    movl    $.LC0, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf				&#x2F;&#x2F; &amp;pi</span><br><span class="line">    movl    -12(%rbp), %eax</span><br><span class="line">    movl    %eax, %esi</span><br><span class="line">    movl    $.LC1, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf				&#x2F;&#x2F; i</span><br><span class="line">    movq    -8(%rbp), %rax		&#x2F;&#x2F; 直接将地址放入 rax</span><br><span class="line">    movl    (%rax), %eax		&#x2F;&#x2F; 将这个地址中的值放入了(即 i 的地址) eax</span><br><span class="line">    movl    %eax, %esi</span><br><span class="line">    movl    $.LC1, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf				&#x2F;&#x2F; i2</span><br><span class="line">    movq    -24(%rbp), %rax</span><br><span class="line">    movl    (%rax), %eax</span><br><span class="line">    movl    %eax, %esi</span><br><span class="line">    movl    $.LC1, %edi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    call    printf				&#x2F;&#x2F; pi</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    leave</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>引用和指针并无关键性的区别, 引用也会占用内存(废话 (눈_눈), 不过我记得培训时有个沙雕老师说不占)</p>
+<p>当使用引用的值时, 它是像指针一样使用</p>
+<p>而当对引用取地址时, 它是直接拿存储的数据, 而并非用存储的数据去寻址</p>
+<p>(这应当是编译器的规定, 它这么编译了引用)</p>
+<p>唯一不同是, 引用占了8字节, 这很合理, 但是为什么指针是12字节</p>
+<p>(这是一个我在之前忽视了的点, 我曾看过那4字节中是什么, 结果是 0 </p>
+<p>(用指针的时候, 也用的是 movq, 这意味着只使用了 64 位, 即 8 字节, 为什么中空了 4 字节?)</p>
+<p>或许我可以再试试赋值的时候, 引用和指针的不同之处</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i2 = <span class="number">100</span>;</span><br><span class="line">*pi = <span class="number">111</span>;</span><br></pre></td></tr></table></figure>
+
+<p>汇编:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main:</span><br><span class="line">.LFB1078:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    .cfi_personality 0x3,__gxx_personality_v0</span><br><span class="line">    pushq   %rbp			&#x2F;&#x2F; 通过压栈的方式保存bp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp		&#x2F;&#x2F; 它没有显示说明栈帧有多大, 让我有点不习惯 ∑(￣□￣;)</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    movl    $2147483647, -20(%rbp)</span><br><span class="line">    leaq    -20(%rbp), %rax</span><br><span class="line">    movq    %rax, -16(%rbp)</span><br><span class="line">    leaq    -20(%rbp), %rax</span><br><span class="line">    movq    %rax, -8(%rbp)</span><br><span class="line">    movq    -16(%rbp), %rax</span><br><span class="line">    movl    $100, (%rax)	&#x2F;&#x2F; 它是用寄存器寻址的方式来赋值的</span><br><span class="line">    movq    -8(%rbp), %rax</span><br><span class="line">    movl    $111, (%rax)</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    leave</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure>
+
+<p>也就是说, 赋值是一样的, 嗯, 完全一样 </p>
+<h3 id="指针和引用的安全性"><a href="#指针和引用的安全性" class="headerlink" title="指针和引用的安全性"></a>指针和引用的安全性</h3><p>还记得为什么引用比指针安全么? 因为对于引用是像值一样去使用它, 它仅仅是别名  </p>
+<p>(其实不是别名, 如你所见, 有些时候访问引用其实还是访问的是引用所占的内存)  </p>
+<p>它不会出现意外的 delete, 因为管理了它本身数据的访问, 也不会出现一些指针原有的错误(空指针,  野指针…)  </p>
+<p>我更倾向于: <strong>引用是一个加了顶层const的非空, 不可用于delete的指针</strong></p>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><p>引用和指针的本质都是地址</p>
+<h3 id="题外话-尝试篡改引用指向的对象"><a href="#题外话-尝试篡改引用指向的对象" class="headerlink" title="题外话: 尝试篡改引用指向的对象"></a>题外话: 尝试篡改引用指向的对象</h3><p>等等, 引用的内存也是在栈中的, 虽然 c++ 不让我用光明正大的方式修改它</p>
+<p>但是, 既然是在栈中的数据, 那么, 我应该是可以改的, 那么就来试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int i &#x3D; 100;</span><br><span class="line">int i2 &#x3D; 200;</span><br><span class="line">int &amp;ref_i &#x3D; i;</span><br><span class="line"></span><br><span class="line">long long *desc &#x3D; (long long *)(&amp;i) + 1;&#x2F;&#x2F; 经过计算, i 的地址往上 8 个字节就是引用对象的内存</span><br><span class="line">char arr[64];	</span><br><span class="line">sprintf(arr, &quot;%ld&quot;, &amp;i2);	&#x2F;&#x2F; 将 &amp;i2 解释为ld类型数据, 放入数组中</span><br><span class="line">string s(arr);				&#x2F;&#x2F; 构建string对象, 主要是为了能使用 stoll (눈_눈)</span><br><span class="line"></span><br><span class="line">printf(&quot;%d\n&quot;, ref_i);		&#x2F;&#x2F; 100</span><br><span class="line">*desc &#x3D; stoll(s);			&#x2F;&#x2F; 现在, 它里面存储的数据是 i2 的地址了</span><br><span class="line">printf(&quot;%d\n&quot;, ref_i);		&#x2F;&#x2F; 200  成功了, 它指向了 i2  (￣ˇ￣)</span><br><span class="line">i2 &#x3D; 300;</span><br><span class="line">printf(&quot;%d\n&quot;, ref_i);		&#x2F;&#x2F; 300 再次验证, 没错, 我们更改了引用指向的对象</span><br></pre></td></tr></table></figure>
+
+<p>汇编就不用看了, 因为这个程序就是根据自己脑补汇编中的样子来编写的</p>
+<p>同理, 常量, 常量指针, 这些东西只要绕过编译器设的障碍就可以修改 (突然感受到了指针的魅力)</p>
+<p>注: 经测试, 代码在 4.4 版本下的编译器可以, 而 4.8 版本的就不行</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/sed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1122,86 +1271,6 @@ public:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/152MaximumProductSubarray/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/152MaximumProductSubarray/" class="post-title-link" itemprop="url">leetcode/152MaximumProductSubarray</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="152-Maximum-Product-Subarray"><a href="#152-Maximum-Product-Subarray" class="headerlink" title="152 Maximum Product Subarray"></a>152 Maximum Product Subarray</h2><p><img src="https://imgur.com/soCfHk6.png" alt=""></p>
-<p>找到数组中最大的连续乘积</p>
-<h3 id="my-solution-8ms-100"><a href="#my-solution-8ms-100" class="headerlink" title="my solution (8ms, 100%)"></a>my solution (8ms, 100%)</h3><p>先将乘积以 0 为分界线分开, 这样得到的就是一段段最大的乘积(暂时无视正负)</p>
-<p>而如果得到的数是负数, 那么分为 4 种情况 </p>
-<ol>
-<li>从左到右, 找到第一个负数, 用当前乘积除以它</li>
-<li>从左到右, 找到第一个负数, 以该负数为界限, 获取左边的乘积</li>
-<li>从右到左, 找到第一个负数, 用当前乘积除以它</li>
-<li>从右到左,, 找到第一个负数, 以该负数为界限, 获取右边的乘积</li>
-</ol>
-<p>这四种情况最大者, 视为这一段的最大值, 而所有这些段再做比较, 就得到了整个数组连续乘积的最大值</p>
-<p>代码如下:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = [] () &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; ();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> ( !<span class="built_in">size</span> ) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> e = <span class="built_in">size</span>;</span><br><span class="line">        <span class="keyword">int</span> ret = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">while</span> (b &lt; e) &#123;</span><br><span class="line">            <span class="keyword">int</span> tb = b;</span><br><span class="line">            <span class="keyword">while</span> (b &lt; e &amp;&amp; nums[b] != <span class="number">0</span>) ++b;</span><br><span class="line">            <span class="keyword">if</span> (b - tb &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, nums[tb]);</span><br><span class="line">                <span class="keyword">if</span> (b &lt; e)</span><br><span class="line">                    ret = <span class="built_in">max</span>(ret, nums[b]);</span><br><span class="line">                b += <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> sum = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> tb2 = tb;</span><br><span class="line">            <span class="keyword">while</span> (tb2 &lt; b) sum *= nums[tb2++];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> sumneg1 = <span class="number">1</span>;</span><br><span class="line">                tb2 = tb;</span><br><span class="line">                <span class="keyword">while</span> (tb2 &lt; b) &#123; </span><br><span class="line">                    sumneg1 *= nums[tb2];</span><br><span class="line">                    <span class="keyword">if</span> (nums[tb2] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">                    ++tb2;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> sum1 = sumneg1 / nums[tb2] == <span class="number">1</span> ? sumneg1 : </span><br><span class="line">                    sumneg1 / nums[tb2];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> sumneg2 = <span class="number">1</span>;</span><br><span class="line">                tb2 = b - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">while</span> (tb2 &gt;= tb) &#123;</span><br><span class="line">                    sumneg2 *= nums[tb2];</span><br><span class="line">                    <span class="keyword">if</span> (nums[tb2] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">                    --tb2;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> sum2 = sumneg2 / nums[tb2] == <span class="number">1</span> ? sumneg2 : </span><br><span class="line">                    sumneg2 / nums[tb2];</span><br><span class="line"></span><br><span class="line">                sum /= <span class="built_in">max</span>(sumneg1, sumneg2);</span><br><span class="line">                sum = <span class="built_in">max</span>(sum, sum1);</span><br><span class="line">                sum = <span class="built_in">max</span>(sum, sum2);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ret = <span class="built_in">max</span>(ret, sum);</span><br><span class="line">            b += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>不太满意, 代码有点过长了…</p>
-<p><img src="https://imgur.com/KGRgySn.png" alt=""></p>
-<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> max_num[len] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> min_num[len] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">max</span> = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">min</span> = nums[<span class="number">0</span>];</span><br><span class="line">        max_num[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        min_num[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> tmp1 = max_num[i<span class="number">-1</span>] * nums[i];</span><br><span class="line">            <span class="keyword">int</span> tmp2 = min_num[i<span class="number">-1</span>] * nums[i];</span><br><span class="line">            <span class="keyword">int</span> cur_max_num = tmp1 &gt; tmp2 ? tmp1 : tmp2;</span><br><span class="line">            <span class="keyword">int</span> cur_min_num = tmp1 &lt; tmp2 ? tmp1 : tmp2;</span><br><span class="line">            max_num[i] = cur_max_num &gt;= nums[i] ? cur_max_num : nums[i];</span><br><span class="line">            min_num[i] = cur_min_num &lt;= nums[i] ? cur_min_num : nums[i];</span><br><span class="line">            <span class="built_in">max</span> = <span class="built_in">max</span> &gt; max_num[i] ? <span class="built_in">max</span> : max_num[i];</span><br><span class="line">            <span class="built_in">min</span> = <span class="built_in">min</span> &lt; min_num[i] ? <span class="built_in">min</span> : min_num[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>啊. 简洁的小东西</p>
-<p>不过, 我不是太懂这个代码的含义…  </p>
-<p>不过我觉得我的想法会好点, 虽然代码实现起来有点困难  </p>
-<p>但是它能一次性跳过很大一片区域, 对于连续整数很多的情况, 能够很快地计算出来  </p>
-<p>而这种的话会完完整整的遍历一次</p>
-<p>emmm. 是的, 我觉得我的想法会好一点 :)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1272,7 +1341,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-count">106</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

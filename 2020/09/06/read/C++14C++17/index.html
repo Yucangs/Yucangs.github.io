@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="C++14~C++17之前我总结过 C++14 的一些东西, 但现在已经 2020 了啊 &#x3D; &#x3D;   所以就想着… emm… 虽然项目还是在用 C11 的东西, 连 C14 都没有. 但是! 需求不会留给你学习的时间的!(即使有, 但那对我不成立!) 所以就再看看 C17 的吧(虽然 C20 已经有了, 不过离实现和稳定还有一段时间, 有其他更优先的事情) 顺便对 C14 回顾一下 :happy:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;C++14C++17">
+<meta property="og:url" content="http://yoursite.com/2020/09/06/read/C++14C++17/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="C++14~C++17之前我总结过 C++14 的一些东西, 但现在已经 2020 了啊 &#x3D; &#x3D;   所以就想着… emm… 虽然项目还是在用 C11 的东西, 连 C14 都没有. 但是! 需求不会留给你学习的时间的!(即使有, 但那对我不成立!) 所以就再看看 C17 的吧(虽然 C20 已经有了, 不过离实现和稳定还有一段时间, 有其他更优先的事情) 顺便对 C14 回顾一下 :happy:">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/I8rIaxO.png.png">
+<meta property="og:image" content="https://imgur.com/RDJnIh1.png">
+<meta property="og:image" content="https://imgur.com/2am9hm6.png">
+<meta property="article:published_time" content="2020-09-06T14:36:34.373Z">
+<meta property="article:modified_time" content="2020-09-06T14:36:34.373Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/I8rIaxO.png.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/06/read/C++14C++17/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/C++14C++17 | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/06/read/C++14C++17/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/C++14C++17
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-06 22:36:34" itemprop="dateCreated datePublished" datetime="2020-09-06T22:36:34+08:00">2020-09-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="C-14-C-17"><a href="#C-14-C-17" class="headerlink" title="C++14~C++17"></a>C++14~C++17</h1><p>之前我总结过 C++14 的一些东西, 但现在已经 2020 了啊 = =  </p>
+<p>所以就想着… emm… 虽然项目还是在用 C11 的东西, 连 C14 都没有. 但是! 需求不会留给你学习的时间的!(即使有, 但那对我不成立!) 所以就再看看 C17 的吧(虽然 C20 已经有了, 不过离实现和稳定还有一段时间, 有其他更优先的事情) 顺便对 C14 回顾一下 :happy:</p>
+<p>(PS: 这次在下选择了 cppreference 作为参考)</p>
+<a id="more"></a>
+
+
+
+<h2 id="C-14"><a href="#C-14" class="headerlink" title="C++14"></a>C++14</h2><p><a href="https://en.cppreference.com/w/cpp/14" target="_blank" rel="noopener">原始链接</a></p>
+<h3 id="varaible-template"><a href="#varaible-template" class="headerlink" title="varaible template"></a>varaible template</h3><p>这是一个让我感觉很迷的特性… 简单来说, 就是变量也可以像类和函数那样拥有模板, 例如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// declaration</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">T n = T&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use</span></span><br><span class="line"><span class="keyword">int</span> i = n&lt;<span class="keyword">int</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>查阅过一些信息, 比如<a href="https://stackoverflow.com/questions/21051141/c14-variable-templates-what-is-their-purpose-any-usage-example" target="_blank" rel="noopener">在什么地方可以使用他</a>. </p>
+<p>一些测试代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    n&lt;<span class="keyword">int</span>&gt; = <span class="number">12</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 看起来怪怪的...</span></span><br><span class="line">    n&lt;<span class="keyword">int</span>&gt; = <span class="number">10</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; n&lt;<span class="keyword">char</span>&gt; &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; n&lt;<span class="keyword">int</span>&gt; &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        n&lt;<span class="keyword">int</span>&gt; = <span class="number">11</span>;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; n&lt;<span class="keyword">int</span>&gt; &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; n&lt;<span class="keyword">int</span>&gt; &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">// @warning 变量模板的更改具有全局可见性</span></span><br><span class="line">    f();</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; n&lt;<span class="keyword">int</span>&gt; &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line"><span class="comment">// A</span></span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="comment">// 11</span></span><br><span class="line"><span class="comment">// 11</span></span><br><span class="line"><span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+
+<p>我感觉可能离它远一点会比较好</p>
+<p><img src="https://imgur.com/I8rIaxO.png.png" alt=""></p>
+<p>测试结果来看. 它的原理类似于一个全局变量…(怎么感觉我在说废话 = =).</p>
+<h3 id="generic-lambda"><a href="#generic-lambda" class="headerlink" title="generic lambda"></a>generic lambda</h3><p>cppreference 是这么定义 lambda 的:</p>
+<p>Constructs a <a href="https://en.wikipedia.org/wiki/Closure_(computer_science)" target="_blank" rel="noopener">closure</a>: an unnamed function object capable of capturing variables in scope.</p>
+<p>可以捕获作用域中变量的未命名函数对象.</p>
+<p>关于 closure 的定义: </p>
+<p>In <a href="https://en.wikipedia.org/wiki/Programming_language" target="_blank" rel="noopener">programming languages</a>, a <strong>closure</strong>, also <strong>lexical closure</strong> or <strong>function closure</strong>, is a technique for implementing <a href="https://en.wikipedia.org/wiki/Lexically_scoped" target="_blank" rel="noopener">lexically scoped</a> <a href="https://en.wikipedia.org/wiki/Name_binding" target="_blank" rel="noopener">name binding</a> in a language with <a href="https://en.wikipedia.org/wiki/First-class_function" target="_blank" rel="noopener">first-class functions</a>. <a href="https://en.wikipedia.org/wiki/Operational_semantics" target="_blank" rel="noopener">Operationally</a>, a closure is a <a href="https://en.wikipedia.org/wiki/Record_(computer_science)" target="_blank" rel="noopener">record</a> storing a <a href="https://en.wikipedia.org/wiki/Function_(computer_science)" target="_blank" rel="noopener">function</a><a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)#cite_note-1" target="_blank" rel="noopener">[a]</a> together with an environment.<a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)#cite_note-2" target="_blank" rel="noopener">[1]</a> The environment is a mapping associating each <a href="https://en.wikipedia.org/wiki/Free_variable" target="_blank" rel="noopener">free variable</a> of the function (variables that are used locally, but defined in an enclosing scope) with the <a href="https://en.wikipedia.org/wiki/Value_(computer_science)" target="_blank" rel="noopener">value</a> or <a href="https://en.wikipedia.org/wiki/Reference_(computer_science)" target="_blank" rel="noopener">reference</a> to which the name was bound when the closure was created.<a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)#cite_note-3" target="_blank" rel="noopener">[b]</a> Unlike a plain function, a closure allows the function to access those <em>captured variables</em> through the closure’s copies of their values or references, even when the function is invoked outside their scope.</p>
+<p>一种具有第一类函数的实现词法作用域的名称绑定技术. 实现上, 闭合是一个将函数保存与环境一同保存的记录.</p>
+<p>环境是一个当闭合被创建时将每个函数的自由变量(局部使用, 在封闭环境中定义)与被绑的名称的值/引用关联的映射.</p>
+<p>与普通函数不同的是, 闭合允许函数通过闭合拷贝值/引用方位被捕获的变量. 即使当函数在它们(原来被捕获的变量)作用域外调用.</p>
+<p>PS: 概念上来说, 和成员函数极其相似, 其具体实现也和类基本无二.</p>
+<p>哦, 差点忘了, C14 说的是 generic lambda, 而非 lambda.</p>
+<p>简单来说, 就是一个形似 auto. 实际实现为模板的 lambda.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// generic lambda, operator() is a template with two parameters</span></span><br><span class="line"><span class="keyword">auto</span> glambda = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span>&amp;&amp; b) &#123; <span class="keyword">return</span> a &lt; b; &#125;;</span><br><span class="line"><span class="keyword">bool</span> b = glambda(<span class="number">3</span>, <span class="number">3.14</span>); <span class="comment">// ok</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// generic lambda, operator() is a template with one parameter</span></span><br><span class="line"><span class="keyword">auto</span> vglambda = [](<span class="keyword">auto</span> printer) &#123;</span><br><span class="line">    <span class="keyword">return</span> [=](<span class="keyword">auto</span>&amp;&amp;... ts) <span class="comment">// generic lambda, ts is a parameter pack</span></span><br><span class="line">    &#123; </span><br><span class="line">        printer(<span class="built_in">std</span>::forward&lt;<span class="keyword">decltype</span>(ts)&gt;(ts)...);</span><br><span class="line">        <span class="keyword">return</span> [=] &#123; printer(ts...); &#125;; <span class="comment">// nullary lambda (takes no parameters)</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">auto</span> p = vglambda([](<span class="keyword">auto</span> v1, <span class="keyword">auto</span> v2, <span class="keyword">auto</span> v3) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; v1 &lt;&lt; v2 &lt;&lt; v3; &#125;);</span><br><span class="line"><span class="keyword">auto</span> q = p(<span class="number">1</span>, <span class="string">'a'</span>, <span class="number">3.14</span>); <span class="comment">// outputs 1a3.14</span></span><br><span class="line">q();                      <span class="comment">// outputs 1a3.14</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="lambda-init-capture"><a href="#lambda-init-capture" class="headerlink" title="lambda init-capture"></a>lambda init-capture</h3><p>就是一个在捕获域里面可以初始化变量(变量自动 auto, 很让人不舒服的是, 我无法自行指定变量类型)的特性.</p>
+<p><a href="https://stackoverflow.com/questions/25408190/lambda-captures-c14" target="_blank" rel="noopener">参考代码</a></p>
+<h3 id="relaxed-restriction-of-constexpr"><a href="#relaxed-restriction-of-constexpr" class="headerlink" title="relaxed restriction of constexpr"></a>relaxed restriction of constexpr</h3><p>C14 扩展了 constexpr. 只要是基本能想到的, 编译器应该在编译期能做到的事情. 在 constexpr 里面都可以做.</p>
+<p>比如简单的 if, switch… <a href="https://en.cppreference.com/w/cpp/language/constexpr" target="_blank" rel="noopener">参考</a></p>
+<h3 id="binary-literals"><a href="#binary-literals" class="headerlink" title="binary literals"></a>binary literals</h3><p>直译过来就是二进制字面量. 可以<a href="https://en.cppreference.com/w/cpp/language/integer_literal" target="_blank" rel="noopener">参考</a></p>
+<p>这让我很迷惑. 感觉就是 C11 的东西…</p>
+<h3 id="digit-separators"><a href="#digit-separators" class="headerlink" title="digit separators"></a>digit separators</h3><p>这个挺好的, 属于代码规范的一种</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> l1 = <span class="number">18446744073709550592u</span>ll; <span class="comment">// C++11</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> l2 = <span class="number">18'446'744'073'709'550'592l</span>lu; <span class="comment">// C++14</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> l3 = <span class="number">1844'6744'0737'0955'0592u</span>LL; <span class="comment">// C++14</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> l4 = <span class="number">184467'440737'0'95505'92L</span>LU; <span class="comment">// C++14</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="return-type-deducation-for-function"><a href="#return-type-deducation-for-function" class="headerlink" title="return type deducation for function"></a>return type deducation for function</h3><p>函数返回类型推导</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">decltype f() -&gt;auto &#123;</span><br><span class="line">	<span class="keyword">return</span> ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 没记错的话大概是这个么结构(但应该是记错了, 不过没关系, 知道新的就好了)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 新的方式明显简单直观. 没有那么八股文了</span></span><br><span class="line"><span class="keyword">auto</span> f() &#123;</span><br><span class="line">	<span class="keyword">return</span> ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="aggregate-class-with-default-non-static-member-initializers"><a href="#aggregate-class-with-default-non-static-member-initializers" class="headerlink" title="aggregate class with default non-static member initializers"></a>aggregate class with default non-static member initializers</h3><p>就是一个对于纯成员变量, 无构造函数的构造优化. 具体<a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization" target="_blank" rel="noopener">参考</a></p>
+<h2 id="C-17"><a href="#C-17" class="headerlink" title="C++17"></a>C++17</h2><h3 id="fold-expression"><a href="#fold-expression" class="headerlink" title="fold expression"></a>fold expression</h3><p>用于变长模板的特性, 记住, 然后活用就好了. <a href="https://en.cppreference.com/w/cpp/language/fold" target="_blank" rel="noopener">规则</a></p>
+<h3 id="class-template-arugument-deduction"><a href="#class-template-arugument-deduction" class="headerlink" title="class template arugument deduction"></a>class template arugument deduction</h3><p>类模板参数的推导. 可以更方便了.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v&#123;<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// C++14</span></span><br><span class="line"><span class="built_in">vector</span> v&#123;<span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="non-type-template-parameters-declared-with-autp"><a href="#non-type-template-parameters-declared-with-autp" class="headerlink" title="non-type template parameters declared with autp"></a>non-type template parameters declared with autp</h3><p>在模板中使用 auto 替代 typename. 既可以推导其类型, 又可以获取其值.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T v&gt;</span><br><span class="line">T v2 = v;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">auto</span> v&gt;</span><br><span class="line"><span class="keyword">auto</span> v2 = v;</span><br></pre></td></tr></table></figure>
+
+<p>两者是等价的. 还有一些其他<a href="https://stackoverflow.com/questions/38026884/advantages-of-auto-in-template-parameters-in-c17" target="_blank" rel="noopener">用途</a></p>
+<h3 id="compile-timr-if-constexpr"><a href="#compile-timr-if-constexpr" class="headerlink" title="compile timr if constexpr"></a>compile timr if constexpr</h3><p>一种 if 的编译时版本.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(cond1)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">constexpr</span> () &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以查看 <a href="https://www.codingame.com/playgrounds/2205/7-features-of-c17-that-will-simplify-your-code/constexpr-if" target="_blank" rel="noopener">参考</a></p>
+<h3 id="inline-variables"><a href="#inline-variables" class="headerlink" title="inline variables"></a>inline variables</h3><p>内联变量.这个关键字声明的变量具有可以被多次包含的特性. 但同时也有一些规则. 最典型的应该是类静态成员的声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class A &#123;</span><br><span class="line">	static int i;</span><br><span class="line">&#125;;</span><br><span class="line">int A::i &#x3D; 10;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; C++17</span><br><span class="line">class A &#123;</span><br><span class="line">	inline static int i &#x3D; 10;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>详细可以 <a href="https://www.codingame.com/playgrounds/2205/7-features-of-c17-that-will-simplify-your-code/inline-variables" target="_blank" rel="noopener">参考1</a>. <a href="https://en.cppreference.com/w/cpp/language/inline" target="_blank" rel="noopener">参考2</a></p>
+<h3 id="structured-binding"><a href="#structured-binding" class="headerlink" title="structured binding"></a>structured binding</h3><p>一种绑定结构化数据的手段. <a href="https://en.cppreference.com/w/cpp/language/structured_binding" target="_blank" rel="noopener">参考</a> </p>
+<h3 id="initializers-of-if-and-switch"><a href="#initializers-of-if-and-switch" class="headerlink" title="initializers of if and switch"></a>initializers of if and switch</h3><p>If 和 switch 可以有初始化区域了, 就如同 for 一样(while: ?? 那我呢?) <a href="https://www.tutorialspoint.com/cplusplus17-if-statement-with-initializer#:~:text=C%2B%2B17%20has%20extended,helps%20users%20keep%20scopes%20tight." target="_blank" rel="noopener">参考</a></p>
+<h3 id="u8-character-literal"><a href="#u8-character-literal" class="headerlink" title="u8 character literal"></a>u8 character literal</h3><p>u8 字面量. <a href="https://en.cppreference.com/w/cpp/language/character_literal" target="_blank" rel="noopener">参考</a> 感觉很没用, 程序代码就不该出现 unicode! (注释除外)</p>
+<h3 id="simplifield-netesd-namaspace"><a href="#simplifield-netesd-namaspace" class="headerlink" title="simplifield netesd namaspace"></a>simplifield netesd namaspace</h3><p>简化的嵌套作用域声明. 算是代码可读性的一种.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> A&#123;</span><br><span class="line">	<span class="keyword">namespace</span> B&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// C++17</span></span><br><span class="line"><span class="keyword">namespace</span> A::B &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="unsing-declaration-declaring-mutiple-names"><a href="#unsing-declaration-declaring-mutiple-names" class="headerlink" title="unsing declaration declaring mutiple names"></a>unsing declaration declaring mutiple names</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> A::g, A::g; <span class="comment">// (C++17) OK: double declaration allowed at namespace scope</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="new-order-of-evalution-rules"><a href="#new-order-of-evalution-rules" class="headerlink" title="new order of evalution rules"></a>new order of evalution rules</h3><p>一个有趣的<a href="https://en.cppreference.com/w/cpp/language/eval_order" target="_blank" rel="noopener">东西</a> 但我始终认为这类迷惑应该是需要避免的.</p>
+<h3 id="guaranteed-copy-elision"><a href="#guaranteed-copy-elision" class="headerlink" title="guaranteed copy elision"></a>guaranteed copy elision</h3><p>一种避免拷贝构造的特性. <a href="https://en.cppreference.com/w/cpp/language/copy_elision" target="_blank" rel="noopener">参考</a></p>
+<p><img src="https://imgur.com/RDJnIh1.png" alt=""></p>
+<p>这个看起来是编译器做的优化. f() 本来是个无参函数. 但是在调用 f() 是却传了一个外部的地址(v的地址)过去</p>
+<p>而其在使用的时候, 也做了相应调整.</p>
+<p><img src="https://imgur.com/2am9hm6.png" alt=""></p>
+<h3 id="lambda-capture-of-this"><a href="#lambda-capture-of-this" class="headerlink" title="lambda capture of *this"></a>lambda capture of *this</h3><p><a href="https://en.cppreference.com/w/cpp/language/lambda#Lambda_capture" target="_blank" rel="noopener">参考</a></p>
+<p>可以捕获外部 this 的lambda. (感觉这群人对 lambda 很上心啊… 连续好几个强化了)</p>
+<h3 id="constexpr-lambda"><a href="#constexpr-lambda" class="headerlink" title="constexpr lambda"></a>constexpr lambda</h3><p>… <a href="https://en.cppreference.com/w/cpp/language/lambda" target="_blank" rel="noopener">参考</a></p>
+<p>实现了 constexpr 的lambda… </p>
+<h3 id="has-include"><a href="#has-include" class="headerlink" title="has include"></a>has include</h3><p><a href="https://en.cppreference.com/w/cpp/preprocessor/include" target="_blank" rel="noopener">参考</a></p>
+<p>可以通过函数(大概率其实是一种告知编译器的宏) 这也是 C++ 一向的态度了. 换成其他语言, 根本不会将这种编译时相关信息抛给用户. 这是 C++ 的优势, 也是它复杂的根源之一.</p>
+<h3 id="atttribute-namespace-don’t-have-to-repeat"><a href="#atttribute-namespace-don’t-have-to-repeat" class="headerlink" title="atttribute namespace don’t have to repeat"></a>atttribute namespace don’t have to repeat</h3><p>刚说完又来了. <a href="https://en.cppreference.com/w/cpp/language/attributes" target="_blank" rel="noopener">参考</a></p>
+<p>引入具体实现的相关特性.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/02/leetcode/PartitionArrayintoDisjointintervals/" rel="prev" title="leetcode/PartitionArrayintoDisjointintervals">
+      <i class="fa fa-chevron-left"></i> leetcode/PartitionArrayintoDisjointintervals
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-14-C-17"><span class="nav-number">1.</span> <span class="nav-text">C++14~C++17</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-14"><span class="nav-number">1.1.</span> <span class="nav-text">C++14</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#varaible-template"><span class="nav-number">1.1.1.</span> <span class="nav-text">varaible template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#generic-lambda"><span class="nav-number">1.1.2.</span> <span class="nav-text">generic lambda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda-init-capture"><span class="nav-number">1.1.3.</span> <span class="nav-text">lambda init-capture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relaxed-restriction-of-constexpr"><span class="nav-number">1.1.4.</span> <span class="nav-text">relaxed restriction of constexpr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#binary-literals"><span class="nav-number">1.1.5.</span> <span class="nav-text">binary literals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#digit-separators"><span class="nav-number">1.1.6.</span> <span class="nav-text">digit separators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#return-type-deducation-for-function"><span class="nav-number">1.1.7.</span> <span class="nav-text">return type deducation for function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#aggregate-class-with-default-non-static-member-initializers"><span class="nav-number">1.1.8.</span> <span class="nav-text">aggregate class with default non-static member initializers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-17"><span class="nav-number">1.2.</span> <span class="nav-text">C++17</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fold-expression"><span class="nav-number">1.2.1.</span> <span class="nav-text">fold expression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class-template-arugument-deduction"><span class="nav-number">1.2.2.</span> <span class="nav-text">class template arugument deduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#non-type-template-parameters-declared-with-autp"><span class="nav-number">1.2.3.</span> <span class="nav-text">non-type template parameters declared with autp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compile-timr-if-constexpr"><span class="nav-number">1.2.4.</span> <span class="nav-text">compile timr if constexpr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inline-variables"><span class="nav-number">1.2.5.</span> <span class="nav-text">inline variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#structured-binding"><span class="nav-number">1.2.6.</span> <span class="nav-text">structured binding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initializers-of-if-and-switch"><span class="nav-number">1.2.7.</span> <span class="nav-text">initializers of if and switch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u8-character-literal"><span class="nav-number">1.2.8.</span> <span class="nav-text">u8 character literal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#simplifield-netesd-namaspace"><span class="nav-number">1.2.9.</span> <span class="nav-text">simplifield netesd namaspace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unsing-declaration-declaring-mutiple-names"><span class="nav-number">1.2.10.</span> <span class="nav-text">unsing declaration declaring mutiple names</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new-order-of-evalution-rules"><span class="nav-number">1.2.11.</span> <span class="nav-text">new order of evalution rules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#guaranteed-copy-elision"><span class="nav-number">1.2.12.</span> <span class="nav-text">guaranteed copy elision</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda-capture-of-this"><span class="nav-number">1.2.13.</span> <span class="nav-text">lambda capture of *this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constexpr-lambda"><span class="nav-number">1.2.14.</span> <span class="nav-text">constexpr lambda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#has-include"><span class="nav-number">1.2.15.</span> <span class="nav-text">has include</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#atttribute-namespace-don’t-have-to-repeat"><span class="nav-number">1.2.16.</span> <span class="nav-text">atttribute namespace don’t have to repeat</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

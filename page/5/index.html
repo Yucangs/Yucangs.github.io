@@ -191,6 +191,258 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/UnderstandingGeneratedColumns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/UnderstandingGeneratedColumns/" class="post-title-link" itemprop="url">read/UnderstandingGeneratedColumns</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:41" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:41+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-05 20:47:52" itemprop="dateModified" datetime="2019-08-05T20:47:52+08:00">2019-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Understanding-Generated-Columns"><a href="#Understanding-Generated-Columns" class="headerlink" title="Understanding Generated Columns"></a>Understanding Generated Columns</h1><h2 id="The-Theory"><a href="#The-Theory" class="headerlink" title="The Theory"></a>The Theory</h2><p>Generated Columns is a feature <a href="https://dev.mysql.com/doc/refman/5.7/en/mysql-nutshell.html#mysql-nutshell-additions" target="_blank" rel="noopener">released</a> on MySQL 5.7. They can be used during <code>CREATE TABLE</code>or <code>ALTER TABLE</code> statements. It is a way of storing data without actually sending it through the <code>INSERT</code> or <code>UPDATE</code> clauses in SQL. The database resolves what the data will be.</p>
+<p>生成列是在 MySQL 5.7 之后发布的一个特性, 可以在 CREATE TABLE / ALTER TABLE 期间使用. 是一种存储数据而不通过 INSERT / UPDATE 子句的方法. 数据库解析数据是什么</p>
+<p>There are two types of Generated Columns: <strong>Virtual</strong> and <strong>Stored</strong>. They work with:</p>
+<ul>
+<li>mathematical expressions (<code>product_price</code> * <code>quantity</code>)</li>
+<li>built-in functions (<code>RIGHT()</code>, <code>CONCAT()</code>, <code>FROM_UNIXTIME()</code>, <code>JSON_EXTRACT()</code>)</li>
+<li>literals (“2”, “new”, 0)</li>
+</ul>
+<p>有两种生成列: virtual 和 stored, 它们工作于: </p>
+<ul>
+<li>数学表达式</li>
+<li>内建函数</li>
+<li>复合常量</li>
+</ul>
+<p>Besides that, they can be indexed but they <strong>don’t</strong> allow <strong>subqueries</strong> in it.<br>A Generated Column works within the table domain. If you need subqueries on a particular column, you may have to look at <a href="http://dev.mysql.com/doc/refman/5.7/en/view-syntax.html" target="_blank" rel="noopener">Views</a>.</p>
+<p>如上, 它们能够被索引, 但不允许子查询. </p>
+<p>生成列在表域中工作, 如果你需要在特殊的列上子查询, 你需要考虑 view </p>
+<h2 id="The-basic-example"><a href="#The-basic-example" class="headerlink" title="The basic example"></a>The basic example</h2><p>As an example I am going to use an e-commerce database as based on my past experience of what I have seen and worked. You will probably have at least these tables or something similar:</p>
+<ul>
+<li><code>users</code> – stores user info</li>
+<li><code>products</code> – stores product info like price and description</li>
+<li><code>orders</code> – stores the user_id, date of order</li>
+<li><code>orders_items</code> – stores product_id, order_id, quantity and price at the time of purchase</li>
+</ul>
+<p>This is the whole DB: <a href="https://gist.github.com/gabidavila/7abae0b77ff6cff8899c3a57ff32679d" target="_blank" rel="noopener">Gist</a>.</p>
+<p>Notice the <code>order_items</code> definition:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_items`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`order_id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`product_id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`product_price`</span> <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">'0.00'</span>,</span><br><span class="line">  <span class="string">`quantity`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">1</span>,</span><br><span class="line">  <span class="string">`created_at`</span> <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  <span class="string">`updated_at`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">1</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>The retrieval would bring:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  <span class="string">`id`</span>, <span class="string">`order_id`</span>, <span class="string">`product_id`</span>, <span class="string">`product_price`</span>, <span class="string">`quantity`</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="string">`orders_items`</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">order_id</th>
+<th align="left">product_id</th>
+<th align="left">product_price</th>
+<th align="left">quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">369</td>
+<td align="left">1304</td>
+<td align="left">202.18</td>
+<td align="left">7</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">4</td>
+<td align="left">1736</td>
+<td align="left">250.40</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">270</td>
+<td align="left">1404</td>
+<td align="left">29.89</td>
+<td align="left">5</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">256</td>
+<td align="left">179</td>
+<td align="left">190.40</td>
+<td align="left">10</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">107</td>
+<td align="left">1911</td>
+<td align="left">146.98</td>
+<td align="left">1</td>
+</tr>
+</tbody></table>
+<p>One example is to get the total of that order_item row, something like <code>total_item_price</code> that would store the value of <code>product_price</code> * <code>quantity</code> to show how much the summed amount of an item would be. Some databases have the <code>MONEY</code> type to store <code>price</code>, as with MySQL it is recommended to work with <code>DECIMAL</code>.</p>
+<p>上述例子获取 order_item 所有行, 应该有类似 total_item_price 的列存储 product * quantity, 显示总额.</p>
+<p>一些数据库有 MONEY 类型存储价格, MySQL 推荐使用 DECIMAL</p>
+<p>People solve this problem in different ways:</p>
+<ul>
+<li>store the calculated price on a new column to make it easier to retrieve;</li>
+<li>create a view;</li>
+<li>or they calculate in the application itself, which in this case might cause problems due to how the language handles floats. There are libraries to deal with money values in a lot of languages and frameworks, however, the overhead of converting each row into a money object could be costly depending on the amount of data being transferred.</li>
+</ul>
+<p>有几种不同的方式解决这个问题: </p>
+<ul>
+<li>在新的列存储计算好的值, 便于检索</li>
+<li>创建视图</li>
+<li>或者在应用层计算, 由于不同语言对于浮点数的管理可能造成问题. 大量的语言和框架提供了库处理这个问题.然而, 将每行转换为对象的消耗依赖于有多少数据被调入</li>
+</ul>
+<p>Another way I’ve seen is: people calculate in the query the total amount for the orders_items row as <code>product_price</code> * <code>quantity</code>:</p>
+<p>还有一种我见过的方法 : 在查询中计算总额</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  <span class="string">`id`</span>, </span><br><span class="line">  <span class="string">`order_id`</span>, </span><br><span class="line">  <span class="string">`product_id`</span>, </span><br><span class="line">  <span class="string">`product_price`</span>, </span><br><span class="line">  <span class="string">`quantity`</span>,</span><br><span class="line">  <span class="string">`product_price`</span> * <span class="string">`quantity`</span> <span class="keyword">AS</span> total_item_price</span><br><span class="line"><span class="keyword">FROM</span> <span class="string">`orders_items`</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">order_id</th>
+<th align="left">product_id</th>
+<th align="left">product_price</th>
+<th align="left">quantity</th>
+<th align="left">total_item_price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">369</td>
+<td align="left">1304</td>
+<td align="left">202.18</td>
+<td align="left">7</td>
+<td align="left">1415.26</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">4</td>
+<td align="left">1736</td>
+<td align="left">250.40</td>
+<td align="left">3</td>
+<td align="left">751.20</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">270</td>
+<td align="left">1404</td>
+<td align="left">29.89</td>
+<td align="left">5</td>
+<td align="left">149.45</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">256</td>
+<td align="left">179</td>
+<td align="left">190.40</td>
+<td align="left">10</td>
+<td align="left">1904.00</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">107</td>
+<td align="left">1911</td>
+<td align="left">146.98</td>
+<td align="left">1</td>
+<td align="left">146.98</td>
+</tr>
+</tbody></table>
+<h2 id="Virtual-Columns"><a href="#Virtual-Columns" class="headerlink" title="Virtual Columns"></a>Virtual Columns</h2><ul>
+<li>They take no disk space, except when using a Virtual Column as in a <a href="https://dev.mysql.com/doc/refman/5.7/en/create-table-secondary-indexes-virtual-columns.html" target="_blank" rel="noopener">Secondary Index</a>.</li>
+<li>They are an <code>INPLACE</code> operation: it means the table definition is changed without having to recopy all the data again. <a href="http://dev.mysql.com/doc/refman/5.7/en/innodb-create-index-overview.html" target="_blank" rel="noopener">More info</a>.</li>
+<li>The values are calculated on the fly during read operations and <code>BEFORE</code> triggers.</li>
+</ul>
+<p>Consider using virtual columns for data where changes happens in a significant number of times. The cost of a Virtual Column comes from reading a table constantly and the server has to compute every time what that column value will be.</p>
+<ul>
+<li>不占磁盘空间, 除非使用虚拟列作为次级索引</li>
+<li>是 INPLACE 操作 : 这意味着表定义更改不需要拷贝所有数据</li>
+<li>值在读取操作和 BEFORE 触发之间动态计算</li>
+</ul>
+<h2 id="Stored-Columns"><a href="#Stored-Columns" class="headerlink" title="Stored Columns"></a>Stored Columns</h2><ul>
+<li>They do use disk space.</li>
+<li>It has the same cost of adding a new column, so it is a <code>COPY</code> operation</li>
+<li>Values are updated in every <code>INSERT</code> and <code>UPDATE</code> statement.</li>
+</ul>
+<p>You should consider using Stored Columns for when the data doesn’t change significantly or at all after creation, like for instance, the example above with the <code>orders_items</code> table. Once a purchase is made, the price of the product is stored, not being changed, neither the quantity. Considering this information we could create <code>total_item_price</code> as a Stored Column.</p>
+<ul>
+<li>耗费磁盘空间</li>
+<li>和增加行有相等的消耗, 等价于 COPY 操作</li>
+<li>值在每次 INSERT 和 UPDATE 语句中更新</li>
+</ul>
+<p>你需要考虑使用存储列, 以便数据没有显著变化或在创建后没有显著变化, 例如上面带有 order_items 的表. 当购买操作后, 存储产品的价格, 不会再更改, 数量也不会. 考虑到这个信息, 我们应该创建 total_item_price 存储列</p>
+<h2 id="The-code"><a href="#The-code" class="headerlink" title="The code"></a>The code</h2><h3 id="Creating-a-table"><a href="#Creating-a-table" class="headerlink" title="Creating a table"></a>Creating a table</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- Virtual Column&#96; &#96;CREATE&#96; &#96;TABLE&#96; &#96;&#96;orders_items&#96; (&#96;&#96;&#96;id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;AUTO_INCREMENT,&#96;&#96;&#96;order_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;0.00&#39;&#96;&#96;,&#96;&#96;&#96;quantity&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;1,&#96;&#96;&#96;total_item_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) &#96;&#96;AS&#96; &#96;(&#96;quantity&#96; * &#96;product_price&#96;),&#96;&#96;&#96;created_at&#96; &#96;&#96;timestamp&#96; &#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;CURRENT_TIMESTAMP&#96;&#96;,&#96;&#96;&#96;updated_at&#96; &#96;&#96;varchar&#96;&#96;(45) &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP&#39;&#96;&#96;,&#96;&#96;PRIMARY&#96; &#96;KEY&#96; &#96;(&#96;id&#96;)&#96;&#96;) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;1 &#96;&#96;DEFAULT&#96; &#96;CHARSET&#x3D;utf8mb4;&#96; &#96;-- Stored Column&#96; &#96;CREATE&#96; &#96;TABLE&#96; &#96;&#96;orders_items&#96; (&#96;&#96;&#96;id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;AUTO_INCREMENT,&#96;&#96;&#96;order_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_id&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96;&#96;,&#96;&#96;&#96;product_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;0.00&#39;&#96;&#96;,&#96;&#96;&#96;quantity&#96; &#96;&#96;int&#96;&#96;(10) unsigned &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;1,&#96;&#96;&#96;total_item_price&#96; &#96;&#96;decimal&#96;&#96;(10,2) &#96;&#96;AS&#96; &#96;(&#96;quantity&#96; * &#96;product_price&#96;) STORED,&#96;&#96;&#96;created_at&#96; &#96;&#96;timestamp&#96; &#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;CURRENT_TIMESTAMP&#96;&#96;,&#96;&#96;&#96;updated_at&#96; &#96;&#96;varchar&#96;&#96;(45) &#96;&#96;NOT&#96; &#96;NULL&#96; &#96;DEFAULT&#96; &#96;&#39;CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP&#39;&#96;&#96;,&#96;&#96;PRIMARY&#96; &#96;KEY&#96; &#96;(&#96;id&#96;)&#96;&#96;) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;1 &#96;&#96;DEFAULT&#96; &#96;CHARSET&#x3D;utf8mb4;&#96;</span><br></pre></td></tr></table></figure>
+
+<p>Notice how the definition changes on line 9 and 23: you have another keyword, <code>AS</code>, then an <em>expression</em> and specifically on line 23 you see a <code>STORED</code> keyword. In both lines they are generated columns, if nothing is specified will be a <code>VIRTUAL</code> column.</p>
+<p>注意在 9 行 和 23 行的更改, 有另一个关键字, AS, 随之表达式和 STORED 关键字. 如果没有指定, 将会是一个 VIRTUAL 列</p>
+<h3 id="Altering-a-table"><a href="#Altering-a-table" class="headerlink" title="Altering a table"></a>Altering a table</h3><p>It uses the same syntax as adding a column, just adding the “<strong>AS</strong> (<em>expression</em>)” after the data type:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- &#96;full_name&#96; as VIRTUAL COLUMN&#96;&#96;ALTER&#96; &#96;TABLE&#96; &#96;users&#96;&#96;ADD&#96; &#96;COLUMN&#96; &#96;&#96;full_name&#96; &#96;&#96;VARCHAR&#96;&#96;(500)&#96;&#96;AS&#96; &#96;(CONCAT_WS(&#96;&#96;&quot; &quot;&#96;&#96;, &#96;first_name&#96;, &#96;last_name&#96;));&#96; &#96;-- &#96;total_item_price&#96; as STORED COLUMN&#96;&#96;ALTER&#96; &#96;TABLE&#96; &#96;orders_items&#96;&#96;ADD&#96; &#96;COLUMN&#96; &#96;&#96;total_item_price&#96; &#96;&#96;DECIMAL&#96;&#96;(10, 2)&#96;&#96;AS&#96; &#96;(&#96;quantity&#96; * &#96;product_price&#96;) STORED;&#96;</span><br></pre></td></tr></table></figure>
+
+<h2 id="JSON-fields"><a href="#JSON-fields" class="headerlink" title="JSON fields"></a>JSON fields</h2><p>It is also possible to extract data from JSON fields using generated columns. As the functions for JSON are built-in, <code>JSON_EXTRACT</code> and <code>JSON_UNQUOTE</code> as well “<strong>-&gt;</strong>” and “<strong>-&gt;&gt;</strong>” work as <em>expressions</em>for a generated column:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- Stored Columns&#96;&#96;ALTER&#96; &#96;TABLE&#96; &#96;&#96;twitter_users&#96;&#96;&#96;ADD&#96; &#96;COLUMN&#96; &#96;&#96;location&#96; &#96;&#96;VARCHAR&#96;&#96;(255)&#96;&#96;AS&#96; &#96;(response-&gt;&gt;&#96;&#96;&quot;$.location&quot;&#96;&#96;) STORED;&#96;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Final-considerations"><a href="#Final-considerations" class="headerlink" title="Final considerations"></a>Final considerations</h2><p>When the type is <code>STORED</code>, it must be specified after the <em>expression</em> otherwise the default behaviour will be to be <code>VIRTUAL</code>.</p>
+<p>Generated columns can have indexes created as the following, no matter if stored, virtual or extracted from a JSON field:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;ALTER&#96; &#96;TABLE&#96; &#96;users&#96;&#96;ADD&#96; &#96;INDEX&#96; &#96;&#96;ix_full_name&#96; (&#96;full_name&#96;);&#96;</span><br></pre></td></tr></table></figure>
+
+<p>Which is the <strong>same</strong> syntax for normal columns.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/studyNoteOfGo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1127,228 +1379,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/LimitsonInnoDBTables/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/LimitsonInnoDBTables/" class="post-title-link" itemprop="url">read/LimitsonInnoDBTables</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-05 20:49:37" itemprop="dateModified" datetime="2019-08-05T20:49:37+08:00">2019-08-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="15-6-1-6-Limits-on-InnoDB-Tables"><a href="#15-6-1-6-Limits-on-InnoDB-Tables" class="headerlink" title="15.6.1.6 Limits on InnoDB Tables"></a>15.6.1.6 Limits on InnoDB Tables</h4><p>Limits on <code>InnoDB</code> tables are described under the following topics in this section:</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-maximums-minimums" target="_blank" rel="noopener">Maximums and Minimums</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-table-restrictions" target="_blank" rel="noopener">Restrictions on InnoDB Tables</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html#innodb-locking-transactions" target="_blank" rel="noopener">Locking and Transactions</a></li>
-</ul>
-<p>InnoDB表的限制在以下几个话题中讨论 : 最大和最小, InnoDB表的限制, 锁和事务</p>
-<h5 id="Maximums-and-Minimums"><a href="#Maximums-and-Minimums" class="headerlink" title="Maximums and Minimums"></a>Maximums and Minimums</h5><ul>
-<li><p>A table can contain a maximum of 1017 columns. Virtual generated columns are included in this limit.</p>
-<p>表最多可以包含 1017 列, 虚拟创建的列也包含在其中</p>
-</li>
-<li><p>A table can contain a maximum of 64 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_secondary_index" target="_blank" rel="noopener">secondary indexes</a>.</p>
-<p>表最多能有 64 个次级索引</p>
-</li>
-<li><p>The index key prefix length limit is 3072 bytes for <code>InnoDB</code> tables that use <code>DYNAMIC</code> or <code>COMPRESSED</code> row format.</p>
-<p>使用 DYNAMIC 或 COMPRESSED 行存储的 InnoDB 表索引键的前缀宽度被限制在 3072 字节内 (&lt;=)</p>
-<p>The index key prefix length limit is 767 bytes for <code>InnoDB</code> tables that use <code>REDUNDANT</code> or <code>COMPACT</code> row format. For example, you might hit this limit with a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_column_prefix" target="_blank" rel="noopener">column prefix</a>index of more than 191 characters on a <code>TEXT</code> or <code>VARCHAR</code> column, assuming a <code>utf8mb4</code> character set and the maximum of 4 bytes for each character.</p>
-<p>使用 REDUNDANT 或 COMPACT  行存储的 InnoDB 表索引间的前缀宽度被限制在 767 字节内 (&lt;=)</p>
-<p>Attempting to use an index key prefix length that exceeds the limit returns an error.</p>
-<p>尝试使用超过限制的字节前缀宽度会返回错误</p>
-<p>The limits that apply to index key prefixes also apply to full-column index keys.</p>
-<p>适用于索引键前缀的限制也适用于全列索引键</p>
-</li>
-<li><p>If you reduce the <code>InnoDB</code> <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_page_size" target="_blank" rel="noopener">page size</a> to 8KB or 4KB by specifying the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> option when creating the MySQL instance, the maximum length of the index key is lowered proportionally, based on the limit of 3072 bytes for a 16KB page size. That is, the maximum index key length is 1536 bytes when the page size is 8KB, and 768 bytes when the page size is 4KB.</p>
-<p>如果在创建 MySQL 实例时显式指定 innodb_page_size 减少 InnoDB 的页面大小(8kb -&gt; 4kb)索引键的最大长度也会成比例减少</p>
-<p>16kb 页大小限制在 3072 字节, 8kb 页大小限制在 1536 字节, 而 4kb 页面大小限制在 768 字节</p>
-</li>
-<li><p>A maximum of 16 columns is permitted for multicolumn indexes. Exceeding the limit returns an error.</p>
-<p>多列索引子列数不能超过 16 个</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1070 (42000): Too many key parts specified; max 16 parts allowed</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>The maximum row length, except for variable-length columns (<a href="https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html" target="_blank" rel="noopener"><code>VARBINARY</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener"><code>VARCHAR</code></a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a>), is slightly less than half of a page for 4KB, 8KB, 16KB, and 32KB page sizes. For example, the maximum row length for the default <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> of 16KB is about 8000 bytes. However, for an <code>InnoDB</code> page size of 64KB, the maximum row length is approximately 16000 bytes. <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>LONGBLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>LONGTEXT</code></a> columns must be less than 4GB, and the total row length, including <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>BLOB</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener"><code>TEXT</code></a>columns, must be less than 4GB.</p>
-<p>除变长列(VARBINARY, VATCHAR, BLOB, TEXT)外, 列的长度都稍少于一半页的大小. 比如, 页面大小为 16kb 的行长度最大 8000 字节左右, 然而 InnoDB 64kb 的页最大在 16000 字节左右. LONGBLOB 和 LONGTEXT 列必须少于 4GB, 整个行的长度, 包括 BLOB 和 TEXT 列, 也必须少于 4GB.</p>
-<p>If a row is less than half a page long, all of it is stored locally within the page. If it exceeds half a page, variable-length columns are chosen for external off-page storage until the row fits within half a page, as described in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-file-space.html" target="_blank" rel="noopener">Section 15.11.2, “File Space Management”</a>.</p>
-<p>如果行小于页的一般, 数据则全部保存在页中, 如果超过, 变长列被选择页外存储直到列的大小符合为止</p>
-</li>
-<li><p>Although <code>InnoDB</code> supports row sizes larger than 65,535 bytes internally, MySQL itself imposes a row-size limit of 65,535 for the combined size of all columns:</p>
-<p>尽管 InnoDB 支持超过 65535 字节的行, MySQL 自身约束列的组合大小不能超过 65535</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t (a VARCHAR(8000), b VARCHAR(10000),</span><br><span class="line">    -&gt; c VARCHAR(10000), d VARCHAR(10000), e VARCHAR(10000),</span><br><span class="line">    -&gt; f VARCHAR(10000), g VARCHAR(10000)) ENGINE=InnoDB;</span><br><span class="line">ERROR 1118 (42000): Row size too large. The maximum row size for the</span><br><span class="line">used table type, not counting BLOBs, is 65535. You have to <span class="keyword">change</span> <span class="keyword">some</span></span><br><span class="line"><span class="keyword">columns</span> <span class="keyword">to</span> <span class="built_in">TEXT</span> <span class="keyword">or</span> BLOBs</span><br></pre></td></tr></table></figure>
-
-<p>See <a href="https://dev.mysql.com/doc/refman/8.0/en/column-count-limit.html" target="_blank" rel="noopener">Section C.10.4, “Limits on Table Column Count and Row Size”</a>.</p>
-</li>
-<li><p>On some older operating systems, files must be less than 2GB. This is not a limitation of <code>InnoDB</code> itself, but if you require a large tablespace, configure it using several smaller data files rather than one large data file.</p>
-<p>在一些较老的操作系统上, 文件必须小于 2GB. 这不是 InnoDB 的限制, 但是如果你需要一个大的表空间, 可以配置成使用些许较小的数据文件, 而不是一个大的数据文件</p>
-</li>
-<li><p>The combined size of the <code>InnoDB</code> log files can be up to 512GB.</p>
-<p>InnoDB 日志文件的组合大小最大 512GB</p>
-</li>
-<li><p>The minimum tablespace size is slightly larger than 10MB. The maximum tablespace size depends on the <code>InnoDB</code> page size.</p>
-<p>表的最小容量稍大于 10mb, 最大的表大小取决于 InnoDB 页大小</p>
-<p><strong>Table 15.3 InnoDB Maximum Tablespace Size</strong></p>
-<table>
-<thead>
-<tr>
-<th>InnoDB Page Size</th>
-<th>Maximum Tablespace Size</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>4KB</td>
-<td>16TB</td>
-</tr>
-<tr>
-<td>8KB</td>
-<td>32TB</td>
-</tr>
-<tr>
-<td>16KB</td>
-<td>64TB</td>
-</tr>
-<tr>
-<td>32KB</td>
-<td>128TB</td>
-</tr>
-<tr>
-<td>64KB</td>
-<td>256TB</td>
-</tr>
-</tbody></table>
-<p>The maximum tablespace size is also the maximum size for a table.</p>
-<p>最大表空间大小也是最大表大小</p>
-</li>
-<li><p>The path of a tablespace file, including the file name, cannot exceed the <code>MAX_PATH</code> limit on Windows. Prior to Windows 10, the <code>MAX_PATH</code> limit is 260 characters. As of Windows 10, version 1607, <code>MAX_PATH</code> limitations are removed from common Win32 file and directory functions, but you must enable the new behavior.</p>
-<p>表空间文件的路径, 包括表名, 在 windows 上不能超过 MAX_PATH 限制, 在 win10 以前 MAX_PATH 限制为 260 字符. win10 1607 版本后移除了该限制</p>
-</li>
-<li><p>The default page size in <code>InnoDB</code> is 16KB. You can increase or decrease the page size by configuring the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size</code></a> option when creating the MySQL instance.</p>
-<p>InnoDB 默认页大小为 16kb, 创建 MySQL 实例时可以通过设置 innodb_page_size 更改(PS. 页大小在创建后是属于表的局部常量么?)</p>
-<p>32KB and 64KB page sizes are supported, but <code>ROW_FORMAT=COMPRESSED</code> is unsupported for page sizes greater than 16KB. For both 32KB and 64KB page sizes, the maximum record size is 16KB. For <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size=32KB</code></a>, extent size is 2MB. For <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size" target="_blank" rel="noopener"><code>innodb_page_size=64KB</code></a>, extent size is 4MB.</p>
-<p>A MySQL instance using a particular <code>InnoDB</code> page size cannot use data files or log files from an instance that uses a different page size.</p>
-<p>32kb 和 64kb 的页也是支持的, 但是行存储为 COMPRESSED 不支持超过 16kb 大小的页. 对于 32kb 和 64kb 大小的也, 最大记录的大小其实是 16kb. </p>
-<p>MySQL 实例不能使用底层页面不一致的数据文件和日志文件</p>
-</li>
-</ul>
-<h5 id="Restrictions-on-InnoDB-Tables"><a href="#Restrictions-on-InnoDB-Tables" class="headerlink" title="Restrictions on InnoDB Tables"></a>Restrictions on InnoDB Tables</h5><ul>
-<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> determines index cardinality (as displayed in the <code>Cardinality</code> column of <a href="https://dev.mysql.com/doc/refman/8.0/en/show-index.html" target="_blank" rel="noopener"><code>SHOW INDEX</code></a> output) by performing <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_random_dive" target="_blank" rel="noopener">random dives</a> on each of the index trees and updating index cardinality estimates accordingly. Because these are only estimates, repeated runs of <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> could produce different numbers. This makes<a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> fast on <code>InnoDB</code> tables but not 100% accurate because it does not take all rows into account.</p>
-<p>ANALYZE TABLE 语句每个索引树执行随机潜水(PS. ???)更新预估索引的基数(在 SHOW INDEX 的输出中 Cardinality 列显示)</p>
-<p>因为只是估计, 重复执行 ANALYZE TABLE 将会产生不同的值, 这使得 ANALYZE TABLE 在 InnoDB 上运行地很快, 但并不是 100% 正确, 因为并不会估计所有的行</p>
-<p>(PS. ANALYZE TABLE 将会分析表, 其中部分分析结果可以在 SHOW INDEX 中查看. 这里以列的基数为例)</p>
-<p>You can make the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_statistics" target="_blank" rel="noopener">statistics</a> collected by <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> more precise and more stable by turning on the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_persistent" target="_blank" rel="noopener"><code>innodb_stats_persistent</code></a> configuration option, as explained in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-persistent-stats.html" target="_blank" rel="noopener">Section 15.8.10.1, “Configuring Persistent Optimizer Statistics Parameters”</a>. When that setting is enabled, it is important to run <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> after major changes to indexed column data, because the statistics are not recalculated periodically (such as after a server restart).</p>
-<p>通过启用 innodb_stats_persistent 使 ANALYZE TABLE 的数据统计更加精确, 当启用这个选项后, 需要在对索引列数据进行主要更改后再使用 ANALYZE TABLE, 因为统计信息不是定期重新计算的</p>
-<p>If the persistent statistics setting is enabled, you can change the number of random dives by modifying the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_persistent_sample_pages" target="_blank" rel="noopener"><code>innodb_stats_persistent_sample_pages</code></a> system variable. If the persistent statistics setting is disabled, modify the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_stats_transient_sample_pages" target="_blank" rel="noopener"><code>innodb_stats_transient_sample_pages</code></a> system variable instead.</p>
-<p>如果启用了持续性统计, 可以更改 innodb_stats_persistent_sample_pages 系统变量, 如果持久性统计设置取消, 则可以通过 innodb_stats_transient_sampke_pages 更改</p>
-<p>MySQL uses index cardinality estimates in join optimization. If a join is not optimized in the right way, try using <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a>. In the few cases that <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a>does not produce values good enough for your particular tables, you can use <code>FORCE INDEX</code> with your queries to force the use of a particular index, or set the<a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_seeks_for_key" target="_blank" rel="noopener"><code>max_seeks_for_key</code></a> system variable to ensure that MySQL prefers index lookups over table scans. See <a href="https://dev.mysql.com/doc/refman/8.0/en/optimizer-issues.html" target="_blank" rel="noopener">Section B.4.5, “Optimizer-Related Issues”</a>.</p>
-<p>MySQL 在 Join 优化中使用索引基数估计, 如果 Join 不能正确优化, 尝试使用 ANALYZE_TABLE. 在少数情况下 ANALYZE_TABLE 不能为指定的表产生足够好的值, 可以使用 FORCE INDEX 配合查询, 强制使用指定的索引或者设置 max_seeks_for_key 系统变量确保 MySQL 更偏向于索引查找而不是表扫描</p>
-</li>
-<li><p>If statements or transactions are running on a table, and <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> is run on the same table followed by a second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> operation, the second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> operation is blocked until the statements or transactions are completed. This behavior occurs because <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> marks the currently loaded table definition as obsolete when <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> is finished running. New statements or transactions (including a second <a href="https://dev.mysql.com/doc/refman/8.0/en/analyze-table.html" target="_blank" rel="noopener"><code>ANALYZE TABLE</code></a> statement) must load the new table definition into the table cache, which cannot occur until currently running statements or transactions are completed and the old table definition is purged. Loading multiple concurrent table definitions is not supported.</p>
-<p>如果语句和事务正在运行于表上, ANALYZE TABLE 同样运行于这张表上, 之后继续执行 ANALYZE_TABLE 操作, 第二个 ANALYZE TABLE 操作将会阻塞直到之前的事务/语句执行完成. 会发生这样的情况是因为 ANALYZE_TABLE 在执行完成时会将当前加载的表标记为已过时, 新的语句/事务(包括第二个 ANALYZE_TABLE 语句)必须加载新的表到表缓存中, 改操作在当前语句/事务已经完成, 并且旧表的定义已经被清理后才能发生, 不支持加载多个并发表</p>
-</li>
-<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> does not give accurate statistics on <code>InnoDB</code> tables except for the physical size reserved by the table. The row count is only a rough estimate used in SQL optimization.</p>
-<p>SHOW TABLE STATUS 不提供 InnoDB 表除表存储的物理大小外, 其他统计信息的精确性, 行数量只是一个 SQL 优化中粗略的估计</p>
-</li>
-<li><p><code>InnoDB</code> does not keep an internal count of rows in a table because concurrent transactions might “see” different numbers of rows at the same time. Consequently, <code>SELECT COUNT(*)</code> statements only count rows visible to the current transaction.</p>
-<p>InnoDB 不保存表中行的内部计数, 因为并发事务可能在同样的时间见到不同的值. </p>
-<p>因此, SELECT COUNT(*) 语句只计数对当前事务可见的行</p>
-<p>For information about how <code>InnoDB</code> processes <code>SELECT COUNT(*)</code> statements, refer to the <a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html#function_count" target="_blank" rel="noopener"><code>COUNT()</code></a> description in <a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html" target="_blank" rel="noopener">Section 12.20.1, “Aggregate (GROUP BY) Function Descriptions”</a>.</p>
-</li>
-<li><p>On Windows, <code>InnoDB</code> always stores database and table names internally in lowercase. To move databases in a binary format from Unix to Windows or from Windows to Unix, create all databases and tables using lowercase names.</p>
-<p>在 Windows 上, InnoDB 总是以小写存储数据库和表的名字(大小写不敏感 = =)</p>
-</li>
-<li><p>An <code>AUTO_INCREMENT</code> column <em>ai_col</em> must be defined as part of an index such that it is possible to perform the equivalent of an indexed <code>SELECT MAX(*ai_col*)</code> lookup on the table to obtain the maximum column value. Typically, this is achieved by making the column the first column of some table index.</p>
-<p>AUTO_INCREMENT 列 ai_col 必须被定义成索引的一部分, 这样就可以执行已被索引的 SELECT MAX(ai_col) 相等性判断, 获取最大的列值. 通常都是公国将列成为列的首列来获得的</p>
-</li>
-<li><p><code>InnoDB</code> sets an exclusive lock on the end of the index associated with the <code>AUTO_INCREMENT</code> column while initializing a previously specified <code>AUTO_INCREMENT</code> column on a table.</p>
-<p>InnoDB 在和 AUTO_INCREMENT 列相关的索引末尾设置互斥锁</p>
-<p>With <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=0</code></a>, <code>InnoDB</code> uses a special <code>AUTO-INC</code> table lock mode where the lock is obtained and held to the end of the current SQL statement while accessing the auto-increment counter. Other clients cannot insert into the table while the <code>AUTO-INC</code> table lock is held. The same behavior occurs for “bulk inserts”with <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=1</code></a>. Table-level <code>AUTO-INC</code> locks are not used with <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_autoinc_lock_mode" target="_blank" rel="noopener"><code>innodb_autoinc_lock_mode=2</code></a>. For more information, See <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-auto-increment-handling.html" target="_blank" rel="noopener">Section 15.6.1.4, “AUTO_INCREMENT Handling in InnoDB”</a>.</p>
-<p>innodb_automic_lock_mod 设置为 0 时, InnoDB 使用特殊的 AUTO_INC 表锁模式. 在访问自增计数器时锁被持有直到当前 SQL 语句结束</p>
-</li>
-<li><p>When an <code>AUTO_INCREMENT</code> integer column runs out of values, a subsequent <code>INSERT</code> operation returns a duplicate-key error. This is general MySQL behavior.</p>
-<p>当 AUTO_INCREMENT 越界, 插入操作会返回 重复的键 错误, 这是通常 MySQL 的行为</p>
-</li>
-<li><p><code>DELETE FROM *tbl_name*</code> does not regenerate the table but instead deletes all rows, one by one.</p>
-<p>DELETE FROM tbl_name 不再生表, 而是依次删除所有行 </p>
-</li>
-<li><p>Cascaded foreign key actions do not activate triggers.</p>
-<p>级联外键操作不激活触发器</p>
-</li>
-<li><p>You cannot create a table with a column name that matches the name of an internal <code>InnoDB</code> column (including <code>DB_ROW_ID</code>, <code>DB_TRX_ID</code>, <code>DB_ROLL_PTR</code>, and <code>DB_MIX_ID</code>). This restriction applies to use of the names in any letter case.</p>
-<p>你不能创建和内部 InnoDB 列重名的列, 包括(DB_ROW_ID, DB_TRX_ID, DB_ROLL_PTR, DB_MIX_ID)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (c1 INT, db_row_id INT) ENGINE=INNODB;</span><br><span class="line">ERROR 1166 (42000): Incorrect column name 'db_row_id'</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h5 id="Locking-and-Transactions"><a href="#Locking-and-Transactions" class="headerlink" title="Locking and Transactions"></a>Locking and Transactions</h5><ul>
-<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> acquires two locks on each table if <code>innodb_table_locks=1</code> (the default). In addition to a table lock on the MySQL layer, it also acquires an <code>InnoDB</code> table lock. Versions of MySQL before 4.1.2 did not acquire <code>InnoDB</code> table locks; the old behavior can be selected by setting <code>innodb_table_locks=0</code>. If no <code>InnoDB</code> table lock is acquired, <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> completes even if some records of the tables are being locked by other transactions.</p>
-<p>如果 innodb_table_locks = 1 则 LOCK TABLES 在每个表上获取两个锁, 除了在 MySQL 层上的锁, 还获取 InnoDB 表锁, 如果没有获取 InnoDB 表锁, 即使一些记录被其他事务锁定, LOCK TABLES 也会完成</p>
-<p>In MySQL 8.0, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_table_locks" target="_blank" rel="noopener"><code>innodb_table_locks=0</code></a> has no effect for tables locked explicitly with <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... WRITE</code></a>. It does have an effect for tables locked for read or write by <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... WRITE</code></a> implicitly (for example, through triggers) or by <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES ... READ</code></a>.</p>
-</li>
-<li><p>All <code>InnoDB</code> locks held by a transaction are released when the transaction is committed or aborted. Thus, it does not make much sense to invoke <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> on<code>InnoDB</code> tables in <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_autocommit" target="_blank" rel="noopener"><code>autocommit=1</code></a> mode because the acquired <code>InnoDB</code> table locks would be released immediately.</p>
-<p>通过事务获取的所有 InnoDB 锁在事务提交或退出时释放, 因此, 在 autocommit = 1 模式下没有那么必要在 InnoDB 表上显式调用 LOCK TABLES 语句, 因为获取的 InnoDB 表锁会立即释放</p>
-</li>
-<li><p>You cannot lock additional tables in the middle of a transaction because <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> performs an implicit <a href="https://dev.mysql.com/doc/refman/8.0/en/commit.html" target="_blank" rel="noopener"><code>COMMIT</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>UNLOCK TABLES</code></a>.</p>
-<p>你不能在事务中锁额外的表, 因为 LOCK TABLES 执行隐式的 COMMIT 和 UNLOCK TABLES</p>
-</li>
-<li><p>For limits associated with concurrent read-write transactions, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html" target="_blank" rel="noopener">Section 15.6.6, “Undo Logs”</a>.</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1419,7 +1449,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-count">106</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
