@@ -191,6 +191,173 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/LocksSetbyDifferentSQLStatementsinInnoDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/LocksSetbyDifferentSQLStatementsinInnoDB/" class="post-title-link" itemprop="url">read/LocksSetbyDifferentSQLStatementsinInnoDB</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:40" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:40+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-08-08 20:02:59" itemprop="dateModified" datetime="2019-08-08T20:02:59+08:00">2019-08-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="15-7-3-Locks-Set-by-Different-SQL-Statements-in-InnoDB"><a href="#15-7-3-Locks-Set-by-Different-SQL-Statements-in-InnoDB" class="headerlink" title="15.7.3 Locks Set by Different SQL Statements in InnoDB"></a>15.7.3 Locks Set by Different SQL Statements in InnoDB</h3><p>If a secondary index is used in a search and index record locks to be set are exclusive, <code>InnoDB</code> also retrieves the corresponding clustered index records and sets locks on them.</p>
+<p>如果在搜索中使用次级索引, 并且索引记录锁被设置为互斥. InnoDB 还检索相应的聚簇索引记录, 在记录上设置锁</p>
+<p>If you have no indexes suitable for your statement and MySQL must scan the entire table to process the statement, every row of the table becomes locked, which in turn blocks all inserts by other users to the table. It is important to create good indexes so that your queries do not unnecessarily scan many rows.</p>
+<p>如果语句没有适当的索引, MySQL 必须扫描整个表. 表的每行都被加锁, 这会导致其他用户在该表的插入操作被阻塞. 创建好的索引非常重要, 这样查询语句就不需要扫描大量行</p>
+<p><code>InnoDB</code> sets specific types of locks as follows.</p>
+<ul>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FROM</code></a> is a consistent read, reading a snapshot of the database and setting no locks unless the transaction isolation level is set to <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_serializable" target="_blank" rel="noopener"><code>SERIALIZABLE</code></a>. For<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_serializable" target="_blank" rel="noopener"><code>SERIALIZABLE</code></a> level, the search sets shared next-key locks on the index records it encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.</p>
+<p>SELECT … FROM 具有一致读属性, 读取数据库的快照, 除非事务隔离等级设置为序列化, 否则不加锁.</p>
+<p>对序列化隔离等级, 搜索设置共享的 next-key 锁在遇到的索引记录上, 然而, 使用唯一索引去搜索唯一行的语句, 只有索引记录锁是必须的 (PS. 我不懂 = =… )</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR UPDATE</code></a> and <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR SHARE</code></a> statements that use a unique index acquire locks for scanned rows, and release the locks for rows that do not qualify for inclusion in the result set (for example, if they do not meet the criteria given in the <code>WHERE</code> clause). However, in some cases, rows might not be unlocked immediately because the relationship between a result row and its original source is lost during query execution. For example, in a <a href="https://dev.mysql.com/doc/refman/8.0/en/union.html" target="_blank" rel="noopener"><code>UNION</code></a>, scanned (and locked) rows from a table might be inserted into a temporary table before evaluation whether they qualify for the result set. In this circumstance, the relationship of the rows in the temporary table to the rows in the original table is lost and the latter rows are not unlocked until the end of query execution.</p>
+<p>SELECT … FOR UPDATE 和 SELECT … FOR SHARE 语句使用唯一索引获取锁扫描行, 释放不符合返回集合的锁 (比如, 如果它们不在 WHERE 子句条件中). 然而, 在某些条件下, 行可能不会被立即解锁, 因为返回行和它原始资源在查询语句执行期间丢失了. 比如, 在 UNION 语句中, 来自表的已扫描(和已锁)行在它们被评估是否符合搜索结果时, 可能被插入到临时表中, 在这样的环境下, 临时表中的行与原始表中的行的关系将会丢失, 后面的行直到查询结束后才解锁</p>
+</li>
+<li><p>For <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_locking_read" target="_blank" rel="noopener">locking reads</a> (<a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT</code></a> with <code>FOR UPDATE</code> or <code>FOR SHARE</code>), <a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE</code></a>, and <a href="https://dev.mysql.com/doc/refman/8.0/en/delete.html" target="_blank" rel="noopener"><code>DELETE</code></a> statements, the locks that are taken depend on whether the statement uses a unique index with a unique search condition, or a range-type search condition.</p>
+<p>对于加锁读(SELECT 和 FRO UPDATE 或 FOR SHARED 配合), UPDATE, 和 DELETE 语句, 是否加锁取决于语句是否使用具有唯一搜索条件或范围类型搜索条件的唯一索引</p>
+<ul>
+<li><p>For a unique index with a unique search condition, <code>InnoDB</code> locks only the index record found, not the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_gap" target="_blank" rel="noopener">gap</a> before it.</p>
+<p>对于具有唯一搜索条件的唯一索引而言, InnoDB 只锁定查找到的索引记录, 不包含前面的间隙</p>
+</li>
+<li><p>For other search conditions, and for non-unique indexes, <code>InnoDB</code> locks the index range scanned, using <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_gap_lock" target="_blank" rel="noopener">gap locks</a> or <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_next_key_lock" target="_blank" rel="noopener">next-key locks</a> to block insertions by other sessions into the gaps covered by the range. For information about gap locks and next-key locks, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html" target="_blank" rel="noopener">Section 15.7.1, “InnoDB Locking”</a>.</p>
+<p>对于其他搜索条件, 以及非唯一索引, InnoDB 锁定范围扫描的索引, 使用间隙锁或 next-key (PS. 我真不知道怎么翻译这个比较优雅 = =) 锁阻塞其他会话包含范围的插入</p>
+</li>
+</ul>
+</li>
+<li><p>For index records the search encounters, <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR UPDATE</code></a> blocks other sessions from doing <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT ... FOR SHARE</code></a> or from reading in certain transaction isolation levels. Consistent reads ignore any locks set on the records that exist in the read view.</p>
+<p>搜索所遇见的索引记录, SELECT … FOR UPDATE 阻塞其他来自 SELECT … FOR SHARE 或 来自在某一隔离级别的读取操作的会话, 一致读忽略任何在读取视图中的记录上设置的锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE ... WHERE ...</code></a> sets an exclusive next-key lock on every record the search encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.</p>
+<p>UPDATE … WHERE … 设置互斥 next-key 锁到每个搜索遇到的记录上, 然而, 使用唯一索引查找唯一行的语句只需要一个索引记录锁</p>
+</li>
+<li><p>When <a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE</code></a> modifies a clustered index record, implicit locks are taken on affected secondary index records. The <a href="https://dev.mysql.com/doc/refman/8.0/en/update.html" target="_blank" rel="noopener"><code>UPDATE</code></a> operation also takes shared locks on affected secondary index records when performing duplicate check scans prior to inserting new secondary index records, and when inserting new secondary index records.</p>
+<p>当 UPDATE 更改聚簇索引记录时, 在受影响的次级索引上添加一个隐式锁. UPDATE 还会在插入新的次级索引记录前, 执行重复检查扫描时, 向受影响的次级索引记录上添加共享锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/delete.html" target="_blank" rel="noopener"><code>DELETE FROM ... WHERE ...</code></a> sets an exclusive next-key lock on every record the search encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.</p>
+<p>DELETE FROM … WHERE … 给每个搜索遇到的记录设置一个互斥锁, 然而, (PS. 一模一样 = =)</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank" rel="noopener"><code>INSERT</code></a> sets an exclusive lock on the inserted row. This lock is an index-record lock, not a next-key lock (that is, there is no gap lock) and does not prevent other sessions from inserting into the gap before the inserted row.</p>
+<p>INSERT 在插入行设置互斥锁, 这是一个索引记录锁, 而非 next-key 锁 (也就是说, 不是间隙锁)</p>
+<p>Prior to inserting the row, a type of gap lock called an insert intention gap lock is set. This lock signals the intent to insert in such a way that multiple transactions inserting into the same index gap need not wait for each other if they are not inserting at the same position within the gap. Suppose that there are index records with values of 4 and 7. Separate transactions that attempt to insert values of 5 and 6 each lock the gap between 4 and 7 with insert intention locks prior to obtaining the exclusive lock on the inserted row, but do not block each other because the rows are nonconflicting.</p>
+<p>在插入行之前, 一种称为插入意图间隙锁的间隙锁被设置. 这个锁表示意图一种插入方式 : 多个事务插入同样的索引间隙, 如果它们不是插入间隙中的同样位置, 那么不必等待其他事务完成 (PS. 例如, 你想插入 4 和 5 到 3 和7 之间, 4 和 5 虽然插入的是同样的间隙, 但是它们插入的位置是不同的, 所以不应该阻塞彼此) 假设有值为 4 和 7 的索引记录, 事务分别尝试插入值 5 和 6, 每个事务在获取行的互斥锁之前都使用插入间隙锁锁住间隙 4 到 7, 但是因为行不冲突, 所以不会阻塞彼此</p>
+<p>If a duplicate-key error occurs, a shared lock on the duplicate index record is set. This use of a shared lock can result in deadlock should there be multiple sessions trying to insert the same row if another session already has an exclusive lock. This can occur if another session deletes the row. Suppose that an <code>InnoDB</code> table <code>t1</code> has the following structure:</p>
+<p>如果发生重复键错误, 在重复所以记录上设置一个共享锁, 这种共享锁的用法会导致死锁 : 可能会有多个会话尝试插入同样的行, 但彼此都已经有了一个互斥锁. 如果其他的事务尝试删除行, 那么可能会出错. 假设 InnoDB 表 t1 有如下结构 : </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (i <span class="built_in">INT</span>, PRIMARY <span class="keyword">KEY</span> (i)) <span class="keyword">ENGINE</span> = <span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Now suppose that three sessions perform the following operations in order:</p>
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 2:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 3:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ROLLBACK</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The first operation by session 1 acquires an exclusive lock for the row. The operations by sessions 2 and 3 both result in a duplicate-key error and they both request a shared lock for the row. When session 1 rolls back, it releases its exclusive lock on the row and the queued shared lock requests for sessions 2 and 3 are granted. At this point, sessions 2 and 3 deadlock: Neither can acquire an exclusive lock for the row because of the shared lock held by the other.</p>
+<p>会话1 的操作获取行的互斥锁, 会话2 和 会话3 都会导致重复键错误, 都请求获得共享锁. 当 会话1 回滚后, 释放它在行上的互斥锁, 排队的 会话2 和 会话3 被授权共享锁请求, 此时, 会话2 和 会话3 将会陷入死锁状态. 没有会话能获取行互斥锁, 因为彼此持有共享锁</p>
+<p>A similar situation occurs if the table already contains a row with key value 1 and three sessions perform the following operations in order:</p>
+<p>类似的情况还有 : 如果表已经包含了具有键值 1 的行, 三个会话顺序执行如下操作</p>
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> t1 <span class="keyword">WHERE</span> i = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Session 2:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 3:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Session 1:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The first operation by session 1 acquires an exclusive lock for the row. The operations by sessions 2 and 3 both result in a duplicate-key error and they both request a shared lock for the row. When session 1 commits, it releases its exclusive lock on the row and the queued shared lock requests for sessions 2 and 3 are granted. At this point, sessions 2 and 3 deadlock: Neither can acquire an exclusive lock for the row because of the shared lock held by the other.</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html" target="_blank" rel="noopener"><code>INSERT ... ON DUPLICATE KEY UPDATE</code></a> differs from a simple <a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank" rel="noopener"><code>INSERT</code></a> in that an exclusive lock rather than a shared lock is placed on the row to be updated when a duplicate-key error occurs. An exclusive index-record lock is taken for a duplicate primary key value. An exclusive next-key lock is taken for a duplicate unique key value.</p>
+<p>INSERT … ON DUPLICATE KEY UPDATE 不同于简单的 INSERT, 当重复键错误发生时, 它获取行的互斥锁而非共享锁, 重复主键值获取互斥索引记录锁, 重复唯一键值获取互斥 next-key 锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/replace.html" target="_blank" rel="noopener"><code>REPLACE</code></a> is done like an <a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank" rel="noopener"><code>INSERT</code></a> if there is no collision on a unique key. Otherwise, an exclusive next-key lock is placed on the row to be replaced.</p>
+<p>如果没有唯一键碰撞, REPLACE 行为类似 INSERT. 其他情况下, 获取行的互斥 next-key 锁</p>
+</li>
+<li><p><code>INSERT INTO T SELECT ... FROM S WHERE ...</code> sets an exclusive index record lock (without a gap lock) on each row inserted into <code>T</code>. If the transaction isolation level is <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_read-committed" target="_blank" rel="noopener"><code>READ COMMITTED</code></a>, <code>InnoDB</code> does the search on <code>S</code> as a consistent read (no locks). Otherwise, <code>InnoDB</code> sets shared next-key locks on rows from <code>S</code>. <code>InnoDB</code> has to set locks in the latter case: During roll-forward recovery using a statement-based binary log, every SQL statement must be executed in exactly the same way it was done originally.</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... SELECT ...</code></a> performs the <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank" rel="noopener"><code>SELECT</code></a> with shared next-key locks or as a consistent read, as for <a href="https://dev.mysql.com/doc/refman/8.0/en/insert-select.html" target="_blank" rel="noopener"><code>INSERT ... SELECT</code></a>.</p>
+<p>INSERT INTO T SELECT … FROM S WHERE … 在每个插入到 T 的行上设置一个互斥索引记录锁. </p>
+<p>如果事务隔离等级是 READ COMMITTED, InnoDB 在 S 上执行一致读, 其他情况, InnoDB 在来自 S 的行上设置共享 next-key 锁. InnoDB 需要在后一种情况下设置锁 : 在 roll-forward 恢复期间, 使用基于语句的二进制日志, 每个 SQL 语句必须以与初始语句完全相同的方式执行.</p>
+<p>CREATE TABLE … SELECT … 执行带有共享 next-key 锁或一致读的 SELECT 语句, 就像 INSERT … SELECT 一样</p>
+<p>When a <code>SELECT</code> is used in the constructs <code>REPLACE INTO t SELECT ... FROM s WHERE ...</code> or <code>UPDATE t ... WHERE col IN (SELECT ... FROM s ...)</code>, <code>InnoDB</code>sets shared next-key locks on rows from table <code>s</code>.</p>
+<p>当 SELECT 在构造 REPLACE INTO t SELECT … FROM s WHERE … 或 UPDATE t … WHERE col IN (SELECR … FROM s …) 语句时, InnoDB 在 s 中的行上设置共享锁</p>
+</li>
+<li><p>While initializing a previously specified <code>AUTO_INCREMENT</code> column on a table, <code>InnoDB</code> sets an exclusive lock on the end of the index associated with the <code>AUTO_INCREMENT</code>column. In accessing the auto-increment counter, <code>InnoDB</code> uses a specific <code>AUTO-INC</code> table lock mode where the lock lasts only to the end of the current SQL statement, not to the end of the entire transaction. Other sessions cannot insert into the table while the <code>AUTO-INC</code> table lock is held; see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-model.html" target="_blank" rel="noopener">Section 15.7.2, “InnoDB Transaction Model”</a>.</p>
+<p>当初始化在表上之前指定带有 AUTO_INCREMENT 关键字的列时, InnoDB 在与 AUTO_INCREMENT 关联的索引末尾设置互斥锁. 在访问自增计数器时, InnoDB 使用特殊的 AUTO-INC 表锁模式, 锁只持续当前 SQL 语句的末尾, 而不是当前事务的末尾. 其他会话不能在 AUTO-INC 表锁已获得的情况下插入数据进该表中</p>
+<p><code>InnoDB</code> fetches the value of a previously initialized <code>AUTO_INCREMENT</code> column without setting any locks.</p>
+<p>InnoDB 无需加锁即可获取之前初始化的 AUTO_INCREMENT 列的值</p>
+</li>
+<li><p>If a <code>FOREIGN KEY</code> constraint is defined on a table, any insert, update, or delete that requires the constraint condition to be checked sets shared record-level locks on the records that it looks at to check the constraint. <code>InnoDB</code> also sets these locks in the case where the constraint fails.</p>
+<p>如果表上定义了 FOREIGN KEY 约束, 任何插入, 更新, 或删除都需要检查约束条件, 在检查约束的记录上设置共享的, 记录级锁</p>
+</li>
+<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html" target="_blank" rel="noopener"><code>LOCK TABLES</code></a> sets table locks, but it is the higher MySQL layer above the <code>InnoDB</code> layer that sets these locks. <code>InnoDB</code> is aware of table locks if <code>innodb_table_locks = 1</code>(the default) and <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_autocommit" target="_blank" rel="noopener"><code>autocommit = 0</code></a>, and the MySQL layer above <code>InnoDB</code> knows about row-level locks.</p>
+<p>LOCK TABLES 设置表锁, 这是高于 InnoDB 层的 MySQL 层设置的锁. 如果 innodb_table_locks = 1 (默认) 并且 autocommit = 0, 则 InnoDB 能够感知表锁, MySQL 层知道行级锁</p>
+<p>Otherwise, <code>InnoDB</code>‘s automatic deadlock detection cannot detect deadlocks where such table locks are involved. Also, because in this case the higher MySQL layer does not know about row-level locks, it is possible to get a table lock on a table where another session currently has row-level locks. However, this does not endanger transaction integrity, as discussed in <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-deadlock-detection.html" target="_blank" rel="noopener">Section 15.7.5.2, “Deadlock Detection and Rollback”</a>. See also <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-restrictions.html" target="_blank" rel="noopener">Section 15.6.1.6, “Limits on InnoDB Tables”</a>.</p>
+<p>其他情况, InnoDB 的自动死锁发现机制不能察觉涉及这样的表锁的死锁, 同样, 因为在这样的情况下 MySQL 层不能察觉行级锁, 可以在另一个会话当前拥有行级锁的表上获取表锁. 然而, 这会危害事务的完整性</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/LimitsonInnoDBTables/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1726,87 +1893,6 @@ int main()
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/B-tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/read/B-tree/" class="post-title-link" itemprop="url">read/B-tree</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-07-25 17:54:48" itemprop="dateModified" datetime="2019-07-25T17:54:48+08:00">2019-07-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="原文地址-https-en-wikipedia-org-wiki-B-tree"><a href="#原文地址-https-en-wikipedia-org-wiki-B-tree" class="headerlink" title="原文地址 : https://en.wikipedia.org/wiki/B-tree"></a>原文地址 : <a href="https://en.wikipedia.org/wiki/B-tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/B-tree</a></h2><h2 id="B-tree"><a href="#B-tree" class="headerlink" title="B-tree"></a>B-tree</h2><p>In <a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener">computer science</a>, a <strong>B-tree</strong> is a self-balancing <a href="https://en.wikipedia.org/wiki/Tree_data_structure" target="_blank" rel="noopener">tree data structure</a> that maintains sorted data and allows searches, sequential access, insertions, and deletions in <a href="https://en.wikipedia.org/wiki/Logarithmic_time" target="_blank" rel="noopener">logarithmic time</a>. The B-tree is a generalization of a <a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">binary search tree</a> in that a node can have more than two children.<a href="https://en.wikipedia.org/wiki/B-tree#cite_note-Comer-1" target="_blank" rel="noopener">[1]</a> Unlike other <a href="https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree" target="_blank" rel="noopener">self-balancing binary search trees</a>, the B-tree is well suited for storage systems that read and write relatively large blocks of data, such as discs. It is commonly used in <a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">databases</a> and <a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">file systems</a>.</p>
-<p>What, if anything, the <em>B</em> stands for has never been established.</p>
-<p>在计算机科学中, B-tree 是自平衡树数据结构, 管理排序后的数据, 能常量时间内搜索. 序列访问, 插入和删除操作</p>
-<p>B-tree 是二分查找树的广泛实现, 即一个节点可以有超过两个子节点</p>
-<p>不像其他自平衡二分查找树, B-tree 适用于存储系统, 用作读取和写入相当庞大的数据</p>
-<p>比如 discs, 通常被数据库和操作系统使用</p>
-<h3 id="Overview-概览"><a href="#Overview-概览" class="headerlink" title="Overview (概览)"></a>Overview (概览)</h3><p>In B-trees, internal (<a href="https://en.wikipedia.org/wiki/Leaf_node" target="_blank" rel="noopener">non-leaf</a>) nodes can have a variable number of child nodes within some pre-defined range. When data is inserted or removed from a node, its number of child nodes changes. In order to maintain the pre-defined range, internal nodes may be joined or split. Because a range of child nodes is permitted, B-trees do not need re-balancing as frequently as other self-balancing search trees, but may waste some space, since nodes are not entirely full. The lower and upper bounds on the number of child nodes are typically fixed for a particular implementation. For example, in a <a href="https://en.wikipedia.org/wiki/2-3_tree" target="_blank" rel="noopener">2-3 B-tree</a> (often simply referred to as a <strong>2-3 tree</strong>), each internal node may have only 2 or 3 child nodes.</p>
-<p>Each internal node of a B-tree contains a number of <a href="https://en.wikipedia.org/wiki/Unique_key" target="_blank" rel="noopener">keys</a>. The keys act as separation values which divide its <a href="https://en.wikipedia.org/wiki/Subtree" target="_blank" rel="noopener">subtrees</a>. For example, if an internal node has 3 child nodes (or subtrees) then it must have 2 keys: <em>a</em>1 and <em>a</em>2. All values in the leftmost subtree will be less than <em>a</em>1, all values in the middle subtree will be between <em>a</em>1 and <em>a</em>2, and all values in the rightmost subtree will be greater than <em>a</em>2.</p>
-<p>在 B-tree 中, 内部(非叶子)节点可以在预定义范围内拥有可变数量的子节点</p>
-<p>当从节点中插入或删除数据时, 子节点的数量改变. 为了管理预定义的范围, 内部节点可以连接或分裂</p>
-<p>因为子节点的范围是受限的, B-tree 不需要像其他自平衡二分查找数一样频繁地重平衡, 但是会浪费一些空间, 因为节点不是填充满的</p>
-<p>子节点数量的上限和下限通常有具体的实现固定, 比如 2-3 B-tree(通常简称 2-3 tree) 每个内部节点只有 2 个 或 3个子节点</p>
-<p>每个 B-tree 的内部节点含有一些 keys, keys 充当分离的值 分离子树</p>
-<p>比如, 如果内部节点有 3 个子节点(或子树) 那么, 它必须有 2 个 keys : a1 和 a2</p>
-<p>所有在最左边子树的值 &lt;a1, 所有在中间子树的值 &gt;a1 &lt;a2, 在最右子树中的所有值 &gt;a2</p>
-<p>(PS. 这里没有考虑 = 的情况, 不过还行, 等于放在值的左边还是右边, 不会有太大影响)</p>
-<p>Usually, the number of keys is chosen to vary between {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> and {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d">, where {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> is the minimum number of keys, and {\displaystyle d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/056e0c06c828dbe71a0f9021b2828ff176a3d337" alt="d+1"> is the minimum <a href="https://en.wikipedia.org/wiki/Outdegree#Indegree_and_outdegree" target="_blank" rel="noopener">degree</a> or <a href="https://en.wikipedia.org/wiki/Branching_factor" target="_blank" rel="noopener">branching factor</a> of the tree. In practice, the keys take up the most space in a node. The factor of 2 will guarantee that nodes can be split or combined. If an internal node has {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys, then adding a key to that node can be accomplished by splitting the hypothetical {\displaystyle 2d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d68ab692c5c4a44b63f3bd320249b8cb8d035191" alt="2d+1"> key node into two {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> key nodes and moving the key that would have been in the middle to the parent node. Each split node has the required minimum number of keys. Similarly, if an internal node and its neighbor each have {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys, then a key may be deleted from the internal node by combining it with its neighbor. Deleting the key would make the internal node have {\displaystyle d-1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0195b64ba44bcc80b4c98e9d34256b4043fe519e" alt="d-1"> keys; joining the neighbor would add {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys plus one more key brought down from the neighbor’s parent. The result is an entirely full node of {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1877,7 +1963,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-count">107</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

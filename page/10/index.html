@@ -191,6 +191,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/300LongestIncreasingSubsequence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/leetcode/300LongestIncreasingSubsequence/" class="post-title-link" itemprop="url">leetcode/300LongestIncreasingSubsequence</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="300-Longest-Increasing-Subsequence"><a href="#300-Longest-Increasing-Subsequence" class="headerlink" title="300 Longest Increasing Subsequence"></a>300 Longest Increasing Subsequence</h2><p><img src="https://imgur.com/Pn1zsFZ.png" alt=""></p>
+<p>找出数组中最大的增长数量</p>
+<h3 id="my-solution-8ms-66-89"><a href="#my-solution-8ms-66-89" class="headerlink" title="my solution (8ms, 66.89%)"></a>my solution (8ms, 66.89%)</h3><p>emm… 考虑将每一个下降的 slice 视为一个数组, 因为这些数组只可能产生一个值  </p>
+<p>而再将这些 slice 循环, 每次从当前节点选择最小的数字, 每次前进时选择一个最小的比上一个节点大的数字  </p>
+<p>然后计数, 一次遍历下来就得到了最大增长序列的长度</p>
+<p>复杂度是一次 O(n) 的遍历  + 切片之后数组长度的遍历, 接近 O(n2)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">lengthOfLIS</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(nums) == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    stairs := [][]<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    temp := []<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    prev := <span class="number">0x7fffffff</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        <span class="keyword">if</span> v &lt; prev &#123;</span><br><span class="line">            temp = <span class="built_in">append</span>(temp, v)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            sort.Ints(temp)</span><br><span class="line">            stairs = <span class="built_in">append</span>(stairs, temp)</span><br><span class="line">            temp = []<span class="keyword">int</span>&#123;v&#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        prev = v</span><br><span class="line">    &#125;</span><br><span class="line">    sort.Ints(temp)</span><br><span class="line">    stairs = <span class="built_in">append</span>(stairs, temp)</span><br><span class="line"></span><br><span class="line">    size := <span class="built_in">len</span>(stairs)</span><br><span class="line">    count, ret := <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">        prev = stairs[i][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i2 := i + <span class="number">1</span>; i2 &lt; size; i2++ &#123;</span><br><span class="line">            ind, size2 := <span class="number">0</span>, <span class="built_in">len</span>(stairs[i2])</span><br><span class="line">            <span class="keyword">for</span> ind &lt; size2 &amp;&amp; stairs[i2][ind] &lt;= prev &#123;</span><br><span class="line">                ind++</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ind &gt;= size2 || stairs[i2][ind] &lt;= prev &#123;</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            &#125;</span><br><span class="line">            count++</span><br><span class="line">            prev = stairs[i2][ind]</span><br><span class="line">        &#125;</span><br><span class="line">        ret = max(ret, count)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ret &gt;= size - i &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        count = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>emm… 代码有点长</p>
+<p><img src="https://imgur.com/AqBweht.png" alt=""></p>
+<p>8ms 那个是我做的, 0 不是</p>
+<h3 id="best-solution"><a href="#best-solution" class="headerlink" title="best solution"></a>best solution</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">binsearch</span><span class="params">(stack []<span class="keyword">int</span>, x <span class="keyword">int</span>)</span> <span class="params">(r <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    l, r := <span class="number">0</span>, <span class="built_in">len</span>(stack)</span><br><span class="line">    <span class="keyword">for</span> l &lt; r &#123;</span><br><span class="line">        m := l + (r - l) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> stack[m] &gt;= x &#123;</span><br><span class="line">            r = m</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l = m + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">lengthOfLIS</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="params">(r <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    stack := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        r := binsearch(stack, num)</span><br><span class="line">        <span class="keyword">if</span> r &lt; <span class="number">0</span> &#123;</span><br><span class="line">            stack[<span class="number">0</span>] = num</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> r == <span class="built_in">len</span>(stack) &#123;</span><br><span class="line">            stack = <span class="built_in">append</span>(stack, num)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            stack[r] = num</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(stack)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单来说就是通过不断将数组按照升序添加到 slice 里面  (我将其称作 slice, 因为它的行为不太像 stack)</p>
+<p>slice 的元素只有两种情况会变更:  </p>
+<p>要么有更小的元素覆盖, 要么比 slice 中所有元素都大, 然后 append</p>
+<p>因为题目要求的只要长度, 所以即使 slice 里面元素可能是错误的, 也没关系, 长度是对的</p>
+<p>这样的复杂度是 O(n), 其实原理还是挺容易理解的, 为什么我就没想到呢 = =</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/31ZNextPermutation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -866,80 +940,6 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/56ZMergeIntervals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/56ZMergeIntervals/" class="post-title-link" itemprop="url">leetcode/56ZMergeIntervals</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:08:55 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:08:55+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Merge-Intervals"><a href="#Merge-Intervals" class="headerlink" title="Merge Intervals"></a>Merge Intervals</h3><p><img src="https://imgur.com/EpONkBi.png" alt=""></p>
-<p>给定一个区间的集合, 合并所有重复的区间</p>
-<h3 id="my-solution-12ms"><a href="#my-solution-12ms" class="headerlink" title="my solution (12ms)"></a>my solution (12ms)</h3><p>可以通过重新排序的形式来一步步合并, 比如:</p>
-<p>start:     1 2 8  15</p>
-<p>end:      3 6 10 18</p>
-<p>其中 start 和 end 是经排序后的数组  </p>
-<p>从 1 开始, 如果接下来的开始下标小于当前的结束下标 (2 &lt; 3)  </p>
-<p>那么, 就可以合并, 继续对比下一个. (8 &lt; 6) 不成立, 那么第一个区间就出现了, 1-6  </p>
-<p>接下来从 8 开始, 继续以上步骤, 直至数组尾部, 这样算法的复杂度就是 O(n)  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for an interval.</span></span><br><span class="line"><span class="comment"> * struct Interval &#123;</span></span><br><span class="line"><span class="comment"> *     int start;</span></span><br><span class="line"><span class="comment"> *     int end;</span></span><br><span class="line"><span class="comment"> *     Interval() : start(0), end(0) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     Interval(int s, int e) : start(s), end(e) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []() &#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">vector</span>&lt;Interval&gt;&amp; intervals) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; start;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">end</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;Interval&gt; ret;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : intervals) &#123;</span><br><span class="line">            start.push_back(it.start);</span><br><span class="line">            <span class="built_in">end</span>.push_back(it.<span class="built_in">end</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sort(start.<span class="built_in">begin</span>(), start.<span class="built_in">end</span>());</span><br><span class="line">        sort(<span class="built_in">end</span>.<span class="built_in">begin</span>(), <span class="built_in">end</span>.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">size_t</span> <span class="built_in">size</span> = start.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ) &#123;</span><br><span class="line">            <span class="keyword">int</span> ti = i;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i++; ;) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= <span class="built_in">size</span> || i &gt;= <span class="built_in">size</span>) &#123;	<span class="comment">// 这里应该可以少判断 j 的值</span></span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>.back()&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (start[i] &lt;= <span class="built_in">end</span>[j]) &#123;</span><br><span class="line">                    ++i, ++j;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    ret.push_back( &#123;start[ti], <span class="built_in">end</span>[j]&#125; );</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>代码如上, 应该还有可以优化的地方 (比如说外围 for 循环, 他仅仅就是一个保留 i 的作用)</p>
-<p><img src="https://imgur.com/57NGf4L.png" alt=""></p>
-<p>结果还不错</p>
-<h3 id="the-best-solution-8ms"><a href="#the-best-solution-8ms" class="headerlink" title="the best solution (8ms)"></a>the best solution (8ms)</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> _ = []()&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; merge(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt;&amp; Intervals) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> IntervalNum = Intervals.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (IntervalNum &lt; <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> Intervals;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::sort(Intervals.<span class="built_in">begin</span>(), Intervals.<span class="built_in">end</span>(), </span><br><span class="line">                  [](<span class="keyword">const</span> Interval &amp;A, <span class="keyword">const</span> Interval &amp;B) &#123;</span><br><span class="line">                      <span class="keyword">return</span> A.start &lt; B.start;</span><br><span class="line">                  &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Interval&gt; Merged &#123;Intervals[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; IntervalNum; ++i) &#123;</span><br><span class="line">            <span class="keyword">const</span> Interval &amp;Curr = Intervals[i];</span><br><span class="line">            Interval &amp;LastMerged = Merged.back();</span><br><span class="line">            <span class="comment">// 完全被内含的区间会被跳过</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.<span class="built_in">end</span> &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">			<span class="comment">// 更新区间的最大值</span></span><br><span class="line">            <span class="keyword">if</span> (Curr.start &lt;= LastMerged.<span class="built_in">end</span>)</span><br><span class="line">                LastMerged.<span class="built_in">end</span> = Curr.<span class="built_in">end</span>;</span><br><span class="line">            <span class="keyword">else</span>	<span class="comment">// 下一个区间完全不在当前区间内, 不能合并. 压入当前区间, 继续执行</span></span><br><span class="line">                Merged.push_back(Curr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Merged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>他的排序是直接在 Intervals 进行, 并且只比对 start  (也是, 我好像做了多余的比对)</p>
-<p>想法大致是一样的, 但是细节不够好</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1010,7 +1010,7 @@ cin.tie(nullptr);        // 在每一次输入之前, 不要让他调用 cout �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-count">107</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

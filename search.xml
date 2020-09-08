@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>read/SICP</title>
+    <url>/2020/09/09/read/SICP/</url>
+    <content><![CDATA[<p>“I think that it’s extraordinarily important that we in com- puter science keep fun in computing. When it started out, it was an awful lot of fun. Of course, the paying customers got shaed every now and then, and aer a while we began to take their complaints seriously. We began to feel as if we really were responsible for the successful, error-free perfect use of these machines. I don’t think we are. I think we’re responsible for stretching them, seing them off in new di- rections, and keeping fun in the house. I hope the field of computer science never loses its sense of fun. Above all, I hope we don’t become missionaries. Don’t feel as if you’re Bible salesmen. e world has too many of those already. What you know about computing other people will learn. Don’t feel as if the key to successful computing is only in your hands. What’s in your hands, I think and hope, is in- telligence: the ability to see the machine as more than when you were first led up to it, that you can make it more.”</p>
+<p>感觉受到了莫大的鼓舞. 尤其是 What’s in your hands, I think and hope, is intelligence: the ability to see the machine as more than when you were first led up to it, that you can make it more.”</p>
+<p>PS: 现在正在读 “structure and interpretation of computer programs” . 以上是这本书的前言. 这本书应该是第三次读了. 这次我要认真读完! :)</p>
+]]></content>
+  </entry>
+  <entry>
     <title>read/C++14C++17</title>
     <url>/2020/09/06/read/C++14C++17/</url>
     <content><![CDATA[<h1 id="C-14-C-17"><a href="#C-14-C-17" class="headerlink" title="C++14~C++17"></a>C++14~C++17</h1><p>之前我总结过 C++14 的一些东西, 但现在已经 2020 了啊 = =  </p>

@@ -191,6 +191,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/B-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/B-tree/" class="post-title-link" itemprop="url">read/B-tree</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-07-25 17:54:48" itemprop="dateModified" datetime="2019-07-25T17:54:48+08:00">2019-07-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="原文地址-https-en-wikipedia-org-wiki-B-tree"><a href="#原文地址-https-en-wikipedia-org-wiki-B-tree" class="headerlink" title="原文地址 : https://en.wikipedia.org/wiki/B-tree"></a>原文地址 : <a href="https://en.wikipedia.org/wiki/B-tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/B-tree</a></h2><h2 id="B-tree"><a href="#B-tree" class="headerlink" title="B-tree"></a>B-tree</h2><p>In <a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener">computer science</a>, a <strong>B-tree</strong> is a self-balancing <a href="https://en.wikipedia.org/wiki/Tree_data_structure" target="_blank" rel="noopener">tree data structure</a> that maintains sorted data and allows searches, sequential access, insertions, and deletions in <a href="https://en.wikipedia.org/wiki/Logarithmic_time" target="_blank" rel="noopener">logarithmic time</a>. The B-tree is a generalization of a <a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">binary search tree</a> in that a node can have more than two children.<a href="https://en.wikipedia.org/wiki/B-tree#cite_note-Comer-1" target="_blank" rel="noopener">[1]</a> Unlike other <a href="https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree" target="_blank" rel="noopener">self-balancing binary search trees</a>, the B-tree is well suited for storage systems that read and write relatively large blocks of data, such as discs. It is commonly used in <a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">databases</a> and <a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">file systems</a>.</p>
+<p>What, if anything, the <em>B</em> stands for has never been established.</p>
+<p>在计算机科学中, B-tree 是自平衡树数据结构, 管理排序后的数据, 能常量时间内搜索. 序列访问, 插入和删除操作</p>
+<p>B-tree 是二分查找树的广泛实现, 即一个节点可以有超过两个子节点</p>
+<p>不像其他自平衡二分查找树, B-tree 适用于存储系统, 用作读取和写入相当庞大的数据</p>
+<p>比如 discs, 通常被数据库和操作系统使用</p>
+<h3 id="Overview-概览"><a href="#Overview-概览" class="headerlink" title="Overview (概览)"></a>Overview (概览)</h3><p>In B-trees, internal (<a href="https://en.wikipedia.org/wiki/Leaf_node" target="_blank" rel="noopener">non-leaf</a>) nodes can have a variable number of child nodes within some pre-defined range. When data is inserted or removed from a node, its number of child nodes changes. In order to maintain the pre-defined range, internal nodes may be joined or split. Because a range of child nodes is permitted, B-trees do not need re-balancing as frequently as other self-balancing search trees, but may waste some space, since nodes are not entirely full. The lower and upper bounds on the number of child nodes are typically fixed for a particular implementation. For example, in a <a href="https://en.wikipedia.org/wiki/2-3_tree" target="_blank" rel="noopener">2-3 B-tree</a> (often simply referred to as a <strong>2-3 tree</strong>), each internal node may have only 2 or 3 child nodes.</p>
+<p>Each internal node of a B-tree contains a number of <a href="https://en.wikipedia.org/wiki/Unique_key" target="_blank" rel="noopener">keys</a>. The keys act as separation values which divide its <a href="https://en.wikipedia.org/wiki/Subtree" target="_blank" rel="noopener">subtrees</a>. For example, if an internal node has 3 child nodes (or subtrees) then it must have 2 keys: <em>a</em>1 and <em>a</em>2. All values in the leftmost subtree will be less than <em>a</em>1, all values in the middle subtree will be between <em>a</em>1 and <em>a</em>2, and all values in the rightmost subtree will be greater than <em>a</em>2.</p>
+<p>在 B-tree 中, 内部(非叶子)节点可以在预定义范围内拥有可变数量的子节点</p>
+<p>当从节点中插入或删除数据时, 子节点的数量改变. 为了管理预定义的范围, 内部节点可以连接或分裂</p>
+<p>因为子节点的范围是受限的, B-tree 不需要像其他自平衡二分查找数一样频繁地重平衡, 但是会浪费一些空间, 因为节点不是填充满的</p>
+<p>子节点数量的上限和下限通常有具体的实现固定, 比如 2-3 B-tree(通常简称 2-3 tree) 每个内部节点只有 2 个 或 3个子节点</p>
+<p>每个 B-tree 的内部节点含有一些 keys, keys 充当分离的值 分离子树</p>
+<p>比如, 如果内部节点有 3 个子节点(或子树) 那么, 它必须有 2 个 keys : a1 和 a2</p>
+<p>所有在最左边子树的值 &lt;a1, 所有在中间子树的值 &gt;a1 &lt;a2, 在最右子树中的所有值 &gt;a2</p>
+<p>(PS. 这里没有考虑 = 的情况, 不过还行, 等于放在值的左边还是右边, 不会有太大影响)</p>
+<p>Usually, the number of keys is chosen to vary between {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> and {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d">, where {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> is the minimum number of keys, and {\displaystyle d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/056e0c06c828dbe71a0f9021b2828ff176a3d337" alt="d+1"> is the minimum <a href="https://en.wikipedia.org/wiki/Outdegree#Indegree_and_outdegree" target="_blank" rel="noopener">degree</a> or <a href="https://en.wikipedia.org/wiki/Branching_factor" target="_blank" rel="noopener">branching factor</a> of the tree. In practice, the keys take up the most space in a node. The factor of 2 will guarantee that nodes can be split or combined. If an internal node has {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys, then adding a key to that node can be accomplished by splitting the hypothetical {\displaystyle 2d+1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d68ab692c5c4a44b63f3bd320249b8cb8d035191" alt="2d+1"> key node into two {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> key nodes and moving the key that would have been in the middle to the parent node. Each split node has the required minimum number of keys. Similarly, if an internal node and its neighbor each have {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys, then a key may be deleted from the internal node by combining it with its neighbor. Deleting the key would make the internal node have {\displaystyle d-1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0195b64ba44bcc80b4c98e9d34256b4043fe519e" alt="d-1"> keys; joining the neighbor would add {\displaystyle d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" alt="d"> keys plus one more key brought down from the neighbor’s parent. The result is an entirely full node of {\displaystyle 2d}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d8106478cb4da6af49992eeb3a3b8690d27797ad" alt="2d"> keys.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/aQuestionAboutStaticKeyword/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1090,96 +1171,6 @@ set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: �
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/permission/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/permission/" class="post-title-link" itemprop="url">other/permission</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="permission-denied"><a href="#permission-denied" class="headerlink" title="permission denied"></a>permission denied</h3><blockquote>
-<p>有些时候, linux下执行/访问文件的时候, 都会报这个错</p>
-<p>错误的原因是: 权限被拒绝, 那么linux的权限是怎么规定的?</p>
-</blockquote>
-<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><blockquote>
-<p>执行ll后, 显示的信息:</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-rwxrwxr-x 1 wd wd  8419 Nov  8 10:47 a.out</span><br><span class="line">-rw-rw-r-- 1 wd wd 60579 Oct 25 21:11 t</span><br><span class="line">-rw-rw-r-- 1 wd wd   272 Oct 25 21:11 t.cpp</span><br><span class="line">-rw-rw-r-- 1 wd wd   369 Nov  8 10:47 time.cpp</span><br><span class="line">-rw-rw-r-- 1 wd wd 71784 Oct 29 11:53 t.o</span><br><span class="line">-rw-rw-r-- 1 wd wd  5815 Oct 29 11:57 t.s</span><br></pre></td></tr></table></figure>
-<p>其中 -rw-rw-r– 这一串代表的就是linux的文件权限, 一共有10个字符  </p>
-<p>其中最开始的字符代表文件类型, 比如:  - 代表一般文件, l 代表链接文件</p>
-<p>后面9个字符分为三部分, 分别代表: user(用户), group(组), other(其他)</p>
-<p>每个部分有3个字符, 分别表示: r(read, 可读), w(write, 可写), x(execute 可执行)</p>
-<p>如果某一部分没有这个权限, 则用 - 占位</p>
-<p>因此可知 -rw-rw-r– 意为:</p>
-<p>一般文件, 拥有者可读写, 同组用户可读写, 其他用户可读</p>
-<h3 id="隐藏属性"><a href="#隐藏属性" class="headerlink" title="隐藏属性"></a>隐藏属性</h3><p>除此之外, linux的文件还有隐藏的属性</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[...]$ lsattr .</span><br><span class="line">-------------e- ./t.o</span><br><span class="line">-------------e- ./a.out</span><br><span class="line">-------------e- ./t.s</span><br><span class="line">-------------e- ./time.cpp</span><br><span class="line">-------------e- ./t</span><br><span class="line">-------------e- ./t.cpp</span><br></pre></td></tr></table></figure>
-<p>通过lsattr(attribute), 可以查询文件的隐藏属性, 其中比较重要的属性有:</p>
-<p>a: append, 只能添加, 不能更改和删除</p>
-<p>i: 不能删除. 改名, 设置链接, 同时也无法写入和添加数据</p>
-<p>属性的增加和删除, 可以通过chattr + - 来设置, 如果想直接赋予一个新的属性, 可以使用 = </p>
-<h3 id="特殊权限"><a href="#特殊权限" class="headerlink" title="特殊权限"></a>特殊权限</h3><p>文件除此之外还有一些特殊的权限, SUID, SGID, SBIT</p>
-<p>SUID位于user权限组: 拥有这个属性的文件, 最后一个字符位s, 例如: -rws——</p>
-<p>​    SUID仅对二进制程序有效</p>
-<p>​    SUID意为如果执行者拥有x权限, 当执行文件时, 执行者暂时拥有root权限</p>
-<p>SGID位于group权限组: 拥有这个属性的文件, 最后一个字符位s, 例如: —-rws—</p>
-<p>​    SGID意为如果执行者拥有x权限, 当执行文件时, 执行者暂时拥有用户组权限</p>
-<p>SBIT位于other权限组:</p>
-<p>​    SBIT仅对目录游泳: 拥有这个属性的文件, 最后一个字符位t, 例如: ——-rwt</p>
-<p>​    SBIT意为: 当前面目录下, A仅仅只能删除(包括移动和重命名)A拥有的文件(文件持有者是A)</p>
-<p>​        不能删除B的文件</p>
-<p>以上来自鸟哥私房菜, 详细参照第二部分</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1250,7 +1241,7 @@ set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-count">107</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
