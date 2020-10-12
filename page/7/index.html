@@ -191,6 +191,290 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/CreateInnoDBTables/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/CreateInnoDBTables/" class="post-title-link" itemprop="url">read/CreateInnoDBTables</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-07-31 15:18:10" itemprop="dateModified" datetime="2019-07-31T15:18:10+08:00">2019-07-31</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><h4 id="15-6-1-1-Creating-InnoDB-Tables"><a href="#15-6-1-1-Creating-InnoDB-Tables" class="headerlink" title="15.6.1.1 Creating InnoDB Tables"></a>15.6.1.1 Creating InnoDB Tables</h4></li>
+</ul>
+<p>  To create an <code>InnoDB</code> table, use the <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statement.</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (a)) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+
+<p>  You do not need to specify the <code>ENGINE=InnoDB</code> clause if <code>InnoDB</code> is defined as the default storage engine, which it is by default. To check the default storage engine, issue the following statement:</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT @@default_storage_engine;</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| @@default_storage_engine |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| InnoDB                   |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>  You might still use <code>ENGINE=InnoDB</code> clause if you plan to use <a href="https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html" target="_blank" rel="noopener"><strong>mysqldump</strong></a> or replication to replay the <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statement on a server where the default storage engine is not <code>InnoDB</code>.</p>
+<p>  如果你计划使用 mysqldump/复制 将 CREATE TABLE 语句复现在另外一个默认存储引擎不是 InnoDB 的服务器上, 就坚持使用 ENGINE=InnoDB 子句 (不过我看 mysqldump 出的语句中会显式指定存储引擎类型)</p>
+<p>  An <code>InnoDB</code> table and its indexes can be created in the <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_system_tablespace" target="_blank" rel="noopener">system tablespace</a>, in a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_file_per_table" target="_blank" rel="noopener">file-per-table</a> tablespace, or in a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_general_tablespace" target="_blank" rel="noopener">general tablespace</a>. When <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> is enabled, which is the default, an <code>InnoDB</code> table is implicitly created in an individual file-per-table tablespace. Conversely, when <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> is disabled, an <code>InnoDB</code> table is implicitly created in the <code>InnoDB</code> system tablespace. To create a table in a general tablespace, use <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... TABLESPACE</code></a> syntax. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
+<p>  InnoDB 表及它的索引可以创建在 system tablespace, file-per-table tablespace  或 general tablespace. 当 innodb_file_per_table 启用, InnoDB 表默认创建在单独的 file-per-rable 表空间中, 相反, 则创建在 system tablespace 中. </p>
+<p>  使用 CREATE TABLE … TABLESPACE 语法可以创建在 general tablespace 中</p>
+<p>  When you create a table in a file-per-table tablespace, MySQL creates an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_ibd_file" target="_blank" rel="noopener">.ibd</a> tablespace file in a database directory under the MySQL data directory, by default. A table created in the <code>InnoDB</code> system tablespace is created in an existing <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_ibd_file" target="_blank" rel="noopener">ibdata file</a>, which resides in the MySQL data directory. A table created in a general tablespace is created in an existing general tablespace <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_ibd_file" target="_blank" rel="noopener">.ibd file</a>. General tablespace files can be created inside or outside of the MySQL data directory. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
+<p>  当你创建一个在 file-per-table 表空间中的表时, MySQL 在主目录下的单个数据库目录中创建 .idb 文件  </p>
+<p>  在 InnoDB system 表空间中则创建在一个在 MySQL 主目录下已存在的 ibdata 文件中(PS. 那么 ibdata 文件是什么时候创建的? 如何增长?) </p>
+<p>  Internally, <code>InnoDB</code> adds an entry for each table to the data dictionary. The entry includes the database name. For example, if table <code>t1</code> is created in the <code>test</code> database, the data dictionary entry for the database name is <code>&#39;test/t1&#39;</code>. This means you can create a table of the same name (<code>t1</code>) in a different database, and the table names do not collide inside <code>InnoDB</code>.</p>
+<h5 id="InnoDB-Tables-and-Row-Formats"><a href="#InnoDB-Tables-and-Row-Formats" class="headerlink" title="InnoDB Tables and Row Formats"></a>InnoDB Tables and Row Formats</h5><p>  The default row format for <code>InnoDB</code> tables is defined by the <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_default_row_format" target="_blank" rel="noopener"><code>innodb_default_row_format</code></a> configuration option, which has a default value of <code>DYNAMIC</code>. <code>Dynamic</code> and<code>Compressed</code> row format allow you to take advantage of <code>InnoDB</code> features such as table compression and efficient off-page storage of long column values. To use these row formats, <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="noopener"><code>innodb_file_per_table</code></a> must be enabled (the default).</p>
+<p>  InnoDB 表的行格式化由 innodb_default_row_format 定义, 默认是 DYNAMIC </p>
+<p>  Dynamic 和 Compressed 行格式化提供了 InnoDB 高级特性, 比如 压缩表, 高效的长列值页外存储</p>
+<p>  使用这些行格式化, 必须启用 innodb_file_per_table</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> innodb_file_per_table=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t3 (a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (a)) ROW_FORMAT=DYNAMIC;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t4 (a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (a)) ROW_FORMAT=COMPRESSED;</span><br></pre></td></tr></table></figure>
+
+<p>  Alternatively, you can use <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... TABLESPACE</code></a> syntax to create an <code>InnoDB</code> table in a general tablespace. General tablespaces support all row formats. For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html" target="_blank" rel="noopener">Section 15.6.3.3, “General Tablespaces”</a>.</p>
+<p>  另外, 你可以使用 CREATE TABLE … TABLESAPCE 语法在 general tablespace 创建 InnoDB 表. general tablespace 支持所有的行格式化</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>) <span class="keyword">TABLESPACE</span> ts1 ROW_FORMAT=DYNAMIC;</span><br></pre></td></tr></table></figure>
+
+<p>  <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE ... TABLESPACE</code></a> syntax can also be used to create <code>InnoDB</code> tables with a <code>Dynamic</code> row format in the system tablespace, alongside tables with a <code>Compact</code> or<code>Redundant</code> row format.</p>
+<p>  CREATE TABLE … TABLESPACE 语法也可以被用作在 system tablespace 中创建 Dynamic 格式化的表, 以及 Compacr 或 Redundant 格式化</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>) <span class="keyword">TABLESPACE</span> = innodb_system ROW_FORMAT=DYNAMIC;</span><br></pre></td></tr></table></figure>
+
+<p>  For more information about <code>InnoDB</code> row formats, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html" target="_blank" rel="noopener">Section 15.10, “InnoDB Row Formats”</a>. For how to determine the row format of an <code>InnoDB</code> table and the physical characteristics of <code>InnoDB</code> row formats, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html" target="_blank" rel="noopener">Section 15.10, “InnoDB Row Formats”</a>.</p>
+<h5 id="InnoDB-Tables-and-Primary-Keys"><a href="#InnoDB-Tables-and-Primary-Keys" class="headerlink" title="InnoDB Tables and Primary Keys"></a>InnoDB Tables and Primary Keys</h5><p>  Always define a <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_primary_key" target="_blank" rel="noopener">primary key</a> for an <code>InnoDB</code> table, specifying the column or columns that:</p>
+<ul>
+<li><p>Are referenced by the most important queries.</p>
+</li>
+<li><p>Are never left blank.</p>
+</li>
+<li><p>Never have duplicate values.</p>
+</li>
+<li><p>Rarely if ever change value once inserted.</p>
+<p>通常会为 InnoDB 表定义一个主键, 说明列具有: 被最重要的查询引用, 永远不为空, 永远不重复, 一旦插入, 则很少改动</p>
+<p>For example, in a table containing information about people, you would not create a primary key on <code>(firstname, lastname)</code> because more than one person can have the same name, some people have blank last names, and sometimes people change their names. With so many constraints, often there is not an obvious set of columns to use as a primary key, so you create a new column with a numeric ID to serve as all or part of the primary key. You can declare an <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_auto_increment" target="_blank" rel="noopener">auto-increment</a> column so that ascending values are filled in automatically as rows are inserted:</p>
+<p>比如, 在一个包含民众信息的表中, 不能创建以 (firstname, lastname) 组合的值为主键, 因为名字很可能重复, 一些人没有 lastname, 一些人会改变他们的名字. </p>
+<p>涉及到这么多的限制, 进程没有一个明显列的集合能作为主键. 所以可以创建一个新的数字列用作整个或部分主键, 声明为 auto-increament  可以使行在插入时自增</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The value of ID can act like a pointer between related items in different tables.</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t5 (<span class="keyword">id</span> <span class="built_in">INT</span> AUTO_INCREMENT, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment"># The primary key can consist of more than one column. Any autoinc column must come first.</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t6 (<span class="keyword">id</span> <span class="built_in">INT</span> AUTO_INCREMENT, a <span class="built_in">INT</span>, b <span class="built_in">CHAR</span> (<span class="number">20</span>), PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>,a));</span><br></pre></td></tr></table></figure>
+
+<p>Although the table works correctly without defining a primary key, the primary key is involved with many aspects of performance and is a crucial design aspect for any large or frequently used table. It is recommended that you always specify a primary key in the <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener"><code>CREATE TABLE</code></a> statement. If you create the table, load data, and then run <a href="https://dev.mysql.com/doc/refman/8.0/en/alter-table.html" target="_blank" rel="noopener"><code>ALTER TABLE</code></a> to add a primary key later, that operation is much slower than defining the primary key when creating the table.</p>
+<p>尽管没有定义主键 表也可以正常运行, 但是主键包含了许多性能方面和重要的为大容量或频繁使用表做的设计, 建议你总是在表中指定一个主键. </p>
+<p>在创建和加载表之后使用 ALTER TABLE 语句增加主键, 速度会远慢于一开始创建时指定主键</p>
+</li>
+</ul>
+<h5 id="Viewing-InnoDB-Table-Properties"><a href="#Viewing-InnoDB-Table-Properties" class="headerlink" title="Viewing InnoDB Table Properties"></a>Viewing InnoDB Table Properties</h5><p>  To view the properties of an <code>InnoDB</code> table, issue a <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> statement:</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW TABLE STATUS FROM test LIKE 't%' \G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           Name: t1</span><br><span class="line">         Engine: InnoDB</span><br><span class="line">        Version: 10</span><br><span class="line">     Row_format: Compact</span><br><span class="line">           Rows: 0</span><br><span class="line"> Avg_row_length: 0</span><br><span class="line">    Data_length: 16384</span><br><span class="line">Max_data_length: 0</span><br><span class="line">   Index_length: 0</span><br><span class="line">      Data_free: 0</span><br><span class="line"> Auto_increment: NULL</span><br><span class="line">    Create_time: 2015-03-16 15:13:31</span><br><span class="line">    Update_time: NULL</span><br><span class="line">     Check_time: NULL</span><br><span class="line">      Collation: utf8mb4_0900_ai_ci</span><br><span class="line">       <span class="keyword">Checksum</span>: <span class="literal">NULL</span></span><br><span class="line"> Create_options:</span><br><span class="line">        <span class="keyword">Comment</span>:</span><br></pre></td></tr></table></figure>
+
+<p>  For information about <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener"><code>SHOW TABLE STATUS</code></a> output, see <a href="https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html" target="_blank" rel="noopener">Section 13.7.6.36, “SHOW TABLE STATUS Syntax”</a>.</p>
+<p>  <code>InnoDB</code> table properties may also be queried using the <code>InnoDB</code> Information Schema system tables:</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM INFORMATION_SCHEMA.INNODB_TABLES WHERE NAME='test/t1' \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     TABLE_ID: 45</span><br><span class="line">         NAME: test/t1</span><br><span class="line">         FLAG: 1</span><br><span class="line">       N_COLS: 5</span><br><span class="line">        SPACE: 35</span><br><span class="line">   ROW_FORMAT: Compact</span><br><span class="line">ZIP_PAGE_SIZE: 0</span><br><span class="line">   SPACE_TYPE: Single</span><br></pre></td></tr></table></figure>
+
+<p>  For more information, see <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-information-schema-system-tables.html" target="_blank" rel="noopener">Section 15.14.3, “InnoDB INFORMATION_SCHEMA Schema Object Tables”</a>.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/Choosing_the_best_indexes_for_MySQL_query_optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/read/Choosing_the_best_indexes_for_MySQL_query_optimization/" class="post-title-link" itemprop="url">read/Choosing_the_best_indexes_for_MySQL_query_optimization</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-09 17:17:38" itemprop="dateCreated datePublished" datetime="2020-01-09T17:17:38+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-07-25 13:39:14" itemprop="dateModified" datetime="2019-07-25T13:39:14+08:00">2019-07-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="原文-https-www-eversql-com-choosing-the-best-indexes-for-mysql-query-optimization"><a href="#原文-https-www-eversql-com-choosing-the-best-indexes-for-mysql-query-optimization" class="headerlink" title="原文 : https://www.eversql.com/choosing-the-best-indexes-for-mysql-query-optimization/"></a>原文 : <a href="https://www.eversql.com/choosing-the-best-indexes-for-mysql-query-optimization/" target="_blank" rel="noopener">https://www.eversql.com/choosing-the-best-indexes-for-mysql-query-optimization/</a></h2><h2 id="Which-indexes-should-I-create-for-an-SQL-query"><a href="#Which-indexes-should-I-create-for-an-SQL-query" class="headerlink" title="Which indexes should I create for an SQL query?"></a>Which indexes should I create for an SQL query?</h2><h2 id="我应该为SQL查询创建哪些索引"><a href="#我应该为SQL查询创建哪些索引" class="headerlink" title="我应该为SQL查询创建哪些索引?"></a>我应该为SQL查询创建哪些索引?</h2><p>As a general rule of thumb, MySQL can only use one index for each table in the query. Therefore, there is no point in creating more than one index for each query. Preferably, same indexes should match as many of the queries as possible, as it will reduce the load on the database when inserting or updating data (which requires updating the indexes as well).</p>
+<p>按照一般的经验法则, MySQL查询中的每个表只能使用一个索引</p>
+<p>(High Performance MySQL 中澄清了, 有可能会组合, 但最好不要依赖于它)</p>
+<p>所以, 为每个查询创建多个索引是没有意义的, 更恰当的情况是, 同样的索引匹配尽可能多的查询</p>
+<p>因为这将会在插入或更改数据时, 减少数据库的负载(该操作同样也需要更新索引)</p>
+<p>When creating an index, the most important parts are the equality conditions in the WHERE and JOIN conditions. In most cases, conditions such as name = ‘John’ will allow the database to filter most of the rows from the table and go through a small amount of rows to return the required results. Therefore, we should start indexing by adding these columns to the index.</p>
+<p>当创建索引时, 最重要的是在 WHERE 和 JOIN 中的等式条件 </p>
+<p>在大多数情况下, 像 name = ‘John’ 这样的条件会使数据区从表中筛选行, 通过少量的行返回需要的数据</p>
+<p>我们应该通过增加这些列到索引中来开始索引</p>
+<p>Then, you should look into the range conditions, but you should only add one of them – the most selective one, as MySQL can’t handle more of them. In some cases when there are no range conditions, it makes sense to add the GROUP BY / ORDER BY columns, assuming the ordering is done in only one direction (ASC / DESC).</p>
+<p>然后, 你应该关注范围条件, 但是你只能增加其中一个, 可选性最大的一个, 因为MySQL不能处理更多</p>
+<p>(PS. 关于 selectivity, High Performance MySQL 5.3 节中 Choosing a Good Column Order 中有介绍)</p>
+<p>(简单来理解的话, 就是最具可选性, 最能分辨的列)</p>
+<p>在某些情况下没有范围条件, 增加 GROUP BY/ORDER BY 列, 假设顺序由其中一个方向确定(ASC/DESC)</p>
+<p>In some cases, it also makes sense to create a separate index that contains the ORDER BY clause’s columns, as MySQL sometimes chooses to use it. Please note though that for this to happen, the index should contain all columns from the ORDER BY clause and they should all be specified with the same order (ASC / DESC). This doesn’t guarantee that the database’s optimizer will pick this index rather than the other compound indexes, but it’s worth a try.</p>
+<p>有时候, 也可以创建一个单独的索引包含 ORDER BY 子句的列, 因为 MySQL 有时会选择使用它</p>
+<p>请记住, 为了实现这一点, 索引应该包含 ORDER BY 子句中所有的列, 并且被指定为相同的顺序(ASC/DESC) </p>
+<p>这不保证数据库的优化是否会选择这个, 而不是其他组合索引, 但是值得一试</p>
+<p>Also, in some cases, it makes sense to also add the columns from the SELECT clause to the index, to have a complete covering index. This only relevant if the index isn’t already ‘too large’. What’s too large? Well, no official rule of thumb here, but let’s say… 5-7 columns? Creating a covering index allows the database to not only filter using the index, but to also fetch the information required by the SELECT clause directly from the index, which saves precious I/O operations.</p>
+<p>同样的, 有时增加 SELECT 中的列, 以拥有一个完整的覆盖索引也是有必要的, 但只当索引不长时, 才有意义</p>
+<p>那么, 多长才是长么? emm… 没有官方规定这个, 但是估计一下… 5-7列? </p>
+<p>创建覆盖索引使数据库不仅能过滤, 同时也能直接从索引中获取 SELECT 子句需要的信息, 以节省宝贵的 I/O 操作</p>
+<p>Let’s look at an example to clarify: (通过一个例子理解一下)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    <span class="keyword">id</span>, first_name, last_name, age</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    employees</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">    first_name = <span class="string">'John'</span></span><br><span class="line">        <span class="keyword">AND</span> last_name = <span class="string">'Brack'</span></span><br><span class="line">        <span class="keyword">AND</span> age &gt; <span class="number">25</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> age <span class="keyword">ASC</span>;</span><br></pre></td></tr></table></figure>
+<p>For this query, we’ll start with adding the columns <em>first_name</em> and <em>last_name</em>, which are compared with an equality operator. Then, we’ll add the <em>age</em> column which is compared with a range condition. No need to have the ORDER BY clause indexed here, as the <em>age</em> column is already in the index. Last but not least, we’ll add <em>id</em> from the SELECT clause to the index to have a covering index.</p>
+<p>就这个例子, 我们应该一开始增加在 WHERE 子句中有相等比较操作的列 first_name 和 last_name</p>
+<p>然后, 增加具有比较的 age 列. 在这里不需要有 ORDER BY 子句, 因为 age 列已经在索引中了 </p>
+<p>最后, 但并不是最不重要的. 增加在 SELECT 子句中的 id 列, 以获得一个覆盖索引</p>
+<p>So to index this query properly, you should add the index: (为了适当地索引这个查询, 你应该增加这个索引)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">employees (first_name, last_name, age, id).</span><br><span class="line">mysql : <span class="keyword">CREATE</span> <span class="keyword">INDEX</span> [INDEX_NAME] <span class="keyword">ON</span> [TABLE_NAME] (first_name, last_name, age, <span class="keyword">id</span>)</span><br></pre></td></tr></table></figure>
+
+<p>The above is a very simplified pseudo-algorithm that will allow you to build simple indexes for rather simple SQL queries.</p>
+<p>上面是一个非常简单的(= = 这东西咋翻译来着… 虚拟方法? 总之就是一种方法)</p>
+<p>让你为简单的 SQL 查询构建简单的索引</p>
+<p>(实际情况可能会复杂一些, 参考 High Performance MySQL 第 5 章)</p>
+<p>If you’re looking for a way to automate your index creation, while also adding the benefit of a proprietary indexing algorithm and query optimization recommendations, you can try out <a href="http://www.eversql.com/?utm_source=blog&utm_campaign=p502" target="_blank" rel="noopener">EverSQL Query Optimizer</a> which does all the heavy lifting for you.</p>
+<p>(广告 = =)</p>
+<h2 id="What-not-to-do-when-indexing-or-writing-SQL-queries"><a href="#What-not-to-do-when-indexing-or-writing-SQL-queries" class="headerlink" title="What not to do when indexing (or writing SQL queries)?"></a>What not to do when indexing (or writing SQL queries)?</h2><h2 id="使用索引时-不要做的事情"><a href="#使用索引时-不要做的事情" class="headerlink" title="使用索引时, 不要做的事情"></a>使用索引时, 不要做的事情</h2><p>We gathered some of the most common mistakes we see programmers and database administrators do when writing queries and indexing their tables.</p>
+<p>我们收集了一些当程序/DBA写查询语句和索引他们的表时, 会犯的常见错误</p>
+<h3 id="Indexing-each-and-every-column-in-the-table-separately"><a href="#Indexing-each-and-every-column-in-the-table-separately" class="headerlink" title="Indexing each and every column in the table separately"></a>Indexing each and every column in the table separately</h3><h3 id="索引每一个表中每一列"><a href="#索引每一个表中每一列" class="headerlink" title="索引每一个表中每一列"></a>索引每一个表中每一列</h3><p>In most cases, MySQL won’t be able to use more than one index for each table in the query.</p>
+<p>Therefore, when creating a separate index for each column in the table, the database is bound to perform only one of the search operations using an index, and the rest of them will be significantly slower, as the database can’t use an index to execute them.</p>
+<p>We recommend using compound indexes (explained later in this article) rather than single-column indexes.</p>
+<p>通常, MySQL不能在查询语句中, 为同一张表使用超过一个索引</p>
+<p>所以, 当为表中的每个列创建一个索引, MySQL被限制只使用其中一个索引, 而其他的会慢很多</p>
+<p>所以数据库不能使用索引去执行它们</p>
+<p>我们建议使用复合索引(将会在这篇文章之后介绍), 而不是使用单列索引</p>
+<h2 id="The-OR-operator-in-filtering-conditions"><a href="#The-OR-operator-in-filtering-conditions" class="headerlink" title="The OR operator in filtering conditions"></a>The OR operator in filtering conditions</h2><h3 id="过滤中的-OR-操作"><a href="#过滤中的-OR-操作" class="headerlink" title="过滤中的 OR 操作"></a>过滤中的 OR 操作</h3><p>Consider this query: (考虑这个查询)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    a, b</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    tbl</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">    a = <span class="number">3</span> <span class="keyword">OR</span> b = <span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+<p>In many cases, MySQL won’t be able to use an index to apply an OR condition, and as a result, this query is not index-able.</p>
+<p>Therefore, we recommend to avoid such OR conditions and consider splitting the query to two parts, combined with a UNION DISTINCT (or even better, UNION ALL, in case you know there won’t be any duplicate results)</p>
+<p>通常, MySQL不能使用一个索引执行 OR 操作, 所以, 这个索引是 不可索引 的</p>
+<p>所以, 我们建议避免这样的 OR 操作, 将其切分为两个部分, 由 UNION DISTINCT 组合</p>
+<p>(或者更好地, UNION ALL, 你知道在这个例子中不会有重复的元素)</p>
+<p>(PS. 是的, 在这样的情况下, MySQL不会使用索引 )</p>
+<h2 id="The-order-of-columns-in-an-index-is-important"><a href="#The-order-of-columns-in-an-index-is-important" class="headerlink" title="The order of columns in an index is important"></a>The order of columns in an index is important</h2><h3 id="索引中列的顺序很重要"><a href="#索引中列的顺序很重要" class="headerlink" title="索引中列的顺序很重要"></a>索引中列的顺序很重要</h3><p>Let’s say I hand you my contacts phone book which is ordered by the contact’s first name and ask you to count how many people are there named “John” in the book. You’ll grab the book in both hands and say “no problem”. You will navigate to the page that holds all names starting with John, and start counting from there.</p>
+<p>假设我把我的由联系人的姓作为顺序排序的通讯录给你, 问你在这个通讯录中, 有多少姓 “John” 的人</p>
+<p>你会拿着这本书说”没问题”, 你会找到以 “John” 开始的书页, 然后开始计数</p>
+<p>Now, let’s say I change the assignment and hand you a phone book that is ordered by the contact’s last name, but ask you to still count all contacts with the first name “John”. How would you approach that? Well, the database scratches his head in this situation as well.</p>
+<p>如果我将书的顺序打乱, 以名排序, 问你同样的问题, 你如何回答这个问题? </p>
+<p>数据库也会面临同样的麻烦</p>
+<p>Now lets look at an SQL query to demonstrate the same behavior with the MySQL optimizer:</p>
+<p>现在, 关注一个 SQL 语句来和 MySQL 优化器演示这个行为</p>
+<p>Having the index contacts (first_name, last_name) is ideal here, because the index starts with our filtering condition and ends with another column in the SELECT clause.</p>
+<p>如果有一个索引组合 (first_name, last_name) 在这里是很好的, 因为索引由 first_name 开始, 由 last_name 结束</p>
+<p>(PS. 其实这个 High Performance MySQL 第 5 节有详细讨论) </p>
+<p>(这里的优化的前提是, 该索引是 B-tree 类型, 如果是其他的, 比如 hash 类型, 那么可能就没有什么优化效果)</p>
+<p>But, having the reverse index contacts (last_name, first_name) is rather useless, as the database can’t use the index for filtering, as the column we need is second in the index and not first.</p>
+<p>如果有一个相反顺序的索引, 那么就是无用的</p>
+<p>(因为如果是 B-tree 的话, 根本无法索引 = =)</p>
+<p>The conclusion from this example is that the order of columns in an index is rather important.</p>
+<p>最后点了一下题</p>
+<h2 id="Adding-redundant-indexes"><a href="#Adding-redundant-indexes" class="headerlink" title="Adding redundant indexes"></a>Adding redundant indexes</h2><h2 id="增加冗余索引"><a href="#增加冗余索引" class="headerlink" title="增加冗余索引"></a>增加冗余索引</h2><p>Indexes are magnificent when trying to optimize your SQL queries and they can improve performance significantly.</p>
+<p>索引在优化你的 SQL 语句和显著提升性能上很有帮助</p>
+<p>But, they come with a downside as well. Each index you’re creating should be kept updated and in sync when changes occur in your databases. So for each INSERT / UPDATE / DELETE in your databases, all relevant indexes should be updated. This update can take sometime, especially with large tables / indexes.</p>
+<p>但是, 它们也有一些缺点, 每个你创建的索引在你数据库变化时必须保持更新和同步</p>
+<p>所以 每个 INSERT/UPDATE/DELETE 操作都会引起相关索引的更新, 这些操作所引起的索引可能会很耗时</p>
+<p>Therefore, do not create indexes unless you know you’ll need them.</p>
+<p>Also, we highly recommend to analyze your database once in a while, searching for any <a href="https://www.eversql.com/how-to-find-unused-indexes-in-a-mysql-database/" target="_blank" rel="noopener">redundant indexes that can be removed</a>.</p>
+<p>所以, 除非你知道你需要它们, 否则不要创建无用的索引</p>
+<p>同样地, 我们极力推荐每个一段时间, 分析一下数据库, 删除冗余的索引</p>
+<h3 id="How-to-automate-index-creation-and-SQL-query-optimization"><a href="#How-to-automate-index-creation-and-SQL-query-optimization" class="headerlink" title="How to automate index creation and SQL query optimization?"></a>How to automate index creation and SQL query optimization?</h3><p>If you’re looking for a way to automate your index creation, while also adding the benefit of a proprietary indexing algorithm and query optimization recommendations, you can try out <a href="https://www.eversql.com/" target="_blank" rel="noopener">EverSQL Query Optimizer</a> which does all the heavy lifting for you.</p>
+<p>(广告, 有兴趣可以去原页面试试)</p>
+<h2 id="How-to-track-redundant-indexes-in-MySQL"><a href="#How-to-track-redundant-indexes-in-MySQL" class="headerlink" title="How to track redundant indexes in MySQL?"></a>How to track redundant indexes in MySQL?</h2><p>(这是在另一个页面的片段)</p>
+<p>如何跟踪 MySQL 中冗余的索引</p>
+<p>Starting MySQL 5.6, the database keeps track of index usage as part of its PERFORMANCE SCHEMA. This data can be queried using the <strong>schema_unused_indexes</strong> view, which displays indexes for which there are no events. Having no events indicates that these indexes might be redundant and unused for a while.</p>
+<p>自 MySQL 5.6 开始, 数据库持续跟踪它 PERFORMANCE SCHEMA 中未使用的索引</p>
+<p>这些数据可以用 schema_unused_indexes 来查询</p>
+<p>显示哪些索引没有工作过, 这表示这些索引是冗余的, 在一段时间内没有使用过</p>
+<p>But life isn’t that good, not yet at least. The potential obstacle here is that this information is re-counted every time MySQL is restarted. Therefore, in order to get reliable information, you should query these views a while after the MySQL instance was started. How long after the startup you’re asking? Well, that depends. My question back to you will be – how busy your database is? Do you know if all types of queries are usually executed in the database in a specific period of time? If so, that’s your window.</p>
+<p>但是生活没有那么美好, 至少现在没有. 潜在的障碍是这些信息会在每次 MySQL 重启时重新统计</p>
+<p>所以, 为了避免这种情况, 你应该在 MySQL 启动一段时间后去查询这些数据</p>
+<p>这时间的长短取决与你数据库的忙碌程度</p>
+<p>So let’s take a look at how it’s done: (让我们来看一看如何完成)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.schema_unused_indexes;</span><br><span class="line"></span><br><span class="line">object_schema	object_name	index_name</span><br><span class="line">mydb			age			agecountry_index</span><br><span class="line">mydb			country		agecountry_index</span><br></pre></td></tr></table></figure>
+<p>(PS. 显然, 如果数据可靠, 那么 age 表中的 agecountry_index 和 country 表中的 agecountry_index 是可以删除的)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/read/B-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -974,203 +1258,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/install%20vim8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/install%20vim8/" class="post-title-link" itemprop="url">other/install vim8</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在和 master vim quickly 的作者邮件中 </p>
-<p>发现了自己的vim版本还可以再更新, 于是有了这篇笔记</p>
-<p>参考教程:</p>
-<p><a href="https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/" target="_blank" rel="noopener">https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/</a></p>
-<p><a href="https://www.systutorials.com/241762/how-to-upgrade-vim-to-version-8-on-centos-7/" target="_blank" rel="noopener">https://www.systutorials.com/241762/how-to-upgrade-vim-to-version-8-on-centos-7/</a></p>
-<p>vim的git地址:</p>
-<p><a href="https://github.com/vim/vim" target="_blank" rel="noopener">https://github.com/vim/vim</a></p>
-<p>vim8安装指南:</p>
-<p><a href="https://github.com/vim/vim/blob/master/src/INSTALL" target="_blank" rel="noopener">https://github.com/vim/vim/blob/master/src/INSTALL</a></p>
-<h3 id="安装vim8"><a href="#安装vim8" class="headerlink" title="安装vim8"></a>安装vim8</h3><ol>
-<li><p>首先需要源代码</p>
-<p>git clone <a href="https://github.com/vim/vim.git" target="_blank" rel="noopener">https://github.com/vim/vim.git</a></p>
-</li>
-<li><p>编译</p>
-<p>cd &lt;vim repo 路径&gt;/src</p>
-<p>make</p>
-<p>make install</p>
-<p>现在应该就已经获得了新的vim可执行文件, 将他覆盖原来的vim就好</p>
-</li>
-</ol>
-<p>@btw: 中途可能会遇到一些问题</p>
-<ul>
-<li>安装编译vim所需的API<ul>
-<li>yum  -y install  ncurses-devel</li>
-</ul>
-</li>
-<li>覆盖时提示出错<ul>
-<li>因为可能vim还在其他地方被运行, 使用 losf 查看进程, kill 掉</li>
-</ul>
-</li>
-</ul>
-<p>具体的可以参考上面的教程链接, 这里只是简单概述</p>
-<p>顺便给一份通常的vim设置</p>
-<pre><code>&quot;General&quot;
-set number    &quot;Show line numbers&quot;
-set linebreak    &quot;Break lines at word (requires Wrap lines)&quot;
-set showbreak=+++    &quot;Wrap-broken line prefix&quot;
-set textwidth=100    &quot;Line wrap (number of cols)&quot;
-set showmatch    &quot;Highlight matching brace&quot;
-set visualbell    &quot;Use visual bell (no beeping)&quot;
-
-set hlsearch    &quot;Highlight all search results&quot;
-set smartcase    &quot;Enable smart-case search&quot;
-set ignorecase    &quot;Always case-insensitive&quot;
-set incsearch    &quot;Searches for strings incrementally&quot;
-
-set autoindent    &quot;Auto-indent new lines&quot;
-set shiftwidth=4    &quot;Number of auto-indent spaces&quot;
-set smartindent    &quot;Enable smart-indent&quot;
-set smarttab    &quot;Enable smart-tabs&quot;
-set softtabstop=4    &quot;Number of spaces per Tab&quot;
-
-&quot;Advanced&quot;
-set ruler    &quot;Show row and column ruler information&quot;
-​    
-set undolevels=1000    &quot;Number of undo levels&quot;
-set backspace=indent,eol,start    &quot;Backspace behaviour&quot;</code></pre>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/other/linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/other/linux/" class="post-title-link" itemprop="url">other/linux</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:14:16 / Modified: 17:13:54" itemprop="dateCreated datePublished" datetime="2020-01-09T17:14:16+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <pre><code>mkdir 创建文件夹指令  
-su 切换到管理员模式  
-sudo 以管理员模式执行命令
-sudo passwd 以用户密码更改管理员密码
-rm -f * 删除当前目录下所有文件
-clear 清空终端窗口(实际还存在, 只不过看不见了, 和cmd一样)
-
-apt-get install [工具名] 安装工具  
-CentOS下是使用yum
-
-更改vim配色
-1. 下载vim文件
-2. 放到~/.vim/colors文件夹下(没有就创建)
-3. 更改vimrc文件, 路径: /etc/vim/vimrc, 增加指令: colorscheme [配色方案名]
-PS: 默认的colors文件夹路径: /usr/share/vim/vim80/colors
-之后发现vimrc文件在/etc目录下, 而vim文件放在了~/.vim目录下
-emmmmm, 已经想不起当时怎么弄的了... 就这样吧, 可能是版本问题...
-
-更改tab间距
-同样更改vimrc文件, 增加如下指令: 
-set ts=4 // 设置table间距为4
-set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: 想起之前刚接触linux, 安装g++, gcc参照了错误的教程(那沙雕教程又是装插件又是下安装包)<br>好不容易装完之后又被vi的输入和命令行模式, 嘟嘟嘟嘟嘟, 气得半死<br>之后又好不容易写好一个测试代码, ctrl+s一保存, 直接TMD不响应了<br>(事后才得知这是关闭向终端输入的接口, 只需要ctrl+q就可以重新打开输入, 留下了属于无知者的泪水…)<br>一系列操作让我直接删除ubuntu… </p>
-<p>vim查询字符串 <code>/字符串</code><br>PS: 但是之后被搜索的字符串会持续高亮显示, 使输入<code>noh</code>可还原  </p>
-<p>vim注释多行<br>control + v<br>上下键/(j/k) 键选中操作的行<br>shift + i<br>输入<code>//</code> (视语言而定)<br>连续两次 ESC</p>
-<p>取消多行注释<br>control + v<br>上下左右键 选中需要注释的符号<br>d</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1241,7 +1328,7 @@ set expandtab // 不清楚 - -</code></pre><p>以上环境为ubuntu 18<br>PS: �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">107</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

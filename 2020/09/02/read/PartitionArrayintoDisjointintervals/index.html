@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Partition Array into Disjoint intervals 我的思维好像固定了 &#x3D; &#x3D;… my solution123456789101112131415161718192021222324class Solution &amp;#123;public:    int partitionDisjoint(vector&lt;int&gt;&amp; A) &amp;#123;        i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="read&#x2F;PartitionArrayintoDisjointintervals">
+<meta property="og:url" content="http://yoursite.com/2020/09/02/read/PartitionArrayintoDisjointintervals/index.html">
+<meta property="og:site_name" content="cas&#39;s website">
+<meta property="og:description" content="Partition Array into Disjoint intervals 我的思维好像固定了 &#x3D; &#x3D;… my solution123456789101112131415161718192021222324class Solution &amp;#123;public:    int partitionDisjoint(vector&lt;int&gt;&amp; A) &amp;#123;        i">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgur.com/wLfJcaC.png">
+<meta property="article:published_time" content="2020-09-02T13:49:12.000Z">
+<meta property="article:modified_time" content="2020-09-02T13:49:12.000Z">
+<meta property="article:author" content="cas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.com/wLfJcaC.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/02/read/PartitionArrayintoDisjointintervals/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>read/PartitionArrayintoDisjointintervals | cas's website</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cas's website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">casyup.me@outlook.com</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/02/read/PartitionArrayintoDisjointintervals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          read/PartitionArrayintoDisjointintervals
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-02 21:49:12" itemprop="dateCreated datePublished" datetime="2020-09-02T21:49:12+08:00">2020-09-02</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Partition-Array-into-Disjoint-intervals"><a href="#Partition-Array-into-Disjoint-intervals" class="headerlink" title="Partition Array into Disjoint intervals"></a>Partition Array into Disjoint intervals</h1><p><img src="https://imgur.com/wLfJcaC.png" alt=""></p>
+<p>我的思维好像固定了 = =…</p>
+<h2 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">partitionDisjoint</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> lx = A[b];</span><br><span class="line">        <span class="keyword">while</span> (b &lt; e) &#123;</span><br><span class="line">            <span class="keyword">while</span> (e &gt; b &amp;&amp; A[e] &gt;= lx) &#123; --e; &#125;</span><br><span class="line">            <span class="comment">// A[e] will less than lx</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> olx = lx;</span><br><span class="line">            <span class="keyword">while</span> (b &lt; e) &#123;</span><br><span class="line">                lx = <span class="built_in">max</span>(lx, A[++b]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// lx is max[A[0] - A[e]]</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (olx != lx) &#123;</span><br><span class="line">                <span class="comment">// recalculate</span></span><br><span class="line">                e = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> b + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>lx 是左边已遍历最大值. e 在每次遍历后将会指向一个从右往左第一个小于这个值的下标. </p>
+<p>b 的迭代不会重复, 而 e 的迭代是可能重复的, 这是这个解法的瓶颈.</p>
+<h2 id="other-solution"><a href="#other-solution" class="headerlink" title="other solution"></a>other solution</h2><p>PS: 以后没有 the best solution 了. 因为很难说一个算法是 best 的. 因为实际的输入不定. 适用于输入的算法也不定. 并且提交里面往往并不是最好的算法. Discuss 里面才有.    </p>
+<p><a href="https://leetcode.com/problems/partition-array-into-disjoint-intervals/discuss/178156/Cpp-O(n)-solution-one-pass-with-explanation" target="_blank" rel="noopener">参照</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">partitionDisjoint</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>, e = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> lx = A[b], rlx = lx;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (A[i] &lt; lx) &#123;</span><br><span class="line">                e = i;</span><br><span class="line">                lx = rlx;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (A[i] &gt; rlx) &#123;</span><br><span class="line">                rlx = A[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//printf("rlx: %d, lx: %d", rlx, lx);</span></span><br><span class="line">        <span class="keyword">return</span> e + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>毫无疑问是比我更好的解法. </p>
+<p>唯一可能的疑问是每次迭代所使用的条件有些许复杂. 极端条件如: A {1, 2, 3 … } 下. 这个算法会赋值多次. </p>
+<p>而我的解法相对会少很多. (这也是我说大多数情况下不存在 best 的原因)</p>
+<p>让我反思的是, 我的思维可能出现了僵化. 一开始我想的办法就是首尾逼近的方式. 所以最后的解法也是类似的结构.</p>
+<p>这不禁让我想起之前好像在某个视频中看到的片段. 大意是说: 一个侦探在侦破案件时会让自己忘记一些常识性的东西. 因为这常常会误导自己而忽视重要线索. 或许解法也是如此. 经验同时也可能成为阻止你创新的障碍.  </p>
+<p>所以有时会有”砍掉重学”这种概念. 我应该想办法规避这种情况. 毕竟”不要让你已获得的东西成为你获取其他东西的障碍”是我坚持的理念.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/17/read/ExtendedAsm/" rel="prev" title="read/ExtendedAsm">
+      <i class="fa fa-chevron-left"></i> read/ExtendedAsm
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/02/leetcode/PartitionArrayintoDisjointintervals/" rel="next" title="leetcode/PartitionArrayintoDisjointintervals">
+      leetcode/PartitionArrayintoDisjointintervals <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Partition-Array-into-Disjoint-intervals"><span class="nav-number">1.</span> <span class="nav-text">Partition Array into Disjoint intervals</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#my-solution"><span class="nav-number">1.1.</span> <span class="nav-text">my solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#other-solution"><span class="nav-number">1.2.</span> <span class="nav-text">other solution</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cas</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cas</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

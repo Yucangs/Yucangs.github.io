@@ -191,6 +191,139 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/25/leetcode/onMy.../">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/25/leetcode/onMy.../" class="post-title-link" itemprop="url">leetcode/onMy...</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-25 12:02:12" itemprop="dateCreated datePublished" datetime="2020-06-25T12:02:12+08:00">2020-06-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="on-my-…"><a href="#on-my-…" class="headerlink" title="on my …"></a>on my …</h2><p><img src="https://imgur.com/XKsKdeU.png" alt=""></p>
+<h3 id="my-solution"><a href="#my-solution" class="headerlink" title="my solution"></a>my solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">isNStraightHand</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; hand, <span class="keyword">int</span> W)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">div_t</span> di = div(hand.<span class="built_in">size</span>(), W);</span><br><span class="line">      <span class="keyword">if</span> (di.rem) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; hds;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">auto</span> v : hand) &#123;</span><br><span class="line">          ++hds[v];</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (!hds.empty()) &#123;</span><br><span class="line">          <span class="keyword">auto</span> it = *hds.<span class="built_in">begin</span>();</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> l = it.second, b = it.first, e = it.first + W; </span><br><span class="line">               b &lt; e; ++b) &#123;</span><br><span class="line">              hds[b] -= l;</span><br><span class="line">              <span class="keyword">if</span> (hds[b] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hds[b] == <span class="number">0</span>) &#123;</span><br><span class="line">                  hds.erase(b);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>什么也不想说 :(</p>
+<h3 id="the-best-solution"><a href="#the-best-solution" class="headerlink" title="the best solution"></a>the best solution</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNStraightHand</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; hand, <span class="keyword">int</span> W)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v(W);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (W == <span class="number">3</span> &amp;&amp; hand[<span class="number">0</span>] == <span class="number">2</span> &amp;&amp; hand[<span class="number">1</span>] == <span class="number">4</span>) &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> h: hand) &#123;</span><br><span class="line">        v[h%W]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cnt = v[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;W; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(v[i] != cnt) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgur.com/LyEoIRH.png" alt=""></p>
+<p>虽然这个算法偷鸡(最开始那个 if 判断明显具有针对性, 在输入是 [2,4,3] 的情况下会不正确)  </p>
+<p>但是依旧对我造成了很大打击… </p>
+<p>最开始我的算法是想了一段时间的, 怎么简单, 怎么高效.  </p>
+<p>啊… 我为何总是欠缺这种看透问题本质的能力呢…</p>
+<p>我的算法不止返回 bool 还可以得到最后的集, 我只能如此安慰自己</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/leetcode/MostProfitAssigningWork/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/11/leetcode/MostProfitAssigningWork/" class="post-title-link" itemprop="url">leetcode/MostProfitAssigningWork</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-11 11:51:42" itemprop="dateCreated datePublished" datetime="2020-06-11T11:51:42+08:00">2020-06-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Most-Profit-Assigning-Work"><a href="#Most-Profit-Assigning-Work" class="headerlink" title="Most Profit Assigning Work"></a>Most Profit Assigning Work</h2><p>摸了两个月鱼的胡汉三我又回来了! ( •̀ ω •́ )✧ (其实也不算摸鱼, 只是懒得写笔记了而已)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/11/leetcode/MostProfitAssigningWork/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/other/vector/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -716,138 +849,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/12/other/aboutUseServiceToControlMysqld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/12/other/aboutUseServiceToControlMysqld/" class="post-title-link" itemprop="url">other/aboutUseServiceToControlMysqld</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-12 11:00:05" itemprop="dateCreated datePublished" datetime="2020-03-12T11:00:05+08:00">2020-03-12</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="aboutUseServiceToControlMysqld"><a href="#aboutUseServiceToControlMysqld" class="headerlink" title="aboutUseServiceToControlMysqld"></a>aboutUseServiceToControlMysqld</h1><p>通常是通过 service 这个指令来控制 mysql 的. 作为一条有梦想的咸鱼. 只使用 service 而不用 mysql 原始指令, 这怎么能行<del>(￣▽￣)</del>*. 所以就试了试 (作死) 使用 mysql 原生的指令来控制. 试了试发现, 其实还是有一些坑的.</p>
-<p>No zuo no die.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/12/other/aboutUseServiceToControlMysqld/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/11/other/aboutProcess/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/11/other/aboutProcess/" class="post-title-link" itemprop="url">other/aboutProcess</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-11 10:09:33" itemprop="dateCreated datePublished" datetime="2020-03-11T10:09:33+08:00">2020-03-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="aboutProcess"><a href="#aboutProcess" class="headerlink" title="aboutProcess"></a>aboutProcess</h1><p>记录一下关于进程的一些信息</p>
-<p>take note something about process</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/11/other/aboutProcess/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -918,7 +919,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">107</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

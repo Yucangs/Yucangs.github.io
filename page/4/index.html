@@ -191,6 +191,357 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/15/read/newFeaturesInC++14/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/15/read/newFeaturesInC++14/" class="post-title-link" itemprop="url">read/newFeaturesInC++14</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-15 09:37:20" itemprop="dateCreated datePublished" datetime="2020-01-15T09:37:20+08:00">2020-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-14 11:22:10" itemprop="dateModified" datetime="2020-01-14T11:22:10+08:00">2020-01-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="new-features-in-c-14"><a href="#new-features-in-c-14" class="headerlink" title="new features in c++14"></a>new features in c++14</h2><p>From : <a href="https://en.wikipedia.org/wiki/C%2B%2B14" target="_blank" rel="noopener">wiki</a></p>
+<h2 id="New-language-features-edit"><a href="#New-language-features-edit" class="headerlink" title="New language features[edit]"></a>New language features[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=1" target="_blank" rel="noopener">edit</a>]</h2><p>These are the features added to the core language of C++14.</p>
+<h3 id="Function-return-type-deduction-edit"><a href="#Function-return-type-deduction-edit" class="headerlink" title="Function return type deduction[edit]"></a>Function return type deduction[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=2" target="_blank" rel="noopener">edit</a>]</h3><p>C++11 allowed <a href="https://en.wikipedia.org/wiki/Lambda_function_(computer_programming)" target="_blank" rel="noopener">lambda functions</a> to deduce the return type based on the type of the expression given to the return statement. C++14 provides this ability to all functions. It also extends these facilities to lambda functions, allowing return type deduction for functions that are not of the form <code>return expression;</code>.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong1-3" target="_blank" rel="noopener">[3]</a></p>
+<p>c++允许 lambda 表达式根据返回值表达式推测返回值类型, c++14将其范围提升到了所有函数. </p>
+<p>(后面这句我不明白它是什么意思)</p>
+<p>In order to induce return type deduction, the function must be declared with <code>auto</code> as the return type, but without the trailing return type specifier in C++11:</p>
+<p>为了引进返回值推测, 需要在声明时在返回值类型上带上 auto 关键字. 而不需要尾随返回值说明符.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auto DeduceReturnType();   &#x2F;&#x2F; Return type to be determined.</span><br></pre></td></tr></table></figure>
+
+<p>If multiple return expressions are used in the function’s implementation, then they must all deduce the same type.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-deduce-4" target="_blank" rel="noopener">[4]</a></p>
+<p>如果函数实现中存在多个返回值表达式, 它们必须被能被推测为一种类型. </p>
+<p>Functions that deduce their return types can be forward declared, but they cannot be used until they have been defined. Their definitions must be available to the translation unit that uses them.</p>
+<p>返回值类型推导可以前向声明. 但是直到被定义时才能使用. 定义必须能被翻译单元使用.</p>
+<p><a href="https://en.wikipedia.org/wiki/Recursion" target="_blank" rel="noopener">Recursion</a> can be used with a function of this type, but the recursive call must happen after at least one return statement in the definition of the function:<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-deduce-4" target="_blank" rel="noopener">[4]</a></p>
+<p>递归函数也可以使用返回值推导, 但是必须在至少一个返回语句之后使用.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">auto Correct(int i)</span><br><span class="line">&#123;</span><br><span class="line">  if (i &#x3D;&#x3D; 1)</span><br><span class="line">    return i;             &#x2F;&#x2F; return type deduced as int</span><br><span class="line"></span><br><span class="line">  return Correct(i-1)+i;  &#x2F;&#x2F; ok to call it now</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">auto Wrong(int i)</span><br><span class="line">&#123;</span><br><span class="line">  if (i !&#x3D; 1)</span><br><span class="line">    return Wrong(i-1)+i;  &#x2F;&#x2F; Too soon to call this. No prior return statement.</span><br><span class="line"></span><br><span class="line">  return i;               &#x2F;&#x2F; return type deduced as int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Alternate-type-deduction-on-declaration-5"><a href="#Alternate-type-deduction-on-declaration-5" class="headerlink" title="Alternate type deduction on declaration[5]"></a>Alternate type deduction on declaration<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-5" target="_blank" rel="noopener">[5]</a></h3><p>In C++11, two methods of type deduction were added. <code>auto</code> was a way to create a variable of the appropriate type, based on a given expression. <code>decltype</code> was a way to compute the type of a given expression. However, <code>decltype</code> and <code>auto</code> deduce types in different ways. In particular, <code>auto</code> always deduces a non-reference type, as though by using <code>std::decay</code>, while <code>auto&amp;&amp;</code> always deduces a reference type. However, <code>decltype</code> can be prodded into deducing a reference or non-reference type, based on the value category of the expression and the nature of the expression it is deducing:<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong1-3" target="_blank" rel="noopener">[3]</a></p>
+<p>在 c++11, 引进了两种类型推导. <code>auto</code> 和 <code>decltype</code> <code>auto</code> 总是推导出非引用类型, <code>decltype</code> 则推导出完整的类型.  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int   i;</span><br><span class="line">int&amp;&amp; f();</span><br><span class="line">auto          x3a &#x3D; i;     &#x2F;&#x2F; decltype(x3a) is int</span><br><span class="line">decltype(i)   x3d &#x3D; i;     &#x2F;&#x2F; decltype(x3d) is int</span><br><span class="line">auto          x4a &#x3D; (i);   &#x2F;&#x2F; decltype(x4a) is int</span><br><span class="line">decltype((i)) x4d &#x3D; (i);   &#x2F;&#x2F; decltype(x4d) is int&amp;</span><br><span class="line">auto          x5a &#x3D; f();   &#x2F;&#x2F; decltype(x5a) is int</span><br><span class="line">decltype(f()) x5d &#x3D; f();   &#x2F;&#x2F; decltype(x5d) is int&amp;&amp;</span><br></pre></td></tr></table></figure>
+
+<p>C++14 adds the <code>decltype(auto)</code> syntax. This allows <code>auto</code> declarations to use the <code>decltype</code> rules on the given expression.</p>
+<p>c++ 增加了 <code>decltype(auto)</code> 语法, 这使 <code>auto</code> 声明可以在指定表达式上使用 <code>decltype</code> 规则.</p>
+<p>The <code>decltype(auto)</code> syntax can also be used with <a href="https://en.wikipedia.org/wiki/C%2B%2B14#Function_return_type_deduction" target="_blank" rel="noopener">return type deduction</a>, by using <code>decltype(auto)</code> syntax instead of <code>auto</code> for the function’s return type deduction.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-deduce-4" target="_blank" rel="noopener">[4]</a></p>
+<p><code>decltype(auto)</code> 语法还可以在返回值类型推导上使用.</p>
+<h3 id="Relaxed-constexpr-restrictions-edit"><a href="#Relaxed-constexpr-restrictions-edit" class="headerlink" title="Relaxed constexpr restrictions[edit]"></a>Relaxed constexpr restrictions[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=4" target="_blank" rel="noopener">edit</a>]</h3><p><a href="https://en.wikipedia.org/wiki/C%2B%2B11" target="_blank" rel="noopener">C++11</a> introduced the concept of a constexpr-declared function; a function which could be executed at compile time. Their return values could be consumed by operations that require constant expressions, such as an integer template argument. However, C++11 constexpr functions could only contain a single expression that is returned (as well as <code>static_assert</code>s and a small number of other declarations).</p>
+<p>c++引进了常量声明函数(一个可以在编译期执行的函数). 他么的返回值可以被常量表达式使用. 然而, c++11 常量表达式函数只能包含单个返回的表达式</p>
+<p>C++14 relaxes these restrictions. Constexpr-declared functions may now contain the following:<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong1-3" target="_blank" rel="noopener">[3]</a></p>
+<p>c++14 取消了这些限制, 常量表达式函数可以包含以下: </p>
+<ul>
+<li><p>Any declarations except:</p>
+<ul>
+<li><p><code>static</code> or <code>thread_local</code> variables.</p>
+<p><code>staic</code> 或 <code>thread_local</code> 变量.</p>
+</li>
+<li><p>Variable declarations without initializers.</p>
+<p>没有初始化的变量声明(???)</p>
+</li>
+</ul>
+</li>
+<li><p>The conditional branching statements <code>if</code> and <code>switch</code>.</p>
+<p>if 和 switch 条件语句</p>
+</li>
+<li><p>Any looping statement, including range-based <code>for</code>.</p>
+<p>任何循环语句, 包括基于循环的 for</p>
+</li>
+<li><p>Expressions which change the value of an object if the lifetime of that object began within the constant expression function. This includes calls to any non-<code>const</code> <code>constexpr</code>-declared non-static member functions.</p>
+<p>可更改开始于常量表达式函数的对象的值. 这包括任何对非常属性, 常量表达式定义, 非静态成员函数的调用.</p>
+</li>
+</ul>
+<p><code>goto</code> statements are forbidden in C++14 relaxed constexpr-declared functions.</p>
+<p>Also, C++11 stated that all non-static member functions that were declared <code>constexpr</code> were also implicitly declared <code>const</code>, with respect to <code>this</code>. That has since been removed; non-static member functions may be non-<code>const</code>.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-6" target="_blank" rel="noopener">[6]</a> However, per the restrictions above, a non-<code>const</code> <code>constexpr</code> member function can only modify a class member if that object’s lifetime began within the constant expression evaluation.</p>
+<p>C++11规定所有非静态, 被 <code>constexpr</code> 声明的成员函数是隐式声明为 <code>const</code> 的. 这同样也被移除了, 非静态成员函数可以是 <code>non-const</code> 的. 然而, 根据上面的限制, 一个 <code>non-const</code> <code>constexpr</code> 的成员函数只能更改对象生命周期随常量表达式求值开始的对象的成员(???) </p>
+<p>(我在其他文档中并未看到具体的关于更改值的介绍, 我简单理解的话, constexpr 现已可以支持循环和分支语句, 并且可以包含 static 和 thread_local 变量)</p>
+<h3 id="Variable-templates-edit"><a href="#Variable-templates-edit" class="headerlink" title="Variable templates[edit]"></a>Variable templates[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=5" target="_blank" rel="noopener">edit</a>]</h3><p>In prior versions of <a href="https://en.wikipedia.org/wiki/C%2B%2B" target="_blank" rel="noopener">C++</a>, only functions, classes or type aliases could be templated. C++14 now allows the creation of variables that are templated. An example given in the proposal is a variable <code>pi</code> that can be read to get the value of <a href="https://en.wikipedia.org/wiki/Pi" target="_blank" rel="noopener">pi</a> for various types (e.g., <code>3</code> when read as an integral type; the closest value possible with <code>float</code>, <code>double</code> or <code>long double</code> precision when read as <code>float</code>, <code>double</code> or <code>long double</code>, respectively; etc.).</p>
+<p>在之前版本的 C++ 中, 类/类型别名可以模板化, C++14 允许创建变量模板. </p>
+<p>The usual rules of templates apply to such declarations and definitions, including specialization.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-isocpp-7" target="_blank" rel="noopener">[7]</a><a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-8" target="_blank" rel="noopener">[8]</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">constexpr T pi &#x3D; T(3.141592653589793238462643383);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Usual specialization rules apply:</span><br><span class="line">template&lt;&gt;</span><br><span class="line">constexpr const char* pi&lt;const char*&gt; &#x3D; &quot;pi&quot;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Aggregate-member-initialization-edit"><a href="#Aggregate-member-initialization-edit" class="headerlink" title="Aggregate member initialization[edit]"></a>Aggregate member initialization[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=6" target="_blank" rel="noopener">edit</a>]</h3><p><a href="https://en.wikipedia.org/wiki/C%2B%2B11" target="_blank" rel="noopener">C++11</a> added member initializers, expressions to be applied to members at class scope if a constructor did not initialize the member itself. The definition of aggregates was changed to explicitly exclude any class with member initializers; therefore, they are not allowed to use aggregate initialization.</p>
+<p>C++14 relaxes this restriction,<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong1-3" target="_blank" rel="noopener">[3]</a> allowing aggregate initialization on such types. If the braced init list does not provide a value for that argument, the member initializer takes care of it.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-9" target="_blank" rel="noopener">[9]</a></p>
+<p>(我不明白说的什么, 成员初始化不是 C++11 就有的么?)</p>
+<h3 id="Binary-literals-edit"><a href="#Binary-literals-edit" class="headerlink" title="Binary literals[edit]"></a>Binary literals[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=7" target="_blank" rel="noopener">edit</a>]</h3><p>Numeric literals in C++14 can be specified in <a href="https://en.wikipedia.org/wiki/Binary_number" target="_blank" rel="noopener">binary form</a>.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong1-3" target="_blank" rel="noopener">[3]</a> The syntax uses the prefixes <code>0b</code> or <code>0B</code>. The syntax is also used in other languages e.g. <a href="https://en.wikipedia.org/wiki/Java_(programming_language)" target="_blank" rel="noopener">Java</a>, <a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language)" target="_blank" rel="noopener">C#</a>, <a href="https://en.wikipedia.org/wiki/Swift_(programming_language)" target="_blank" rel="noopener">Swift</a>, <a href="https://en.wikipedia.org/wiki/Go_(programming_language)" target="_blank" rel="noopener">Go</a>, <a href="https://en.wikipedia.org/wiki/Scala_(programming_language)" target="_blank" rel="noopener">Scala</a>, <a href="https://en.wikipedia.org/wiki/Ruby_(programming_language)" target="_blank" rel="noopener">Ruby</a>, <a href="https://en.wikipedia.org/wiki/Python_(programming_language)" target="_blank" rel="noopener">Python</a>, <a href="https://en.wikipedia.org/wiki/OCaml" target="_blank" rel="noopener">OCaml</a>, and as an unofficial extension in some C compilers since at least 2007.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-gccbinaryliteralbugreport-10" target="_blank" rel="noopener">[10]</a></p>
+<h3 id="Digit-separators-edit"><a href="#Digit-separators-edit" class="headerlink" title="Digit separators[edit]"></a>Digit separators[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=8" target="_blank" rel="noopener">edit</a>]</h3><p>In C++14, the single-quote character may be used arbitrarily as a <a href="https://en.wikipedia.org/wiki/Integer_literal#Digit_separators" target="_blank" rel="noopener">digit separator</a> in numeric literals, both <a href="https://en.wikipedia.org/wiki/Integer_literal" target="_blank" rel="noopener">integer literals</a> and floating point literals.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-11" target="_blank" rel="noopener">[11]</a> This can make it easier for human readers to parse large numbers through <a href="https://en.wikipedia.org/wiki/Subitizing" target="_blank" rel="noopener">subitizing</a>.</p>
+<p>auto integer_literal = 1’000’000;<br> auto floating_point_literal = 0.000’015’3;<br> auto binary_literal = 0b0100’1100’0110;<br> auto silly_example = 1’0’0’000’00;</p>
+<p>C++14中, 单引号专用于整数/浮点数表示, 使人看起来可以更加清晰(woo, 真是个人性化的功能)</p>
+<h3 id="Generic-lambdas-edit"><a href="#Generic-lambdas-edit" class="headerlink" title="Generic lambdas[edit]"></a>Generic lambdas[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=9" target="_blank" rel="noopener">edit</a>]</h3><p>In C++11, <a href="https://en.wikipedia.org/wiki/Anonymous_function" target="_blank" rel="noopener">lambda function</a> parameters need to be declared with concrete types. C++14 relaxes this requirement, allowing lambda function parameters to be declared with the <code>auto</code> type specifier.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-isocpp-7" target="_blank" rel="noopener">[7]</a></p>
+<p>在 C++11 中, lambda 函数参数声明必须具有具体的类型, C++14 放松了这个要求, 允许 lambda 函数参数使用 auto 关键字声明, 如下: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auto lambda &#x3D; [](auto x, auto y) &#123;return x + y;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Concerning <code>auto</code> type deduction, generic lambdas follow the rules of template argument deduction (which are similar, but not identical in all respects[*<a href="https://en.wikipedia.org/wiki/Wikipedia:Please_clarify" target="_blank" rel="noopener">clarification needed</a>*]). The code above is equivalent to this:<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-12" target="_blank" rel="noopener">[12]</a></p>
+<p>关于 auto 类型推导, 泛型 lambdas 遵循模板参数推导原则. 上述代码等同于以下:</p>
+<p>(其实也证实了, 与其说是匿名函数, 不如说是带 () 重载的匿名类)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct</span><br><span class="line">&#123;</span><br><span class="line">  template&lt;typename T, typename U&gt;</span><br><span class="line">    auto operator()(T x, U y) const &#123;return x + y;&#125;</span><br><span class="line">&#125; lambda&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Generic lambdas are essentially templated functor lambdas.</p>
+<p>泛型 lambdas 是更高效的函数模板</p>
+<h3 id="Lambda-capture-expressions-edit"><a href="#Lambda-capture-expressions-edit" class="headerlink" title="Lambda capture expressions[edit]"></a>Lambda capture expressions[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=10" target="_blank" rel="noopener">edit</a>]</h3><p>C++11 lambda functions capture variables declared in their outer scope by value-copy or by reference. This means that value members of a lambda cannot be move-only types.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-13" target="_blank" rel="noopener">[13]</a> C++14 allows captured members to be initialized with arbitrary expressions. This allows both capture by value-move and declaring arbitrary members of the lambda, without having a correspondingly named variable in an outer scope.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-isocpp-7" target="_blank" rel="noopener">[7]</a></p>
+<p>C++11 在其所在作用域中按值/引用捕获变量, 这意味着 lambda 成员的值不能是 move-only 类型. C++14 循序被捕获变量以任意形式初始化. 这使所有捕获可以值/移动, 以及声明任意的 lambda 成员, 而不需要在外层作用域中有对应的已命名成员.</p>
+<p>This is done via the use of an initializer expression:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auto lambda &#x3D; [value &#x3D; 1] &#123;return value;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>The lambda function <code>lambda</code> returns 1, which is what <code>value</code> was initialized with. The declared capture deduces the type from the initializer expression as if by <code>auto</code>.</p>
+<p>声明捕获像 auto 一样推导初始化表达式.</p>
+<p>This can be used to capture by move, via the use of the standard <code>std::move</code> function:</p>
+<p>还可以用于捕获移动语义(赞啊 -v- )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::unique_ptr&lt;int&gt; ptr(new int(10));</span><br><span class="line">auto lambda &#x3D; [value &#x3D; std::move(ptr)] &#123;return *value;&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="The-attribute-deprecated-edit"><a href="#The-attribute-deprecated-edit" class="headerlink" title="The attribute [[deprecated]][edit]"></a>The attribute <code>[[deprecated]]</code>[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=11" target="_blank" rel="noopener">edit</a>]</h3><p>The <code>deprecated</code> attribute allows marking an entity <a href="https://en.wikipedia.org/wiki/Deprecated" target="_blank" rel="noopener">deprecated</a>, which makes it still legal to use but puts users on notice that use is discouraged and may cause a warning message to be printed during compilation. An optional <a href="https://en.wikipedia.org/wiki/String_literal" target="_blank" rel="noopener">string literal</a> can appear as the argument of <code>deprecated</code>, to explain the rationale for deprecation and/or to suggest a replacement.</p>
+<p>deprecated 属性可以标记一个整体为’废弃的’, 继续使用这个整体是合法的, 但是用户会在编译时收到一个警告. </p>
+<p>deprecated 可以增加字符串文本, 用作警示语.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[[deprecated]] int f();</span><br><span class="line"></span><br><span class="line">[[deprecated(&quot;g() is thread-unsafe. Use h() instead&quot;)]]</span><br><span class="line">void g( int&amp; x );</span><br><span class="line"></span><br><span class="line">void h( int&amp; x );</span><br><span class="line"></span><br><span class="line">void test()</span><br><span class="line">&#123;</span><br><span class="line">  int a &#x3D; f(); &#x2F;&#x2F; warning: &#39;f&#39; is deprecated</span><br><span class="line">  g(a); &#x2F;&#x2F; warning: &#39;g&#39; is deprecated: g() is thread-unsafe. Use h() instead</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(在 gcc (Debian 6.3.0-18+deb9u1) 6.3.0 20170516 版本下, 对于类的支持有所不足)</p>
+<h2 id="New-standard-library-features-edit"><a href="#New-standard-library-features-edit" class="headerlink" title="New standard library features[edit]"></a>New standard library features[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=12" target="_blank" rel="noopener">edit</a>]</h2><h3 id="Shared-mutexes-and-locking-edit"><a href="#Shared-mutexes-and-locking-edit" class="headerlink" title="Shared mutexes and locking[edit]"></a>Shared mutexes and locking[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=13" target="_blank" rel="noopener">edit</a>]</h3><p>C++14 adds a shared timed mutex and a companion shared lock type.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong3-14" target="_blank" rel="noopener">[14]</a><a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-15" target="_blank" rel="noopener">[15]</a></p>
+<p>C++14 增加了共享互斥锁, 以及他的’伴侣’共享锁类型.</p>
+<p>(这里有点不好说, mutex 本身是一把锁, 而 lock 也是锁的意思, 不过是加锁, lock(mutex), emm, 应该是这意思)</p>
+<h3 id="Heterogeneous-lookup-in-associative-containers-edit"><a href="#Heterogeneous-lookup-in-associative-containers-edit" class="headerlink" title="Heterogeneous lookup in associative containers[edit]"></a>Heterogeneous lookup in associative containers[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=14" target="_blank" rel="noopener">edit</a>]</h3><p>The <a href="https://en.wikipedia.org/wiki/C%2B%2B_Standard_Library" target="_blank" rel="noopener">C++ Standard Library</a> defines four associative container classes. These classes allow the user to look up a value based on a value of that type. The map containers allow the user to specify a key and a value, where lookup is done by key and returns a value. However, the lookup is always done by the specific key type, whether it is the key as in maps or the value itself as in sets.</p>
+<p>C++ 标准库定义了四种关联的容器类, 这些类型使用户可以检查基于该值类型的值. 然而, 检查总是需要指定类型来完成 (??? 卧槽 你想干嘛???)</p>
+<p>C++14 allows the lookup to be done via an arbitrary type, so long as the comparison operator can compare that type with the actual key type.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong2-16" target="_blank" rel="noopener">[16]</a> This would allow a map from <code>std::string</code> to some value to compare against a <code>const char*</code> or any other type for which an <code>operator&lt;</code>overload is available. It is also useful for indexing composite objects in a <code>std::set</code> by the value of a single member without forcing the user of <code>find</code> to create a dummy object (for example creating an entire <code>struct Person</code> to find a person by name).</p>
+<p>C++14 允许检查可以经由任意类型完成, 只要对比操作可以和正确的键类型对比. 这使 map&lt;std::string&gt;可以和 const char* 类型的值或其他有有效 &lt; 重载的操作符的类型(为什么一定是 <code>&lt;</code> ?  <code>&gt;</code> 它不香么?) </p>
+<p>当要检查一个集合中的复合类型时, 不需要创建一个复杂的复合类型也可以检索 (比如: 检索 struct person, 可以使用他的名字, 而并不需要创建一个 person 对象)</p>
+<p>To preserve backwards compatibility, heterogeneous lookup is only allowed when the comparator given to the associative container allows it. The standard library classes <code>std::less&lt;&gt;</code> and <code>std::greater&lt;&gt;</code> are augmented to allow heterogeneous lookup.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-17" target="_blank" rel="noopener">[17]</a></p>
+<p>为了保持向后兼容性, heterogeneous 检查只在关联的容器允许对比器时才适用. 标准库 std::less&lt;&gt;, std::greater&lt;&gt; 被 heterogeneous 检查接纳 (诶, 我不知道这该怎么写…)</p>
+<p>(这是我在网上找到的代码, 其中两个包含 thread::id 的重载缺一不可, 也就是说编译器都会用到)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ThreadCmp</span> &#123;</span></span><br><span class="line">  <span class="keyword">using</span> is_transparent = <span class="keyword">void</span>;</span><br><span class="line">  <span class="comment">// Regular overload.</span></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::thread&amp; a, <span class="keyword">const</span> <span class="built_in">std</span>::thread&amp; b)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.get_id() &lt; b.get_id();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Transparent overloads</span></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::thread&amp; a, <span class="built_in">std</span>::thread::id b)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.get_id() &lt; b;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="built_in">std</span>::thread::id a, <span class="keyword">const</span> <span class="built_in">std</span>::thread&amp; b)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &lt; b.get_id();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//bool operator()(std::thread::id a, std::thread::id b) const &#123;</span></span><br><span class="line">  <span class="comment">//  return a &lt; b;</span></span><br><span class="line">  <span class="comment">//&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">set</span>&lt;<span class="built_in">std</span>::thread, ThreadCmp&gt; threads;</span><br><span class="line">    <span class="comment">// Can't construct an instance of `std::thread` with the same id, just to do the lookup.</span></span><br><span class="line">    <span class="comment">// But we can look up by id instead.</span></span><br><span class="line">    <span class="built_in">std</span>::thread::id id = this_thread::get_id();;</span><br><span class="line">    <span class="keyword">auto</span> it = threads.<span class="built_in">find</span>(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Standard-user-defined-literals-edit"><a href="#Standard-user-defined-literals-edit" class="headerlink" title="Standard user-defined literals[edit]"></a>Standard user-defined literals[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=15" target="_blank" rel="noopener">edit</a>]</h3><p>C++11 defined the syntax for user-defined literal suffixes, but the standard library did not use any of them. C++14 adds the following standard literals:<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong2-16" target="_blank" rel="noopener">[16]</a></p>
+<p>C++14 增加了以下标准字面量</p>
+<ul>
+<li><p>“s”, for creating the various <code>std::basic_string</code> types.</p>
+<p>“s”, 创建各种 <code>std::basic_string</code> 类型</p>
+</li>
+<li><p>“h”, “min”, “s”, “ms”, “us”, “ns”, for creating the corresponding <code>std::chrono::duration</code> time intervals.</p>
+<p>“h”, “min”, “s”, “ms”, “us”, “ns”, 创建对应的 <code>std::chrono::duration</code> 时间间隔</p>
+</li>
+<li><p>“if”, “i”, “il”, for creating the corresponding <code>std::complex</code>, <code>std::complex</code> and <code>std::complex</code> imaginary numbers.</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto str &#x3D; &quot;hello world&quot;s; &#x2F;&#x2F; auto deduces string</span><br><span class="line">auto dur &#x3D; 60s;            &#x2F;&#x2F; auto deduces chrono::seconds</span><br><span class="line">auto z   &#x3D; 1i;             &#x2F;&#x2F; auto deduces complex&lt;double&gt;</span><br></pre></td></tr></table></figure>
+
+<p>The two “s” literals do not interact, as the string one only operates on <a href="https://en.wikipedia.org/wiki/String_literal" target="_blank" rel="noopener">string literals</a>, and the one for seconds operates only on numbers.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-18" target="_blank" rel="noopener">[18]</a></p>
+<h3 id="Tuple-addressing-via-type-edit"><a href="#Tuple-addressing-via-type-edit" class="headerlink" title="Tuple addressing via type[edit]"></a>Tuple addressing via type[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=16" target="_blank" rel="noopener">edit</a>]</h3><p>The <code>std::tuple</code> type introduced in C++11 allows an aggregate of typed values to be indexed by a compile-time constant integer. C++14 extends this to allow fetching from a tuple by type instead of by index.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong2-16" target="_blank" rel="noopener">[16]</a> If the tuple has more than one element of the type, a compile-time error results:<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-19" target="_blank" rel="noopener">[19]</a></p>
+<p>C++14 扩展了 <code>std::tuple</code> , 可以通过类型来获取元素, 如果 tuple 有多个相同类型, 则会出错.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tuple&lt;string, string, int&gt; t(&quot;foo&quot;, &quot;bar&quot;, 7);</span><br><span class="line">int i &#x3D; get&lt;int&gt;(t);        &#x2F;&#x2F; i &#x3D;&#x3D; 7</span><br><span class="line">int j &#x3D; get&lt;2&gt;(t);          &#x2F;&#x2F; Same as before: j &#x3D;&#x3D; 7</span><br><span class="line">string s &#x3D; get&lt;string&gt;(t);  &#x2F;&#x2F; Compile-time error due to ambiguity</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Smaller-library-features-edit"><a href="#Smaller-library-features-edit" class="headerlink" title="Smaller library features[edit]"></a>Smaller library features[<a href="https://en.wikipedia.org/w/index.php?title=C%2B%2B14&action=edit&section=17" target="_blank" rel="noopener">edit</a>]</h3><p><code>std::make_unique</code> can be used like <code>std::make_shared</code> for <code>std::unique_ptr</code> objects.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-isocpp-7" target="_blank" rel="noopener">[7]</a></p>
+<p><code>std::integral_constant</code> gained an <code>operator()</code> overload to return the constant value.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-wong2-16" target="_blank" rel="noopener">[16]</a></p>
+<p>The class template <code>std::integer_sequence</code> and related alias templates were added for representing compile-time integer sequences, such as the indices of elements in a parameter pack.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-intseqs-20" target="_blank" rel="noopener">[20]</a></p>
+<p>The global <code>std::begin</code>/<code>std::end</code> functions were augmented with <code>std::cbegin</code>/<code>std::cend</code> functions, which return constant iterators, and <code>std::rbegin</code>/<code>std::rend</code> and <code>std::crbegin</code>/<code>std::crend</code> which return reverse iterators.</p>
+<p>The <code>std::exchange</code> function template assigns a new value to a variable and returns the old value.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-exchange-21" target="_blank" rel="noopener">[21]</a></p>
+<p>New overloads of <code>std::equal</code>, <code>std::mismatch</code>, and <code>std::is_permutation</code> take a pair of iterators for the second range, so that the caller does not need to separately check that the two ranges are of the same length.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-robustseqs-22" target="_blank" rel="noopener">[22]</a></p>
+<p>The <code>std::is_final</code> type trait detects if a class is marked <code>final</code>.</p>
+<p>The <code>std::quoted</code> stream I/O manipulator allows inserting and extracting strings with embedded spaces, by placing delimiters (defaulting to double-quotes) on output and stripping them on input, and escaping any embedded delimiters.<a href="https://en.wikipedia.org/wiki/C%2B%2B14#cite_note-quoted-23" target="_blank" rel="noopener">[23]</a></p>
+<h2 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h2><ol>
+<li><p>类型推导, type deduce</p>
+<p>以 <code>auto</code> 为主, 可以推导返回值而不需返回值后置语法. 同时 <code>decltype</code> 可以用于推导 auto 的原类型</p>
+</li>
+<li><p>常量表达式加强 <code>constexpr</code></p>
+<p><code>constexpr</code> 中可以有静态变量, thread_local 变量, 可以有分支和循环语句</p>
+</li>
+<li><p>值模板 variable template</p>
+<p>不仅类, 现在值也可以模板化</p>
+</li>
+<li><p>数字分隔符 digit separators</p>
+<p>使数字更加易读</p>
+</li>
+<li><p>加强 lambda</p>
+<p>lambda 的参数可以是 auto 推导的了, 同时 lambda 的捕获增加了移动语义, 还可以不是外部成员(也就是自建变量)</p>
+</li>
+<li><p>关键字 [[deprecated]]</p>
+<p>用于警示用户</p>
+</li>
+<li><p>新的字面量, “s”, “h”, “min” … </p>
+<p>新的字面量, 用于快捷创建变量, 而不需显式转换类型</p>
+</li>
+<li><p>新的 tuple 元素索引方式</p>
+<p>可以用类型来检索了呢 :)</p>
+</li>
+</ol>
+<p>以上是我从 C++14 中印象比较深刻的新特性</p>
+<p>these are my impressive new features in c++14 </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/other/memoryAndCache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cas">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cas's website">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/10/other/memoryAndCache/" class="post-title-link" itemprop="url">other/memoryAndCache</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-10 19:14:59" itemprop="dateCreated datePublished" datetime="2020-01-10T19:14:59+08:00">2020-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-09 17:12:35" itemprop="dateModified" datetime="2020-01-09T17:12:35+08:00">2020-01-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>#内层对齐补齐与分支目标缓冲器<br>    出自《C++反汇编技术分析与揭秘》<br>    此书我并没有读完，收获是对于底层更加了解，有2个点更加清楚了</p>
+<h2 id="内存对齐与补齐，为什么是4字节"><a href="#内存对齐与补齐，为什么是4字节" class="headerlink" title="内存对齐与补齐，为什么是4字节"></a>内存对齐与补齐，为什么是4字节</h2><ul>
+<li><p>CPU运算的第二梯队是cache（高速缓冲区），它的访问速度仅次于寄存器</p>
+</li>
+<li><p>cache中有虚拟地址映射，当运算时会从中拿到地址进行寻址操作</p>
+</li>
+<li><p>同时32位机的寄存器位数为32位，我们常用的数据整形int和指针的大小也为4字节</p>
+</li>
+<li><p>思考2个问题：</p>
+<ul>
+<li><p>一般常用的数据类型基本是4字节以上（除单个的char和short）</p>
+</li>
+<li><p>cache的内存十分宝贵，里面保存的地址是否有必要精确到1位  </p>
+<p>对于cache进行了优化，其中保存的内存地址会丢弃后两位，丢弃之后，寻址操作只能基于4字节的倍数<br>所以对齐补齐是以4字节为基础的</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="对于循环的优化"><a href="#对于循环的优化" class="headerlink" title="对于循环的优化"></a>对于循环的优化</h2><ul>
+<li><p>先考虑流水线优化，其原理很简单：<br>  A B C D四个工人，当一个任务来的时候，顺序是A-&gt;B-&gt;C-&gt;D<br>  当A做完了，继续来了第2个任务，在此时，B在做第一个任务的第二步，参考如图：</p>
+<ol>
+<li><p>A B C D</p>
+</li>
+<li><p>&emsp;A B C D    </p>
+</li>
+<li><p>&emsp; &emsp;A B C D</p>
+</li>
+<li><p>……  </p>
+<p>其核心是，如果只有一个任务，那么就需要花费一整段工作时间<br>而如果是多个任务，例如2个任务，那么就是5/4的时间，以此类推</p>
+</li>
+</ol>
+</li>
+<li><p>分支目标缓冲器，考虑下面的循环：  </p>
+<pre><code>/**
+*@brief 外层循环做10次
+*/
+for (int i = 0; i &lt; 10; ++i)
+{
+    /**
+    *@brief 内层做1000次循环，第一次不预测，预测成功999次，第1001次预测失败
+    */
+    for (int j = 0; j &lt; 1000; ++j)
+    {
+        //...
+    }
+}</code></pre><p>  分支目标缓冲器要结合流水线优化来理解<br>  当第一个分支启动时，分支目标缓冲器不进行预测，当第二次循环进行时，进行预测，预测成功，直到失败<br>  分支目标缓冲器是经验主义，预测越多，优化更好，如果多次失败，则会刷新<br>  （intel的CPU是这样的，当进行一个分支时，下一个分支已经在进行预测了，它对true/false的情况进行预测<br>  ，也就是在这次分支执行时，下一次分支已经准备好了（其中的同步这些则是更底层的知识了）如果预测失败则会回流，<br>  如果预测成功，将会节省时间以达到提升性能的目的）</p>
+<p>  如果外层分支进行10次，内层分支进行1000次，那么1次不预测，999次成功，最后一次失败，这样的操作重复10次<br>  则 10 x 999 = 9990 次<br>  如果外层分支进行1000次，内层分支进行10次，那么1次不预测，9次成功，最后一次失败，这样的操作重复1000次<br>  则 9 x 1000 = 9000 次<br>  分支预测是经验主义，预测越多，优化也就更好，所以：<br>  <strong>多重循环，内层循环次数应大于外层循环次数</strong><br>  PS：这需要结合CPU来考虑，intel的CPU是这样的，AMD就不知道了</p>
+</li>
+</ul>
+<p>至于switch，if，等等，都有优化，具体以后再补，分支的结构类似于函数调用，都会发生跳转（inline例外）<br>PS：强推程序应当了解底层知识，编译器优化和汇编，如果了解了底层，很多知识点都能迎刃而解<br>当然，前提是有那耐心，一个简单的除法编译器都可能会优化成一堆计算机处理比较简单，而人理解起来就很头疼的代码<br>那涉及到数学方面的知识，并且不简单…</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/other/encode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -930,163 +1281,6 @@ public:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/R23._Merge_k_Sorted_Lists/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/R23._Merge_k_Sorted_Lists/" class="post-title-link" itemprop="url">leetcode/R23._Merge_k_Sorted_Lists</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:20:09 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:20:09+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://i.imgur.com/0yJznlI.png" alt=""></p>
-<p>排序多个链表</p>
-<p>思路:</p>
-<p>emmm… 采取上次的想法试试  </p>
-<p>一次只排序一个, 排序多次</p>
-<p>代码:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeKLists</span><span class="params">(<span class="built_in">vector</span>&lt;ListNode*&gt;&amp; lists)</span> </span>&#123;</span><br><span class="line">        ListNode *result = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode *backup = result;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> indexmin = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>(indexmin &lt; lists.<span class="built_in">size</span>() &amp;&amp; !lists[indexmin])</span><br><span class="line">                ++indexmin;</span><br><span class="line"></span><br><span class="line">            ListNode *<span class="built_in">min</span> = <span class="literal">nullptr</span>;</span><br><span class="line">            <span class="keyword">if</span> (indexmin &lt; lists.<span class="built_in">size</span>())</span><br><span class="line">                <span class="built_in">min</span> = lists[indexmin];</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (indexmin &gt; <span class="number">0</span> &amp;&amp; lists[indexmin - <span class="number">1</span>])</span><br><span class="line">                    backup-&gt;next = lists[indexmin];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; lists.<span class="built_in">size</span>(); ++i)</span><br><span class="line">                <span class="keyword">if</span> (lists[i] &amp;&amp; lists[i]-&gt;val &lt; <span class="built_in">min</span>-&gt;val) &#123;</span><br><span class="line">                    <span class="built_in">min</span> = lists[i];</span><br><span class="line">                    indexmin = i;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            backup-&gt;next = <span class="built_in">min</span>;</span><br><span class="line">            backup = backup-&gt;next;</span><br><span class="line">            lists[indexmin] = lists[indexmin]-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>一次循环内只思考得到最小的一个  </p>
-<p>代码的复杂度降低了, 码字速度和debug频率也明显好多了</p>
-<p>结果</p>
-<p><img src="https://i.imgur.com/86K7tLZ.png" alt=""></p>
-<p>emmmmmm…. , 这是我至今为止做的最差的一次leetcode…  </p>
-<p>难的, 想不出好方法的. 即使有想法也不做. 所以平均来说一直还算中游  </p>
-<p>不过差不多意料之中, 毕竟 hard 还是没那么容易的(除了那次用标准库偷鸡, 虽然说偷完就后悔了)</p>
-<p>那么, 要不要看一下dalao的代码?  </p>
-<p>算了吧, 这次没怎么仔细思考算法, 刚好想尝试一下降低循环复杂度</p>
-<p>(虽然说尝试炸了, 但还算有所收获. 在时间紧迫, 还有其他适当因素的情况下, 这种做法可以说是最有效率的)  </p>
-<p>没怎么思考就去看别人的答案, 那我还做leetcode干嘛…  </p>
-<p>但是好像又暂时想不出什么好方法, 留到以后来优化吧…</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/leetcode/F15_3Sum/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="cas">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cas's website">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/09/leetcode/F15_3Sum/" class="post-title-link" itemprop="url">leetcode/F15_3Sum</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-01-09 17:19:39 / Modified: 17:07:59" itemprop="dateCreated datePublished" datetime="2020-01-09T17:19:39+08:00">2020-01-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://i.imgur.com/LqfHaar.png" alt=""></p>
-<p>给一个数组, 求其中三数和为零的所有组合, 要求不能重复  </p>
-<p>思路:</p>
-<p>遍历数组, 找出所有三数集合, 再判断是否为零, 之后用一个map去重</p>
-<p>代码: </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; threeSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">bool</span>&gt; repetitive;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>() - <span class="number">2</span>; ++i)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; nums.<span class="built_in">size</span>() - <span class="number">1</span>; ++k)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> v = k + <span class="number">1</span>; v &lt; nums.<span class="built_in">size</span>(); ++v) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (nums[i] + nums[k] + nums[v] != <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">int</span> nmax = <span class="built_in">max</span>(nums[i], nums[k]);</span><br><span class="line">                        nmax = <span class="built_in">max</span>(nmax, nums[v]);</span><br><span class="line">                        <span class="keyword">int</span> nmin = <span class="built_in">min</span>(nums[i], nums[k]);</span><br><span class="line">                        nmin = <span class="built_in">min</span>(nmin, nums[v]);</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (!repetitive[(nmax &lt;&lt; <span class="number">4</span>) + nmin]) &#123;</span><br><span class="line">                            repetitive[(nmax &lt;&lt; <span class="number">4</span>) + nmin] = <span class="literal">true</span>;</span><br><span class="line">                            result.push_back(&#123; nmin, <span class="number">0</span> - nmin - nmax, nmax &#125;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>实际上map去重那里有漏洞, “精心准备”的数字有可能骗过它</p>
-<p>结果:</p>
-<p><img src="https://i.imgur.com/kRu2dZG.png" alt=""></p>
-<p>超时了, 看到那密密麻麻的红字, 感觉有点不妙  </p>
-<p><img src="https://i.imgur.com/l5lBEhM.png" alt=""></p>
-<p>实测算法在数组长度为200时已经有明显的停顿</p>
-<p>算法复杂度大概是 差不多O(n3) 的样子, 所以随着长度的增加, 时间复杂度的增加是很恐怖的  </p>
-<p>200有明显停顿的话. 3000大概能算个痛  </p>
-<p>那么得优化算法了, 怎么优化呢? 暂时想不到…  </p>
-<p>优化的想法:  </p>
-<p>现在的算法在第一次循环的时候会将下标[0, 1]和后续所有的下标组合</p>
-<p>第二次循环的时候会将下标[1, 2]和后续所有下标组合  </p>
-<p>这里明显有可以提升的空间, 因为两次里面1重叠了, 同理, 后续的组合都有重叠  </p>
-<p>在200长度的算法中, 大致会有 4000000 次循环, 而最后的结果只有 6 个组合</p>
-<p>想要优化的话应该从这里入手, 如何在逻辑上筛除掉一些可能但和又不为零的组合</p>
-<p>怎么删除? emmmm… 想不到  </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1157,7 +1351,7 @@ public:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">107</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
